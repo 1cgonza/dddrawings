@@ -49,7 +49,7 @@
       } else {
         defineEqData(eqData);
 
-        d3.json('../data/cmh/ta.json', function (taError, taData) {
+        d3.json('/data/cmh/ta.json', function (taError, taData) {
           if ( taError ) {
             console.log(taError);
           } else {

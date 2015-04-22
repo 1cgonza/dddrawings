@@ -90,6 +90,12 @@ Handlebars.registerHelper('pageTitle', function (title, options) {
   return new Handlebars.SafeString(pageTitle);
 });
 
+Handlebars.registerHelper('slug', function (title, options) {
+  var slug = title ? title.replace(/\W+/g, '-').toLowerCase() : '';
+
+  return new Handlebars.SafeString(slug);
+});
+
 Handlebars.registerHelper('pageDescription', function (description, options) {
   var siteDescription = options.data.root.site.description;
   var pageDescription = description ? description : siteDescription;

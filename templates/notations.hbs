@@ -1,0 +1,10 @@
+{{> head }}
+{{{ contents }}}
+
+{{#if scripts}}
+{{#each scripts}}
+{{debug this}}
+<script src="../data/{{ this }}"></script>
+{{/each}}
+{{/if}}
+{{> footer }}

@@ -1,0 +1,14 @@
+{{> head }}
+<section id="ddd-container">
+  <span id="ddd-loading" class="loading">...</span>
+</section>
+{{{ contents }}}
+
+{{#if libraries}}
+  {{setLibraries libraries}}
+{{/if}}
+
+{{#if scripts}}
+<script src="/js/{{ scripts }}"></script>
+{{/if}}
+{{> footer }}

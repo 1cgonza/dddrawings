@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ pageTitle title }}</title>
+  <meta name="description" content="{{ pageDescription description }}">
+
+  <!-- Open Graph -->
+  <meta property ="og:title" content="{{ pageTitle title }}">
+  <meta property ="og:type" content="website">
+  <meta property ="og:url" content="{{ site.url }}{{ path }}">
+  <meta property ="og:image" content="{{ featuredImg image }}">
+  <meta property ="og:description" content="{{ pageDescription description }}">
+  <meta property ="og:site_name" content="{{ site.title }}">
+
+  <!-- Twitter Card data -->
+  <meta name ="twitter:card" content="summary_large_image">
+  <meta name ="twitter:site" content="{{ site.twitter_username }}">
+  <meta name ="twitter:creator" content="{{ site.twitter_username }}">
+  <meta name ="twitter:title" content="{{ pageTitle title }}">
+  <meta name ="twitter:description" content="{{ pageDescription description }}">
+  <meta name ="twitter:image" content="{{ featuredImg image }}">
+
+  <link rel="author" href="{{ site.google_profile }}">
+  {{#if gFont }}
+  <link href="http://fonts.googleapis.com/css?family={{ gFont }}" rel='stylesheet' type='text/css'>
+  {{/if}}
+
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>

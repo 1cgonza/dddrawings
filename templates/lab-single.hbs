@@ -1,8 +1,13 @@
 {{> head }}
-<section id="ddd-container">
-  <span id="ddd-loading" class="loading">...</span>
-</section>
-{{{ contents }}}
+<main class="{{slug title}}">
+  <section id="ddd-container">
+    <span id="ddd-loading" class="loading">...</span>
+  </section>
+
+  <section id="content">
+    {{{ contents }}}
+  </section>
+</main>
 
 {{#if libraries}}
   {{setLibraries libraries}}

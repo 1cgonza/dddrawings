@@ -1,17 +1,17 @@
 (function() {
   var $container = $('#ddd-container');
-  var svg;
   var eqData = [];
   var taData = [];
-  var eqNode, taNode, taSpike;
+  var svg, eqNode, taNode, taSpike;
   var thisNode, thisPoly;
-
-  var yearEnd, yearLength, secondsW, eventDate, dReset, rot;
-  var selectedYear;
-
+  var yearEnd, yearLength, secondsW, eventDate, dReset, rot, selectedYear;
   var dateAttack, yearAttack;
 
-  var screenWidth = window.innerWidth;
+  var yearsStart     = 1993;
+  var yearsEnd       = 2014;
+  var years          = [];
+  var firstLoadCheck = false;
+  var screenWidth  = window.innerWidth;
   var screenHeight = window.innerHeight;
 
   var options = {
@@ -28,21 +28,13 @@
     rangeStart : 0,
     rangeEnd : 7
   };
-  var yearsStart = 1993;
-  var yearsEnd = 2014;
-  var years = [];
-  var firstLoadCheck = false;
 
-  init();
-
-  function init() {
-    loadData();
-  }
+  loadData();
 
   /*=================================
   =            LOAD DATA            =
   =================================*/
-  function loadData() {
+  function loadData () {
     d3.json('/data/ingeominas/eq' + options.year + '.json', function (eqError, eqData) {
       if (eqError) {
         console.log(eqError);
@@ -50,12 +42,13 @@
         defineEqData(eqData);
 
         d3.json('/data/cmh/ta.json', function (taError, taData) {
-          if ( taError ) {
+          if (taError) {
             console.log(taError);
           } else {
             defineTaData(taData);
           }
-          if ( !firstLoadCheck ) {
+
+          if (!firstLoadCheck) {
             firstLoad();
           } else {
             eqNodeUpdate();
@@ -67,15 +60,14 @@
     });
   }
 
-  function defineEqData(data) {
-    yearEnd = Number(options.year) + 1;
+  function defineEqData (data) {
+    yearEnd    = Number(options.year) + 1;
     yearLength = ( Date.parse(yearEnd) - Date.parse(options.year) ) * 0.001;
-    secondsW = 360 / yearLength;
-
-    eqData = data;
+    secondsW   = 360 / yearLength;
+    eqData     = data;
   }
 
-  function defineTaData(data) {
+  function defineTaData (data) {
     // Build an array of objects for every year available. Set intensity at 0 first.
     for( var i=yearsStart; i<yearsEnd+1; i++) {
       years.push( { year: i, intensity: 0} );
@@ -95,13 +87,13 @@
         taData.push( data[j] );
       }
     }
-    //
+
     d3.select('.loading').transition().style('opacity', '0');
   }
 
   /*-----  End of LOAD DATA  ------*/
 
-  function firstLoad() {
+  function firstLoad () {
     $container.append('<div id="info"></div>');
     yearsMenu();
     notations();
@@ -113,7 +105,7 @@
     firstLoadCheck = true;
   }
 
-  function notations() {
+  function notations () {
     svg = d3.select('#ddd-container')
       .append('svg')
       .attr('class', 'eqta')
@@ -124,18 +116,18 @@
     eqRender();
   }
 
-  function redraw() {
+  function redraw () {
     eqNodeColor('#a7977a', '#6f7d74');
     taNodeColor('#c1978d');
     eqData = [];
     taData = [];
-    init();
+    loadData();
   }
 
   /*============================
   =            MENU            =
   ============================*/
-  function yearsMenu() {
+  function yearsMenu () {
     var yearsList =  d3.select('#ddd-container')
           .insert('ul', ':first-child')
           .attr('id', 'years')
@@ -143,14 +135,14 @@
           .data(years)
           .enter()
           .append('li')
-          .style('border-bottom', function(d) {
+          .style('border-bottom', function (d) {
             return d.intensity + 'px solid rgba(192, 55, 23, 0.2)';
           })
           .text( function(d) { return d.year; } );
 
     d3.select('#years li').attr('class', 'current');
 
-    yearsList.on('click', function(d) {
+    yearsList.on('click', function (d) {
       selectedYear = d3.select(this);
       if ( !selectedYear.classed('current') ) {
         d3.select('.loading').style('opacity', '1');
@@ -164,39 +156,41 @@
 
   /*-----  End of MENU  ------*/
 
-
   /*===============================
   =            SLIDERS            =
   ===============================*/
-  function radiusSlider() {
-    // Check if the div exists, otherwise create it.
-    if ( !$('#slider-radius').length ) {
+  function radiusSlider () {
+    var label = 'Radius: ' + options.radius + 'px';
+
+    if (!$('#slider-radius').length) {
       $container.append('<div id="slider-radius"><span class="slider-values"></span></div>');
     }
 
-    $( '#slider-radius' ).slider({
+    $('#slider-radius').slider({
       orientation: 'horizontal',
       animate: 'fast',
       range: "min",
       min: 0,
       max: 300,
       value: options.radius,
-      slide: function( event, ui ) {
+      slide: function (event, ui) {
         options.radius = ui.value;
-        $('#slider-radius .slider-values').text('Radius: ' + options.radius + 'px');
+        $('#slider-radius .slider-values').text(label);
         eqNodeTransform();
         taNodeTransform();
       }
     });
-    $( '#slider-radius .slider-values' ).text('Radius: ' + options.radius + 'px');
+    $('#slider-radius .slider-values').text(label);
   }
 
-  function magnitudeSlider() {
-    if ( !$('#slider-magnitude').length ) {
+  function magnitudeSlider () {
+    var label = options.rangeStart + ' - ' + options.rangeEnd + ' Ml';
+
+    if (!$('#slider-magnitude').length) {
       $container.append('<div id="slider-magnitude"><span class="slider-values"></span></div>');
     }
 
-    $( '#slider-magnitude' ).slider({
+    $('#slider-magnitude').slider({
       orientation: 'horizontal',
       animate: 'fast',
       range: true,
@@ -204,22 +198,24 @@
       max: options.rangeEnd,
       step: 0.1,
       values: [ options.rangeStart, options.rangeEnd ],
-      slide: function( event, ui ) {
+      slide: function (event, ui) {
         options.rangeStart = ui.values[0];
         options.rangeEnd = ui.values[1];
-        $( '#slider-magnitude .slider-values' ).text( options.rangeStart + ' - ' + options.rangeEnd + ' Ml' );
+        $('#slider-magnitude .slider-values').text(label);
         eqNodeChangeRange();
       }
     });
-    $( '#slider-magnitude .slider-values' ).text(options.rangeStart + ' - ' + options.rangeEnd + ' Ml');
+    $('#slider-magnitude .slider-values').text(label);
   }
 
-  function opacitySlider() {
-    if ( !$('#slider-opacity').length ) {
+  function opacitySlider () {
+    var label = 'Opacity: ' + options.opacity;
+
+    if (!$('#slider-opacity').length) {
       $container.append('<div id="slider-opacity"><span class="slider-values"></span></div>');
     }
 
-    $( '#slider-opacity' ).slider({
+    $('#slider-opacity').slider({
       orientation: 'horizontal',
       animate: 'fast',
       range: 'min',
@@ -227,56 +223,60 @@
       max: 1,
       step: 0.1,
       value: options.opacity,
-      slide: function( event, ui ) {
+      slide: function (event, ui) {
         options.opacity = ui.value;
-        $( '#slider-opacity .slider-values' ).text( 'Opacity: ' + options.opacity );
+        $('#slider-opacity .slider-values').text(label);
         eqNodeOpacity(options.opacity);
         taNodeOpacity(options.opacity);
       }
     });
-    $( '#slider-opacity .slider-values' ).text( 'Opacity: ' + options.opacity );
+    $('#slider-opacity .slider-values').text(label);
   }
 
-  function logScaleSliders() {
-    if ( !$('#slider-powof').length ) {
+  function logScaleSliders () {
+    var label = 'Pow: ' + options.powOf;
+
+    if (!$('#slider-powof').length) {
       $container.append('<div id="slider-powof"><span class="slider-values"></span></div>');
     }
 
-    $( '#slider-powof' ).slider({
+    $('#slider-powof').slider({
       orientation: 'vertical',
       animate: 'fast',
       range: 'min',
       min: 0,
       max: 10,
       value: options.powOf,
-      slide: function ( event, ui ) {
+      slide: function (event, ui) {
         options.powOf = ui.value;
-        $( '#slider-powof .slider-values' ).text( 'Pow: ' + options.powOf );
+        $('#slider-powof .slider-values').text(label);
         eqNodeDraw();
       }
     });
-    $( '#slider-powof .slider-values' ).text( 'Pow: ' + options.powOf );
+    $('#slider-powof .slider-values').text(label);
   }
 
-  function dividedbySliders() {
-    if ( !$('#slider-dividedby').length ) {
+  function dividedbySliders () {
+    var label = '/ by: ' + options.dividedBy;
+
+    if (!$('#slider-dividedby').length) {
       $container.append('<div id="slider-dividedby"><span class="slider-values"></span></div>');
     }
 
-    $( '#slider-dividedby' ).slider({
+    $('#slider-dividedby').slider({
       orientation: 'vertical',
       animate: 'fast',
       range: 'min',
       min: 1,
       max: 10,
       value: options.dividedBy,
-      slide: function ( event, ui ) {
+      slide: function (event, ui) {
         options.dividedBy = ui.value;
-        $( '#slider-dividedby .slider-values' ).text( '/ by: ' + options.dividedBy );
+        $('#slider-dividedby .slider-values').text(label);
         eqNodeDraw();
       }
     });
-    $( '#slider-dividedby .slider-values' ).text( '/ by: ' + options.dividedBy );
+    $('#slider-dividedby .slider-values').text(label);
   }
 
   /*-----  End of SLIDERS  ------*/
@@ -284,7 +284,7 @@
   /*==========================
   =            EQ            =
   ==========================*/
-  function eqRender() {
+  function eqRender () {
     eqNode = svg.selectAll('.eq')
       .data(eqData)
       .enter()
@@ -296,20 +296,20 @@
     eqNodeTransform();
   }
 
-  function eqNodeDraw() {
-    eqNode.attr('points', function(d) {
+  function eqNodeDraw () {
+    eqNode.attr('points', function (d) {
       var mag = Math.pow(options.powOf, d.ml) / options.dividedBy;
       //render all eqNode with same width and position. The height is dynamic
-      return 0 + ',' + 0 + ' ' + options.nodeWidth + ',' + 0 + ' ' + options.nodeWidth / 2 + ',' + -( mag );
+      return 0 + ',' + 0 + ' ' + options.nodeWidth + ',' + 0 + ' ' + options.nodeWidth / 2 + ',' + -mag;
     });
   }
 
-  function eqNodeUpdate() {
+  function eqNodeUpdate () {
     d3.selectAll('.eq').remove();
     eqRender();
   }
 
-  function eqNodeChangeRange() {
+  function eqNodeChangeRange () {
     eqNode.each( function(d) {
       var thisEqNode = d3.select(this);
       if ( !( d.ml >= options.rangeStart && d.ml <= options.rangeEnd ) ) {
@@ -320,24 +320,26 @@
     });
   }
 
-  function eqNodeColor(lowMagnitude, highMagnitude) {
-    eqNode.attr('fill', function(d) {
+  function eqNodeColor (lowMagnitude, highMagnitude) {
+    eqNode.attr('fill', function (d) {
       var nodeColor = highMagnitude;
+
       if (d.ml < 6) {
         nodeColor = lowMagnitude;
       }
+
       return nodeColor;
     });
   }
 
-  function eqNodeOpacity(opacity) {
+  function eqNodeOpacity (opacity) {
     eqNode.style('opacity', opacity);
   }
 
   function eqNodeTransform() {
-    eqNode.attr('transform', function(d) {
+    eqNode.attr('transform', function (d) {
       eventDate = Date.parse(d.utc) * 0.001;
-      dReset = eventDate - (Date.parse(options.year)*0.001);
+      dReset = eventDate - (Date.parse(options.year) * 0.001);
 
       rot = dReset * secondsW;
 
@@ -369,7 +371,7 @@
   }
 
   function taNodeDraw() {
-    taSpike.attr('points', function(d){
+    taSpike.attr('points', function (d) {
       var impact = options.taSize + Number(d.fatal*5) + Number(d.injured);
       //render all spikes with same width and position. The height is dynamic
       return 0 + ',' + 0 + ' ' + options.nodeWidth + ',' + 0 + ' ' + options.nodeWidth / 2 + ',' + -impact;
@@ -401,13 +403,13 @@
       rot = dReset * secondsW;
 
       //Now that the spikes are rendered, first translate all together, then rotate using 3 param: degrees, x axis and y. The y amount gives us the radius of the circle.
-      return 'translate(' + (screenWidth/2 - options.nodeWidth/2) + ',' + (screenHeight/2 - options.radius) + ') rotate(' + rot + ',' + options.nodeWidth/2 + ',' + options.radius +')';
+      return 'translate(' + (screenWidth/2 - options.nodeWidth/2) + ',' + (screenHeight/2 - options.radius) + ') rotate(' + rot + ',' + options.nodeWidth/2 + ',' + options.radius + ')';
     });
   }
 
   function taNodeMouseEvents() {
     var infoBox;
-    taNode.on('mouseover', function(d) {
+    taNode.on('mouseover', function (d) {
       thisNode = d3.select(this);
       thisPoly = thisNode.select('polygon');
       infoBox = d3.select('#info');
@@ -438,7 +440,7 @@
   =            RESIZE            =
   ==============================*/
   function resize() {
-    screenWidth = window.innerWidth;
+    screenWidth  = window.innerWidth;
     screenHeight = window.innerHeight;
     redraw();
   }

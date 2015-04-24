@@ -20,13 +20,14 @@ var fs = require('fs');
 
 browserSync({
   server: 'build',
-  files: ['*/**'],
+  files: ['src/**/*.md', 'src/**/*.scss', 'src/**/*.js', 'templates/**/*.hbs'],
   // logLevel: 'debug',
   notify: false,
   middleware: function (req, res, next) {
     build(next);
   }
 });
+
 
 function build (callback) {
   var metalsmith   = new Metalsmith(__dirname);
@@ -77,55 +78,51 @@ Handlebars.registerPartial({
   footer: fs.readFileSync(__dirname + '/templates/partials/footer.hbs').toString()
 });
 
-Handlebars.registerHelper('debug', function (context) {
-  return new Handlebars.SafeString(
-    '<div class="debug">' + circularJSON.stringify(context) + '</div>'
-  );
+Handlebars.registerHelper({
+  debug: function (context) {
+    return new Handlebars.SafeString(
+      '<div class="debug">' + circularJSON.stringify(context) + '</div>'
+    );
+  },
+  pageTitle: function (title, options) {
+    var siteTitle = options.data.root.site.title;
+    var pageTitle = title ? title + ' :: ' + siteTitle : siteTitle ;
+
+    return new Handlebars.SafeString(pageTitle);
+  },
+  slug: function (title, options) {
+    var slug = title ? title.replace(/\W+/g, '-').toLowerCase() : '';
+
+    return new Handlebars.SafeString(slug);
+  },
+  pageDescription: function (description, options) {
+    var siteDescription = options.data.root.site.description;
+    var pageDescription = description ? description : siteDescription;
+
+    return new Handlebars.SafeString(pageDescription);
+  },
+  featuredImg: function (image, options) {
+    var siteImage = options.data.root.site.image;
+    var featuredImg = image ? image : siteImage;
+
+    return new Handlebars.SafeString(featuredImg);
+  },
+  getThumb: function (thumb, options) {
+    var siteThumb = options.data.root.site.thumb;
+    var pageThumb = thumb ? thumb : siteThumb;
+
+    return new Handlebars.SafeString(pageThumb);
+  },
+  setLibraries: function (libs, options) {
+    var libraries = options.data.root.site.libraries;
+    var scripts = '';
+
+    libs.forEach(function (lib) {
+      var script = '<script src="' + libraries[lib] + '"></script>';
+      scripts = scripts + script;
+    });
+
+    return new Handlebars.SafeString(scripts);
+  }
 });
-
-Handlebars.registerHelper('pageTitle', function (title, options) {
-  var siteTitle = options.data.root.site.title;
-  var pageTitle = title ? title + ' :: ' + siteTitle : siteTitle ;
-
-  return new Handlebars.SafeString(pageTitle);
-});
-
-Handlebars.registerHelper('slug', function (title, options) {
-  var slug = title ? title.replace(/\W+/g, '-').toLowerCase() : '';
-
-  return new Handlebars.SafeString(slug);
-});
-
-Handlebars.registerHelper('pageDescription', function (description, options) {
-  var siteDescription = options.data.root.site.description;
-  var pageDescription = description ? description : siteDescription;
-
-  return new Handlebars.SafeString(pageDescription);
-});
-
-Handlebars.registerHelper('featuredImg', function (image, options) {
-  var siteImage = options.data.root.site.image;
-  var featuredImg = image ? image : siteImage;
-
-  return new Handlebars.SafeString(featuredImg);
-});
-
-Handlebars.registerHelper('getThumb', function (thumb, options) {
-  var siteThumb = options.data.root.site.thumb;
-  var pageThumb = thumb ? thumb : siteThumb;
-
-  return new Handlebars.SafeString(pageThumb);
-});
-
-Handlebars.registerHelper('setLibraries', function (libs, options) {
-  var libraries = options.data.root.site.libraries;
-  var scripts = '';
-
-  libs.forEach( function (lib) {
-    var script = '<script src="' + libraries[lib] + '"></script>';
-    scripts = scripts + script;
-  });
-
-  return new Handlebars.SafeString(scripts);
-})
 

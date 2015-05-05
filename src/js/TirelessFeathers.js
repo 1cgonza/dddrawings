@@ -1,125 +1,125 @@
-(function() {
+(function () {
+  'use strict';
+  var options   = {};
+  var loaded    = false;
   var container = document.getElementById('ddd-container');
   var loading   = document.getElementsByClassName('loading')[0];
 
-  /*==========  CREATE CANVAS  ==========*/
-  var canvas    = document.createElement('canvas');
-  canvas.id     = 'canvas';
-  canvas.width  = window.innerWidth;
-  canvas.height = window.innerHeight;
-  container.appendChild(canvas);
-
-  /*==========  DEFINE THE OPTIONS FOR THE SPRITE  ==========*/
-  var options = {
+  var birdOptions = {
+    img: '/img/sprites/curiousBird_fh7-fv5_w944-h1111.jpg',
     width: 944,
     height: 1111,
-    numberOfFramesX: 7,
-    numberOfFramesY: 5
+    cols: 7,
+    rows: 5
   };
+
+  var Sprite = function (options) {
+    this.img    = options.img;
+    this.width  = options.width;
+    this.height = options.height;
+    this.cols   = options.cols;
+    this.rows   = options.rows;
+  };
+
+  var sprite = new Sprite(birdOptions);
+
+  /*==========  CREATE CANVAS  ==========*/
+  var canvas    = document.createElement('canvas');
+  var ctx       = canvas.getContext('2d');
+  var rect      = canvas.getBoundingClientRect();
+
+  /**
+  * Each frame on the sprite has an index x and y. The first on each axis is 0.
+  * E.g.: The frame in index x0 and y0 is the top left frame.
+  * When the page is first loaded we call frame x3 and y2 which is the bird in the center.
+  **/
+  var frameIndexX = 3;
+  var frameIndexY = 2;
 
   /*==========  GET IMAGE SPRITE  ==========*/
-  var birdSprite = new Image();
-  birdSprite.onload = function() {
+  var birdSprite    = new Image();
+  birdSprite.onload = init;
+  birdSprite.src    = sprite.img;
+
+  function init () {
+    loaded = true;
+    container.appendChild(canvas);
     container.removeChild(loading);
-    new Bird();
-  };
-  birdSprite.src = '/img/sprites/curiousBird_fh7-fv5_w944-h1111.jpg';
 
-  /*============================
-  =            BIRD            =
-  ============================*/
-  function Bird() {
-    this.canvas = canvas;
-    this.ctx = this.canvas.getContext('2d');
+    sprite.cellW   = sprite.width / sprite.cols | 0;
+    sprite.cellH   = sprite.height / sprite.rows | 0;
+    sprite.centerX = sprite.cellW / 2 | 0;
+    sprite.centerY = sprite.cellH / 2 | 0;
 
-    /**
-    *
-    * This is a neat function in JavaScript.
-    * It returns the values of bottom, height, left, right, top and width of the element we want.
-    * It is useful in our case so we can get mouse positions only within the bounding box of the canvas.
-    *
-    **/
-    this.rect = this.canvas.getBoundingClientRect();
-
-    /**
-    *
-    * Each frame on the sprite has an index x and y. The first on each axis is 0.
-    * E.g.: The frame in index x0 and y0 is the top left frame.
-    * When the page is first loaded we call frame x3 and y2 which is the bird in the center.
-    *
-    **/
-    this.frameIndexX = 3;
-    this.frameIndexY = 2;
-
-    /**
-    *
-    * Think of the screen as a grid that matches the one on the animation sprite.
-    * So we measure a cell in the grid of the screen based on the number of frames in the sprite.
-    *
-    **/
-    this.canvasCellWidth = this.canvas.width / options.numberOfFramesX;
-    this.canvasCellHeight = this.canvas.height / options.numberOfFramesY;
-
-    /**
-    *
-    * Now we measure the size of a cell in the animation sprite.
-    * In this case we base the measurement on the size of the image we loaded.
-    *
-    **/
-    this.spriteCellWidth = options.width / options.numberOfFramesX;
-    this.spriteCellHeight = options.height / options.numberOfFramesY;
-
-    // render the first frame to get us started as soon as the image sprite finishes loading.
-    this.render();
-
-    // Now we can start listening to the mouse position and render again when things change.
-    this.startListening();
+    setSize();
   }
 
-  Bird.prototype.startListening = function() {
-    // We only try to update the frame when the mouse moves.
-    this.canvas.addEventListener('mousemove', function(event) {
-      var mousePos = this.getMousePos(event);
+  function setSize () {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    options.canvasCenterX = canvas.width / 2 | 0;
+    options.canvasCenterY = canvas.height / 2 | 0;
 
-      // Assign this.frameIndexX based on the updated mouse position
-      for (var i = 0; i < options.numberOfFramesX; i++) {
-        if (mousePos.x < this.canvasCellWidth * (i + 1) && mousePos.x > this.canvasCellWidth * i) {
-          this.frameIndexX = i;
-        }
-      };
+    /**
+    * Think of the screen as a grid that matches the one on the animation sprite.
+    * So we measure a cell in the grid of the screen based on the number of frames in the sprite.
+    **/
+    options.canvasCellW = canvas.width / sprite.cols | 0;
+    options.canvasCellH = canvas.height / sprite.rows | 0;
 
-      // Assign the this.frameIndexY based on the updated mouse position
-      for (var i = 0; i < options.numberOfFramesY; i++) {
-        if (mousePos.y < this.canvasCellHeight * (i + 1) && mousePos.y > this.canvasCellHeight * i) {
-          this.frameIndexY = i;
-        }
-      };
+    render();
+  }
 
-      this.render();
-    }.bind(this), false);
-  };
+  function render () {
+    if (loaded) {
+      // Since the image is not transparent, there is no need to clear the canvas.
+      ctx.drawImage(
+        birdSprite,                             // image
+        frameIndexX * sprite.cellW,             // sx left corner of sprite
+        frameIndexY * sprite.cellH,             // sy top corner of sprite
+        sprite.cellW,                           // sWidth Width of mask in sprite
+        sprite.cellH,                           // sHeight Height of mask in sprite
+        options.canvasCenterX - sprite.centerX, // dx x position on canvas
+        options.canvasCenterY - sprite.centerY, // dy y position on canvas
+        sprite.cellW,                           // dWidth width of image (can be used to scale)
+        sprite.cellH                            // dHeight height of image (can be used to scale)
+      );
+    }
+  }
 
-  Bird.prototype.getMousePos = function(event) {
+  function onMouseMove (event) {
+    var mousePos = getMousePos(event);
+    var frameX = 0;
+    var frameY = 0;
+
+    while ( frameX < sprite.cols ) {
+      if (mousePos.x < options.canvasCellW * (frameX + 1) && mousePos.x > options.canvasCellW * frameX) {
+        frameIndexX = frameX;
+        break;
+      }
+      frameX += 1;
+    }
+
+    while ( frameY < sprite.rows ) {
+      if (mousePos.y < options.canvasCellH * (frameY + 1) && mousePos.y > options.canvasCellH * frameY) {
+        frameIndexY = frameY;
+        break;
+      }
+      frameY += 1;
+    }
+
+    render();
+  }
+
+  function getMousePos (event) {
     return {
-      x: event.clientX - this.rect.left,
-      y: event.clientY - this.rect.top
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top
     };
-  };
+  }
 
-  Bird.prototype.render = function() {
-    // Since the image is not transparent, there is no need to clear the canvas.
-    this.ctx.drawImage(
-      birdSprite,                                           // image
-      this.frameIndexX * this.spriteCellWidth,              // sx left corner of sprite
-      this.frameIndexY * this.spriteCellHeight,             // sy top corner of sprite
-      this.spriteCellWidth,                                 // sWidth Width of mask in sprite
-      this.spriteCellHeight,                                // sHeight Height of mask in sprite
-      this.canvas.width / 2 - (this.spriteCellWidth / 2),   // dx x position on canvas
-      this.canvas.height / 2 - (this.spriteCellHeight / 2), // dy y position on canvas
-      this.spriteCellWidth,                                 // dWidth width of image (can be used to scale)
-      this.spriteCellHeight                                 // dHeight height of image (can be used to scale)
-    );
-  };
+  // We only try to update the frame when the mouse moves.
+  canvas.addEventListener('mousemove', onMouseMove, false);
 
-  /*-----  End of BIRD  ------*/
+  window.onresize = setSize;
 })();

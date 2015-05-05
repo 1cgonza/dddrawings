@@ -1,4 +1,5 @@
 (function() {
+  'use strict';
   var $container = $('#ddd-container');
   var eqData = [];
   var taData = [];
@@ -11,8 +12,8 @@
   var yearsEnd       = 2014;
   var years          = [];
   var firstLoadCheck = false;
-  var screenWidth  = window.innerWidth;
-  var screenHeight = window.innerHeight;
+  var screenWidth    = window.innerWidth;
+  var screenHeight   = window.innerHeight;
 
   var options = {
     year : 1993,
@@ -69,7 +70,7 @@
 
   function defineTaData (data) {
     // Build an array of objects for every year available. Set intensity at 0 first.
-    for( var i=yearsStart; i<yearsEnd+1; i++) {
+    for( var i = yearsStart; i < yearsEnd + 1; i++) {
       years.push( { year: i, intensity: 0} );
     }
     //
@@ -83,7 +84,7 @@
         }
       }
       // Get only the data of the attacks for the selected year. This way we can create the right ammount of nodes in d3 by simply using "selectAll".
-      if ( yearAttack === Number( options.year ) ) {
+      if ( yearAttack === Number(options.year) ) {
         taData.push( data[j] );
       }
     }
@@ -414,14 +415,14 @@
       thisPoly = thisNode.select('polygon');
       infoBox = d3.select('#info');
 
-      if ( d.date    !== '' ) { infoBox.append('p').text('Fecha: ' + d.date); }
-      if ( d.by      !== '' ) { infoBox.append('p').text('Quien: ' + d.by); }
-      if ( d.dep     !== '' ) { infoBox.append('p').text('Departamento: ' + d.dep); }
-      if ( d.mun     !== '' ) { infoBox.append('p').text('Municipio: ' + d.mun); }
-      if ( d.place   !== '' ) { infoBox.append('p').text('Lugar: ' + d.place); }
-      if ( d.fatal   !== null ) { infoBox.append('p').text('Victimas Fatales: ' + d.fatal); }
-      if ( d.injured !== null ) { infoBox.append('p').text('Heridos: ' + d.injured); }
-      if ( d.source  !== '' ) { infoBox.append('p').text('Fuente: ' + d.source); }
+      if (d.date    !== '') { infoBox.append('p').text('Fecha: ' + d.date); }
+      if (d.by      !== '') { infoBox.append('p').text('Quien: ' + d.by); }
+      if (d.dep     !== '') { infoBox.append('p').text('Departamento: ' + d.dep); }
+      if (d.mun     !== '') { infoBox.append('p').text('Municipio: ' + d.mun); }
+      if (d.place   !== '') { infoBox.append('p').text('Lugar: ' + d.place); }
+      if (d.fatal   !== null) { infoBox.append('p').text('Victimas Fatales: ' + d.fatal); }
+      if (d.injured !== null) { infoBox.append('p').text('Heridos: ' + d.injured); }
+      if (d.source  !== '') { infoBox.append('p').text('Fuente: ' + d.source); }
 
       thisPoly.style('opacity', 1);
 

@@ -1,0 +1,10 @@
+#ddd-container {
+
+  #ddd-loading {
+    @include transition(opacity, 0.5s);
+  }
+
+  canvas {
+    display: block;
+  }
+}

@@ -1,7 +1,6 @@
 var Metalsmith   = require('metalsmith');
 var Handlebars   = require('handlebars');
 var ignore       = require('metalsmith-ignore');
-var metadata     = require('metalsmith-metadata');
 var collections  = require('metalsmith-collections');
 var sass         = require('metalsmith-sass');
 var markdown     = require('metalsmith-markdown');
@@ -10,7 +9,7 @@ var templates    = require('metalsmith-templates');
 var htmlMin      = require('metalsmith-html-minifier');
 var circularJSON = require('circular-json');
 var browserSync  = require('browser-sync');
-
+var metadata     = require('./config')(process.argv);
 /**
 * 'fs' comes with node so it won't be in the package.json
 * Gives access to the file system paths
@@ -18,28 +17,35 @@ var browserSync  = require('browser-sync');
 **/
 var fs = require('fs');
 
-browserSync({
-  server: 'build',
-  files: ['src/**/*.md', 'src/**/*.scss', 'src/**/*.js', 'templates/**/*.hbs'],
-  // logLevel: 'debug',
-  notify: false,
-  middleware: function (req, res, next) {
-    build(next);
-  }
-});
+if (metadata.isDev) {
+  browserSync({
+    server: 'build',
+    files: ['src/**/*.md', 'src/scss/*.scss', 'src/**/*.js', 'templates/**/*.hbs'],
+    // logLevel: 'debug',
+    notify: false,
+    middleware: function (req, res, next) {
+      build(next);
+    }
+  });
+} else {
+  build(stage)
+}
 
+function stage () {
+  console.log('success');
+}
 
 function build (callback) {
-  var metalsmith   = new Metalsmith(__dirname);
-  metalsmith.use( ignore(['**/.DS_Store']) );
+  var metalsmith = new Metalsmith(__dirname);
+  metalsmith.metadata(metadata);
 
-  metalsmith.use( metadata({
-    site: '_metadata/config.yaml'
-  }) );
+  metalsmith.use( ignore(['**/.DS_Store']) );
 
   metalsmith.use( collections({
     lab: {
-      pattern: 'lab/*.md'
+      pattern: 'lab/*.md',
+      sortBy: 'date',
+      reverse: true
     },
     notations: {
       pattern: 'notations/*.md'
@@ -84,45 +90,48 @@ Handlebars.registerHelper({
       '<div class="debug">' + circularJSON.stringify(context) + '</div>'
     );
   },
-  pageTitle: function (title, options) {
-    var siteTitle = options.data.root.site.title;
-    var pageTitle = title ? title + ' :: ' + siteTitle : siteTitle ;
+  pageTitle: function (title) {
+    var pageTitle = metadata.siteTitle;
+
+    if (title) {
+      pageTitle = title + ' :: ' + metadata.siteTitle;
+    }
 
     return new Handlebars.SafeString(pageTitle);
   },
-  slug: function (title, options) {
+  slug: function (title) {
     var slug = title ? title.replace(/\W+/g, '-').toLowerCase() : '';
 
     return new Handlebars.SafeString(slug);
   },
-  pageDescription: function (description, options) {
-    var siteDescription = options.data.root.site.description;
-    var pageDescription = description ? description : siteDescription;
+  pageDescription: function (description) {
+    var pageDescription = description ? description : metadata.siteDescription;
 
     return new Handlebars.SafeString(pageDescription);
   },
-  featuredImg: function (image, options) {
-    var siteImage = options.data.root.site.image;
-    var featuredImg = image ? image : siteImage;
+  featuredImg: function (image) {
+    var featuredImg = image ? image : metadata.defaultImage;
 
     return new Handlebars.SafeString(featuredImg);
   },
-  getThumb: function (thumb, options) {
-    var siteThumb = options.data.root.site.thumb;
-    var pageThumb = thumb ? thumb : siteThumb;
+  getThumb: function (thumb) {
+    var pageThumb = thumb ? thumb : metadata.defaultThumb;
 
     return new Handlebars.SafeString(pageThumb);
   },
-  setLibraries: function (libs, options) {
-    var libraries = options.data.root.site.libraries;
+  setLibraries: function (libs) {
+    var libraries = metadata.extLibraries;
     var scripts = '';
 
-    libs.forEach(function (lib) {
-      var script = '<script src="' + libraries[lib] + '"></script>';
-      scripts = scripts + script;
-    });
+    for (var library in libraries) {
+      var script = '<script src="' + libraries[library] + '"></script>';
+      scripts += script;
+    }
 
     return new Handlebars.SafeString(scripts);
+  },
+  setURL: function (path) {
+    return metadata.baseUrl + path;
   }
 });
 

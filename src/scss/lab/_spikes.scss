@@ -1,22 +1,23 @@
-.spikes{
-  #ddd-container{
+.spikes {
+  #ddd-container {
     font-family: 'Inconsolata', Verdana, Geneva, sans-serif;
     /* BACKGROUND CODE: http://codepen.io/1cgonza/details/BDjin/ */
     background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPgo8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgyPSIxIiB5Mj0iMSI+CjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNjY2M5YzYiPjwvc3RvcD4KPHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiNmMWVhZTQiPjwvc3RvcD4KPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjY2NjOWM2Ij48L3N0b3A+CjwvbGluZWFyR3JhZGllbnQ+CjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZykiPjwvcmVjdD4KPC9zdmc+");
   }
-  .eqta{
+
+  .eqta {
     display: block;
   }
 
-  .ta:hover{
+  .ta:hover {
     cursor: pointer;
 
-    .polygon{
+    .polygon {
       opacity: 1 !important;
     }
   }
 
-  #info{
+  #info {
     position: absolute;
     top: 0;
     left: 0;
@@ -25,7 +26,7 @@
     line-height: 1.2;
   }
 
-  #years{
+  #years {
     margin: 0;
     padding: 0;
     list-style: none;
@@ -63,7 +64,7 @@
   /*===============================
   =            SLIDERS            =
   ===============================*/
-  .ui-slider{
+  .ui-slider {
     top: 40%;
     font-size: 0.9em;
   }
@@ -107,11 +108,11 @@
       height: 8px;
     }
 
-    .ui-slider-handle{
+    .ui-slider-handle {
       top: -5px;
     }
 
-    .slider-values{
+    .slider-values {
       position: absolute;
       top: -30px;
       width: 100%;
@@ -128,7 +129,7 @@
       bottom: 0;
     }
 
-    .ui-slider-handle{
+    .ui-slider-handle {
       right: -4px;
     }
 
@@ -142,31 +143,31 @@
   }
 
   /*==========  MAGNITUDE  ==========*/
-  #slider-magnitude{
+  #slider-magnitude {
     width: 100px;
     margin-top: -60px;
   }
 
   /*==========  RADIUS  ==========*/
-  #slider-radius{
+  #slider-radius {
     width: 200px;
   }
 
   /*==========  OPACITY  ==========*/
-  #slider-opacity{
+  #slider-opacity {
     width: 100px;
     margin-top: 60px;
   }
 
   /*==========  POW OF  ==========*/
-  #slider-powof{
+  #slider-powof {
     height: 100px;
     right: 150px;
     margin-top: 100px;
   }
 
   /*==========  DIVIDED BY  ==========*/
-  #slider-dividedby{
+  #slider-dividedby {
     height: 100px;
     right: 80px;
     margin-top: 100px;

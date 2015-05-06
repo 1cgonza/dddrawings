@@ -36,7 +36,7 @@
   =            LOAD DATA            =
   =================================*/
   function loadData () {
-    d3.json('/data/ingeominas/eq' + options.year + '.json', function (eqError, eqData) {
+    d3.json('../../data/ingeominas/eq' + options.year + '.json', function (eqError, eqData) {
       if (eqError) {
         console.log(eqError);
       } else {

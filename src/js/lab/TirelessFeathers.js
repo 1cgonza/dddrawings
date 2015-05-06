@@ -6,7 +6,7 @@
   var loading   = document.getElementsByClassName('loading')[0];
 
   var birdOptions = {
-    img: '/img/sprites/curiousBird_fh7-fv5_w944-h1111.jpg',
+    img: '../../img/sprites/curiousBird_fh7-fv5_w944-h1111.jpg',
     width: 944,
     height: 1111,
     cols: 7,

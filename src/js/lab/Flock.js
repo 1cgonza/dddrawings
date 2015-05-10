@@ -84,13 +84,13 @@
     this.gravityY = 0.005;
 
     // Run the shuffle first to assign some parameters to the first group of birds.
-    this.suffle();
+    this.shuffle();
 
     // Start playing, this is defined by the sprite-0.1.js library.
     // this.sprite.play(0); //the number is the row in the spritesheet. Only one row in this case so index 0 is called.
   }
 
-  Bird.prototype.suffle = function() {
+  Bird.prototype.shuffle = function() {
     // Start again in a new random x position outside the screen (left).
     this.x = -( Math.random() * this.canvasW  ) | 0;
     // Start again in a new random y position.
@@ -110,7 +110,7 @@
   Bird.prototype.update = function() {
     // Once the bird is out of screen, recycle it by runnning the shuffle function to get new parameters.
     if (this.x > this.canvasW) {
-      this.suffle();
+      this.shuffle();
     }
 
     // Add some gravity to the vertical velocity so the bird's path has a small curve.

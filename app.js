@@ -28,7 +28,7 @@ if (metadata.isDev) {
     }
   });
 } else {
-  build(stage)
+  build(stage);
 }
 
 function stage () {
@@ -130,8 +130,25 @@ Handlebars.registerHelper({
 
     return new Handlebars.SafeString(scripts);
   },
-  setURL: function (path) {
-    return metadata.baseUrl + path;
-  }
+  setScripts: function (scripts) {
+    var url = setURL('js/lab/');
+    var html = '';
+
+    if ( Array.isArray(scripts) ) {
+      scripts.forEach(function (script) {
+        script = '<script src="' + url + script + '.js"></script>';
+        html += script;
+      });
+    } else {
+      var script = '<script src="' + url + scripts + '.js"></script>';
+      html += script;
+    }
+
+    return new Handlebars.SafeString(html);
+  },
+  setURL: setURL
 });
 
+function setURL (path) {
+  return metadata.baseUrl + path;
+}

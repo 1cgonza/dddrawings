@@ -9,6 +9,6 @@ thumb: https://farm8.staticflickr.com/7496/16034760288_e78ef83d54.jpg
 libraries:
   - jquery
   - jqueryui
-scripts: CircleVariations.js
+scripts: CircleVariations
 gFont: "Inconsolata:400,700"
 ---

@@ -10,6 +10,6 @@ libraries:
   - jquery
   - jqueryui
   - d3
-scripts: Spikes.js
+scripts: Spikes
 gFont: "Inconsolata:400,700"
 ---

@@ -24,9 +24,9 @@
   var sprite = new Sprite(birdOptions);
 
   /*==========  CREATE CANVAS  ==========*/
-  var canvas    = document.createElement('canvas');
-  var ctx       = canvas.getContext('2d');
-  var rect      = canvas.getBoundingClientRect();
+  var canvas = document.createElement('canvas');
+  var ctx    = canvas.getContext('2d');
+  var rect   = canvas.getBoundingClientRect();
 
   /**
   * Each frame on the sprite has an index x and y. The first on each axis is 0.

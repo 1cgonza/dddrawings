@@ -26,9 +26,9 @@ var defaults = {
     jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js',
     d3: 'https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js'
   }
-}
+};
 
-function attachEnvVariables (options) {
+function attachOptions (options) {
   for (var option in options) {
     defaults[option] = options[option];
   }
@@ -36,11 +36,11 @@ function attachEnvVariables (options) {
 }
 
 var defineEnvironment = function (args) {
-  var env = attachEnvVariables(environments.dev);
+  var env = attachOptions(environments.dev);
 
   args.forEach(function (val) {
     if (val === '--prod' || val === '-p') {
-      env = attachEnvVariables(environments.prod);
+      env = attachOptions(environments.prod);
     }
   });
 

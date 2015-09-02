@@ -1,14 +1,16 @@
+require('harmonize')();
 var Metalsmith   = require('metalsmith');
 var Handlebars   = require('handlebars');
 var ignore       = require('metalsmith-ignore');
 var collections  = require('metalsmith-collections');
 var sass         = require('metalsmith-sass');
 var markdown     = require('metalsmith-markdown');
-var permalinks   = require('metalsmith-permalinks');
-var templates    = require('metalsmith-templates');
+var layouts      = require('metalsmith-layouts');
 var htmlMin      = require('metalsmith-html-minifier');
 var circularJSON = require('circular-json');
 var browserSync  = require('browser-sync');
+var changed      = require('metalsmith-changed');
+var each         = require('metalsmith-each');
 var metadata     = require('./config')(process.argv);
 /**
 * 'fs' comes with node so it won't be in the package.json
@@ -20,13 +22,16 @@ var fs = require('fs');
 if (metadata.isDev) {
   browserSync({
     server: 'build',
-    files: ['src/**/*.md', 'src/scss/*.scss', 'src/**/*.js', 'templates/**/*.hbs'],
+    files: ['src/**/*.md', 'src/**/*.scss', 'src/**/*.js', 'layouts/**/*.hbs'],
     // logLevel: 'debug',
     notify: false,
     middleware: function (req, res, next) {
       build(next);
     }
   });
+} else if (metadata.safeClean) {
+  console.log('Start cleaning...');
+  safelyClean();
 } else {
   build(stage);
 }
@@ -35,15 +40,25 @@ function stage () {
   console.log('success');
 }
 
+function safelyClean () {
+  var del = require('del');
+
+  del(['build/**', '!build', '!build/data/**', '!build/videos/**']).then(function (paths) {
+    console.log('Deleted files/folders:\n', paths.join('\n'));
+  });
+}
+
 function build (callback) {
   var metalsmith = new Metalsmith(__dirname);
+  metalsmith.clean(false);
+  metalsmith.use( changed() );
   metalsmith.metadata(metadata);
 
-  metalsmith.use( ignore(['**/.DS_Store']) );
+  metalsmith.use( ignore(['**/.DS_Store', 'lab/_TEMPLATE/**/*']) );
 
   metalsmith.use( collections({
     lab: {
-      pattern: 'lab/*.md',
+      pattern: 'lab/**/*.md',
       sortBy: 'date',
       reverse: true
     },
@@ -62,13 +77,16 @@ function build (callback) {
     html: true
   }) );
 
-  metalsmith.use( permalinks({
-    pattern: ':collection/:title'
+  metalsmith.use( each(function (file, filename) {
+    var slug = file.title ? file.title.replace(/\W+/g, '-').toLowerCase() : null;
+    if (slug !== null) {
+      file.slug = slug;
+    }
   }) );
 
-  metalsmith.use( templates({
+  metalsmith.use( layouts({
     engine: 'handlebars',
-    directory: 'templates'
+    directory: 'layouts'
   }) );
 
   metalsmith.use( htmlMin() );
@@ -80,8 +98,8 @@ function build (callback) {
 }
 
 Handlebars.registerPartial({
-  head: fs.readFileSync(__dirname + '/templates/partials/head.hbs').toString(),
-  footer: fs.readFileSync(__dirname + '/templates/partials/footer.hbs').toString()
+  head: fs.readFileSync(__dirname + '/layouts/partials/head.hbs').toString(),
+  footer: fs.readFileSync(__dirname + '/layouts/partials/footer.hbs').toString()
 });
 
 Handlebars.registerHelper({
@@ -99,11 +117,11 @@ Handlebars.registerHelper({
 
     return new Handlebars.SafeString(pageTitle);
   },
-  slug: function (title) {
-    var slug = title ? title.replace(/\W+/g, '-').toLowerCase() : '';
+  // slug: function (title) {
+  //   var slug = title ? title.replace(/\W+/g, '-').toLowerCase() : '';
 
-    return new Handlebars.SafeString(slug);
-  },
+  //   return new Handlebars.SafeString(slug);
+  // },
   pageDescription: function (description) {
     var pageDescription = description ? description : metadata.siteDescription;
 
@@ -121,34 +139,46 @@ Handlebars.registerHelper({
   },
   setLibraries: function (libs) {
     var libraries = metadata.extLibraries;
-    var scripts = '';
+    var tags = '';
 
-    for (var library in libraries) {
-      var script = '<script src="' + libraries[library] + '"></script>';
-      scripts += script;
+    if ( Array.isArray(libs) ) {
+      libs.forEach(function (name) {
+        if (name in libraries) {
+          tags += setScriptTags(libraries[name], '');
+        }
+      });
     }
 
-    return new Handlebars.SafeString(scripts);
+    return new Handlebars.SafeString(tags);
   },
   setScripts: function (scripts) {
-    var url = setURL('js/lab/');
-    var html = '';
+    var url = setURL('js/');
+    var tags = setScriptTags(scripts, url);
 
-    if ( Array.isArray(scripts) ) {
-      scripts.forEach(function (script) {
-        script = '<script src="' + url + script + '.js"></script>';
-        html += script;
-      });
-    } else {
-      var script = '<script src="' + url + scripts + '.js"></script>';
-      html += script;
-    }
-
-    return new Handlebars.SafeString(html);
+    return new Handlebars.SafeString(tags);
   },
   setURL: setURL
 });
 
-function setURL (path) {
-  return metadata.baseUrl + path;
+function setScriptTags (scripts, url) {
+  var ret = '';
+  var tag = '';
+
+  if ( Array.isArray(scripts) ) {
+    scripts.forEach(function (script) {
+      tag = '<script src="' + url + script + '.js"></script>';
+      ret += tag;
+    });
+  } else {
+    tag = '<script src="' + url + scripts + '.js"></script>';
+    ret += tag;
+  }
+
+  return ret;
+}
+
+function setURL (pre, path) {
+  pre = pre ? pre : '';
+  path = typeof path === 'string' ? path : '';
+  return metadata.baseUrl + pre + path;
 }

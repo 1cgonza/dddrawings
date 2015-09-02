@@ -1,0 +1,11 @@
+{{> head}}
+{{#each collections}}
+{{#each this}}
+{{#if archive}}
+<h3><a href="{{ setURL slug }}">{{ title }}</a></h3>
+<p class="section-description">{{ description }}</p>
+{{/if}}
+{{/each}}
+{{/each}}
+
+{{> footer }}

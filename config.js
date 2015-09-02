@@ -22,9 +22,9 @@ var defaults = {
   defaultThumb: 'https://farm9.staticflickr.com/8592/16218761572_016c2e0f3c.jpg',
   defaultNoImg: 'https://farm3.staticflickr.com/2950/15297536047_e9da6fd148.jpg',
   extLibraries: {
-    jquery: '//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js',
-    jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js',
-    d3: 'https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js'
+    jquery: '//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min',
+    jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min',
+    d3: 'https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min'
   }
 };
 
@@ -41,6 +41,9 @@ var defineEnvironment = function (args) {
   args.forEach(function (val) {
     if (val === '--prod' || val === '-p') {
       env = attachOptions(environments.prod);
+    }
+    else if (val === '--clean') {
+      env = {safeClean: true};
     }
   });
 

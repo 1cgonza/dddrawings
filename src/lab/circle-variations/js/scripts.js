@@ -3,11 +3,16 @@
   var container      = document.getElementById('ddd-container');
   var canvas         = document.createElement('canvas');
   var ctx            = canvas.getContext('2d');
+  var stageW         = window.innerWidth;
+  var stageH         = window.innerHeight;
+  var centerX        = stageW / 2;
+  var centerY        = stageH / 2;
   var loading        = document.getElementById('ddd-loading');
   var eqData         = [];
   var eqIndex        = 0;
-  var animate        = false;
+  var animating      = false;
   var imgObj         = new Image();
+  var imgLoaded      = false;
   var defaultSprite  = 'pencil';
   var ddd, currentYearBtn, currentStrokeBtn;
 
@@ -63,10 +68,8 @@
     rangeStart: 0,
     rangeEnd: 8,
     yearStart: 1993,
-    yearEnd: 2014,
+    yearEnd: 2015,
     opacity: 0.2,
-    width: window.innerWidth,
-    height: window.innerHeight
   };
 
   function updateOptions (data) {
@@ -82,205 +85,75 @@
   }
 
   function init () {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    container.appendChild(canvas);
     // Start with some default options
+    ctx.globalCompositeOperation = 'multiply';
     options.year = options.yearStart;
     updateOptions(sprites[defaultSprite]);
 
     setupInterface();
     ddd = new Drawing();
-    requestData();
-    ddd.loadSprite();
-  }
-
-  function requestData() {
-    var oReq = new XMLHttpRequest();
-    var reqURL = '../../data/ingeominas/eq' + options.year + '.json';
-
-    oReq.open('GET', reqURL, true);
-    oReq.overrideMimeType('application/json');
-
-    oReq.onreadystatechange = function () {
-      if (oReq.readyState == 4) {
-        if (oReq.status == '200') {
-          eqData = JSON.parse(oReq.responseText);
-          ddd.draw();
-        } else {
-          console.log('Error loading data.');
-        }
-      }
-    };
-    oReq.send();
-  }
-
-  function Drawing () {
-    ctx.globalCompositeOperation = 'multiply';
-    this.stopAnimation = false;
-    this.yearEnd    = options.year + 1;
-    this.yearLength = ( Date.parse(this.yearEnd) - Date.parse(options.year) ) * 0.001;
-    this.secondsW   = 360 / this.yearLength;
-  }
-
-  Drawing.prototype.loadSprite = function () {
-    imgObj.onload = this.imgLoaded.bind(this);
-    imgObj.src    = options.sprite;
-  };
-
-  Drawing.prototype.imgLoaded = function () {
-    this.draw();
-    loading.style.opacity = 0;
-  };
-
-  Drawing.prototype.draw = function () {
-    this.frameW = options.spriteW / options.spriteCols | 0;
-    this.frameH = options.spriteH / options.spriteRows | 0;
-    ctx.globalAlpha = options.opacity;
-
-    if (animate) {
-      this.lineAnimation();
-    } else {
-      for (var i = 0; i < eqData.length; i++) {
-        // Check the range of the slider and render only within those values
-        if ( eqData[i].ml >= options.rangeStart && eqData[i].ml <= options.rangeEnd ) {
-          this.defineRenderOption(eqData[i].utc, eqData[i].ml);
-        }
-      }
-    }
-  };
-
-  Drawing.prototype.defineRenderOption = function (utc, ml) {
-    var eventDate  = Date.parse(utc) * 0.001;
-    var dReset     = eventDate - (Date.parse(options.year) * 0.001);
-    var rot        = dReset * this.secondsW;
-    var magnitude  = ml;
-
-    ctx.save();
-    ctx.translate(options.width / 2, options.height / 2);
-    ctx.rotate(rot * Math.PI / 180);
-
-    if (options.spriteRows === 1) {
-      this.oneRowSpriteStroke(magnitude);
-    } else {
-      this.multiRowSpriteStroke(magnitude);
-    }
-
-    ctx.restore();
-  };
-
-  Drawing.prototype.redraw = function (loadNewData) {
-    loading.style.opacity = 1;
-    eqIndex = 0;
-    animate = currentStrokeBtn.classList.contains('play') ? true : false;
-
-    this.clearCanvas();
-
-    if (loadNewData) {
-      eqData.pop();
-      requestData();
-    } else {
-      this.draw();
-    }
-  };
-
-  Drawing.prototype.updatePosition = function () {
-    // only clear the canvas if it is not animating
-    if (!animate) {
-      this.clearCanvas();
-      this.draw();
-    }
-  };
-
-  Drawing.prototype.clearCanvas = function () {
-    ctx.save();
-    ctx.globalCompositeOperation = 'destination-out';
-    ctx.fillStyle = '#FFF';
-    ctx.globalAlpha = 1;
-    ctx.fillRect(0, 0, options.width, options.height);
-    ctx.restore();
-  };
-
-  Drawing.prototype.lineAnimation = function () {
-    if (eqIndex < eqData.length) {
-      this.defineRenderOption(eqData[eqIndex].utc, eqData[eqIndex].ml);
-
-      requestAnimationFrame(this.lineAnimation.bind(this));
-    } else {
-      animate = false;
-    }
-    eqIndex++;
-  };
-
-  Drawing.prototype.oneRowSpriteStroke = function (magnitude) {
-    for (var i = 0; i < options.spriteCols; i++) {
-      if ( magnitude > (i * options.step) && magnitude <= ( (i + 1) * options.step ) ) {
-        this.render(i, 0);
-      }
-    }
-  };
-
-  Drawing.prototype.multiRowSpriteStroke = function (magnitude) {
-    var spriteColumn = 0;
-    var spriteRow    = 0;
-    var mlValues     = [];
-    /**
-    * Check if number is float or integer.
-    * % 1 = 0 means it is an int.
-    * When a magnitude is an integer I know that it is always the first column in the sprite, so it can be assigned to index 0.
-    **/
-    if (magnitude % 1 === 0) {
-      spriteRow = magnitude;
-      spriteColumn = 0;
-    } else {
-      mlValues     = magnitude.toString().split('.');
-      spriteRow    = mlValues[0];
-      spriteColumn = mlValues[1];
-    }
-
-    this.render(spriteColumn, spriteRow);
-  };
-
-  Drawing.prototype.render = function (col, row) {
-    ctx.drawImage(
-      imgObj,
-      col * this.frameW, row * this.frameH,
-      this.frameW, this.frameH,
-      -options.frameOffsetX, -(options.radius + options.frameOffsetY),
-      this.frameW, this.frameH
+    animate();
+    requestData(
+      '../../data/ingeominas/eq' + options.year + '.json',
+      dataReady
     );
-  };
+  }
+
+  function dataReady (data) {
+    loading.style.opacity = 0;
+    eqData = data;
+
+    if (!imgLoaded) {
+      loadSprite();
+    } else {
+      ddd.draw();
+    }
+  }
+
+  function loadSprite () {
+    imgObj.onload = function () {
+      imgLoaded = true;
+      ddd.draw();
+      loading.style.opacity = 0;
+    };
+    imgObj.src = options.sprite;
+  }
+
+  function animate () {
+    if (animating) {
+      if (eqIndex < eqData.length) {
+        ddd.defineRenderMode(eqData[eqIndex].utc, eqData[eqIndex].ml);
+        eqIndex++;
+      } else {
+        animating = false;
+      }
+    }
+    requestAnimationFrame(animate);
+  }
+
+  function menuReady (menu, current) {
+    container.appendChild(menu);
+    currentYearBtn = current ? current : currentYearBtn;
+  }
 
   function setupInterface () {
-    var yearsContainer   = document.createElement('ul');
-    var strokesContainer = document.createElement('ul');
+    yearsListMenu(
+      options.yearStart,
+      options.yearEnd,
+      options.yearStart,
+      yearsClickEvent,
+      menuReady
+    );
 
+    var strokesContainer = document.createElement('ul');
     var sliders = {
       radius: updateRadiusText(),
       magnitude: updateMagnitudeText(),
       opacity: updateOpacityText()
     };
-
-    /*==========  CANVAS  ==========*/
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
-    container.appendChild(canvas);
-
-    /*==========  YEARS MENU  ==========*/
-    yearsContainer.id = 'years';
-
-    for (var year = options.yearStart; year <= options.yearEnd; year++) {
-      var btn   = document.createElement('li');
-      var label = document.createTextNode(year);
-
-      if (year === options.yearStart) {
-        btn.className = 'current';
-        currentYearBtn = btn;
-      }
-
-      btn.appendChild(label);
-      yearsContainer.appendChild(btn);
-      btn.addEventListener('click', yearsClickEvent, false);
-    }
-
-    container.appendChild(yearsContainer);
 
     /*==========  STROKES MENU  ==========*/
     strokesContainer.id = 'sprites';
@@ -333,7 +206,7 @@
   function yearsClickEvent (event) {
     resetCurrentClass(currentYearBtn, event.target);
     currentYearBtn = event.target;
-    options.year = Number(currentYearBtn.textContent);
+    options.year = Number(event.target.textContent);
 
     ddd.redraw(true);
   }
@@ -343,19 +216,13 @@
     var newSprite = event.target.dataset.sprite;
 
     resetCurrentClass(currentStrokeBtn, event.target);
-    updateOptions(sprites[newSprite]);
 
     if (prevSprite !== newSprite) {
-      ddd.loadSprite();
+      updateOptions(sprites[newSprite]);
+      loadSprite();
     }
-
-    ddd.redraw(false);
     currentStrokeBtn = event.target;
-  }
-
-  function resetCurrentClass (old, target) {
-    old.classList.remove('current');
-    target.classList.add('current');
+    ddd.redraw(false);
   }
 
   function updateRadiusText () {
@@ -376,7 +243,7 @@
   function createSliders () {
     $('#slider-radius').slider({
       orientation: 'horizontal',
-      animate: 'fast',
+      animating: 'fast',
       range: 'min',
       min: 0,
       max: 300,
@@ -390,7 +257,7 @@
 
     $('#slider-magnitude').slider({
       orientation: 'horizontal',
-      animate: 'fast',
+      animating: 'fast',
       range: true,
       min: options.rangeStart,
       max: options.rangeEnd,
@@ -406,7 +273,7 @@
 
     $('#slider-opacity').slider({
       orientation: 'horizontal',
-      animate: 'fast',
+      animating: 'fast',
       range: "min",
       min: 0.1,
       max: 1,
@@ -421,6 +288,125 @@
   }
 
   /*-----  End of SLIDERS  ------*/
+
+  /*===============================
+  =            CLASSES            =
+  ===============================*/
+  function Drawing () {
+    this.stopAnimation = false;
+    this.yearEnd    = options.year + 1;
+    this.yearLength = ( Date.parse(this.yearEnd) - Date.parse(options.year) ) * 0.001;
+    this.secondsW   = 360 / this.yearLength;
+  }
+
+  Drawing.prototype.draw = function () {
+    ctx.globalAlpha = options.opacity;
+    this.frameW = options.spriteW / options.spriteCols | 0;
+    this.frameH = options.spriteH / options.spriteRows | 0;
+    if (!animating) {
+      for (var i = 0; i < eqData.length; i++) {
+        // Check the range of the slider and render only within those values
+        if ( eqData[i].ml >= options.rangeStart && eqData[i].ml <= options.rangeEnd ) {
+          this.defineRenderMode(eqData[i].utc, eqData[i].ml);
+        }
+      }
+    }
+  };
+
+  Drawing.prototype.defineRenderMode = function (utc, ml) {
+    var eventDate  = utc * 0.001;
+    var dReset     = eventDate - (Date.parse(options.year) * 0.001);
+    var rot        = dReset * this.secondsW;
+    var magnitude  = ml;
+
+    ctx.save();
+    ctx.translate(centerX, centerY);
+    ctx.rotate(rot * Math.PI / 180);
+
+    if (options.spriteRows === 1) {
+      this.oneRowSpriteStroke(magnitude);
+    } else {
+      this.multiRowSpriteStroke(magnitude);
+    }
+
+    ctx.restore();
+  };
+
+  Drawing.prototype.redraw = function (loadNewData) {
+    loading.style.opacity = 1;
+    eqIndex = 0;
+    animating = currentStrokeBtn.classList.contains('play') ? true : false;
+
+    this.clearCanvas();
+
+    if (loadNewData) {
+      eqData.pop();
+      requestData(
+        '../../data/ingeominas/eq' + options.year + '.json',
+        dataReady
+      );
+    } else {
+      this.draw();
+    }
+  };
+
+  Drawing.prototype.updatePosition = function () {
+    // only clear the canvas if it is not animating
+    if (!animating) {
+      this.clearCanvas();
+      this.draw();
+    }
+  };
+
+  Drawing.prototype.clearCanvas = function () {
+    ctx.save();
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.fillStyle = '#FFF';
+    ctx.globalAlpha = 1;
+    ctx.fillRect(0, 0, stageW, stageH);
+    ctx.restore();
+  };
+
+
+  Drawing.prototype.oneRowSpriteStroke = function (magnitude) {
+    for (var i = 0; i < options.spriteCols; i++) {
+      if ( magnitude > (i * options.step) && magnitude <= ( (i + 1) * options.step ) ) {
+        this.render(i, 0);
+      }
+    }
+  };
+
+  Drawing.prototype.multiRowSpriteStroke = function (magnitude) {
+    var spriteColumn = 0;
+    var spriteRow    = 0;
+    var mlValues     = [];
+    /**
+    * Check if number is float or integer.
+    * % 1 = 0 means it is an int.
+    * When a magnitude is an integer I know that it is always the first column in the sprite, so it can be assigned to index 0.
+    **/
+    if (magnitude % 1 === 0) {
+      spriteRow = magnitude;
+      spriteColumn = 0;
+    } else {
+      mlValues     = magnitude.toString().split('.');
+      spriteRow    = mlValues[0];
+      spriteColumn = mlValues[1];
+    }
+
+    this.render(spriteColumn, spriteRow);
+  };
+
+  Drawing.prototype.render = function (col, row) {
+    ctx.drawImage(
+      imgObj,
+      col * this.frameW, row * this.frameH,
+      this.frameW, this.frameH,
+      -options.frameOffsetX, -(options.radius + options.frameOffsetY),
+      this.frameW, this.frameH
+    );
+  };
+  /*=====  End of CLASSES  ======*/
 
   /*========================================
   =            START EVERYTHING            =

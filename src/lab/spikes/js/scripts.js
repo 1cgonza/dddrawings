@@ -339,7 +339,7 @@
 
   function eqNodeTransform() {
     eqNode.attr('transform', function (d) {
-      eventDate = Date.parse(d.utc) * 0.001;
+      eventDate = d.utc * 0.001;
       dReset = eventDate - (Date.parse(options.year) * 0.001);
 
       rot = dReset * secondsW;

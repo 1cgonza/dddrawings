@@ -1,11 +1,7 @@
 {{> head }}
-<main class="{{slug title}}">
+<main class="{{ slug }}">
   <section id="ddd-container">
     <span id="ddd-loading" class="loading">...</span>
-  </section>
-
-  <section id="content">
-    {{{ contents }}}
   </section>
 </main>
 
@@ -16,4 +12,6 @@
 {{#if scripts}}
   {{setScripts scripts}}
 {{/if}}
+
+<script src ="./js/scripts.js"></script>
 {{> footer }}

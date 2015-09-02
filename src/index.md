@@ -1,4 +1,5 @@
 ---
-template: default.hbs
+layout: home.hbs
+description: ...
+gFont: "Inconsolata:400,700"
 ---
-something else 

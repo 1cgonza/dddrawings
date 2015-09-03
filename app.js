@@ -50,7 +50,7 @@ function stage () {
 function safelyClean () {
   var del = require('del');
 
-  del(['build/**', '!build', '!build/data/**', '!build/videos/**']).then(function (paths) {
+  del(['build/**', '!build', '!build/CNAME', '!build/data/**', '!build/videos/**']).then(function (paths) {
     console.log('Deleted files/folders:\n', paths.join('\n'));
   });
 }

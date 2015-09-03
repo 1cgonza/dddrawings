@@ -61,6 +61,7 @@ a {
   }
 
   #ddd-loading {
+    position: absolute;
     @include transition(opacity, 0.5s);
   }
 
@@ -120,7 +121,7 @@ a {
       width: 60%;
       line-height: 0;
       position: relative;
-      padding-bottom: 31%;
+      padding-bottom: 36%;
       height: 0;
       overflow: hidden;
       display: block;

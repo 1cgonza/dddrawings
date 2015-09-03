@@ -55,3 +55,12 @@ function resetCurrentClass (old, target) {
   old.classList.remove('current');
   target.classList.add('current');
 }
+
+function getRandom (min, max, isFloat) {
+  var random = Math.floor(Math.random() * (max - min)) + min;
+
+  if (isFloat) {
+    random = Math.random() * (max - min) + min;
+  }
+  return random;
+}

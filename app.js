@@ -11,6 +11,9 @@ var circularJSON = require('circular-json');
 var browserSync  = require('browser-sync');
 var changed      = require('metalsmith-changed');
 var each         = require('metalsmith-each');
+var gulp         = require('gulp');
+var gulpsmith    = require('gulpsmith');
+var ghPages      = require('gulp-gh-pages');
 var metadata     = require('./config')(process.argv);
 /**
 * 'fs' comes with node so it won't be in the package.json
@@ -37,7 +40,11 @@ if (metadata.isDev) {
 }
 
 function stage () {
-  console.log('success');
+  gulp.src('./build/**/*')
+  .pipe( ghPages() )
+  .pipe(
+    gulpsmith()
+  );
 }
 
 function safelyClean () {

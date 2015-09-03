@@ -4,7 +4,7 @@ var environments = {
     isDev: true
   },
   prod: {
-    baseUrl: 'http://1cgonza.github.io/ddd/',
+    baseUrl: 'http://www.dddrawings.com/',
     isDev: false
   }
 };

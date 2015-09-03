@@ -14,6 +14,7 @@ var each         = require('metalsmith-each');
 var gulp         = require('gulp');
 var gulpsmith    = require('gulpsmith');
 var ghPages      = require('gulp-gh-pages');
+var slug         = require('slug');
 var metadata     = require('./config')(process.argv);
 /**
 * 'fs' comes with node so it won't be in the package.json
@@ -85,9 +86,10 @@ function build (callback) {
   }) );
 
   metalsmith.use( each(function (file, filename) {
-    var slug = file.title ? file.title.replace(/\W+/g, '-').toLowerCase() : null;
-    if (slug !== null) {
-      file.slug = slug;
+    // var safeSlug = file.title ? file.title.replace(/\W+/g, '-').toLowerCase() : null;
+    var safeSlug = file.title ? slug(file.title, {lower: true}) : null;
+    if (safeSlug !== null) {
+      file.slug = safeSlug;
     }
   }) );
 

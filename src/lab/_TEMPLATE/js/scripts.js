@@ -4,7 +4,7 @@
   var container = document.getElementById('ddd-container');
   var loading   = document.getElementsByClassName('loading')[0];
 
-  /*==========  CREATE CANVAS  ==========*/
+  /*----------  CREATE CANVAS  ----------*/
   var canvas = document.createElement('canvas');
   var ctx    = canvas.getContext('2d');
   var centerX, centerY;

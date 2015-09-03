@@ -39,7 +39,7 @@
   var prevSec = -1;
   var t1000 = [];
   var t60 = [];
-  var t12 = [];
+  var t24 = [];
   var backFontSize = 10;
   var date = new Date();
   var years = date.getUTCFullYear() - 1984;
@@ -63,9 +63,9 @@
 
   function animate () {
     var d   = new Date(); // Return date in UTC
-    var ms  = d.getUTCMilliseconds();
-    var sec = d.getUTCSeconds();
-    var min = d.getUTCMinutes();
+    var ms  = d.getMilliseconds();
+    var sec = d.getSeconds();
+    var min = d.getMinutes();
     var h   = d.getHours();
 
     msClockSpiral(ms, sec, min, h);
@@ -97,7 +97,7 @@
     ctx.lineTo(0.5, -minRadius);
 
     /*----------  HOURS  ----------*/
-    setTransformOnCtx(t12[h]);
+    setTransformOnCtx(t24[h]);
     ctx.lineTo(0.5, -hRadius);
 
     t.reset();
@@ -134,19 +134,19 @@
   }
 
   function saveTransforms (value) {
-    if (value < 12) {
+    if (value < 24) {
       t.reset();
-      t.translateAndRotate(centerX, centerY, (value * 30) * Math.PI / 180);
-      t12[value] = getCurrentTranforms();
-      drawCircle(hRadius, 3);
+      t.translateAndRotate(centerX, centerY, (value * 15) * Math.PI / 180);
+      t24[value] = getCurrentTranforms();
+      drawCircle(hRadius, 3, value);
     }
 
     if (value < 60) {
       t.reset();
       t.translateAndRotate(centerX, centerY, (value * 6) * Math.PI / 180);
       t60[value] = getCurrentTranforms();
-      drawCircle(secRadius, 1);
-      drawCircle(minRadius, 2);
+      drawCircle(secRadius, 1, value);
+      drawCircle(minRadius, 2, value);
     }
 
     t.reset();
@@ -167,9 +167,10 @@
     return [t.m[0], t.m[1], t.m[2], t.m[3], t.m[4], t.m[5]];
   }
 
-  function drawCircle (radius, size) {
+  function drawCircle (radius, size, value) {
     bCtx.setTransform( t.m[0], t.m[1], t.m[2], t.m[3], t.m[4], t.m[5] );
     bCtx.fillRect(0, -radius, size, size);
+    // bCtx.strokeText(value, 0, -radius);
   }
 
   function drawMs () {

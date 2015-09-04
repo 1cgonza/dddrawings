@@ -1,11 +1,18 @@
 var environments = {
   dev: {
     baseUrl: 'http://localhost:3000/',
-    isDev: true
+    env: 'dev'
   },
   prod: {
     baseUrl: 'http://www.dddrawings.com/',
-    isDev: false
+    env: 'prod'
+  },
+  deploy: {
+    baseUrl: 'http://www.dddrawings.com/',
+    env: 'deploy'
+  },
+  clean: {
+    env: 'clean'
   }
 };
 
@@ -28,7 +35,7 @@ var defaults = {
   }
 };
 
-function attachOptions (options) {
+function attachOptionsToDefaults (options) {
   for (var option in options) {
     defaults[option] = options[option];
   }
@@ -36,14 +43,17 @@ function attachOptions (options) {
 }
 
 var defineEnvironment = function (args) {
-  var env = attachOptions(environments.dev);
+  var env = attachOptionsToDefaults(environments.dev);
 
   args.forEach(function (val) {
-    if (val === '--prod' || val === '-p') {
-      env = attachOptions(environments.prod);
+    if (val === '--prod') {
+      env = attachOptionsToDefaults(environments.prod);
+    }
+    else if (val === '--deploy') {
+      env = attachOptionsToDefaults(environments.deploy);
     }
     else if (val === '--clean') {
-      env = {safeClean: true};
+      env = environments.clean;
     }
   });
 

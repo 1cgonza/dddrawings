@@ -21,6 +21,7 @@
   "homepage": "https://github.com/1cgonza/ddd",
   "dependencies": {
     "browser-sync": "^2.8.2",
+    "chalk": "^1.1.1",
     "circular-json": "^0.1.6",
     "del": "^2.0.0",
     "gulp": "^3.9.0",

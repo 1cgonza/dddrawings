@@ -2,7 +2,7 @@
   'use strict';
   var loaded    = false;
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementsByClassName('loading')[0];
+  var loading   = document.getElementById('ddd-loading');
   var info      = document.createElement('span');
   container.style.textAlign = 'center';
   info.className = 'info';

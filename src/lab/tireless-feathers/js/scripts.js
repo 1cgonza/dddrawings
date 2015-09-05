@@ -3,7 +3,7 @@
   var options   = {};
   var loaded    = false;
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementsByClassName('loading')[0];
+  var loading   = document.getElementById('ddd-loading');
 
   var birdOptions = {
     img: '../../img/sprites/curiousBird_fh7-fv5_w944-h1111.jpg',
@@ -44,7 +44,7 @@
   function init () {
     loaded = true;
     container.appendChild(canvas);
-    container.removeChild(loading);
+    loading.style.opacity = 0;
 
     sprite.cellW   = sprite.width / sprite.cols | 0;
     sprite.cellH   = sprite.height / sprite.rows | 0;

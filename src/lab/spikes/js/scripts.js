@@ -89,7 +89,7 @@
       }
     }
 
-    d3.select('.loading').transition().style('opacity', '0');
+    d3.select('#ddd-loading').transition().style('opacity', '0');
   }
 
   /*-----  End of LOAD DATA  ------*/

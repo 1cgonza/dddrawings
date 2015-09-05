@@ -2,19 +2,20 @@
   'use strict';
   var loaded    = false;
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementsByClassName('loading')[0];
+  var loading   = document.getElementById('ddd-loading');
 
   /*----------  CREATE CANVAS  ----------*/
   var canvas = document.createElement('canvas');
   var ctx    = canvas.getContext('2d');
-  var centerX, centerY;
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+  var centerX = canvas.width / 2  | 0;
+  var centerY = canvas.height / 2 | 0;
+  container.appendChild(canvas);
 
-  function resize () {
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
-    centerX = canvas.width / 2 | 0;
-    centerY = canvas.height / 2 | 0;
+  function init () {
+    loading.style.opacity = 0;
   }
 
-  window.onresize = resize;
+  init();
 })();

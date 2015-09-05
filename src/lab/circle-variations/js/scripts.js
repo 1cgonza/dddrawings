@@ -1,13 +1,13 @@
 (function() {
   'use strict';
   var container      = document.getElementById('ddd-container');
+  var loading        = document.getElementById('ddd-loading');
   var canvas         = document.createElement('canvas');
   var ctx            = canvas.getContext('2d');
   var stageW         = window.innerWidth;
   var stageH         = window.innerHeight;
   var centerX        = stageW / 2;
   var centerY        = stageH / 2;
-  var loading        = document.getElementById('ddd-loading');
   var eqData         = [];
   var eqIndex        = 0;
   var animating      = false;

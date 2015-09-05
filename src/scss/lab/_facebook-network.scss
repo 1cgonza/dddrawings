@@ -1,0 +1,63 @@
+main.facebook-network {
+  font-family: $monospace;
+  background-color: #252624;
+  color: white;
+  height: 100%;
+
+  .network-options {
+    position: absolute;
+    top: 0;
+    left: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0.5em;
+
+    li {
+
+      &.current {
+        color: #A3A79F;
+
+        &::before {
+          content: 'x';
+          color: yellow;
+          font-size: 0.6em;
+          padding-right: 0.5em;
+        }
+      }
+
+      &:hover {
+        cursor: pointer;
+        color: yellow;
+      }
+
+      &.randomizer {
+        background-color: yellow;
+        color: black;
+        margin-top: 0.5em;
+
+        &:hover {
+          background-color: #FFD412;
+        }
+      }
+    }
+  }
+
+  svg {
+    display: block;
+  }
+
+  .name {
+    display: none;
+  }
+
+  /***** HOVER *****/
+  .circle:hover, .circle:active {
+    fill: #122f3f;
+    cursor: pointer;
+  }
+
+  .group-node:hover .name {
+    display: block;
+    z-index: 99999;
+  }
+}

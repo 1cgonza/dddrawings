@@ -186,7 +186,7 @@
   FN.prototype.polygon = function() {
     this.nodes.append('path')
         .attr('d', function(d) {
-          return 'M ' + 0 + ' ' + 100 + ' L ' + d.x / 4 + ' ' + d.y / 4 + ' L ' + d.x / 8 + ' ' + d.weight / 10 + ' Z';
+          return 'M ' + d.weight / 5 + ' ' + d.weight * 2 + ' L ' + d.x / 4 + ' ' + d.y / 4 + ' L ' + d.x / 8 + ' ' + d.weight / 10 + ' Z';
         })
         .attr('fill', 'rgba(255,205,85,0.7)')
         .attr('stroke', 'black')

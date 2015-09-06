@@ -40,7 +40,7 @@ function build (callback) {
       reverse: true
     },
     notations: {
-      pattern: 'notations/*.md'
+      pattern: 'notations/**/*.md'
     }
   }) );
 

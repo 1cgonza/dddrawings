@@ -8,6 +8,7 @@ var layouts      = require('metalsmith-layouts');
 var htmlMin      = require('metalsmith-html-minifier');
 var changed      = require('metalsmith-changed');
 var each         = require('metalsmith-each');
+var excerpts     = require('metalsmith-better-excerpts');
 var slug         = require('slug');
 var chalk        = require('chalk');
 var browserSync  = require('browser-sync');
@@ -54,8 +55,11 @@ function build (callback) {
     html: true
   }) );
 
+  metalsmith.use( excerpts({
+    pruneLength: 160
+  }) );
+
   metalsmith.use( each(function (file, filename) {
-    // var safeSlug = file.title ? file.title.replace(/\W+/g, '-').toLowerCase() : null;
     var safeSlug = file.title ? slug(file.title, {lower: true}) : null;
     if (safeSlug !== null) {
       file.slug = safeSlug;

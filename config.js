@@ -1,14 +1,17 @@
 var environments = {
   dev: {
     baseUrl: 'http://localhost:3000/',
+    videosPath: 'http://localhost:3000/videos/',
     env: 'dev'
   },
   prod: {
     baseUrl: 'http://www.dddrawings.com/',
+    videosPath: 'http://juancgonzalez.com/lab/videos/',
     env: 'prod'
   },
   deploy: {
     baseUrl: 'http://www.dddrawings.com/',
+    videosPath: 'http://juancgonzalez.com/lab/videos/',
     env: 'deploy'
   },
   clean: {

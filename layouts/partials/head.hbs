@@ -10,24 +10,24 @@
   <!-- Open Graph -->
   <meta property ="og:title" content="{{ pageTitle title }}">
   <meta property ="og:type" content="website">
-  <meta property ="og:url" content="{{ site.url }}{{ path }}">
+  <meta property ="og:url" content="{{ setURL collection slug }}/">
   <meta property ="og:image" content="{{ featuredImg image }}">
   <meta property ="og:description" content="{{ pageDescription description }}">
-  <meta property ="og:site_name" content="{{ site.title }}">
+  <meta property ="og:site_name" content="{{ siteTitle }}">
 
   <!-- Twitter Card data -->
   <meta name ="twitter:card" content="summary_large_image">
-  <meta name ="twitter:site" content="{{ site.twitter_username }}">
-  <meta name ="twitter:creator" content="{{ site.twitter_username }}">
+  <meta name ="twitter:site" content="{{ siteTitle }}">
+  <meta name ="twitter:creator" content="{{ twitter }}">
   <meta name ="twitter:title" content="{{ pageTitle title }}">
-  <meta name ="twitter:description" content="{{ pageDescription description }}">
+  <meta name ="twitter:description" content="{{ pageDescription description excerpt }}">
   <meta name ="twitter:image" content="{{ featuredImg image }}">
 
-  <link rel="author" href="{{ site.google_profile }}">
+  <link rel="author" href="{{ googlePlus }}">
   {{#if gFont }}
   <link href="http://fonts.googleapis.com/css?family={{ gFont }}" rel='stylesheet' type='text/css'>
   {{/if}}
 
-  <link rel="stylesheet" href={{ setURL 'css/style.css' }}>
+  <link rel="stylesheet" href={{ setURL 'css' 'style.css' }}>
 </head>
 <body>

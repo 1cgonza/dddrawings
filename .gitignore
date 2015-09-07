@@ -7,5 +7,6 @@ node_modules
 # Deploy temp folder
 .publish
 
-# Videos
-videos
+# Assets
+assets
+build/videos

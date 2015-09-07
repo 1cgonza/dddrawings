@@ -1,10 +1,28 @@
 {{> head }}
-{{{ contents }}}
+<main class="archive notations-archive">
+  <header class="page-header">
+    <h1 class="page-title">{{ title }}</h1>
+    <div class="page-description">{{{ contents }}}</div>
+  </header>
+  <section class="archive-items">
+    {{#each collections.notations}}{{#unless archive}}
+    <div class="item {{ slug }}">
+      <div class="info">
+        <h3 class="item-title"><a href="{{ setURL 'notations/' slug }}">{{ title }}</a></h3>
+        <div class="item-description">{{#if description }}{{ description }}{{else}}{{{ contents }}}{{/if}}</div>
+      </div>
+      <div class="item-img">
+        <a href="{{ setURL 'notations/' slug }}">
+          {{#if thumb }}
+          <img src="{{ thumb }}" alt="{{ title }}">
+          {{else}}
+          <div class="no-image"></div>
+          {{/if}}
+        </a>
+      </div>
 
-{{#if scripts}}
-{{#each scripts}}
-{{debug this}}
-<script src="../data/{{ this }}"></script>
-{{/each}}
-{{/if}}
+    </div>
+    {{/unless}}{{/each}}
+  </section>
+</main>
 {{> footer }}

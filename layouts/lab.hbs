@@ -8,11 +8,11 @@
     {{#each collections.lab}}{{#unless archive}}
     <div class="item {{ slug }}">
       <div class="info">
-        <h3 class="item-title"><a href="{{ setURL 'lab' slug }}">{{ title }}</a></h3>
+        <h3 class="item-title"><a href="{{ setURL 'lab' slug true }}">{{ title }}</a></h3>
         <div class="item-description">{{#if description }}{{ description }}{{else}}{{{ contents }}}{{/if}}</div>
       </div>
       <div class="item-img">
-        <a href="{{ setURL 'lab' slug }}">
+        <a href="{{ setURL 'lab' slug true }}">
           <img src="{{ getThumb thumb }}" alt="{{ title }}">
         </a>
       </div>

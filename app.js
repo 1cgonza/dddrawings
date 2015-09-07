@@ -85,7 +85,7 @@ Handlebars.registerHelper({
     return new Handlebars.SafeString(ret);
   },
   setScripts: function (scripts) {
-    var url = setURL('js/');
+    var url = setURL('js', false, true);
     var tags = setScriptTags(scripts, url);
 
     return new Handlebars.SafeString(tags);
@@ -110,12 +110,12 @@ function setScriptTags (scripts, url) {
   return ret;
 }
 
-function setURL (pre, path) {
-  if (Array.isArray(pre) ) {
-    pre = pre[0];
-  }
-  pre  = typeof pre === 'string' ? pre : '';
-  path = typeof path === 'string' ? path : '';
-  var url = pre === path ? pre : pre + '/' + path;
+function setURL (pre, path, withTail, meta) {
+  var url, end;
+  pre  = Array.isArray(pre) ? pre[0] : pre;
+  url  = typeof pre === 'string' ? pre : '';
+  url += typeof path === 'string' && path.length > 0 && pre !== path ? '/' + path : '';
+  url += withTail === true ? '/' : '';
+
   return metadata.baseUrl + url;
 }

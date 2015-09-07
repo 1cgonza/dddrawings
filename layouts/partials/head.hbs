@@ -10,7 +10,7 @@
   <!-- Open Graph -->
   <meta property ="og:title" content="{{ pageTitle title }}">
   <meta property ="og:type" content="website">
-  <meta property ="og:url" content="{{ setURL collection slug }}/">
+  <meta property ="og:url" content="{{ setURL collection slug true }}">
   <meta property ="og:image" content="{{ featuredImg image }}">
   <meta property ="og:description" content="{{ pageDescription description }}">
   <meta property ="og:site_name" content="{{ siteTitle }}">
@@ -28,6 +28,6 @@
   <link href="http://fonts.googleapis.com/css?family={{ gFont }}" rel='stylesheet' type='text/css'>
   {{/if}}
 
-  <link rel="stylesheet" href={{ setURL 'css' 'style.css' }}>
+  <link rel="stylesheet" href={{ setURL 'css' 'style.css' false }}>
 </head>
 <body>

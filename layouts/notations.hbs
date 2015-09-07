@@ -8,11 +8,11 @@
     {{#each collections.notations}}{{#unless archive}}
     <div class="item {{ slug }}">
       <div class="info">
-        <h3 class="item-title"><a href="{{ setURL 'notations' slug }}">{{ title }}</a></h3>
+        <h3 class="item-title"><a href="{{ setURL 'notations' slug true }}">{{ title }}</a></h3>
         <div class="item-description">{{#if description }}{{ description }}{{else}}{{{ contents }}}{{/if}}</div>
       </div>
       <div class="item-img">
-        <a href="{{ setURL 'notations' slug }}">
+        <a href="{{ setURL 'notations' slug true }}">
           {{#if thumb }}
           <img src="{{ thumb }}" alt="{{ title }}">
           {{else}}

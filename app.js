@@ -71,6 +71,16 @@ Handlebars.registerHelper({
 
     return new Handlebars.SafeString(tags);
   },
+  setVideos: function (videos) {
+    var ret = '';
+    var path = setURL('/videos/');
+    videos.forEach(function (video, i) {
+      for (var type in video) {
+        ret += '<source src="' + path + video[type] + '" type="video/' + type + '">';
+      }
+    });
+    return new Handlebars.SafeString(ret);
+  },
   setScripts: function (scripts) {
     var url = setURL('js/');
     var tags = setScriptTags(scripts, url);

@@ -1,0 +1,36 @@
+{{> head }}
+<main class="single-notations {{ slug }}">
+  <section id="ddd-container">
+    <span id="ddd-loading" class="loading">...</span>
+    <div id="left-col">
+      {{#if videos}}
+      <video id="video" width="640" height="404" preload {{#if poster}}poster="../../img/posters/{{ poster }}{{/if}}">
+      {{setVideos videos}}
+      You need to update your browser to play this video.
+      </video>
+      {{/if}}
+    </div>
+
+    <div id="middle-col">
+      <p class="loading">Loading Timeline...</p>
+      <canvas id="timeline" width="100" height="100"></canvas>
+    </div>
+
+    <div id="right-col">
+      <p class="loading">Loading Notations...</p>
+      <canvas id="notations" width="100" height="100"></canvas>
+    </div>
+
+  </section>
+</main>
+
+{{#if libraries}}
+  {{setLibraries libraries}}
+{{/if}}
+
+{{#if scripts}}
+  {{setScripts scripts}}
+{{/if}}
+
+<script src ="./js/scripts.js"></script>
+{{> footer }}

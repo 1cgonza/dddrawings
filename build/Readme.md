@@ -1,1 +1,0 @@
-# [Data Driven Drawings site](http://www.dddrawings.com)

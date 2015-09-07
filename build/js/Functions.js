@@ -64,3 +64,24 @@ function getRandom (min, max, isFloat) {
   }
   return random;
 }
+
+function createCanvas (container, data) {
+  var canvas = document.createElement('canvas');
+  var ctx = canvas.getContext('2d');
+
+  if (data) {
+    canvas.width = data.w;
+    canvas.height = data.h;
+    canvas.style.position = 'absolute';
+    canvas.style.top = 0;
+    canvas.style.left = 0;
+    canvas.style.zIndex = data.zi;
+  }
+  container.appendChild(canvas);
+  return {canvas: canvas, ctx: ctx};
+}
+
+function newSizefromPercentage (percent, totalSize) {
+  var newSize = percent / 100 * totalSize;
+  return newSize;
+}

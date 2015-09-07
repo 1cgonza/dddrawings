@@ -6,3 +6,6 @@ node_modules
 
 # Deploy temp folder
 .publish
+
+# Videos
+videos

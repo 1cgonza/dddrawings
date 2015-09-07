@@ -36,16 +36,19 @@ Handlebars.registerHelper({
   pageTitle: function (title) {
     var pageTitle = metadata.siteTitle;
 
-    if (title) {
+    if (title && title.length > 0) {
       pageTitle = title + ' :: ' + metadata.siteTitle;
     }
 
     return new Handlebars.SafeString(pageTitle);
   },
-  pageDescription: function (description) {
+  pageDescription: function (description, excerpt) {
     var pageDescription = description ? description : metadata.siteDescription;
+    if (!description && excerpt.length > 0) {
+      pageDescription = excerpt;
+    }
 
-    return new Handlebars.SafeString(pageDescription);
+    return pageDescription;
   },
   featuredImg: function (image) {
     var featuredImg = image ? image : metadata.defaultImage;
@@ -73,7 +76,7 @@ Handlebars.registerHelper({
   },
   setVideos: function (videos) {
     var ret = '';
-    var path = setURL('/videos/');
+    var path = metadata.videosPath;
     videos.forEach(function (video, i) {
       for (var type in video) {
         ret += '<source src="' + path + video[type] + '" type="video/' + type + '">';
@@ -108,7 +111,11 @@ function setScriptTags (scripts, url) {
 }
 
 function setURL (pre, path) {
-  pre = pre ? pre : '';
+  if (Array.isArray(pre) ) {
+    pre = pre[0];
+  }
+  pre  = typeof pre === 'string' ? pre : '';
   path = typeof path === 'string' ? path : '';
-  return metadata.baseUrl + pre + path;
+  var url = pre === path ? pre : pre + '/' + path;
+  return metadata.baseUrl + url;
 }

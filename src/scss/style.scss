@@ -1,9 +1,9 @@
-/*==========  PARTIALS  ==========*/
+/*----------  PARTIALS  ----------*/
 @import 'partials/normalize';
 @import 'partials/mixins';
 @import 'partials/variables';
 
-/*==========  BREAKPOINTS  ==========*/
+/*----------  BREAKPOINTS  ----------*/
 @import 'breakpoints/base';
 
 @media only screen and (min-width: 768px) {
@@ -16,13 +16,16 @@
   @import 'breakpoints/1240up';
 }
 
-/*==========  PRINT  ==========*/
+/*----------  PRINT  ----------*/
 // @media print {
 //   @import 'partials/print';
 // }
 
-/*==========  LAB  ==========*/
+/*----------  LAB  ----------*/
 @import 'lab/spikes';
 @import 'lab/circle_variations';
 @import 'lab/pulse_analysis';
-@import 'lab/facebook-network'
+@import 'lab/facebook-network';
+
+/*----------  NOTATIONS  ----------*/
+@import 'notations/chairy-tale';

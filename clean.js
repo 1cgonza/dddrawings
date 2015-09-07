@@ -10,8 +10,7 @@ function safelyClean (cb) {
     '!build/CNAME',
     '!build/data/**',
     '!build/videos/**',
-    '!build/.gitignore',
-    '!build/readme.md'
+    '!build/Readme.md'
   ]).then(function (paths) {
     console.log( chalk.gray( 'Deleted files/folders:\n', paths.join('\n') ) );
     console.log( chalk.cyan('......................| FINISHED cleaning |......................') );

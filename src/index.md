@@ -1,5 +1,6 @@
 ---
+title:
 layout: home.hbs
-description: ...
+description:
 gFont: "Inconsolata:400,700"
 ---

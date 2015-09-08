@@ -110,7 +110,7 @@ function setScriptTags (scripts, url) {
   return ret;
 }
 
-function setURL (pre, path, withTail, meta) {
+function setURL (pre, path, withTail) {
   var url, end;
   pre  = Array.isArray(pre) ? pre[0] : pre;
   url  = typeof pre === 'string' ? pre : '';

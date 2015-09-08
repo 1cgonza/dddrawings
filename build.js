@@ -9,6 +9,7 @@ var htmlMin      = require('metalsmith-html-minifier');
 var changed      = require('metalsmith-changed');
 var each         = require('metalsmith-each');
 var excerpts     = require('metalsmith-better-excerpts');
+var autoprefixer = require('metalsmith-autoprefixer');
 var slug         = require('slug');
 var chalk        = require('chalk');
 var browserSync  = require('browser-sync');
@@ -52,6 +53,8 @@ function build (callback) {
     outputStyle: 'compressed',
     outputDir: 'css/'
   }) );
+
+  metalsmith.use( autoprefixer() );
 
   metalsmith.use( markdown({
     typographer: true,

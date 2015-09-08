@@ -11,6 +11,10 @@ html, body {
   height: 100%;
 }
 
+main {
+  word-break: break-word;
+}
+
 a {
   color: #CA0000;
   background-color: transparent;
@@ -191,3 +195,27 @@ a {
     background-color: rgba(255, 255, 86, 0.5);
   }
 }
+
+/*================================
+=            DATASETS            =
+================================*/
+.datasets-archive {
+  .item {
+    display: block;
+
+    .info {
+      text-align: left;
+      display: block;
+      width: 100%;
+
+      .item-title {
+        margin: 0.5em 0;
+        padding: 0;
+      }
+    }
+  }
+}
+
+
+/*=====  End of DATASETS  ======*/
+

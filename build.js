@@ -42,6 +42,9 @@ function build (callback) {
     },
     notations: {
       pattern: 'notations/**/*.md'
+    },
+    datasets: {
+      pattern: 'datasets/**/*.md'
     }
   }) );
 

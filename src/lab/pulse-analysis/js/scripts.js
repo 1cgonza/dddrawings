@@ -87,10 +87,8 @@
   * With a loop, the page only renders when the loop is done, leaving the page blank for a long time.
   **/
   function arrayChunks () {
-    var chunk = chunkW;
-
     if (chunkIndex < rawData.length) {
-      var data = rawData.slice(chunkIndex, chunkIndex + chunk);
+      var data = rawData.slice(chunkIndex, chunkIndex + chunkW);
       var canvas = document.createElement('canvas');
       container.appendChild(canvas);
       new Drawing(canvas, data);
@@ -98,7 +96,7 @@
     } else {
       loading.style.opacity = 0;
     }
-    chunkIndex += chunk;
+    chunkIndex += chunkW;
     printInfo();
   }
 

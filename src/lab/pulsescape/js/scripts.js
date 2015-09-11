@@ -78,7 +78,7 @@
     bgC.drawImage(
       bgImg,
       0, 0,
-      bg.width, bg.height,
+      1764, 1250,
       0, 0,
       bg.width, bg.height
     );

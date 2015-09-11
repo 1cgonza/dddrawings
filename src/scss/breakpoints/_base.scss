@@ -92,23 +92,22 @@ a {
   .page-title {
     margin: 0;
   }
+
   .archive-items {
     text-align: center;
   }
 
   .item {
-    display: inline-block;
-    vertical-align: top;
+    display: block;
     width: 100%;
     padding: 1em;
 
     .info, .item-img {
-      display: inline-block;
-      vertical-align: top;
+      display: block;
     }
 
     .info {
-      width: 40%;
+      width: 100%;
       text-align: right;
 
       .item-title {
@@ -127,10 +126,10 @@ a {
     }
 
     .item-img {
-      width: 60%;
+      width: 100%;
       line-height: 0;
       position: relative;
-      padding-bottom: 36%;
+      padding-bottom: 55%;
       height: 0;
       overflow: hidden;
       border: 1px dotted;

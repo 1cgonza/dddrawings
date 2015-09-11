@@ -1,0 +1,18 @@
+.archive {
+  .item {
+    .info, .item-img {
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    .info {
+      width: 40%;
+    }
+
+    .item-img {
+      width: 60%;
+      padding-bottom: 36%;
+    }
+
+  }
+}

@@ -1,7 +1,7 @@
 .archive {
   .page-header {
-    width: 50%;
-    float: right;
+    width: 70%;
+    margin: 0 auto;
   }
 
   .archive-items {
@@ -9,6 +9,7 @@
   }
 
   .item {
-    width: 50%;
+    display: inline-block;
+    width: 70%;
   }
 }

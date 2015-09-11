@@ -6,6 +6,9 @@
 /*----------  BREAKPOINTS  ----------*/
 @import 'breakpoints/base';
 
+@media only screen and (min-width: 486px) {
+  @import 'breakpoints/486up';
+}
 @media only screen and (min-width: 768px) {
   @import 'breakpoints/768up';
 }

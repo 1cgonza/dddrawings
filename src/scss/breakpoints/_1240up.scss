@@ -1,13 +1,10 @@
-// .archive {
-//   .page-header {
-//     width: 50%;
-//   }
+.archive {
+  .page-header {
+    width: 50%;
+    float: right;
+  }
 
-//   .archive-items {
-//     text-align: center;
-//   }
-
-//   .item {
-//     width: 33%;
-//   }
-// }
+  .item {
+    width: 50%;
+  }
+}

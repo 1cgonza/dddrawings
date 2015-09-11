@@ -30,13 +30,13 @@
     },
     ink: {
       title: 'Ink',
-      sprite: '../../img/sprites/ink_f14_w588-h142_offx18-offy138.jpg',
+      sprite: '../../img/sprites/ink_f14_w840_h200_offx26_offy197.png',
       cols: 14,
       rows: 1,
-      width: 588,
-      height: 142,
-      offX: 18,
-      offY: 138,
+      width: 840,
+      height: 200,
+      offX: 26,
+      offY: 197,
       opacity: 0.9
     },
     birds: {

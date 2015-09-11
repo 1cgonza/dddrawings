@@ -28,9 +28,8 @@ var defaults = {
   twitter: '@1cgonza',
   github: '1cgonza',
   googlePlus: 'https://plus.google.com/+JuanCamiloGonz%C3%A1lezJ/posts',
-  defaultImage: 'https://farm9.staticflickr.com/8592/16218761572_6100bf03d9_o.jpg',
-  defaultThumb: 'https://farm9.staticflickr.com/8592/16218761572_016c2e0f3c.jpg',
-  defaultNoImg: 'https://farm3.staticflickr.com/2950/15297536047_e9da6fd148.jpg',
+  defaultImage: 'https://farm9.staticflickr.com/8592/16218761572_2f7b03d274_b.jpg',
+  defaultThumb: 'https://farm9.staticflickr.com/8592/16218761572_2f7b03d274.jpg',
   extLibraries: {
     jquery: '//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min',
     jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min',

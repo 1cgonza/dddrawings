@@ -34,6 +34,7 @@ function yearsListMenu (yearStart, yearEnd, current, clickEvent, callback) {
   var yearsContainer = document.createElement('ul');
   var currentYearBtn = '';
   yearsContainer.id  = 'years';
+  yearsContainer.style.zIndex = 99999;
 
   for (var year = yearStart; year <= yearEnd; year++) {
     var btn   = document.createElement('li');
@@ -65,6 +66,16 @@ function getRandom (min, max, isFloat) {
   return random;
 }
 
+/**
+ * @param {DOM Ele}           container       Element where canvas should be appended.
+ * @param {Object}            data            (Optional) Styling data:
+ * @param {number}            data.w          (Optional) Width of canvas.
+ * @param {number}            data.h          (Optional) Height of Canvas.
+ * @param {string}            data.position   (Optional) CSS position.
+ * @param {string || number}  data.top        (Optional) CSS top.
+ * @param {string || number}  data.left       (Optional) CSS left.
+ * @param {number}            data.zi         (Optional) CSS z-index
+ */
 function createCanvas (container, data) {
   var canvas = document.createElement('canvas');
   var ctx = canvas.getContext('2d');

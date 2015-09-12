@@ -54,9 +54,13 @@ a {
     color: #9c9c9c;
   }
 
-  #years li.current, #sprites span.current {
-    color: #9c9c9c;
-    border-bottom: 1px dotted;
+  li, span {
+    border-bottom: 1px solid transparent;
+
+    &.current {
+      color: #9c9c9c;
+      border-bottom: 1px dotted;
+    }
   }
 
   ul#years li.current:hover,

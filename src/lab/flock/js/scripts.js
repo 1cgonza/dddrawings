@@ -2,6 +2,8 @@
   'use strict';
   var container = document.getElementById('ddd-container');
   var loading   = document.getElementById('ddd-loading');
+  var stageW = window.innerWidth;
+  var stageH = window.innerHeight;
   var flockSize = 50;
   var flock     = [];
 
@@ -18,15 +20,13 @@
   /*==========  CREATE CANVAS  ==========*/
   var canvas    = document.createElement('canvas');
   var ctx       = canvas.getContext('2d');
-  canvas.width  = window.innerWidth;
-  canvas.height = window.innerHeight;
+  canvas.width  = stageW;
+  canvas.height = stageH;
   container.appendChild(canvas);
 
   /*==========  LOAD SPRITE  ==========*/
   var img = new Image();
-  img.onload = function() {
-    initFlock();
-  };
+  img.onload = initFlock;
   img.src = '../../img/sprites/birdFly_f5_w226_h50.png';
 
   function initFlock () {
@@ -36,16 +36,12 @@
 
     ctx.globalAlpha = 1;
 
-    createBirds();
+    for (var i = 0; i < flockSize; i++){
+      flock[i] = new Bird();
+    }
+
     animate();
     loading.style.opacity = 0;
-  }
-
-  function createBirds () {
-    for (var i = 0; i < flockSize; i++){
-      var bird = new Bird();
-      flock.push(bird);
-    }
   }
 
   function animate () {
@@ -60,19 +56,13 @@
   =            BIRD            =
   ============================*/
   function Bird() {
-    this.canvasW        = canvas.width;
-    this.canvasH        = canvas.height;
-    this.frameW         = options.frameW;
-    this.frameH         = options.frameH;
-    this.framesPerImage = options.framesPerImage;
-
     // start the loop of each bird in a random frame so they look different
     this.firstFrameX   = Math.random() * options.cols | 0;
     this.currentFrameX = this.firstFrameX * options.frameW;
 
-    this.cycleCounter   = this.firstFrameX * this.framesPerImage;
-    this.cycleNextFrame = this.cycleCounter + this.framesPerImage;
-    this.cycleEnd       = this.framesPerImage * options.cols;
+    this.cycleCounter   = this.firstFrameX * options.framesPerImage;
+    this.cycleNextFrame = this.cycleCounter + options.framesPerImage;
+    this.cycleEnd       = options.framesPerImage * options.cols;
 
     // Set initial location and speed to 0
     this.x  = 0;
@@ -92,9 +82,9 @@
 
   Bird.prototype.shuffle = function() {
     // Start again in a new random x position outside the screen (left).
-    this.x = -( Math.random() * this.canvasW  ) | 0;
+    this.x = -( Math.random() * stageW  ) | 0;
     // Start again in a new random y position.
-    this.y = ( Math.random() * this.canvasH ) | 0;
+    this.y = ( Math.random() * stageH ) | 0;
 
     // Set a new speed.
     this.vx = 15 + (Math.random() * 11) | 0;
@@ -109,7 +99,7 @@
 
   Bird.prototype.update = function() {
     // Once the bird is out of screen, recycle it by runnning the shuffle function to get new parameters.
-    if (this.x > this.canvasW) {
+    if (this.x > stageW) {
       this.shuffle();
     }
 
@@ -121,17 +111,13 @@
     this.x += this.vx;
     this.y += this.vy;
 
-    this.updateCycle();
-  };
-
-  Bird.prototype.updateCycle = function() {
     if (this.cycleCounter === this.cycleEnd) {
       this.cycleCounter   = 0;
       this.currentFrameX  = 0;
-      this.cycleNextFrame = this.framesPerImage;
+      this.cycleNextFrame = options.framesPerImage;
     } else if (this.cycleCounter === this.cycleNextFrame) {
-      this.currentFrameX += this.frameW;
-      this.cycleNextFrame += this.framesPerImage;
+      this.currentFrameX  += options.frameW;
+      this.cycleNextFrame += options.framesPerImage;
     }
     this.cycleCounter++;
   };
@@ -141,7 +127,7 @@
     // FOG
     ctx.globalAlpha = 0.05;
     ctx.globalCompositeOperation = 'destination-out';
-    ctx.fillRect(0, 0, this.canvasW, this.canvasH);
+    ctx.fillRect(0, 0, stageW, stageH);
 
     // back to normal painting before rendering the bird
     ctx.globalAlpha = 1;
@@ -149,14 +135,10 @@
     ctx.rotate(this.rotation);
     ctx.drawImage(
       img,
-      this.currentFrameX,
-      0,
-      this.frameW,
-      this.frameH,
-      this.x,
-      this.y,
-      this.frameW,
-      this.frameH
+      this.currentFrameX, 0,
+      options.frameW, options.frameH,
+      this.x, this.y,
+      options.frameW, options.frameH
     );
     ctx.restore();
   };

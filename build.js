@@ -10,6 +10,7 @@ var changed      = require('metalsmith-changed');
 var each         = require('metalsmith-each');
 var excerpts     = require('metalsmith-better-excerpts');
 var autoprefixer = require('metalsmith-autoprefixer');
+var drafts       = require('metalsmith-drafts');
 var slug         = require('slug');
 var chalk        = require('chalk');
 var browserSync  = require('browser-sync');
@@ -30,6 +31,8 @@ function serve () {
 function build (callback) {
   var metalsmith = new Metalsmith(__dirname);
   metalsmith.clean(false);
+
+  metalsmith.use( drafts() );
   metalsmith.use( changed() );
   metalsmith.metadata(metadata);
 

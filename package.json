@@ -35,6 +35,7 @@
     "metalsmith-better-excerpts": "^0.1.7",
     "metalsmith-changed": "^0.2.0",
     "metalsmith-collections": "^0.7.0",
+    "metalsmith-drafts": "0.0.1",
     "metalsmith-each": "^0.1.1",
     "metalsmith-html-minifier": "^1.1.0",
     "metalsmith-ignore": "^0.1.2",

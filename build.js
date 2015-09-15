@@ -49,6 +49,9 @@ function build (callback) {
     },
     datasets: {
       pattern: 'datasets/**/*.md'
+    },
+    dissertation: {
+      pattern: 'dissertation/**/*.md'
     }
   }) );
 

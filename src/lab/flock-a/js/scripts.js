@@ -58,6 +58,7 @@ flag = 0;
   }
 
   function yearClickEvent (event) {
+    loading.style.opacity = 1;
     window.cancelAnimationFrame(animReq);
     ctx.clearRect(0, 0, stageW, stageH);
     currentYear = event.target.textContent;
@@ -100,10 +101,13 @@ flag = 0;
     if (!imgLoaded) {
       img.onload = imageReady;
       img.src = '../../img/sprites/bird2.png';
+    } else {
+      imageReady();
     }
   }
 
   function imageReady () {
+    imgLoaded = true;
     animReq = requestAnimationFrame(animate);
     loading.style.opacity = 0;
   }

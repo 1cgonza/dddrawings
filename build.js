@@ -1,4 +1,3 @@
-require('harmonize')();
 var Metalsmith   = require('metalsmith');
 var ignore       = require('metalsmith-ignore');
 var collections  = require('metalsmith-collections');

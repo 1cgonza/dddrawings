@@ -116,7 +116,7 @@ flag = 0;
     if (dataI < eqData.length) {
       var d = eqData[dataI];
 
-      if (d.ml > 4) {
+      if (d.ml > 4 || dataI === 0) {
         var coords = convertCoordinates(d.lon, d.lat);
         currentX = coords.x + centerX;
         currentY = coords.y + centerY;

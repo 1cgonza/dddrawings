@@ -62,9 +62,9 @@ flag = 0;
     window.cancelAnimationFrame(animReq);
     ctx.clearRect(0, 0, stageW, stageH);
     currentYear = event.target.textContent;
-
     resetCurrentClass(current, event.target);
     current = event.target;
+    dataI = 0;
 
     init();
   }

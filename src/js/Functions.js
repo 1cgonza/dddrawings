@@ -80,15 +80,14 @@ function createCanvas (container, data) {
   var canvas = document.createElement('canvas');
   var ctx = canvas.getContext('2d');
 
-  if (data) {
-    canvas.width = data.w;
-    canvas.height = data.h;
-    canvas.style.position = 'absolute';
-    canvas.style.top = 0;
-    canvas.style.left = 0;
-    canvas.style.zIndex = data.zi;
-  }
-  container.appendChild(canvas);
+  canvas.width          = data.w || window.innerWidth;
+  canvas.height         = data.h || window.innerHeight;
+  canvas.style.position = data.position || 'absolute';
+  canvas.style.top      = data.top || 0;
+  canvas.style.left     = data.left || 0;
+  canvas.style.zIndex   = data.zi || 9;
+
+  if (container) container.appendChild(canvas);
   return {canvas: canvas, ctx: ctx};
 }
 

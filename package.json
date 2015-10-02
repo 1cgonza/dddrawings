@@ -14,21 +14,21 @@
     "Drawings"
   ],
   "author": "Juan Camilo Gonzalez <info@juancgonzalez.com> (http://juancgonzalez.com)",
-  "license": "Creative Commons Attribution 4.0 International License",
+  "license": "CC-BY-NC-SA-4.0",
   "bugs": {
     "url": "https://github.com/1cgonza/ddd/issues"
   },
   "homepage": "https://github.com/1cgonza/ddd",
   "dependencies": {
-    "browser-sync": "^2.9.3",
+    "browser-sync": "^2.9.6",
     "chalk": "^1.1.1",
-    "circular-json": "^0.1.6",
+    "circular-json": "^0.2.0",
     "del": "^2.0.2",
     "gulp": "^3.9.0",
     "gulp-gh-pages": "^0.5.2",
     "gulpsmith": "^0.5.5",
     "handlebars": "^4.0.2",
-    "metalsmith": "^2.0.1",
+    "metalsmith": "^2.1.0",
     "metalsmith-assets": "^0.1.0",
     "metalsmith-autoprefixer": "^1.1.0",
     "metalsmith-better-excerpts": "^0.1.7",

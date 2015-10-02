@@ -1,5 +1,4 @@
 var hbs          = require('handlebars');
-var circularJSON = require('circular-json');
 var deploy       = require('./deploy');
 var clean        = require('./clean');
 var build        = require('./build');

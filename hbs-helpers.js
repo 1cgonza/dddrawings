@@ -1,4 +1,5 @@
 var fs           = require('fs');
+var circularJSON = require('circular-json');
 var metadata     = require('./config')(process.argv);
 
 function helpers (Handlebars) {
@@ -9,8 +10,9 @@ function helpers (Handlebars) {
 
   Handlebars.registerHelper({
     debug: function (context) {
+      var code = circularJSON.stringify(context, null, 2);
       return new Handlebars.SafeString(
-        '<div class="debug">' + circularJSON.stringify(context) + '</div>'
+        '<pre class="debug"><code class="json">' + code  + '</code></pre>'
       );
     },
     pageTitle: function (title) {

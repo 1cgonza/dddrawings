@@ -91,11 +91,6 @@ function createCanvas (container, data) {
   return {canvas: canvas, ctx: ctx};
 }
 
-function newSizefromPercentage (percent, totalSize) {
-  var newSize = percent / 100 * totalSize;
-  return newSize;
-}
-
 // http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
 function hexToRgb (hex) {
   // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
@@ -117,3 +112,82 @@ function convertAlpha (processingAlpha) {
   var cssA = 1 / avg;
   return cssA;
 }
+
+function newSizefromPercentage (percent, totalSize) {
+  return percent / 100 * totalSize;
+}
+
+function getPercent (section, total) {
+  return (section / total) * 100;
+}
+
+/*=================================
+=            NOTATIONS            =
+=================================*/
+var Notations = function (data) {
+  this.container = data.container;
+  this.loading   = data.loadingEle;
+
+  // Image Dimensions
+  this.imgW                   = data.img.width;
+  this.imgH                   = data.img.height;
+  this.fps                    = data.fps;
+
+  var innerPageWidth          = this.imgW - data.img.offLeft - data.img.offRight;
+  var innerPageHeight         = this.imgW - data.img.offTop - data.img.offBottom;
+
+  this.innerPageHeightPercent = getPercent(innerPageHeight, this.imgH);
+  this.innerPageWidthPercent  = getPercent(innerPageWidth, this.imgW);
+  this.oneSecondSize          = innerPageHeight / data.secPerPage;
+  this.oneSecondPercent       = getPercent(this.oneSecondSize, this.imgH);
+  this.offsetTopPercent       = getPercent(data.img.offTop, this.imgH);
+  this.offsetRightPercent     = getPercent(data.img.offRight, this.imgW);
+  this.offsetBottomPercent    = getPercent(data.img.offBottom, this.imgH);
+  this.offsetLeftPercent      = getPercent(data.img.offLeft, this.imgW);
+
+  this.update();
+
+  this.imgLoaded  = false;
+  this.img        = new Image();
+  this.img.onload = this.imageReady.bind(this);
+  this.img.src    = data.img.src;
+
+  var canvas = createCanvas(this.container, {
+    w: this.width,
+    h: window.innerHeight
+  });
+
+  this.canvas = canvas.canvas;
+  this.ctx = canvas.ctx;
+
+  requestData(data.url, data.cb);
+};
+
+Notations.prototype.imageReady = function (event) {
+  this.imageLoaded = true;
+};
+
+Notations.prototype.update = function() {
+  this.width    = this.container.offsetWidth;
+  var pageScale = getPercent(this.width, this.imgW);
+  this.height   = newSizefromPercentage(pageScale, this.imgH);
+};
+
+var NotationsVideo = function (video, cb) {
+  this.v          = video;
+  this.videoReady = cb;
+  this.checkVideoState();
+  return this.v;
+};
+
+NotationsVideo.prototype.checkVideoState = function () {
+  if (this.v.readyState < 4) {
+    console.log('Checking video state...');
+    requestAnimationFrame( this.checkVideoState.bind(this) );
+  } else {
+    console.log('The video is ready.');
+    this.videoReady();
+  }
+};
+/*=====  End of NOTATIONS  ======*/
+

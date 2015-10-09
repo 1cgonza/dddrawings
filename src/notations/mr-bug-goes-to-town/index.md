@@ -12,7 +12,7 @@ scripts:
 poster: bug-goes-to-town-poster.jpg
 videos:
   - mp4: bug-goes-to-town.mp4
-  - webm: a-chairy-tale.webm
+  - webm: bug-goes-to-town.webm
   - ogg: bug-goes-to-town.ogv
 gFont: "Geo|Warnes"
 ---

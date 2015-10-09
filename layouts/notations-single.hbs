@@ -1,5 +1,11 @@
 {{> head }}
 <main class="single-notations {{ slug }}">
+
+  <section id="box" class="content">
+    <a id="close-box" href="#" class="close">X</a>
+    {{{ contents }}}
+  </section>
+
   <section id="ddd-container">
     <div id="left-col">
       <header>
@@ -13,6 +19,11 @@
       You need to update your browser to play this video.
       </video>
       {{/if}}
+
+      <div id="description">
+        {{#if excerpt }} {{{ excerpt }}} {{/if}}
+        <a id="notes" href="#" title="About">Read more</a>
+      </div>
     </div>
 
     <div id="middle-col">

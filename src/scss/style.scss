@@ -1,5 +1,6 @@
 /*----------  PARTIALS  ----------*/
 @import 'partials/normalize';
+@import 'partials/typography';
 @import 'partials/mixins';
 @import 'partials/variables';
 
@@ -27,9 +28,7 @@
 /*----------  LAB  ----------*/
 @import 'lab/spikes';
 @import 'lab/circle_variations';
-@import 'lab/pulse_analysis';
 @import 'lab/facebook-network';
 
 /*----------  NOTATIONS  ----------*/
-@import 'notations/chairy-tale';
-@import 'notations/bug-goes-town';
+@import 'notations/main';

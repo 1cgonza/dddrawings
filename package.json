@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/1cgonza/ddd",
   "dependencies": {
-    "browser-sync": "^2.9.6",
+    "browser-sync": "^2.9.10",
     "chalk": "^1.1.1",
     "circular-json": "^0.2.0",
     "del": "^2.0.2",

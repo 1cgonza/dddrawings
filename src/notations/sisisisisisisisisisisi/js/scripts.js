@@ -1,4 +1,3 @@
-var v;
 (function () {
   'use strict';
 
@@ -7,8 +6,10 @@ var v;
   ===============================*/
   var notationsWrapper = document.getElementById('right-col');
   var loadingN         = document.querySelector('#right-col .loading');
-  var timelineImg, r, h, r2, h2;
-  var timelineH = window.innerHeight;
+  var notesBTN         = document.getElementById('notes');
+  var notes            = document.getElementById('box');
+  var close            = document.getElementById('close-box');
+  var v, r, h, r2, h2;
   /*=====  End of GLOBALS  ======*/
 
   var notationsData = {
@@ -162,5 +163,15 @@ var v;
   }
 
   window.onresize = resizeElements;
+
+  notesBTN.addEventListener('click', function (event) {
+    event.preventDefault();
+    notes.style.display = 'block';
+  });
+
+  close.addEventListener('click', function (event) {
+    event.preventDefault();
+    notes.style.display = 'none';
+  });
 
 })();

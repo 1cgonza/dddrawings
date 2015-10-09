@@ -1,8 +1,12 @@
 {{> head }}
 <main class="single-notations {{ slug }}">
   <section id="ddd-container">
-    <span id="ddd-loading" class="loading">...</span>
     <div id="left-col">
+      <header>
+        <h1 class="film-title">{{ title }} ({{ year }})</h1>
+        <h3 class="film-director">by {{ director }}</h3>
+      </header>
+
       {{#if videos}}
       <video id="video" width="640" height="404" preload {{#if poster}}poster="../../img/posters/{{ poster }}{{/if}}">
       {{setVideos videos}}
@@ -13,12 +17,10 @@
 
     <div id="middle-col">
       <p class="loading">Loading Timeline...</p>
-      <canvas id="timeline" width="100" height="100"></canvas>
     </div>
 
     <div id="right-col">
       <p class="loading">Loading Notations...</p>
-      <canvas id="notations" width="100" height="100"></canvas>
     </div>
 
   </section>

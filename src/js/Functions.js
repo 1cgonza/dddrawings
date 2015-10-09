@@ -168,7 +168,13 @@ Notations.prototype.imageReady = function (event) {
 };
 
 Notations.prototype.update = function() {
-  this.width    = this.container.offsetWidth;
+  this.width = this.container.offsetWidth;
+
+  if (typeof this.canvas !== 'undefined') {
+    this.canvas.width = this.width;
+    this.canvas.height = window.innerHeight;
+  }
+
   var pageScale = getPercent(this.width, this.imgW);
   this.height   = newSizefromPercentage(pageScale, this.imgH);
 };

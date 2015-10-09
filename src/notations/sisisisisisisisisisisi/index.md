@@ -20,22 +20,22 @@ For this film I used a circular structure that was mapped into an abstract notat
 
 During pre-production I made several versions of the map, my goal at that point was to visualize how the events in the film will develop over time. The first sketch that helped me break down the sections of the film was this small set of images:
 
-<img src="https://farm3.staticflickr.com/2945/15297532237_214c89224f_c.jpg">
+![Structure](https://farm3.staticflickr.com/2945/15297532237_214c89224f_c.jpg)
 
 In terms of classical narrative, I was thinking of three acts. "Formalismo 1" represented the establishing of the world, a world in order, symmetrical, rigid. Transitioning into "Ritmo", that world spirals out of it's rectangular symmetry, becomes a less rigid space but maintains order. Lastly, "Formalismo 2" stems from the structure in "Ritmo", but complicates the logic of it, a non symmetrical world but with hints to the established order in the previous acts.
 
 I then created this next map in which I try to represent these three acts as they would develop in time, how they connect with each other, possible hints of duration and rhythm.
 
-<img src="https://farm4.staticflickr.com/3934/15297534597_7ca977f1ab_b.jpg">
+![First Map](https://farm4.staticflickr.com/3934/15297534597_7ca977f1ab_b.jpg)
 
 The next is another iteration of the same idea. The goal was to map the 3 acts, but in a more linear representation. Knowing that I was making a film, I wanted to see the 3 acts as a timeline. Something that resembles closer the structure of time in a film.
 
-<img src="https://farm4.staticflickr.com/3944/15480961071_62b27a317f_b.jpg">
+![Second Map](https://farm4.staticflickr.com/3944/15480961071_62b27a317f_b.jpg)
 
 At this point I started making animation tests and other experiments which made me realize that the film I was planning on these maps was too big, perhaps too long. I decided to focus on the first act and do the film just that first section.
 
-<img src="https://farm4.staticflickr.com/3929/15297200369_8f9249d009_b.jpg">
+![Zoom in to first section](https://farm4.staticflickr.com/3929/15297200369_8f9249d009_b.jpg)
 
 I made another map which then became the final one I used for the film.
 
-<img src="https://farm4.staticflickr.com/3930/15483751582_daccaa5ff9_b.jpg">
+![Final Map](https://farm4.staticflickr.com/3930/15483751582_daccaa5ff9_b.jpg)

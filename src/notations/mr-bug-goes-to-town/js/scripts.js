@@ -8,7 +8,8 @@
   var notationsWrapper = document.getElementById('right-col');
   var loadingTL        = document.querySelector('#middle-col .loading');
   var loadingN         = document.querySelector('#right-col .loading');
-  var timelineImg, v;
+  var v                = document.getElementById('video');
+  var timelineImg;
   var timelineHeaderX;
   var timelineH = window.innerHeight;
   /*=====  End of GLOBALS  ======*/
@@ -34,7 +35,7 @@
   var timeline = new Notations(timelineData);
 
   function timelineReady () {
-    v = new NotationsVideo( document.getElementById('video'), videoReady );
+    new NotationsVideo( v, videoReady );
   }
 
   function videoReady () {

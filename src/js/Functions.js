@@ -180,10 +180,9 @@ Notations.prototype.update = function() {
 };
 
 var NotationsVideo = function (video, cb) {
-  this.v          = video;
+  this.v = video;
   this.videoReady = cb;
   this.checkVideoState();
-  return this.v;
 };
 
 NotationsVideo.prototype.checkVideoState = function () {

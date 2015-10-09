@@ -9,7 +9,8 @@
   var notesBTN         = document.getElementById('notes');
   var notes            = document.getElementById('box');
   var close            = document.getElementById('close-box');
-  var v, r, h, r2, h2;
+  var v = document.getElementById('video');
+  var r, h, r2, h2;
   /*=====  End of GLOBALS  ======*/
 
   var notationsData = {
@@ -39,7 +40,7 @@
 
   function notationsReady (d) {
     notations.d = d.sections;
-    v = new NotationsVideo( document.getElementById('video'), videoReady );
+    new NotationsVideo(v, videoReady);
     resetHeightInData();
 
     /*----------  DEBUG  ----------*/
@@ -75,10 +76,10 @@
   }
 
   function videoReady () {
-    notationsUpdate();
     v.controls = true;
     v.addEventListener('play', playerLoop, false);
     v.addEventListener('seeking', playerLoop, false);
+    notationsUpdate();
     notations.loading.style.opacity = 0;
   }
 

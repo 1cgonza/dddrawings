@@ -8,7 +8,7 @@ image: https://farm8.staticflickr.com/7496/16034760288_e78ef83d54_b.jpg
 thumb: https://farm8.staticflickr.com/7496/16034760288_e78ef83d54.jpg
 libraries:
   - jquery
-  - jqueryui
+  - jqueryUi
 gFont: "Inconsolata:400,700"
 scripts:
   - Functions

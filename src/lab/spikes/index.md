@@ -7,7 +7,7 @@ image: https://farm9.staticflickr.com/8642/16033905010_ae68ce5c0e_b.jpg
 thumb: https://farm9.staticflickr.com/8642/16033905010_ae68ce5c0e.jpg
 libraries:
   - jquery
-  - jqueryui
+  - jqueryUi
   - d3
 gFont: "Inconsolata:400,700"
 tags:

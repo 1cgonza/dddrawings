@@ -80,6 +80,8 @@ function createCanvas (container, data) {
   var canvas = document.createElement('canvas');
   var ctx = canvas.getContext('2d');
 
+  data = data || {};
+
   canvas.width          = data.w || window.innerWidth;
   canvas.height         = data.h || window.innerHeight;
   canvas.style.position = data.position || 'absolute';

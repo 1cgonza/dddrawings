@@ -31,9 +31,10 @@ var defaults = {
   defaultImage: 'https://farm9.staticflickr.com/8592/16218761572_2f7b03d274_b.jpg',
   defaultThumb: 'https://farm9.staticflickr.com/8592/16218761572_2f7b03d274.jpg',
   extLibraries: {
-    jquery: '//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min',
-    jqueryui: '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min',
-    d3: 'https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min'
+    jquery: 'jquery-2.1.4.min',
+    jqueryUi: 'jquery-ui-1.11.4.min',
+    d3: 'd3-3.5.6.min',
+    moment: 'moment.min',
   }
 };
 

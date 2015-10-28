@@ -16,14 +16,22 @@ var browserSync  = require('browser-sync');
 var metadata     = require('./config')(process.argv);
 
 function serve () {
+  build(watch);
+}
+
+function watch () {
   browserSync({
     server: 'build',
-    files: ['src/**/*.md', 'src/**/*.scss', 'src/**/*.js', 'layouts/**/*.hbs'],
+    files: [{
+      match: ['src/**/*.md', 'src/scss/**/*.scss', 'src/**/*.js', 'layouts/**/*.hbs'],
+      fn: function (event, file) {
+        if (event === 'change') {
+          build(this.reload);
+        }
+      }
+    }],
     // logLevel: 'debug',
-    notify: false,
-    middleware: function (req, res, next) {
-      build(next);
-    }
+    notify: false
   });
 }
 

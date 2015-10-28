@@ -27,6 +27,7 @@ function watch () {
       fn: function (event, file) {
         if (event === 'change') {
           build(this.reload);
+          console.log( chalk.cyan('Updated file: ') + chalk.yellow(file) );
         }
       }
     }],

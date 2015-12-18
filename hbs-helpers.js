@@ -72,7 +72,23 @@ function helpers (Handlebars) {
 
       return new Handlebars.SafeString(tags);
     },
-    setURL: setURL
+    setURL: setURL,
+    getRelatedLab: function (tag, metal) {
+      var labPosts = metal.data.root.lab;
+      var ret = '';
+      labPosts.forEach(function (post) {
+        if (post.tags && post.tags.indexOf(tag) > -1) {
+          var url = setURL('lab', post.slug, true);
+          ret += '<li><a href="' + url + '">' + post.title + '</a></li>';
+        }
+      });
+
+      if (ret.length > 0) {
+        ret = '<p>Related:</p><ul class="related related-to-' + tag + '">' + ret + '</ul>';
+      }
+
+      return new Handlebars.SafeString(ret);
+    }
   });
 
   function setScriptTags (scripts, url) {

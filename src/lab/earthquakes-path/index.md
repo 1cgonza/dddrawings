@@ -8,4 +8,6 @@ thumb: https://farm1.staticflickr.com/702/21347915255_c977a94407.jpg
 gFont: "Inconsolata:400,700"
 scripts:
   - Functions
+tags:
+  - dataset-ingeominas
 ---

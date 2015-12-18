@@ -17,4 +17,6 @@ tags:
   - terrorism
   - ingeominas
   - centro-de-memoria-historica
+  - dataset-ingeominas
+  - dataset-cmh
 ---

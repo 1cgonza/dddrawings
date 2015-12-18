@@ -7,7 +7,8 @@ image: https://farm6.staticflickr.com/5806/21471223771_f9d4ee3a45_b.jpg
 thumb: https://farm6.staticflickr.com/5806/21471223771_f9d4ee3a45.jpg
 gFont: "Inconsolata:400,700"
 tags:
-  -
+  - dataset-cmh
+  - dataset-ingeominas
 categories:
   -
 scripts:

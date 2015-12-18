@@ -207,6 +207,20 @@ ul {
       }
     }
   }
+  .related {
+    padding: 0;
+    li::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      margin-right: 0.3em;
+      border-radius: 50%;
+      border-style: solid;
+      display: inline-block;
+      border-width: 1px;
+      vertical-align: middle;
+    }
+  }
 }
 
 

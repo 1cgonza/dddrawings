@@ -314,7 +314,7 @@
   };
 
   Drawing.prototype.defineRenderMode = function (utc, ml) {
-    var eventDate  = utc * 0.001;
+    var eventDate  = utc;
     var dReset     = eventDate - (Date.parse(options.year) * 0.001);
     var rot        = dReset * this.secondsW;
     var magnitude  = ml;
@@ -346,6 +346,7 @@
         dataReady
       );
     } else {
+      loading.style.opacity = 0;
       this.draw();
     }
   };

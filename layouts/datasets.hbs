@@ -10,23 +10,10 @@
     <h3 class="item-title"><a href="{{ setURL 'datasets' slug true }}">{{ title }}</a></h3>
 
     <div class="item-description">
-      <div class="description-section">
-        <span class="description-title">Summary:</span>
-        {{#if description }} {{ description }} {{else}} {{#if excerpt }} {{{ excerpt }}} {{/if}} {{/if}}
-      </div>
-
-      <div class="description-section">
-        <span class="description-title">Source:</span><a href="{{ sourceURL }}" target="_blank">{{ sourceURL }}</a>
-      </div>
-
-      <div class="description-section">
-        {{#if linkTag}}
-          <span class="description-title">Related:</span>
-          <ul class="related related-to-{{ linkTag }}">
-          </ul>
-        {{/if}}
-      </div>
-
+      <p>Summary: {{#if description}} {{ description }} {{else}} {{#if excerpt}} {{{ excerpt }}} {{/if}} {{/if}}</p>
+      {{#if parsedURL}}<p>Parsed (JSON): <a href="{{ parsedURL }}" target="_blank">{{ parsedURL }}</a></p>{{/if}}
+      {{#if sourceURL}}<p>Source: <a href="{{ sourceURL }}" target="_blank">{{ sourceURL }}</a></p>{{/if}}
+      {{#if tagLink}}{{ getRelatedLab tagLink }}{{/if}}
     </div>
   </section>
   {{/unless}}{{/each}}

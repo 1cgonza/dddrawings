@@ -1,4 +1,3 @@
-flag = 0;
 (function () {
   'use strict';
 
@@ -10,8 +9,14 @@ flag = 0;
   var centerX = stageW / 2  | 0;
   var centerY = stageH / 2 | 0;
   var eqData = [];
+  var taData = {
+    raw: [],
+    current: []
+  };
   var flock = [];
-  var dataI = 0;
+  var eqDataI = 0;
+  var taDataI = 0;
+  var nextAttack;
   var num = 1555; // 1555 victims from 1988-2012
   var vLimit = 10;
   var animReq;
@@ -20,10 +25,11 @@ flag = 0;
   var currentY = 0;
   var TWO_PI = Math.PI * 2;
   var tick = 0;
+  var eqReq = new DREQ();
+  var taReq = new DREQ();
 
-  // Sprite
+  // SPRITE
   var img = new Image();
-  var imgLoaded = false;
   var cols = 14;
   var rows = 1;
   var imgW = 614;
@@ -39,7 +45,29 @@ flag = 0;
 
   // MENU
   var current;
-  var currentYear;
+  var currentYear = 2003;
+
+  // ASSETS
+  var assets = {
+    eqData: {
+      url: '../../data/ingeominas/eq' + currentYear + '.json',
+      update: function() {
+        this.url = '../../data/ingeominas/eq' + currentYear + '.json';
+      },
+      loaded: false
+    },
+    taData: {
+      url: '../../data/cmh/ta.json',
+      loaded: false
+    },
+    birdSprite: {
+      url: '../../img/sprites/bird2.png',
+      loaded: false
+    }
+  };
+  var assestsLoaded = 0;
+  var totalAssets = Object.keys(assets).length;
+
 
   /*----------  CREATE CANVAS  ----------*/
   var canvas = document.createElement('canvas');
@@ -48,7 +76,7 @@ flag = 0;
   canvas.height = stageH;
   container.appendChild(canvas);
 
-  yearsListMenu (1993, 2015, 2003, yearClickEvent, menuReady);
+  yearsListMenu (1993, 2015, currentYear, yearClickEvent, menuReady);
 
   function menuReady (menu, currentBtn) {
     container.appendChild(menu);
@@ -58,19 +86,65 @@ flag = 0;
   }
 
   function yearClickEvent (event) {
+    eqReq.abort(); // Stop any current download, if any.
     loading.style.opacity = 1;
     window.cancelAnimationFrame(animReq);
+
     ctx.clearRect(0, 0, stageW, stageH);
     currentYear = event.target.textContent;
     resetCurrentClass(current, event.target);
     current = event.target;
-    dataI = 0;
-
+    eqDataI = 0;
+    taDataI = 0;
+    if (assets.taData.loaded) {
+      taData.current = taData.raw.hasOwnProperty(currentYear) ? taData.raw[currentYear] : [];
+    }
+    assestsLoaded--;
+    assets.eqData.update();
     init();
+    console.log(taData.current);
   }
 
   function init() {
-    requestData('../../data/ingeominas/eq' + currentYear + '.json', processEQData);
+    eqReq.getD(assets.eqData.url, function (data) {
+      eqData = data;
+      assets.eqData.loaded = true;
+      assestsLoaded++;
+    });
+
+    if (!assets.taData.loaded) {
+      taReq.getD(assets.taData.url, function (data) {
+        taData.raw = data;
+        taData.current = data.hasOwnProperty(currentYear) ? data[currentYear] : null;
+        nextAttack = taData.current[0].date.unix;
+        assets.taData.loaded = true;
+        assestsLoaded++;
+      });
+    }
+
+    if (!assets.birdSprite.loaded) {
+      img.onload = function () {
+        assestsLoaded++;
+        assets.birdSprite.loaded = true;
+      };
+      img.src = assets.birdSprite.url;
+    }
+
+    checkAssetsLoaded();
+  }
+
+  function checkAssetsLoaded() {
+    if (assestsLoaded === totalAssets) {
+      for (var i = 0; i < num; i++) {
+        var x = getRandom(-stageH, 0);
+        var y = getRandom(0, stageH);
+        flock[i] = new Bird(x, y);
+      }
+      loading.style.opacity = 0;
+      animReq = requestAnimationFrame(animate);
+    } else {
+      animReq = requestAnimationFrame(checkAssetsLoaded);
+    }
   }
 
   function convertCoordinates (lon, lat) {
@@ -89,38 +163,14 @@ flag = 0;
     return {x: x | 0, y: y | 0};
   }
 
-  function processEQData (data) {
-    eqData = data;
-
-    for (var i = 0; i < num; i++) {
-      var x = getRandom(-stageH, 0);
-      var y = getRandom(0, stageH);
-      flock[i] = new Bird(x, y);
-    }
-
-    if (!imgLoaded) {
-      img.onload = imageReady;
-      img.src = '../../img/sprites/bird2.png';
-    } else {
-      imageReady();
-    }
-  }
-
-  function imageReady () {
-    imgLoaded = true;
-    animReq = requestAnimationFrame(animate);
-    loading.style.opacity = 0;
-  }
-
   function animate () {
-    if (dataI < eqData.length) {
-      var d = eqData[dataI];
+    if (eqDataI < eqData.length) {
+      var d = eqData[eqDataI];
 
-      if (d.ml > 4 || dataI === 0) {
+      if (d.ml > 4 || eqDataI === 0) {
         var coords = convertCoordinates(d.lon, d.lat);
         currentX = coords.x + centerX;
         currentY = coords.y + centerY;
-
       }
 
       if (tick > 3) {
@@ -133,9 +183,22 @@ flag = 0;
         tick = 0;
         ctx.fillRect(currentX, currentY, 5, 5);
       }
-      tick++;
 
-      dataI++;
+      if ( nextAttack < Number(d.utc) ) {
+        taDataI = (taDataI + 1) > taData.current.length ? taData.current.length : taDataI + 1;
+        console.log(taDataI)
+        nextAttack = taData.current[taDataI].date.unix;
+        mode = 3;
+      }
+
+      if (mode > -1) {
+        mode -= 0.04;
+      } else {
+        mode = -1;
+      }
+
+      tick++;
+      eqDataI++;
       animReq = requestAnimationFrame(animate);
     } else {
       window.cancelAnimationFrame(animReq);
@@ -154,6 +217,15 @@ flag = 0;
     this.turnSpeed = TWO_PI / 30;
     this.frameX = getRandom(0, 13);
   }
+
+/**
+
+  TODO:
+  - check distance for acceleration of birds if far from objective and slow for closer
+  - If mode is positive, make sure birds rotate away.
+
+ */
+
 
   Bird.prototype.update = function(tx, ty) {
     var dx = this.x - tx;

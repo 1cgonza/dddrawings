@@ -13,7 +13,6 @@
   var centerY   = stageH / 1.5 | 0;
 
   /*----------  DATA  ----------*/
-  var years  = [2008, 2009, 2010, 2012];
   var year   = 2009;
   var bodies = [];
   var d      = [];
@@ -34,8 +33,6 @@
 
   /*----------  TIME  ----------*/
   var prevTimePosition = 0;
-  // var today = Date.now();
-  // var colOffset = 60 * 5000;
 
   // Set dates range as ISO 8601 YYYY-MM-DDThh:mm:ss
   var dIni = moment.tz(year + '-01-01T00:00:00', 'America/Bogota');
@@ -47,20 +44,6 @@
     {
       key: 'lines',
       options: {
-        // src: '../../img/sprites/lines-01-large.png',
-        // w: 2877,
-        // h: 1461,
-        // cols: 21,
-        // rows: 1,
-        // offX: 43,
-        // offY: 15
-        // src: '../../img/sprites/lines-01-med.png',
-        // w: 985,
-        // h: 500,
-        // cols: 21,
-        // rows: 1,
-        // offX: 14,
-        // offY: 5
         src: '../../img/sprites/lines-01-small.png',
         w: 295,
         h: 150,
@@ -157,7 +140,6 @@
   }
 
   function init () {
-    // stage.ctx.globalCompositeOperation = 'darken';
     bg.ctx.globalCompositeOperation = 'darken';
     bg.ctx.fillStyle = 'white';
 
@@ -273,6 +255,9 @@
 
       if ('lon' in e && 'lat' in e) {
         var coords = convertCoordinates(e.lon, e.lat, mapZ);
+        var fx = getRandom(0, shadows.cols);
+        var fy;
+
         for (var t = 0; t < total; t++) {
           var seq = new Levit(coords, t);
           bodies.push(seq);
@@ -280,11 +265,7 @@
 
         bg.ctx.save();
           bg.ctx.translate(centerX, centerY);
-          // bg.ctx.beginPath();
-          // bg.ctx.arc(coords.x, coords.y, total, 0, 2 * Math.PI);
-          // bg.ctx.fill();
-          var fx = getRandom(0, shadows.cols);
-          var fy;
+
           if (total > 0 && total === 1) {
             fy = 0;
           } else if (total <= 8) {
@@ -306,11 +287,9 @@
     }
 
     if (bodies.length > 0) {
-      // stage.ctx.clearRect(0, 0, stageW, stageH);
       stage.ctx.save();
         stage.ctx.globalCompositeOperation = 'source-over';
         stage.ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-        // stage.ctx.fillStyle = 'rgba(255, 255, 140, 0.8)';
         stage.ctx.fillRect(0, 0, stageW, stageH);
       stage.ctx.restore();
       stage.ctx.drawImage(bg.canvas, 0, 0);
@@ -374,9 +353,6 @@
       stage.ctx.save();
         stage.ctx.translate(centerX, centerY);
         stage.ctx.rotate(this.r * Math.PI / 20);
-        // stage.ctx.beginPath();
-        // stage.ctx.arc(this.x, this.y - this.frameX * 3, this.frameX, 0, 2 * Math.PI);
-        // stage.ctx.stroke();
         stage.ctx.drawImage(
           levit.img,
           this.frameX * levit.fw, 0,

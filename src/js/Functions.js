@@ -4,6 +4,30 @@
  * @param  {callback} callback  Function name to run when request is successful
  * @return {Array}
  */
+function DREQ () {
+  this.oReq = new XMLHttpRequest();
+
+  this.getD = function (url, callback) {
+    this.oReq.open('GET', url, true);
+    this.oReq.overrideMimeType('application/json');
+
+    this.oReq.onreadystatechange = function () {
+      if (this.oReq.readyState == 4) {
+        if (this.oReq.status == '200') {
+          var data = JSON.parse(this.oReq.responseText);
+          callback(data);
+        } else {
+          console.log('Error loading data.');
+        }
+      }
+    }.bind(this);
+    this.oReq.send();
+  };
+
+  this.abort = function () {
+    this.oReq.abort();
+  };
+}
 function requestData (url, callback) {
   var oReq = new XMLHttpRequest();
 

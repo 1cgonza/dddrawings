@@ -1,13 +1,7 @@
-/**
- * [requestData makes HTTP request and return an array to a callback function]
- * @param  {string}   url       URL to request data
- * @param  {callback} callback  Function name to run when request is successful
- * @return {Array}
- */
 function DREQ () {
   this.oReq = new XMLHttpRequest();
 
-  this.getD = function (url, callback) {
+  this.getD = function (url, callback, ret) {
     this.oReq.open('GET', url, true);
     this.oReq.overrideMimeType('application/json');
 
@@ -15,7 +9,7 @@ function DREQ () {
       if (this.oReq.readyState == 4) {
         if (this.oReq.status == '200') {
           var data = JSON.parse(this.oReq.responseText);
-          callback(data);
+          callback(data, ret);
         } else {
           console.log('Error loading data.');
         }
@@ -28,6 +22,13 @@ function DREQ () {
     this.oReq.abort();
   };
 }
+
+/**
+ * [requestData makes HTTP request and return an array to a callback function]
+ * @param  {string}   url       URL to request data
+ * @param  {callback} callback  Function name to run when request is successful
+ * @return {Array}
+ */
 function requestData (url, callback) {
   var oReq = new XMLHttpRequest();
 

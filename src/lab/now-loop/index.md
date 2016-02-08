@@ -4,7 +4,6 @@ title: Now Loop
 date: 2015-09-02 17:30:12
 image: https://farm6.staticflickr.com/5767/21095084921_7c69b1d9b2_b.jpg
 thumb: https://farm6.staticflickr.com/5767/21095084921_7c69b1d9b2.jpg
-gFont: "Inconsolata:400,700"
 tags:
   - now
 categories:

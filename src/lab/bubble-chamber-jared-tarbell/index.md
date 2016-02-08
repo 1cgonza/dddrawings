@@ -4,7 +4,6 @@ title: Bubble Chamber (Jared Tarbell)
 date: 2015-09-15 18:42:40
 image: https://farm6.staticflickr.com/5810/21444243951_38a5b97bc0_b.jpg
 thumb: https://farm6.staticflickr.com/5810/21444243951_38a5b97bc0.jpg
-gFont: "Inconsolata:400,700"
 scripts:
   - Functions
 ---

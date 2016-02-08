@@ -9,7 +9,6 @@ libraries:
   - jquery
   - jqueryUi
   - d3
-gFont: "Inconsolata:400,700"
 tags:
   - d3
   - svg

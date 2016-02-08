@@ -7,7 +7,6 @@ image: https://farm6.staticflickr.com/5700/21134212012_59f8f8135b_b.jpg
 thumb: https://farm6.staticflickr.com/5700/21134212012_59f8f8135b.jpg
 libraries:
   - d3
-gFont: "Inconsolata:400,700"
 tags:
   - dataset-fb
 categories:

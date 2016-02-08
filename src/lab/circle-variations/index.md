@@ -9,7 +9,6 @@ thumb: https://farm8.staticflickr.com/7496/16034760288_e78ef83d54.jpg
 libraries:
   - jquery
   - jqueryUi
-gFont: "Inconsolata:400,700"
 scripts:
   - Functions
 tags:

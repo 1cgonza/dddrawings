@@ -11,6 +11,11 @@ html, body {
   height: 100%;
 }
 
+body {
+  font-family: $inconsolata;
+  font-weight: 400;
+}
+
 main {
   word-break: break-word;
 }
@@ -93,7 +98,6 @@ ul {
   .page-header {
     width: 100%;
     padding: 2em;
-    // float: right;
     background-color: rgba(255, 255, 255, 0.6);
   }
 
@@ -127,7 +131,7 @@ ul {
 
       .item-description {
         font-size: 0.85em;
-        background-color: rgba(255, 243, 43, 0.4);
+        background-color: $yellowAlpha;
         padding: 1em;
         text-align: left;
       }
@@ -161,7 +165,6 @@ ul {
 
 /*----------  404 PAGE  ----------*/
 .error-404 {
-  font-family: $inconsolata;
   font-weight: 400;
   text-align: center;
   background-color: yellow;
@@ -223,7 +226,6 @@ ul {
   }
 }
 
-
 /*=====  End of DATASETS  ======*/
 
 /*----------  DEBUG  ----------*/
@@ -233,4 +235,3 @@ ul {
   background-color: yellow;
   padding: 1em;
 }
-

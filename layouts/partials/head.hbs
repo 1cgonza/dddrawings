@@ -31,3 +31,12 @@
   <link rel="stylesheet" href={{ setURL 'css' 'style.css' false }}>
 </head>
 <body>
+  <nav id="site-nav">
+    <div id="menu-icon">Menu<span></span></div>
+    <ul id="main-nav">
+      <li><a href="{{ baseUrl }}" title="Home">Home</a></li>
+      <li><a href="{{ setURL 'lab' false true }}" title="Lab">Lab</a></li>
+      <li><a href="{{ setURL 'notations' false true }}" title="Notations">Notations</a></li>
+      <li><a href="{{ setURL 'datasets' false true }}" title="Datasets">Datasets</a></li>
+    </ul>
+  </nav>

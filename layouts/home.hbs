@@ -1,10 +1,19 @@
 {{> head}}
-{{#each collections}}
-{{#each this}}
-{{#if archive}}
-<h3><a href="{{ setURL slug false true }}">{{ title }}</a></h3>
-<p class="section-description">{{ description }}</p>
-{{/if}}
-{{/each}}
-{{/each}}
+<main class="with-nav home">
+  {{#each collections}}
+  {{#each this}}
+  {{#if archive}}
+  <article>
+    <header>
+      <h3><a href="{{ setURL slug false true }}">{{ title }}</a></h3>
+    </header>
+    <section>
+      <p class="section-description">{{ description }}</p>
+    </section>
+  </article>
+  {{/if}}
+  {{/each}}
+  {{/each}}
+</main>
+
 {{> footer }}

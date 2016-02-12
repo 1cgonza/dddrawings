@@ -186,7 +186,7 @@
 
       if ( nextAttack < Number(d.utc) ) {
         taDataI = (taDataI + 1) > taData.current.length ? taData.current.length : taDataI + 1;
-        console.log(taDataI)
+        // console.log(taDataI)
         nextAttack = taData.current[taDataI].date.unix;
         mode = 3;
       }

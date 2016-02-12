@@ -109,7 +109,7 @@ function helpers (Handlebars) {
   }
 
   function setURL (pre, path, withTail) {
-    var url, end;
+    var url;
     pre  = Array.isArray(pre) ? pre[0] : pre;
     url  = typeof pre === 'string' ? pre : '';
     url += typeof path === 'string' && path.length > 0 && pre !== path ? '/' + path : '';

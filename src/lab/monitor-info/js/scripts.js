@@ -31,6 +31,7 @@
   function clickEvent (event) {
     if (event.target !== current) {
       loading.style.opacity = 1;
+      summaryContainer.innerHTML = '';
       req.abort();
       resetCurrentClass(current, event.target);
       current = event.target;
@@ -95,7 +96,6 @@
 
   function renderSummary () {
     var d = sortObj( summary[year] );
-    summaryContainer.innerHTML = '';
 
     for (var category in d) {
       var ele;

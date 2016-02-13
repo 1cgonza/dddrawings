@@ -55,7 +55,6 @@
 
   function dataReady (d) {
     categorizeEvents(d);
-    console.log(summary);
     renderSummary();
   }
 

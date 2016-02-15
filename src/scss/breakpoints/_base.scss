@@ -82,6 +82,11 @@ ul {
 
       &.current-parent {
         border-right: 3px solid black;
+        cursor: pointer;
+
+        &:active, &:hover {
+          background-color: #DDD;
+        }
       }
     }
 

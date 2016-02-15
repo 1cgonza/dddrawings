@@ -66,10 +66,22 @@ ul {
       display: block;
       border: 0;
       color: white;
+      border: 1px solid black;
 
-      &:active, &:hover {
+      &:active, &:hover, {
         background-color: white;
         color: black;
+      }
+
+      &.current {
+        background-color: white;
+        color: black;
+        border-right: 3px solid #CA0000;
+        cursor: default;
+      }
+
+      &.current-parent {
+        border-right: 3px solid black;
       }
     }
 

@@ -1,5 +1,5 @@
 ---
-title:
+title: Home
 layout: home.hbs
-description: Data Driven Drawings homepage. A site showcasing the practical work of my PhD dissertation.
+description: A site showcasing the practical work of the PhD dissertation &quot;Data Driven Drawings&quot; by Juan Camilo González.
 ---

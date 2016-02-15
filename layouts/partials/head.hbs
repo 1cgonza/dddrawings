@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ pageTitle title }}</title>
-  <link rel="shortcut icon" href="/favicon.ico?v=1" type="image/x-icon">
+  <link rel="shortcut icon" href="{{ setURL 'favicon.ico?v=1' false false}}" type="image/x-icon">
   <meta name="description" content="{{ pageDescription description }}">
 
   <!-- Open Graph -->
@@ -31,13 +31,10 @@
 
   <link rel="stylesheet" href={{ setURL 'css' 'style.css' false }}>
 </head>
-<body>
+<body class="{{bodyClass slug collection archive}}">
   <nav id="site-nav" role="navigation">
     <div id="menu-icon">Menu<span></span></div>
     <ul id="main-nav">
-      <li><a href="{{ baseUrl }}" title="Home">Home</a></li>
-      <li><a href="{{ setURL 'lab' false true }}" title="Lab">Lab</a></li>
-      <li><a href="{{ setURL 'notations' false true }}" title="Notations">Notations</a></li>
-      <li><a href="{{ setURL 'datasets' false true }}" title="Datasets">Datasets</a></li>
+      {{siteNav slug collection}}
     </ul>
   </nav>

@@ -3,15 +3,13 @@
   var menuIcon = document.getElementById('menu-icon');
 
   document.onclick = function(event) {
-    if (event.target.id !== 'menu-icon') {
+    if ( menuIcon === event.target || menuIcon.contains(event.target) ) {
+      mainNav.classList.toggle('open');
+      menuIcon.classList.toggle('open');
+    } else {
       mainNav.classList.remove('open');
       menuIcon.classList.remove('open');
     }
-  };
-
-  menuIcon.onclick = function(event) {
-    event.target.classList.toggle('open');
-    mainNav.classList.toggle('open');
   };
 
   if (document.getElementsByClassName('with-nav').length > 0) {

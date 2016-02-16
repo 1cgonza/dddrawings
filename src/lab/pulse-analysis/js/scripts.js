@@ -1,6 +1,7 @@
 (function () {
   'use strict';
-  var loaded    = false;
+
+  /*----------  SET STAGE  ----------*/
   var container = document.getElementById('ddd-container');
   var loading   = document.getElementById('ddd-loading');
   var info      = document.createElement('span');
@@ -8,19 +9,16 @@
   info.className = 'info';
   container.appendChild(info);
 
-  /*==========  CREATE CANVAS  ==========*/
-  var canvas = document.createElement('canvas');
-  var ctx    = canvas.getContext('2d');
-  canvas.width  = window.innerWidth;
-  canvas.height = window.innerHeight;
-  var centerX = canvas.width / 2 | 0;
-  var centerY = canvas.height / 2 | 0;
-
-  /*----------  GLOBAL VARIABLES  ----------*/
+  /*----------  GLOBALS  ----------*/
+  var loaded           = false;
+  var stageW           = window.innerWidth;
+  var stageH           = window.innerHeight;
+  var centerX          = stageW / 2 | 0;
+  var centerY          = stageH / 2 | 0;
   var rawData          = [];
   var uniqueBeatValues = [];
   var chunkIndex       = 0;
-  var count = 0;
+  var count            = 0;
   var chunkW           = window.innerWidth - 100;
   var peaksCount       = 0;
   var minMaxValues = {
@@ -87,6 +85,18 @@
     }
   }
 
+  function getCanvasRow() {
+    var c = createCanvas(container, {
+      position: 'relative',
+      w: chunkW,
+      h: minMaxValues.raw.max - minMaxValues.raw.min + 20,
+      font: '10px Inconsolata'
+    });
+    c.canvas.style.margin = '0 auto';
+
+    return c;
+  }
+
   /**
   * Instead of using a loop here I will use the requestAnimationFrame
   * That way the page renders progresively each canvas, as if it was loading faster.
@@ -95,10 +105,9 @@
   function arrayChunks () {
     if (chunkIndex < rawData.length) {
       var data = rawData.slice(chunkIndex, chunkIndex + chunkW);
-      var canvas = document.createElement('canvas');
-      canvas.style.margin = '0 auto';
-      container.appendChild(canvas);
-      new Drawing(canvas, data);
+      var c = getCanvasRow();
+
+      new Drawing(c, data);
       requestAnimationFrame(arrayChunks);
     } else {
       loading.style.opacity = 0;
@@ -115,24 +124,19 @@
 
   function renderSingleChunk(start) {
     var slicedData = rawData.slice( chunkW * start, chunkW * (start + 1) );
-    var canvas = document.createElement('canvas');
-    document.body.appendChild(canvas);
-    new Drawing(canvas, slicedData);
+    var c = getCanvasRow();
+
+    new Drawing(c, slicedData);
   }
 
-  function Drawing(canvas, data) {
-    this.data = data;
-    this.canvas = canvas;
-    this.ctx = this.canvas.getContext('2d');
-
-    this.canvas.height = minMaxValues.raw.max - minMaxValues.raw.min + 20;
-    this.canvas.width = chunkW;
-
+  function Drawing(c, data) {
+    this.data          = data;
+    this.canvas        = c.canvas;
+    this.ctx           = c.ctx;
     this.dataUpCounter = 0;
     this.timeBtwnBeats = 0;
-    this.lastBeat = 0;
-    this.gap = 1;
-    this.ctx.font = '10px serif';
+    this.lastBeat      = 0;
+    this.gap           = 1;
 
     for (var i = 0; i < this.data.length; i++) {
       // add .5 pixels to correct the canvas line rendering.

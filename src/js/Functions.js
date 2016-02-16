@@ -114,6 +114,8 @@ function createCanvas (container, data) {
   canvas.style.left     = data.left || 0;
   canvas.style.zIndex   = data.zi || 9;
 
+  ctx.font = data.font || '12px Inconsolata';
+
   if (container) container.appendChild(canvas);
   return {canvas: canvas, ctx: ctx};
 }

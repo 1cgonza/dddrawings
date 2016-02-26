@@ -8,6 +8,8 @@
   var stageH = window.innerHeight;
   var centerX = stageW / 2  | 0;
   var centerY = stageH / 2 | 0;
+  var req  = new DREQ();
+  var req2 = new DREQ();
   var animReq;
 
   // MAP
@@ -31,31 +33,9 @@
   var playerI = 0;
 
   /*----------  CREATE CANVAS  ----------*/
-  var bg = createCanvas(
-    container,
-    {
-      w: stageW,
-      h: stageH,
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      zi: 1
-    }
-  );
-
-  var eq = createCanvas(
-    container,
-    {
-      w: stageW,
-      h: stageH,
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      zi: 2
-    }
-  );
+  var bg = createCanvas( container, { zi: 1 } );
+  var eq = createCanvas( container, { zi: 2 } );
   eq.ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
-  // eq.ctx.setLineDash([1, 3]);
 
   function convertCoordinates (lon, lat, zoom) {
     var zoomX = stageW * zoom;
@@ -118,23 +98,27 @@
   =            EQ            =
   ==========================*/
   function updateEQMap (year) {
-    requestData('../../data/ingeominas/eq' + year + '.json', processEQData);
+    req.getD( '../../data/ingeominas/eq' + year + '.json', processEQData );
   }
 
   function processEQData (data) {
-    if (mapLoaded) {
-      eqData = data;
+    eqData = data;
 
-      if (animating) {
-        playerI = 0;
-        // resetAnimationBTN();
-        animReq = requestAnimationFrame(animate);
+    checkMapState();
+
+    function checkMapState() {
+      if (mapLoaded) {
+        if (animating) {
+          playerI = 0;
+          animReq = requestAnimationFrame(animate);
+        } else {
+          drawMap(data, eq.ctx, optionMode);
+        }
+
+        loading.style.opacity = 0;
       } else {
-        drawMap(data, eq.ctx, optionMode);
+        animReq = requestAnimationFrame(checkMapState);
       }
-      loading.style.opacity = 0;
-    } else {
-      animReq = requestAnimationFrame(processEQData);
     }
   }
   /*=====  End of EQ  ======*/
@@ -243,7 +227,7 @@
     animateBTN.addEventListener('click', function () {
       animating = true;
       resetAnimationBTN();
-    });
+    }, false);
   }
 
   function resetAnimationBTN () {
@@ -262,7 +246,7 @@
 
   function init () {
     yearsListMenu (1993, 2015, 2003, yearClickEvent, yearsMenuReady);
-    requestData('../../data/geo/col-50m.json', processMapData);
+    req2.getD( '../../data/geo/col-50m.json', processMapData );
     optionsMenu();
   }
 

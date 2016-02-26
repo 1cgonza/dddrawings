@@ -10,6 +10,7 @@
   container.appendChild(info);
 
   /*----------  GLOBALS  ----------*/
+  var req              = new DREQ();
   var loaded           = false;
   var stageW           = window.innerWidth;
   var stageH           = window.innerHeight;
@@ -26,7 +27,7 @@
     beat: {min: 100000, max: 0}
   };
 
-  requestData('../../data/pulse/heart.2.json', processData);
+  req.getD( '../../data/pulse/heart.2.json', processData );
 
   function processData (data) {
     for (var i = 0; i < data.beats.length; i++) {

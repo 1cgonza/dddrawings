@@ -3,6 +3,8 @@
   /*===============================
   =            GLOBALS            =
   ===============================*/
+  var violenceReq = new DREQ();
+  var mapReq = new DREQ();
 
   /*----------  STAGE  ----------*/
   var container = document.getElementById('ddd-container');
@@ -136,7 +138,7 @@
   }
 
   function requestViolenceData () {
-    requestData('../../data/monitor/violencia-geo-' + year + '.json', processViolenceData);
+    violenceReq.getD( '../../data/monitor/violencia-geo-' + year + '.json', processViolenceData );
   }
 
   function init () {
@@ -144,7 +146,7 @@
     bg.ctx.fillStyle = 'white';
 
     requestViolenceData();
-    requestData('../../data/geo/col-50m.json', processGeoData);
+    mapReq.getD( '../../data/geo/col-50m.json', processGeoData );
 
     for (var i = 0; i < imgs.length; i++) {
       var sprite = new Sprite(imgs[i].options);

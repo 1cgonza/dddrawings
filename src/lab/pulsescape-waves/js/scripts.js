@@ -4,6 +4,7 @@
   var loading   = document.getElementById('ddd-loading');
 
   /*----------  GLOBALS  ----------*/
+  var req = new DREQ();
   var rawData = [[]];
   var sliceH = 100;
   var rowI = 0;
@@ -12,7 +13,7 @@
   var stageW = window.innerWidth;
   container.style.backgroundColor = '#000000';
 
-  requestData('../../data/pulse/heart.2.json', init);
+  req.getD( '../../data/pulse/heart.2.json', init );
 
   function init (data) {
     for (var i = 0; i < data.beats.length; i++) {

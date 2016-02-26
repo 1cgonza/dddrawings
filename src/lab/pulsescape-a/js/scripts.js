@@ -13,6 +13,7 @@
   container.appendChild(canvas);
 
   /*----------  GLOBALS  ----------*/
+  var req = new DREQ();
   var pulse = [];
   var ringsGap = 0;
   var ringsTotal = 0;
@@ -22,7 +23,7 @@
   var night = false;
   var animationReq;
 
-  requestData('../../data/pulse/heart.2.json', init);
+  req.getD( '../../data/pulse/heart.2.json', init );
 
   function init (data) {
     for (var i = 0; i < data.beats.length; i++) {

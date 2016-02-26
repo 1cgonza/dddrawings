@@ -8,7 +8,7 @@
   info.className = 'info';
   container.appendChild(info);
 
-  /*==========  CREATE CANVAS  ==========*/
+  /*----------  SET STAGE  ----------*/
   var canvas = document.createElement('canvas');
   var ctx    = canvas.getContext('2d');
   canvas.width  = window.innerWidth;
@@ -17,6 +17,7 @@
   var centerY = canvas.height / 2 | 0;
 
   /*----------  GLOBAL VARIABLES  ----------*/
+  var req = new DREQ();
   var rawData          = [];
   var uniqueBeatValues = [];
   var chunkIndex       = 0;
@@ -28,7 +29,7 @@
     beat: {min: 100000, max: 0}
   };
 
-  requestData('../../data/pulse/heart.2.json', processData);
+  req.getD( '../../data/pulse/heart.2.json', processData );
 
   function processData (data) {
     for (var i = 0; i < data.beats.length; i++) {

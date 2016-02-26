@@ -7,6 +7,7 @@
 
 
   /*----------  GLOBAL VARIABLES  ----------*/
+  var req = new DREQ();
   var stageW = window.innerWidth;
   var stageH = window.innerHeight;
   var rawData          = [];
@@ -27,19 +28,19 @@
   var co = 1;
 
   /*----------  CREATE CANVAS  ----------*/
-   var t   = createCanvas(container);
-   var grid = createCanvas(container);
-   var base = createCanvas(container);
-   var offT = createCanvas(null);
+  var t   = createCanvas(container);
+  var grid = createCanvas(container);
+  var base = createCanvas(container);
+  var offT = createCanvas(null);
 
-   grid.ctx.fillStyle = 'rgba(255, 89, 237, 1)';
-   grid.ctx.strokeStyle = 'rgba(255, 89, 237, 0.1)';
-   base.ctx.strokeStyle = 'rgba(255, 236, 37, 0.05)';
-   t.ctx.strokeStyle = 'rgba(255, 236, 37, 1)';
-   base.ctx.fillStyle = 'rgba(255, 89, 237, 1)';
-   grid.ctx.globalCompositeOperation = "darken";
+  grid.ctx.fillStyle = 'rgba(255, 89, 237, 1)';
+  grid.ctx.strokeStyle = 'rgba(255, 89, 237, 0.1)';
+  base.ctx.strokeStyle = 'rgba(255, 236, 37, 0.05)';
+  t.ctx.strokeStyle = 'rgba(255, 236, 37, 1)';
+  base.ctx.fillStyle = 'rgba(255, 89, 237, 1)';
+  grid.ctx.globalCompositeOperation = "darken";
 
-  requestData('../../data/pulse/heart.2.json', processData);
+  req.getD( '../../data/pulse/heart.2.json', processData );
 
   function processData (data) {
     for (var i = 0; i < data.beats.length / 3; i++) {

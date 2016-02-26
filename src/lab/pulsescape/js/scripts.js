@@ -28,6 +28,7 @@
   container.appendChild(canvas2);
 
   /*----------  GLOBALS  ----------*/
+  var req = new DREQ();
   var btData = [];
   var dataI = 0;
   var progress, nextBeat;
@@ -37,7 +38,7 @@
   /*----------  BACKGROUND  ----------*/
   var bgImg;
 
-  requestData('../../data/pulse/heart.2.json', processData);
+  req.getD( '../../data/pulse/heart.2.json', processData );
 
   function processData (data) {
     var count = 0;

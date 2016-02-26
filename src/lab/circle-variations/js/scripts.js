@@ -14,6 +14,7 @@
   var imgObj         = new Image();
   var imgLoaded      = false;
   var defaultSprite  = 'pencil';
+  var req = new DREQ();
   var ddd, currentYearBtn, currentStrokeBtn;
 
   var sprites = {
@@ -96,10 +97,8 @@
     setupInterface();
     ddd = new Drawing();
     animate();
-    requestData(
-      '../../data/ingeominas/eq' + options.year + '.json',
-      dataReady
-    );
+
+    req.getD( '../../data/ingeominas/eq' + options.year + '.json', dataReady );
   }
 
   function dataReady (data) {
@@ -341,10 +340,7 @@
 
     if (loadNewData) {
       eqData.pop();
-      requestData(
-        '../../data/ingeominas/eq' + options.year + '.json',
-        dataReady
-      );
+      req.getD( '../../data/ingeominas/eq' + options.year + '.json', dataReady );
     } else {
       loading.style.opacity = 0;
       this.draw();

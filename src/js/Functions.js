@@ -24,31 +24,6 @@ function DREQ () {
 }
 
 /**
- * [requestData makes HTTP request and return an array to a callback function]
- * @param  {string}   url       URL to request data
- * @param  {callback} callback  Function name to run when request is successful
- * @return {Array}
- */
-function requestData (url, callback) {
-  var oReq = new XMLHttpRequest();
-
-  oReq.open('GET', url, true);
-  oReq.overrideMimeType('application/json');
-
-  oReq.onreadystatechange = function () {
-    if (oReq.readyState == 4) {
-      if (oReq.status == '200') {
-        var data = JSON.parse(oReq.responseText);
-        callback(data);
-      } else {
-        console.log('Error loading data.');
-      }
-    }
-  };
-  oReq.send();
-}
-
-/**
  * @param {string || number}  yearStart   First menu item
  * @param {string || number}  yearEnd     Last menu item
  * @param {string || number}  current     Default menu item to start with 'current' class
@@ -114,6 +89,8 @@ function createCanvas (container, data) {
   canvas.style.left     = data.left || 0;
   canvas.style.zIndex   = data.zi || 9;
 
+  ctx.font = data.font || '12px Inconsolata';
+
   if (container) container.appendChild(canvas);
   return {canvas: canvas, ctx: ctx};
 }
@@ -152,6 +129,7 @@ function getPercent (section, total) {
 =            NOTATIONS            =
 =================================*/
 var Notations = function (data) {
+  var req = new DREQ();
   this.container = data.container;
   this.loading   = data.loadingEle;
 
@@ -187,7 +165,7 @@ var Notations = function (data) {
   this.canvas = canvas.canvas;
   this.ctx = canvas.ctx;
 
-  requestData(data.url, data.cb);
+  req.getD(data.url, data.cb);
 };
 
 Notations.prototype.imageReady = function (event) {

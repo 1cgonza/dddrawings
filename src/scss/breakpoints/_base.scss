@@ -168,7 +168,6 @@ ul {
 /*=====  End of NAV  ======*/
 
 #ddd-container {
-  font-family: $inconsolata;
 
   /* MENU */
   #years{
@@ -215,6 +214,7 @@ ul {
 
   canvas {
     display: block;
+    user-select: none;
   }
 }
 

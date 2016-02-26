@@ -1,5 +1,6 @@
 (function () {
   'use strict';
+  var req = new DREQ();
   var notesBTN = document.getElementById('notes');
   var notes = document.getElementById('box');
   var close = document.getElementById('close-box');
@@ -31,7 +32,7 @@
   var notationsLoaded = false;
 
   // 1. LOAD: JSON Data about notations
-  requestData('../../data/notations/chairy-tale.json', loadNotationsData);
+  req.getD( '../../data/notations/chairy-tale.json', loadNotationsData );
 
   function loadNotationsData(data) {
     notationsData = data.sections;

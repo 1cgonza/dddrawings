@@ -1,8 +1,6 @@
 (function() {
   'use strict';
-  /*===============================
-  =            GLOBALS            =
-  ===============================*/
+
   var violenceReq = new DDD.DataRequest();
   var mapReq      = new DDD.DataRequest();
 
@@ -88,7 +86,7 @@
     if (event.target !== current) {
       window.cancelAnimationFrame(animReq);
       loading.style.opacity = 1;
-      resetCurrentClass(current, event.target);
+      DDD.resetCurrent(current, event.target);
       current = event.target;
       year = event.target.textContent;
 
@@ -100,8 +98,6 @@
     container.appendChild(menu);
     current = currentFirst;
   }
-
-  /*=====  End of GLOBALS  ======*/
 
   function reloadStage() {
     dataI = 0;

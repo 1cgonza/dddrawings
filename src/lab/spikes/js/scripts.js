@@ -323,7 +323,9 @@
 
       var rot = dReset * secondsW;
       //Now that the eqNode are rendered, first translate all together, then rotate using 3 param: degrees, x axis and y. The y amount gives us the radius of the circle.
-      return 'translate(' + (screenWidth / 2 - options.nodeWidth / 2) + ',' + (screenHeight / 2 - options.radius) + ') rotate(' + rot + ',' + options.nodeWidth / 2 + ',' + options.radius + ')';
+      return 'translate(' + (screenWidth / 2 - options.nodeWidth / 2) + ',' +
+              (screenHeight / 2 - options.radius) + ') rotate(' + rot + ',' +
+              options.nodeWidth / 2 + ',' + options.radius + ')';
     });
   }
 
@@ -381,7 +383,9 @@
       var rot = dReset * secondsW;
 
       //Now that the spikes are rendered, first translate all together, then rotate using 3 param: degrees, x axis and y. The y amount gives us the radius of the circle.
-      return 'translate(' + (screenWidth / 2 - options.nodeWidth / 2) + ',' + (screenHeight / 2 - options.radius) + ') rotate(' + rot + ',' + options.nodeWidth / 2 + ',' + options.radius + ')';
+      return 'translate(' + (screenWidth / 2 - options.nodeWidth / 2) + ',' +
+              (screenHeight / 2 - options.radius) + ') rotate(' + rot + ',' +
+              options.nodeWidth / 2 + ',' + options.radius + ')';
     });
   }
 

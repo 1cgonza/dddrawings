@@ -1,39 +1,42 @@
-(function () {
+(function() {
   'use strict';
   var container = document.getElementById('ddd-container');
   var loading   = document.getElementById('ddd-loading');
   var wrapper   = document.createElement('section');
-  var w  = window.innerWidth;
-  var h = window.innerHeight;
+  var w         = window.innerWidth;
+  var h         = window.innerHeight;
   var network;
   var options = ['circle', 'line', 'polygon', 'rect', 'heads', 'randomize'];
-  var current = options[getRandom(0, options.length - 1)];
+  var current = options[ DDD.random(0, options.length - 1) ];
 
   container.appendChild(wrapper);
 
   createMenu();
 
-  d3.json('../../data/facebook/friends.json', function (error, data) {
+  d3.json('../../data/facebook/friends.json', function(error, data) {
     if (error) {
       console.error('Error loading data');
     } else {
       loading.style.opacity = 0;
       network = new FN(data);
-      network.init( current );
+      network.init(current);
     }
   });
 
-  function createMenu () {
+  function createMenu() {
     var nav = document.createElement('ul');
     nav.className = 'network-options';
 
-    options.forEach(function (ele, i) {
+    options.forEach(function(ele, i) {
       var li = document.createElement('li');
       li.innerHTML = ele;
 
       if (ele === 'randomize') {
         li.className = 'randomizer';
-        randomClickEvent(li);
+        li.onclick = function() {
+          network.reset(current);
+          return false;
+        };
       } else {
         optionsClickEvent(li, ele);
       }
@@ -49,27 +52,25 @@
     container.appendChild(nav);
   }
 
-  function optionsClickEvent (li, type) {
-    li.addEventListener('click', function (eve) {
-      var currentOption = document.querySelector('.current');
-      currentOption.className = '';
-      this.className = 'current';
+  function optionsClickEvent(li, type) {
+    li.onclick = function(event) {
+      var menu = document.querySelector('.network-options');
+      var currentOption = menu.querySelector('.current');
+
+      currentOption.classList.remove('current');
+      event.target.classList.add('current');
       current = type;
       network.reset();
-    });
+
+      return false;
+    };
   }
 
-  function randomClickEvent (li) {
-    li.addEventListener('click', function (eve) {
-      network.reset(current);
-    });
-  }
-
-  function FN (data) {
+  function FN(data) {
     this.data = data;
   }
 
-  FN.prototype.init = function () {
+  FN.prototype.init = function() {
     this.svg = d3.select(wrapper)
               .append('svg')
               .attr('width', w)
@@ -104,19 +105,19 @@
   };
 
   FN.prototype.randomize = function() {
-    this.force.linkStrength( getRandom(0.04, 0.1, true) )
-              .gravity( getRandom(0.1, 5, true) )
-              .linkDistance( getRandom(1, 2000, true) )
-              .charge( getRandom(-100, -30) )
+    this.force.linkStrength(DDD.random(0.04, 0.1, true))
+              .gravity(DDD.random(0.1, 5, true))
+              .linkDistance(DDD.random(1, 2000, true))
+              .charge(DDD.random(-100, -30))
               .start();
   };
 
   FN.prototype.tick = function() {
     this.force.on('tick', function() {
-      this.nodes.attr('transform', function (d) {
+      this.nodes.attr('transform', function(d) {
         return 'translate(' + [d.x, d.y] + ')';
       });
-    }.bind(this) );
+    }.bind(this));
   };
 
   /***** ATTACH NAMES *****/
@@ -131,7 +132,7 @@
         .attr('dx', '-1em')
         .attr('dy', '-1em')
         .attr('fill', '#358a97')
-        .text(function (d) {
+        .text(function(d) {
           return d.name;
         });
   };
@@ -151,8 +152,8 @@
         .attr('class', 'circle')        // (Optional) this way we can apply styles on our CSS
         .attr('fill', '#d9eff1')        // (Optional) the fill color, defaults to black.
         .attr('stroke', '#253c3e')      // (Optional) the color of the line around the circles
-        .attr('stroke-width', '1.5' )   // (Optional) Width of the stroke in pixels.
-        .attr('r', function (d) {        // (Required) The radius of the circle in pixels.
+        .attr('stroke-width', '1.5')   // (Optional) Width of the stroke in pixels.
+        .attr('r', function(d) {        // (Required) The radius of the circle in pixels.
           return d.weight / 5;
         })
         .call(this.force.drag);              // (Optional) If you add this line, each node can be dragged with the mouse.
@@ -165,17 +166,17 @@
         .attr('class', 'line')                // (Optional) this way we can apply styles on our CSS
         .attr('x1', '0')                      // (Required) Where in X coordinate the line should start drawing
         .attr('y1', '0')                      // (Required) Where in Y coordinate the line should start drawing
-        .attr('x2', function (d) {            // (Required) Where in X coordinate the line should finish drawing
+        .attr('x2', function(d) {            // (Required) Where in X coordinate the line should finish drawing
           return d.x; }
         )
-        .attr('y2', function (d) {            // (Required) Where in Y coordinate the line should finish drawing
+        .attr('y2', function(d) {            // (Required) Where in Y coordinate the line should finish drawing
           return d.y;
         })
         .attr('stroke', '#f9dd98')            // (Optional) the color
-        .attr('stroke-width', function (d) {  // (Optional) Width of the stroke in pixels.
+        .attr('stroke-width', function(d) {  // (Optional) Width of the stroke in pixels.
           return d.weight / 30;
         })
-        .attr('r', function (d) {             // (Required) The radius of the circle in pixels.
+        .attr('r', function(d) {             // (Required) The radius of the circle in pixels.
           return d.weight / 5;
         })
         .call(this.force.drag);                    // (Optional) If you add this line, each node can be dragged with the mouse.

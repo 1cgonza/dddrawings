@@ -1,87 +1,49 @@
-(function () {
+(function() {
   'use strict';
-  var loaded    = false;
   var container = document.getElementById('ddd-container');
   var loading   = document.getElementById('ddd-loading');
 
-  /*----------  CREATE CANVAS  ----------*/
-  var canvas = document.createElement('canvas');
-  var ctx    = canvas.getContext('2d');
-  var centerX = canvas.width / 2  | 0;
-  var centerY = canvas.height / 2 | 0;
-  var canvas2 = document.createElement('canvas');
-  var ctx2 = canvas2.getContext('2d');
-
-  canvas.style.position = 'absolute';
-  canvas.style.top = 0;
-  canvas.style.left = 0;
-  canvas.style.zIndex = 2;
-  container.appendChild(canvas);
-
-  canvas2.style.position = 'fixed';
-  canvas2.style.top = 0;
-  canvas2.style.left = 0;
-  canvas2.style.zIndex = 3;
-  canvas2.width = window.innerWidth;
-  canvas2.height = window.innerHeight;
-  ctx2.globalAlpha = 0.1;
-  container.appendChild(canvas2);
+  /*----------  SET STAGE  ----------*/
+  var bg     = DDD.canvas(container, {position: 'fixed'});
+  var stage  = DDD.canvas(container);
+  var bgAnim = DDD.canvas(container, {position: 'fixed'});
+  bgAnim.ctx.globalAlpha = 0.1;
 
   /*----------  GLOBALS  ----------*/
-  var req = new DREQ();
-  var btData = [];
-  var dataI = 0;
-  var progress, nextBeat;
+  var TWO_PI       = Math.PI * 2;
+  var btData       = [];
+  var dataI        = 0;
+  var progress     = 0;
+  var nextBeat     = 0;
   var startCounter = 0;
-  var radius = 0;
+  var radius       = 0;
 
   /*----------  BACKGROUND  ----------*/
   var bgImg;
 
-  req.getD( '../../data/pulse/heart.2.json', processData );
-
-  function processData (data) {
-    var count = 0;
+  DDD.json('../../data/pulse/heart.2.json', function(data) {
     for (var i = 0; i < data.beats.length; i++) {
-      if ( data.beats[i].charAt(0) === 'B' && data.beats[i + 1].charAt(0) === 'Q') {
-        var bpm  = Number( data.beats[i].substr(1) );
-        var time = Number( data.beats[i + 1].substr(1) );
-        btData[count] = { bpm: bpm, t: time };
-        count++;
+      if (data.beats[i].charAt(0) === 'B' && data.beats[i + 1].charAt(0) === 'Q') {
+        var bpm  = Number(data.beats[i].substr(1));
+        var time = Number(data.beats[i + 1].substr(1));
+        btData.push({bpm: bpm, t: time});
       }
     }
 
-    init();
-  }
+    stage.canvas.width  = btData.length;
 
-  function init () {
-    canvas.width  = btData.length;
-    canvas.height = window.innerHeight;
+    bg.img        = new Image();
+    bg.img.onload = loadBackground;
+    bg.img.src    = '../../img/backgrounds/white-paper.jpg';
+  });
 
-    bgImg = new Image();
-    bgImg.onload = loadBackground;
-    bgImg.src = '../../img/backgrounds/white-paper.jpg';
-  }
-
-  function loadBackground () {
-    var bg = document.createElement('canvas');
-    var bgC = bg.getContext('2d');
-
-    bg.width = window.innerWidth;
-    bg.height = window.innerHeight;
-    bg.style.position = 'fixed';
-    bg.style.top = 0;
-    bg.style.left = 0;
-    bg.style.zIndex = 1;
-
-    container.appendChild(bg);
-
-    bgC.drawImage(
-      bgImg,
+  function loadBackground() {
+    bg.ctx.drawImage(
+      bg.img,
       0, 0,
       1764, 1250,
       0, 0,
-      bg.width, bg.height
+      bg.w, bg.h
     );
 
     for (var i = 0; i < btData.length; i++) {
@@ -92,7 +54,7 @@
     loading.style.opacity = 0;
   }
 
-  function animate (timestamp) {
+  function animate(timestamp) {
     if (dataI < btData.length) {
       nextBeat = btData[dataI].t;
 
@@ -106,17 +68,22 @@
 
       if (progress >= nextBeat) {
         var beat = btData[dataI].bpm;
-        // var betweenBeats = btData[dataI].bpm;
-        updateCircle(beat);
-        ctx.save();
-        ctx.strokeStyle = '#E80200';
+
+        bgAnim.ctx.clearRect(0, 0, bgAnim.w, bgAnim.h);
+        radius = beat;
+
+        stage.ctx.save();
+        stage.ctx.strokeStyle = '#E80200';
         drawLine(dataI);
-        ctx.restore();
+        stage.ctx.restore();
         startCounter = 0;
         dataI++;
       }
 
-      drawCircle();
+      radius++;
+      bgAnim.ctx.beginPath();
+      bgAnim.ctx.arc(bgAnim.w / 2, 150, radius, 0, TWO_PI);
+      bgAnim.ctx.stroke();
 
       requestAnimationFrame(animate);
     } else {
@@ -124,28 +91,17 @@
     }
   }
 
-  function updateCircle (beat) {
-    ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
-    radius = beat;
-  }
-
-  function drawCircle () {
+  function drawLine(i) {
     radius++;
-    ctx2.beginPath();
-    ctx2.arc(canvas2.width / 2, 150, radius, 0, 2 * Math.PI);
-    ctx2.stroke();
+    stage.ctx.beginPath();
+    stage.ctx.moveTo(i, stage.h);
+    stage.ctx.lineTo(i, stage.h - btData[i].bpm * 4);
+    stage.ctx.stroke();
   }
 
-  function drawLine (i) {
-    radius++;
-    ctx.beginPath();
-    ctx.moveTo(i, canvas.height);
-    ctx.lineTo(i, canvas.height - btData[i].bpm * 4);
-    ctx.stroke();
-  }
-
-  document.addEventListener('click', function (eve) {
+  container.onclick = function(eve) {
     dataI = eve.pageX;
-  }, false);
+    return false;
+  };
 
 })();

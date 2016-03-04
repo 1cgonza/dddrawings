@@ -16,7 +16,9 @@
   var animReq;
   var di = 0;
   var flip = false;
-  var rStep, xStep, nStep;
+  var rStep = 0;
+  var xStep = 0;
+  var nStep = 0;
   var rowsNet = 6;
   var co = 1;
 

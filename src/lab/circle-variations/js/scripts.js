@@ -1,21 +1,19 @@
 (function() {
   'use strict';
-  var container      = document.getElementById('ddd-container');
-  var loading        = document.getElementById('ddd-loading');
-  var canvas         = document.createElement('canvas');
-  var ctx            = canvas.getContext('2d');
-  var stageW         = window.innerWidth;
-  var stageH         = window.innerHeight;
-  var centerX        = stageW / 2;
-  var centerY        = stageH / 2;
-  var eqData         = [];
-  var eqIndex        = 0;
-  var animating      = false;
-  var imgObj         = new Image();
-  var imgLoaded      = false;
-  var defaultSprite  = 'pencil';
-  var req = new DREQ();
-  var ddd, currentYearBtn, currentStrokeBtn;
+  var container = document.getElementById('ddd-container');
+  var loading   = document.getElementById('ddd-loading');
+  var stage     = DDD.canvas(container);
+
+  var eqData        = [];
+  var eqIndex       = 0;
+  var animating     = false;
+  var imgObj        = new Image();
+  var imgLoaded     = false;
+  var defaultSprite = 'pencil';
+  var req           = new DDD.DataRequest();
+  var drawing;
+  var currentYearBtn;
+  var currentStrokeBtn;
 
   var sprites = {
     pencil: {
@@ -73,7 +71,7 @@
     opacity: 0.2,
   };
 
-  function updateOptions (data) {
+  function updateOptions(data) {
     options.sprite       = data.sprite;
     options.spriteCols   = data.cols;
     options.spriteRows   = data.rows;
@@ -85,46 +83,46 @@
     options.step         = options.rangeEnd / data.cols;
   }
 
-  function init () {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    container.appendChild(canvas);
+  function init() {
+    stage.canvas.width = window.innerWidth;
+    stage.canvas.height = window.innerHeight;
+
     // Start with some default options
-    ctx.globalCompositeOperation = 'multiply';
+    stage.ctx.globalCompositeOperation = 'multiply';
     options.year = options.yearStart;
     updateOptions(sprites[defaultSprite]);
 
     setupInterface();
-    ddd = new Drawing();
+    drawing = new Drawing();
     animate();
 
-    req.getD( '../../data/ingeominas/eq' + options.year + '.json', dataReady );
+    req.getD('../../data/ingeominas/eq' + options.year + '.json', dataReady);
   }
 
-  function dataReady (data) {
+  function dataReady(data) {
     loading.style.opacity = 0;
     eqData = data;
 
     if (!imgLoaded) {
       loadSprite();
     } else {
-      ddd.draw();
+      drawing.draw();
     }
   }
 
-  function loadSprite () {
-    imgObj.onload = function () {
+  function loadSprite() {
+    imgObj.onload = function() {
       imgLoaded = true;
-      ddd.draw();
+      drawing.draw();
       loading.style.opacity = 0;
     };
     imgObj.src = options.sprite;
   }
 
-  function animate () {
+  function animate() {
     if (animating) {
       if (eqIndex < eqData.length) {
-        ddd.defineRenderMode(eqData[eqIndex].utc, eqData[eqIndex].ml);
+        drawing.defineRenderMode(eqData[eqIndex].utc, eqData[eqIndex].ml);
         eqIndex++;
       } else {
         animating = false;
@@ -133,13 +131,13 @@
     requestAnimationFrame(animate);
   }
 
-  function menuReady (menu, current) {
+  function menuReady(menu, current) {
     container.appendChild(menu);
     currentYearBtn = current ? current : currentYearBtn;
   }
 
-  function setupInterface () {
-    yearsListMenu(
+  function setupInterface() {
+    DDD.yearsMenu(
       options.yearStart,
       options.yearEnd,
       options.yearStart,
@@ -202,44 +200,45 @@
   }
 
   /*==========  CLICK EVENT CALLBACKS  ==========*/
-  function yearsClickEvent (event) {
-    resetCurrentClass(currentYearBtn, event.target);
+  function yearsClickEvent(event) {
+    req.abort();
+    DDD.resetCurrent(currentYearBtn, event.target);
     currentYearBtn = event.target;
     options.year = Number(event.target.textContent);
 
-    ddd.redraw(true);
+    drawing.redraw(true);
   }
 
-  function strokesClickEvent (event) {
+  function strokesClickEvent(event) {
     var prevSprite = currentStrokeBtn.dataset.sprite;
     var newSprite = event.target.dataset.sprite;
 
-    resetCurrentClass(currentStrokeBtn, event.target);
+    DDD.resetCurrent(currentStrokeBtn, event.target);
 
     if (prevSprite !== newSprite) {
       updateOptions(sprites[newSprite]);
       loadSprite();
     }
     currentStrokeBtn = event.target;
-    ddd.redraw(false);
+    drawing.redraw(false);
   }
 
-  function updateRadiusText () {
+  function updateRadiusText() {
     return 'Radius: ' + options.radius + 'px';
   }
 
-  function updateMagnitudeText () {
+  function updateMagnitudeText() {
     return options.rangeStart + ' - ' + options.rangeEnd + ' Ml';
   }
 
-  function updateOpacityText () {
+  function updateOpacityText() {
     return 'Opacity: ' + options.opacity;
   }
 
   /*===============================
   =            SLIDERS            =
   ===============================*/
-  function createSliders () {
+  function createSliders() {
     $('#slider-radius').slider({
       orientation: 'horizontal',
       animating: 'fast',
@@ -250,7 +249,7 @@
       slide: function(event, ui) {
         options.radius = ui.value;
         event.target.firstElementChild.textContent = updateRadiusText();
-        ddd.updatePosition();
+        drawing.updatePosition();
       }
     });
 
@@ -262,26 +261,26 @@
       max: options.rangeEnd,
       step: 0.1,
       values: [options.rangeStart, options.rangeEnd],
-      slide: function (event, ui) {
+      slide: function(event, ui) {
         options.rangeStart = ui.values[0];
         options.rangeEnd = ui.values[1];
         event.target.firstElementChild.textContent = updateMagnitudeText();
-        ddd.updatePosition();
+        drawing.updatePosition();
       }
     });
 
     $('#slider-opacity').slider({
       orientation: 'horizontal',
       animating: 'fast',
-      range: "min",
+      range: 'min',
       min: 0.1,
       max: 1,
       step: 0.1,
       value: options.opacity,
-      slide: function (event, ui) {
+      slide: function(event, ui) {
         options.opacity = ui.value;
         event.target.firstElementChild.textContent = updateOpacityText();
-        ddd.updatePosition();
+        drawing.updatePosition();
       }
     });
   }
@@ -291,36 +290,36 @@
   /*===============================
   =            CLASSES            =
   ===============================*/
-  function Drawing () {
+  function Drawing() {
     this.stopAnimation = false;
     this.yearEnd    = options.year + 1;
-    this.yearLength = ( Date.parse(this.yearEnd) - Date.parse(options.year) ) * 0.001;
+    this.yearLength = (Date.parse(this.yearEnd) - Date.parse(options.year)) * 0.001;
     this.secondsW   = 360 / this.yearLength;
   }
 
-  Drawing.prototype.draw = function () {
-    ctx.globalAlpha = options.opacity;
+  Drawing.prototype.draw = function() {
+    stage.ctx.globalAlpha = options.opacity;
     this.frameW = options.spriteW / options.spriteCols | 0;
     this.frameH = options.spriteH / options.spriteRows | 0;
     if (!animating) {
       for (var i = 0; i < eqData.length; i++) {
         // Check the range of the slider and render only within those values
-        if ( eqData[i].ml >= options.rangeStart && eqData[i].ml <= options.rangeEnd ) {
+        if (eqData[i].ml >= options.rangeStart && eqData[i].ml <= options.rangeEnd) {
           this.defineRenderMode(eqData[i].utc, eqData[i].ml);
         }
       }
     }
   };
 
-  Drawing.prototype.defineRenderMode = function (utc, ml) {
+  Drawing.prototype.defineRenderMode = function(utc, ml) {
     var eventDate  = utc;
     var dReset     = eventDate - (Date.parse(options.year) * 0.001);
     var rot        = dReset * this.secondsW;
     var magnitude  = ml;
 
-    ctx.save();
-    ctx.translate(centerX, centerY);
-    ctx.rotate(rot * Math.PI / 180);
+    stage.ctx.save();
+    stage.ctx.translate(stage.center.x, stage.center.y);
+    stage.ctx.rotate(rot * Math.PI / 180);
 
     if (options.spriteRows === 1) {
       this.oneRowSpriteStroke(magnitude);
@@ -328,10 +327,10 @@
       this.multiRowSpriteStroke(magnitude);
     }
 
-    ctx.restore();
+    stage.ctx.restore();
   };
 
-  Drawing.prototype.redraw = function (loadNewData) {
+  Drawing.prototype.redraw = function(loadNewData) {
     loading.style.opacity = 1;
     eqIndex = 0;
     animating = currentStrokeBtn.classList.contains('play') ? true : false;
@@ -340,14 +339,14 @@
 
     if (loadNewData) {
       eqData.pop();
-      req.getD( '../../data/ingeominas/eq' + options.year + '.json', dataReady );
+      req.json('../../data/ingeominas/eq' + options.year + '.json', dataReady);
     } else {
       loading.style.opacity = 0;
       this.draw();
     }
   };
 
-  Drawing.prototype.updatePosition = function () {
+  Drawing.prototype.updatePosition = function() {
     // only clear the canvas if it is not animating
     if (!animating) {
       this.clearCanvas();
@@ -355,25 +354,24 @@
     }
   };
 
-  Drawing.prototype.clearCanvas = function () {
-    ctx.save();
-    ctx.globalCompositeOperation = 'destination-out';
-    ctx.fillStyle = '#FFF';
-    ctx.globalAlpha = 1;
-    ctx.fillRect(0, 0, stageW, stageH);
-    ctx.restore();
+  Drawing.prototype.clearCanvas = function() {
+    stage.ctx.save();
+    stage.ctx.globalCompositeOperation = 'destination-out';
+    stage.ctx.fillStyle = '#FFF';
+    stage.ctx.globalAlpha = 1;
+    stage.ctx.fillRect(0, 0, stage.w, stage.h);
+    stage.ctx.restore();
   };
 
-
-  Drawing.prototype.oneRowSpriteStroke = function (magnitude) {
+  Drawing.prototype.oneRowSpriteStroke = function(magnitude) {
     for (var i = 0; i < options.spriteCols; i++) {
-      if ( magnitude > (i * options.step) && magnitude <= ( (i + 1) * options.step ) ) {
+      if (magnitude > (i * options.step) && magnitude <= ((i + 1) * options.step)) {
         this.render(i, 0);
       }
     }
   };
 
-  Drawing.prototype.multiRowSpriteStroke = function (magnitude) {
+  Drawing.prototype.multiRowSpriteStroke = function(magnitude) {
     var spriteColumn = 0;
     var spriteRow    = 0;
     var mlValues     = [];
@@ -394,8 +392,8 @@
     this.render(spriteColumn, spriteRow);
   };
 
-  Drawing.prototype.render = function (col, row) {
-    ctx.drawImage(
+  Drawing.prototype.render = function(col, row) {
+    stage.ctx.drawImage(
       imgObj,
       col * this.frameW, row * this.frameH,
       this.frameW, this.frameH,

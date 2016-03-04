@@ -79,7 +79,7 @@
           goodcolors.push(black);
         }
       }
-console.log(goodcolors)
+
       begin();
       draw();
       loading.style.opacity = 0;

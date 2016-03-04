@@ -1,21 +1,20 @@
-(function () {
+(function() {
   'use strict';
 
-  /*----------  GLOBALS  ----------*/
-  var container = document.getElementById('ddd-container');
-  var loading   = document.getElementById('ddd-loading');
-  var stageW = window.innerWidth;
-  var stageH = window.innerHeight;
-  var centerX = stageW / 2  | 0;
-  var centerY = stageH / 2 | 0;
-  var req  = new DREQ();
-  var req2 = new DREQ();
+  var req  = new DDD.DataRequest();
+  var req2 = new DDD.DataRequest();
   var animReq;
 
+  /*----------  SET STAGE  ----------*/
+  var container = document.getElementById('ddd-container');
+  var loading   = document.getElementById('ddd-loading');
+  var bg        = DDD.canvas(container);
+  var stage     = DDD.canvas(container);
+  stage.ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+
   // MAP
-  var col = [];
-  var mapCenter;
-  var mapZoom = 13;
+  var map       = new DDD.Map({zoom: 13});
+  var col       = [];
   var mapLoaded = false;
 
   // EQ
@@ -32,35 +31,17 @@
   // Animate
   var playerI = 0;
 
-  /*----------  CREATE CANVAS  ----------*/
-  var bg = createCanvas( container, { zi: 1 } );
-  var eq = createCanvas( container, { zi: 2 } );
-  eq.ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
-
-  function convertCoordinates (lon, lat, zoom) {
-    var zoomX = stageW * zoom;
-    var zoomY = centerY * zoom;
-    var latRad = Number(lat) * Math.PI / 180;
-    var mercatorN = Math.log( Math.tan( (Math.PI / 4 ) + (latRad / 2) ) );
-    var x = (Number(lon) + 180) * (zoomX / 360);
-    var y = (zoomY - (zoomX * mercatorN / (Math.PI * 2) ) );
-
-    if (mapCenter) {
-      x -= mapCenter.x;
-      y -= mapCenter.y;
-    }
-
-    return {x: x | 0, y: y | 0};
-  }
+  DDD.html.yearsMenu(1993, 2015, 2003, yearClickEvent, yearsMenuReady);
 
   /*===========================
   =            MAP            =
   ===========================*/
-  function processMapData (data) {
-    mapCenter = convertCoordinates(data.center[0], data.center[1], mapZoom);
-    data.coordinates.forEach(function (polygon) {
-      polygon.forEach(function (layer) {
-        layer.forEach(function (node) {
+  function processMapData(data) {
+    map.newCenter(data.center[0], data.center[1]);
+
+    data.coordinates.forEach(function(polygon) {
+      polygon.forEach(function(layer) {
+        layer.forEach(function(node) {
           col.push({
             lon: node[0],
             lat: node[1]
@@ -73,12 +54,14 @@
     mapLoaded = true;
   }
 
-  function drawMap (d, ctx, mode) {
-    if (mode === 1) ctx.beginPath();
+  function drawMap(d, ctx, mode) {
+    if (mode === 1) {
+      ctx.beginPath();
+    }
     ctx.save();
-      ctx.translate(centerX, centerY);
-      d.forEach(function (node, i) {
-        var coords = convertCoordinates(node.lon, node.lat, mapZoom);
+    ctx.translate(stage.center.x, stage.center.y);
+    d.forEach(function(node, i) {
+        var coords = map.convertCoordinates(node.lon, node.lat);
 
         if (mode === 1) {
           if (i === 0) {
@@ -87,21 +70,27 @@
             ctx.lineTo(coords.x, coords.y);
           }
         }
-        if (mode === 0) ctx.fillRect( coords.x, coords.y, 1, 1 );
+
+        if (mode === 0) {
+          ctx.fillRect(coords.x, coords.y, 1, 1);
+        }
       });
     ctx.restore();
-    if (mode === 1) ctx.fill();
+
+    if (mode === 1) {
+      ctx.fill();
+    }
   }
   /*=====  End of MAP  ======*/
 
   /*==========================
   =            EQ            =
   ==========================*/
-  function updateEQMap (year) {
-    req.getD( '../../data/ingeominas/eq' + year + '.json', processEQData );
+  function updateEQMap(year) {
+    req.json('../../data/ingeominas/eq' + year + '.json', processEQData);
   }
 
-  function processEQData (data) {
+  function processEQData(data) {
     eqData = data;
 
     checkMapState();
@@ -112,7 +101,7 @@
           playerI = 0;
           animReq = requestAnimationFrame(animate);
         } else {
-          drawMap(data, eq.ctx, optionMode);
+          drawMap(data, stage.ctx, optionMode);
         }
 
         loading.style.opacity = 0;
@@ -126,27 +115,29 @@
   /*===============================
   =            ANIMATE            =
   ===============================*/
-  function animate () {
+  function animate() {
     if (playerI === 0) {
-      eq.ctx.clearRect(0, 0, stageW, stageH);
+      stage.ctx.clearRect(0, 0, stage.w, stage.h);
     }
 
     if (eqData.length > 0 && playerI < eqData.length) {
-      var coords = convertCoordinates(eqData[playerI].lon, eqData[playerI].lat, mapZoom);
+      var coords = map.convertCoordinates(eqData[playerI].lon, eqData[playerI].lat);
 
-      eq.ctx.save();
-        eq.ctx.translate(centerX, centerY);
-          if (optionMode === 1) {
-            if (playerI > 0) {
-              var coords2 = convertCoordinates(eqData[playerI - 1].lon, eqData[playerI - 1].lat, mapZoom);
-              eq.ctx.beginPath();
-              eq.ctx.moveTo(coords.x, coords.y);
-              eq.ctx.lineTo(coords2.x, coords2.y);
-              eq.ctx.stroke();
-            }
-          }
-        if (optionMode === 0) eq.ctx.fillRect( coords.x, coords.y, 1, 1 );
-      eq.ctx.restore();
+      stage.ctx.save();
+      stage.ctx.translate(stage.center.x, stage.center.y);
+      if (optionMode === 1) {
+        if (playerI > 0) {
+          var coords2 = map.convertCoordinates(eqData[playerI - 1].lon, eqData[playerI - 1].lat);
+          stage.ctx.beginPath();
+          stage.ctx.moveTo(coords.x, coords.y);
+          stage.ctx.lineTo(coords2.x, coords2.y);
+          stage.ctx.stroke();
+        }
+      }
+      if (optionMode === 0) {
+        stage.ctx.fillRect(coords.x, coords.y, 1, 1);
+      }
+      stage.ctx.restore();
 
       playerI++;
       animReq = requestAnimationFrame(animate);
@@ -160,18 +151,20 @@
   /*==================================
   =            YEARS MENU            =
   ==================================*/
-  function yearsMenuReady (menu, currEle) {
+  function yearsMenuReady(menu, currEle) {
     container.appendChild(menu);
     currentYear = currEle;
     updateEQMap(currEle.textContent);
+    req2.json('../../data/geo/col-50m.json', processMapData);
+    optionsMenu();
   }
 
-  function yearClickEvent (event) {
+  function yearClickEvent(event) {
     loading.style.opacity = 1;
     window.cancelAnimationFrame(animReq);
-    resetCurrentClass(currentYear, event.target);
+    DDD.html.resetCurrent(currentYear, event.target);
     currentYear = event.target;
-    eq.ctx.clearRect(0, 0, stageW, stageH);
+    stage.ctx.clearRect(0, 0, stage.w, stage.h);
     updateEQMap(currentYear.textContent);
   }
   /*=====  End of YEARS MENU  ======*/
@@ -179,11 +172,11 @@
   /*====================================
   =            OPTIONS MENU            =
   ====================================*/
-  function optionsMenu () {
+  function optionsMenu() {
     var c = document.createElement('ul');
     var options = ['dots', 'lines'];
 
-    options.forEach(function (ele, i) {
+    options.forEach(function(ele, i) {
       var option = document.createElement('li');
       option.textContent = ele;
       option.style.cursor = 'pointer';
@@ -193,17 +186,19 @@
         option.className = 'current';
       }
 
-      option.addEventListener('click', function (event) {
+      option.onclick = function(event) {
         loading.style.opacity = 1;
         playerI = 0;
         animating = false;
         resetAnimationBTN();
-        resetCurrentClass(currentOption, event.target);
+        DDD.html.resetCurrent(currentOption, event.target);
         currentOption = event.target;
-        eq.ctx.clearRect(0, 0, stageW, stageH);
+        stage.ctx.clearRect(0, 0, stage.w, stage.h);
         optionMode = i;
         updateEQMap(currentYear.textContent);
-      }, false);
+
+        return false;
+      };
 
       c.appendChild(option);
     });
@@ -216,7 +211,7 @@
     container.appendChild(c);
   }
 
-  function animateOption (c) {
+  function animateOption(c) {
     animateBTN.innerHTML = '&#9658';
     animateBTN.style.padding = '0.3em';
     animateBTN.style.listStyle = 'none';
@@ -224,13 +219,15 @@
     animateBTN.style.cursor = 'pointer';
     c.appendChild(animateBTN);
 
-    animateBTN.addEventListener('click', function () {
+    animateBTN.onclick = function() {
       animating = true;
       resetAnimationBTN();
-    }, false);
+
+      return false;
+    };
   }
 
-  function resetAnimationBTN () {
+  function resetAnimationBTN() {
     if (animateBTN.className === 'on') {
       animating = false;
       animateBTN.innerHTML = '&#9658';
@@ -244,11 +241,4 @@
   }
   /*=====  End of OPTIONS MENU  ======*/
 
-  function init () {
-    yearsListMenu (1993, 2015, 2003, yearClickEvent, yearsMenuReady);
-    req2.getD( '../../data/geo/col-50m.json', processMapData );
-    optionsMenu();
-  }
-
-  init();
 })();

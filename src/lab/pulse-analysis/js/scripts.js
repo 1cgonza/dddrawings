@@ -161,7 +161,9 @@
         this.printText(x, i);
         // this.ctx.strokeText( this.data[i], x - 5, this.h + minMaxValues.raw.min - this.data[i] - 3 );
 
-        if (this.timeBtwnBeats > 55) this.errorSampleRange(x);
+        if (this.timeBtwnBeats > 55) {
+          this.errorSampleRange(x);
+        }
 
         this.timeBtwnBeats = 0;
         this.lastBeat = x;

@@ -1,22 +1,23 @@
-(function () {
+(function() {
   'use strict';
-  /*===============================
-  =            GLOBALS            =
-  ===============================*/
+
+  var violenceReq = new DDD.DataRequest();
+  var mapReq      = new DDD.DataRequest();
 
   /*----------  STAGE  ----------*/
   var container = document.getElementById('ddd-container');
   var loading   = document.getElementById('ddd-loading');
-  var stageW    = window.innerWidth;
-  var stageH    = window.innerHeight;
-  var centerX   = stageW / 2 | 0;
-  var centerY   = stageH / 2 | 0;
+
+  var stage = DDD.canvas(container);
+  var log   = DDD.canvas(container);
 
   /*----------  DATA  ----------*/
-  var year   = 2008;
+  var year   = 2009;
+  var rain = [];
   var d      = [];
-  var rain   = [];
+  var geoD   = [];
   var dLoaded   = false;
+  var geoLoaded = false;
 
   /*----------  ANIMATION  ----------*/
   var animReq;
@@ -25,33 +26,24 @@
   var tick  = 0;
 
   /*----------  MAP  ----------*/
-  var colCenter = [-71.999996,4.000002];
-  var mapZ = 8;
-  var mapCenter = convertCoordinates(colCenter[0], colCenter[1], mapZ);
+  var map = new DDD.Map({zoom: 8, width: stage.w, height: stage.h, center: {lon: -71.999996, lat: 4.000002}});
 
-  /*----------  CANVAS  ----------*/
-  var bg = createCanvas(container);
-  var stage = createCanvas(container);
+  /*----------  TIME  ----------*/
+  var prevTimePosition = 0;
+
+  // Set dates range as ISO 8601 YYYY-MM-DDThh:mm:ss
+  var dIni = moment.tz(year + '-01-01T00:00:00', 'America/Bogota');
+  var dEnd = moment.tz(year + '-12-31T12:59:59', 'America/Bogota');
 
   /*----------  MENU  ----------*/
   var current;
-  yearsListMenu(2008, 2015, year, yearClickEvent, menuReady);
+  DDD.yearsMenu(2008, 2015, year, yearClickEvent, menuReady);
 
-  /*=====  End of GLOBALS  ======*/
-
-  /*============================
-  =            MENU            =
-  ============================*/
-  function menuReady (menu, currentFirst) {
-    container.appendChild(menu);
-    current = currentFirst;
-  }
-
-  function yearClickEvent (event) {
+  function yearClickEvent(event) {
     if (event.target !== current) {
       window.cancelAnimationFrame(animReq);
       loading.style.opacity = 1;
-      resetCurrentClass(current, event.target);
+      DDD.resetCurrent(current, event.target);
       current = event.target;
       year = event.target.textContent;
 
@@ -59,44 +51,37 @@
     }
   }
 
-  /*=====  End of MENU  ======*/
+  function menuReady(menu, currentFirst) {
+    container.appendChild(menu);
+    current = currentFirst;
+    requestViolenceData();
+  }
 
-  function reloadStage () {
+  function reloadStage() {
     dataI = 0;
+    rain = [];
     d      = [];
     dLoaded   = false;
+    prevTimePosition = 0;
+    dIni = moment.tz(year + '-01-01T00:00:00', 'America/Bogota');
+    dEnd = moment.tz(year + '-12-31T12:59:59', 'America/Bogota');
 
-    bg.ctx.clearRect(0, 0, stageW, stageH);
-    stage.ctx.clearRect(0, 0, stageW, stageH);
+    stage.ctx.clearRect(0, 0, stage.w, stage.h);
+    log.ctx.clearRect(0, 0, log.w, log.h);
 
     requestViolenceData();
-    checkAssetsLoaded();
   }
 
-  function requestViolenceData () {
-    requestData('../../data/monitor/violencia-geo-' + year + '.json', processViolenceData);
-  }
-
-  function processViolenceData (data) {
-    d = data;
-    dLoaded = true;
-  }
-
-  function init () {
-    requestViolenceData();
-    checkAssetsLoaded();
-  }
-
-  function checkAssetsLoaded () {
-    if (dLoaded) {
-      animate();
+  function requestViolenceData() {
+    violenceReq.getD('../../data/monitor/violencia-geo-' + year + '.json', function(data) {
+      d = data;
+      dLoaded = true;
       loading.style.opacity = 0;
-    } else {
-      animReq = requestAnimationFrame(checkAssetsLoaded);
-    }
+      animate();
+    });
   }
 
-  function animate () {
+  function animate() {
     if (dataI < d.length - 1) {
       if (tick === hold) {
         draw(dataI);
@@ -116,25 +101,32 @@
     }
   }
 
-  function draw (i) {
+  function draw(i) {
     var e = d[i];
-
     if ('total_v' in e && 'cat' in e && e.cat.indexOf('Homicidio') >= 0) {
       var total = Number(d[i].total_v);
+      var date = moment.tz(d[i].fecha_ini, 'America/Bogota');
+      var elapsed = ((date - dIni) / 31536000000) * stage.w;
+
+      log.ctx.beginPath();
+      log.ctx.moveTo(prevTimePosition, 0);
+      log.ctx.lineTo(elapsed - (elapsed - prevTimePosition) / 2, total * 3);
+      log.ctx.lineTo(elapsed, 0);
+      log.ctx.stroke();
+      prevTimePosition = elapsed;
 
       if ('lon' in e && 'lat' in e) {
-        var coords = convertCoordinates(e.lon, e.lat, mapZ);
+        var coords = map.convertCoordinates(e.lon, e.lat);
 
         for (var t = 0; t < total; t++) {
-          var drop = new Drop(coords.x  + centerX, coords.y  + centerY);
+          var drop = new Drop(coords.x + stage.center.x, coords.y + stage.center.y);
           rain.push(drop);
         }
-
       }
     }
 
     if (rain.length > 0) {
-      stage.ctx.clearRect(0, 0, stageW, stageH);
+      stage.ctx.clearRect(0, 0, stage.w, stage.h);
 
       for (var j = 0; j < rain.length; j++) {
         var node = rain[j];
@@ -142,8 +134,7 @@
         if (node.alive) {
           if (node.mode === 1) {
             node.fall();
-          }
-          else if (node.mode === 2) {
+          } else if (node.mode === 2) {
             node.ripple();
           }
         } else {
@@ -151,29 +142,12 @@
         }
       }
     }
-
-  }
-
-  function convertCoordinates (lon, lat, zoom) {
-    var zoomX = stageW * zoom;
-    var zoomY = centerY * zoom;
-    var latRad = Number(lat) * Math.PI / 180;
-    var mercatorN = Math.log( Math.tan( (Math.PI / 4 ) + (latRad / 2) ) );
-    var x = (Number(lon) + 180) * (zoomX / 360);
-    var y = (zoomY - (zoomX * mercatorN / (Math.PI * 2) ) );
-
-    if (mapCenter) {
-      x -= mapCenter.x;
-      y -= mapCenter.y;
-    }
-
-    return {x: x | 0, y: y | 0};
   }
 
   /*===============================
   =            CLASSES            =
   ===============================*/
-  function Drop (x, y) {
+  function Drop(x, y) {
     this.x = x;
     this.y = 0;
     this.dy = y;
@@ -209,5 +183,4 @@
   };
   /*=====  End of CLASSES  ======*/
 
-  init();
 })();

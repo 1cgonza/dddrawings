@@ -8,22 +8,18 @@
 
 // a generative painting system using random collisions of
 // four unique orbit decaying particle types.
-(function () {
+(function() {
   'use strict';
   /*----------  GLOBALS  ----------*/
   var container = document.getElementById('ddd-container');
   var loading   = document.getElementById('ddd-loading');
-  var stageW = window.innerWidth;
-  var stageH = window.innerHeight;
-  var centerX = stageW / 2 | 0;
-  var centerY = stageH / 2 | 0;
-  var TWO_PI = Math.PI * 2;
+  var TWO_PI    = Math.PI * 2;
 
   // particle proportions
-  var maxMuon = 1789;
-  var maxQuark = 1300;
+  var maxMuon   = 1789;
+  var maxQuark  = 1300;
   var maxHadron = 1000;
-  var maxAxion = 111;
+  var maxAxion  = 111;
 
   // angle of collision (usually calculated with mouse position)
   var collisionTheta;
@@ -32,39 +28,41 @@
   var boom = false;
 
   // discrete universe of particles?
-  var muon = [];
-  var quark = [];
+  var muon   = [];
+  var quark  = [];
   var hadron = [];
-  var axion = [];
+  var axion  = [];
 
   // some nice color palettes
   // rusted desert metal. winter, new mexico
-  var goodcolor = ['#3a242b', '#3b2426', '#352325', '#836454', '#7d5533', '#8b7352','#b1a181', '#a4632e', '#bb6b33', '#b47249', '#ca7239', '#d29057', '#e0b87e', '#d9b166', '#f5eabe', '#fcfadf', '#d9d1b0', '#fcfadf', '#d1d1ca', '#a7b1ac', '#879a8c', '#9186ad', '#776a8e'];
-
+  var goodcolor = [
+    '#3a242b', '#3b2426', '#352325', '#836454',
+    '#7d5533', '#8b7352', '#b1a181', '#a4632e',
+    '#bb6b33', '#b47249', '#ca7239', '#d29057',
+    '#e0b87e', '#d9b166', '#f5eabe', '#fcfadf',
+    '#d9d1b0', '#fcfadf', '#d1d1ca', '#a7b1ac',
+    '#879a8c', '#9186ad', '#776a8e'
+  ];
 
   /*----------  CREATE CANVAS  ----------*/
-  var canvas = document.createElement('canvas');
-  var ctx    = canvas.getContext('2d');
-  canvas.width  = stageW;
-  canvas.height = stageH;
-  container.appendChild(canvas);
+  var stage = DDD.canvas(container);
 
-  function setup () {
+  function setup() {
     // instantiate universe of particles
     for (var i = 0; i < maxAxion; i++) {
-      axion[i] = new Axion(centerX, centerY);
+      axion[i] = new Axion(stage.center.x, stage.center.y);
     }
 
     for (var ii = 0; ii < maxHadron; ii++) {
-      hadron[ii] = new Hadron(centerX, centerY);
+      hadron[ii] = new Hadron(stage.center.x, stage.center.y);
     }
 
     for (var j = 0; j < maxQuark; j++) {
-      quark[j] = new Quark(centerX, centerY);
+      quark[j] = new Quark(stage.center.x, stage.center.y);
     }
 
     for (var jj = 0; jj < maxMuon; jj++) {
-      muon[jj] = new Muon(centerX, centerY);
+      muon[jj] = new Muon(stage.center.x, stage.center.y);
     }
 
     boom = true;
@@ -73,57 +71,57 @@
     loading.style.opacity = 0;
   }
 
-  function draw () {
+  function draw() {
     if (boom) {
       // initial collision event has occured, ok to move the particles...
 
       // allow each particle in the universe one step
-      for (var i = 0; i < hadron.length; i++){
+      for (var i = 0; i < hadron.length; i++) {
         hadron[i].move();
       }
 
-      for (var ii = 0; ii < muon.length; ii++){
+      for (var ii = 0; ii < muon.length; ii++) {
         muon[ii].move();
       }
 
-      for (var j = 0; j < quark.length; j++){
+      for (var j = 0; j < quark.length; j++) {
         quark[j].move();
       }
 
-      for (var jj = 0; jj < axion.length; jj++){
+      for (var jj = 0; jj < axion.length; jj++) {
         axion[jj].move();
       }
     }
     requestAnimationFrame(draw);
   }
 
-  function collideOne (event) {
+  function collideOne(event) {
     // eject a single particle, relative to position position
     var t;
-    collisionTheta = Math.atan2(centerX - event.clientX, centerY / 2 - event.clientY);
+    collisionTheta = Math.atan2(stage.center.x - event.clientX, stage.center.y / 2 - event.clientY);
 
     // choose a set of hadron particles to recollide
     if (hadron.length > 0) {
-      t = getRandom(0, hadron.length);
+      t = DDD.random(0, hadron.length);
       hadron[t].collide();
     }
 
     // choose a set of quark particles to recollide
     if (quark.length > 0) {
-      t = getRandom(0, quark.length);
+      t = DDD.random(0, quark.length);
       quark[t].collide();
     }
 
     // choose a set of muon particles to recollide
     if (muon.length > 0) {
-      t = getRandom(0, muon.length);
+      t = DDD.random(0, muon.length);
       muon[t].collide();
     }
   }
 
-  function collideAll () {
+  function collideAll() {
     // random collision angle
-    collisionTheta = getRandom(0, TWO_PI, true);
+    collisionTheta = DDD.random(0, TWO_PI, true);
 
     // particle super collision
     if (hadron.length > 0) {
@@ -162,57 +160,57 @@
   //   is color almost everywhere in the general direction of collision,
   //   stabilized into fuzzy rings.
 
-  function Muon (x, y) {
+  function Muon(x, y) {
     this.x = x;
     this.y = y;
     this.vx = 0;
     this.vy = 0;
-    this.myc = hexToRgb( goodcolor[0] );
-    this.mya = hexToRgb( goodcolor[goodcolor.length - 1] );
+    this.myc = DDD.hexToRgb(goodcolor[0]);
+    this.mya = DDD.hexToRgb(goodcolor[goodcolor.length - 1]);
   }
 
-  Muon.prototype.collide = function () {
+  Muon.prototype.collide = function() {
     // initialize all parameters
-    this.x = centerX;
-    this.y = centerY;
-    this.speed = getRandom(2, 32);
-    this.speedD = getRandom(0.0001, 0.001, true);
+    this.x = stage.center.x;
+    this.y = stage.center.y;
+    this.speed = DDD.random(2, 32);
+    this.speedD = DDD.random(0.0001, 0.001, true);
 
     // rotation
-    this.theta = collisionTheta + getRandom(-0.1, 0.1, true);
+    this.theta = collisionTheta + DDD.random(-0.1, 0.1, true);
     this.thetaD = 0;
     this.thetaDD = 0;
 
     // ensure that there IS decay
     while (Math.abs(this.thetaDD) < 0.001) {
       // rate of orbit decay
-      this.thetaDD = getRandom(-0.1, 0.1, true);
+      this.thetaDD = DDD.random(-0.1, 0.1, true);
     }
 
     // color is determined by direction of movement
     var c = (goodcolor.length - 1) * (this.theta + Math.PI) / TWO_PI | 0;
-    if ( c >= goodcolor.length || c < 0 ) {
+    if (c >= goodcolor.length || c < 0) {
       // SAFETY: this is giving me problems
       // println("whoa: "+c);
     } else {
-      this.myc = hexToRgb( goodcolor[c] );
+      this.myc = DDD.hexToRgb(goodcolor[c]);
       // anti-particle color
-      this.mya = hexToRgb( goodcolor[goodcolor.length - c - 1] );
+      this.mya = DDD.hexToRgb(goodcolor[goodcolor.length - c - 1]);
     }
   };
 
-  Muon.prototype.move = function () {
+  Muon.prototype.move = function() {
     // draw
-    ctx.save();
-      ctx.fillStyle = 'rgba(' + this.myc.r + ', ' + this.myc.g + ', ' + this.myc.b + ', ' + convertAlpha(42) + ')';
-      ctx.fillRect(this.x, this.y, 1, 1);
-    ctx.restore();
+    stage.ctx.save();
+    stage.ctx.fillStyle = 'rgba(' + this.myc.r + ', ' + this.myc.g + ', ' + this.myc.b + ', ' + DDD.convertAlpha(42) + ')';
+    stage.ctx.fillRect(this.x, this.y, 1, 1);
+    stage.ctx.restore();
 
     // draw anti-particle
-    ctx.save();
-      ctx.fillStyle = 'rgba(' + this.mya.r + ', ' + this.mya.g + ', ' + this.mya.b + ', ' + convertAlpha(42) + ')';
-      ctx.fillRect(canvas.width - this.x, this.y, 1, 1);
-    ctx.restore();
+    stage.ctx.save();
+    stage.ctx.fillStyle = 'rgba(' + this.mya.r + ', ' + this.mya.g + ', ' + this.mya.b + ', ' + DDD.convertAlpha(42) + ')';
+    stage.ctx.fillRect(stage.width - this.x, this.y, 1, 1);
+    stage.ctx.restore();
 
     // move
     this.x += this.speed * Math.sin(this.theta);
@@ -228,7 +226,7 @@
     this.speed -= this.speedD;
 
     // do not allow particle to enter extreme offscreen areas
-    if ( (this.x <- canvas.width) || (this.x > canvas.width * 2) || (this.y <- canvas.height) || (this.y > canvas.height * 2) ) {
+    if ((this.x < -stage.width) || (this.x > stage.width * 2) || (this.y < -stage.height) || (this.y > stage.height * 2)) {
       this.collide();
     }
   };
@@ -240,38 +238,38 @@
   //   each quark has an entangled friend.  both particles are drawn identically,
   //   mirrored along the y-axis.
 
-  function Quark (x, y) {
+  function Quark(x, y) {
     this.x = x;
     this.y = y;
     this.vx = 0;
     this.vy = 0;
   }
 
-  Quark.prototype.collide = function () {
+  Quark.prototype.collide = function() {
     // initialize all parameters with random collision
-    this.x = centerX;
-    this.y = centerY;
-    this.theta = collisionTheta + getRandom(-0.11, 0.11, true);
-    this.speed = getRandom(0.5, 3.0, true);
+    this.x = stage.center.x;
+    this.y = stage.center.y;
+    this.theta = collisionTheta + DDD.random(-0.11, 0.11, true);
+    this.speed = DDD.random(0.5, 3.0, true);
 
-    this.speedD = getRandom(0.996, 1.001, true);
+    this.speedD = DDD.random(0.996, 1.001, true);
     this.thetaD = 0;
     this.thetaDD = 0;
 
     // rate of orbit decay
-    while ( Math.abs(this.thetaDD) < 0.00001) {
-      this.thetaDD = getRandom(-0.001, 0.001, true);
+    while (Math.abs(this.thetaDD) < 0.00001) {
+      this.thetaDD = DDD.random(-0.001, 0.001, true);
     }
   };
 
-  Quark.prototype.move = function () {
+  Quark.prototype.move = function() {
     // draw
-    ctx.save();
-      ctx.fillStyle = 'rgba(0, 0, 0, ' + convertAlpha(32) + ')';
-      ctx.fillRect(this.x, this.y, 1, 1);
-      // draw anti-particle
-      ctx.fillRect(canvas.width - this.x, this.y, 1, 1);
-    ctx.restore();
+    stage.ctx.save();
+    stage.ctx.fillStyle = 'rgba(0, 0, 0, ' + DDD.convertAlpha(32) + ')';
+    stage.ctx.fillRect(this.x, this.y, 1, 1);
+    // draw anti-particle
+    stage.ctx.fillRect(stage.width - this.x, this.y, 1, 1);
+    stage.ctx.restore();
 
     // move
     this.x += this.vx;
@@ -289,13 +287,13 @@
     // modify speed
     this.speed *= this.speedD;
 
-    if ( getRandom(0, 1000) > 997 ) {
+    if (DDD.random(0, 1000) > 997) {
       this.speed *= -1;
       this.speedD = 2 - this.speedD;
     }
 
     // do not allow particle to enter extreme offscreen areas
-    if ( (this.x <- canvas.width) || (this.x > canvas.width * 2) || (this.y <- canvas.height) || (this.y > canvas.height * 2) ) {
+    if ((this.x < -stage.width) || (this.x > stage.width * 2) || (this.y < -stage.height) || (this.y > stage.height * 2)) {
       this.collide();
     }
   };
@@ -307,47 +305,47 @@
   //    each hadron draws with a slight glowing emboss.
   //    the hadron itself is not drawn.
 
-  function Hadron (x, y) {
+  function Hadron(x, y) {
     this.x = x;
     this.y = y;
     this.vx = 0;
     this.vy = 0;
   }
 
-  Hadron.prototype.collide = function () {
+  Hadron.prototype.collide = function() {
     // initialize all parameters with random collision
-    this.x = centerX;
-    this.y = centerY;
-    this.theta = getRandom(0, TWO_PI, true);
-    this.speed = getRandom(0.5, 3.5, true);
+    this.x = stage.center.x;
+    this.y = stage.center.y;
+    this.theta = DDD.random(0, TWO_PI, true);
+    this.speed = DDD.random(0.5, 3.5, true);
 
-    this.speedD = getRandom(0.996, 1.001, true);
+    this.speedD = DDD.random(0.996, 1.001, true);
     this.thetaD = 0;
     this.thetaDD = 0;
 
     // rate of orbit decay
-    while ( Math.abs(this.thetaDD) < 0.00001) {
-      this.thetaDD = getRandom(-0.001, 0.001, true);
+    while (Math.abs(this.thetaDD) < 0.00001) {
+      this.thetaDD = DDD.random(-0.001, 0.001, true);
     }
 
-    this.myc = hexToRgb('#00FF00');
+    this.myc = DDD.hexToRgb('#00FF00');
   };
 
-  Hadron.prototype.move = function () {
+  Hadron.prototype.move = function() {
     // the particle itself is unseen, not drawn
     // instead, draw shadow emboss
 
     // lighten pixel above hadron
-    ctx.save();
-      ctx.fillStyle = 'rgba(255, 255, 255, ' + convertAlpha(28) + ')';
-      ctx.fillRect(this.x, this.y -1, 1, 1);
-    ctx.restore();
+    stage.ctx.save();
+    stage.ctx.fillStyle = 'rgba(255, 255, 255, ' + DDD.convertAlpha(28) + ')';
+    stage.ctx.fillRect(this.x, this.y - 1, 1, 1);
+    stage.ctx.restore();
 
     // darken pixel below hadron
-    ctx.save();
-      ctx.fillStyle = 'rgba(0, 0, 0, ' + convertAlpha(28) + ')';
-      ctx.fillRect(this.x, this.y +1, 1, 1);
-    ctx.restore();
+    stage.ctx.save();
+    stage.ctx.fillStyle = 'rgba(0, 0, 0, ' + DDD.convertAlpha(28) + ')';
+    stage.ctx.fillRect(this.x, this.y + 1, 1, 1);
+    stage.ctx.restore();
 
     // move
     this.x += this.vx;
@@ -365,20 +363,20 @@
     this.speed *= this.speedD;
 
     // random chance of subcollision event
-    if (getRandom(0, 1000) > 997) {
+    if (DDD.random(0, 1000) > 997) {
       // stablize orbit
       this.speedD = 1.0;
       this.thetaDD = 0.00001;
-      if (getRandom(0, 100) > 70) {
+      if (DDD.random(0, 100) > 70) {
         // recollide
-        this.x = centerX;
-        this.y = centerY;
+        this.x = stage.center.x;
+        this.y = stage.center.y;
         this.collide();
       }
     }
 
     // do not allow particle to enter extreme offscreen areas
-    if ( (this.x <- canvas.width) || (this.x > canvas.width * 2) || (this.y <- canvas.height) || (this.y > canvas.height * 2) ) {
+    if ((this.x < -stage.width) || (this.x > stage.width * 2) || (this.y < -stage.height) || (this.y > stage.height * 2)) {
       this.collide();
     }
   };
@@ -390,49 +388,49 @@
   //   and fall into single pixel orbits axions automatically
   //   recollide themselves after stabilizing.
 
-  function Axion (x, y) {
+  function Axion(x, y) {
     this.x = x;
     this.y = y;
     this.vx = 0;
     this.vy = 0;
   }
 
-  Axion.prototype.collide = function () {
-    this.x = centerX;
-    this.y = centerY;
-    this.theta = getRandom(0, TWO_PI, true);
-    this.speed = getRandom(1.0, 6.0, true);
+  Axion.prototype.collide = function() {
+    this.x = stage.center.x;
+    this.y = stage.center.y;
+    this.theta = DDD.random(0, TWO_PI, true);
+    this.speed = DDD.random(1.0, 6.0, true);
 
-    this.speedD = getRandom(0.998, 1.000, true);
+    this.speedD = DDD.random(0.998, 1.000, true);
     this.thetaD = 0;
     this.thetaDD = 0;
 
     // rate of orbit decay
-    while( Math.abs(this.thetaDD) < 0.00001 ) {
-      this.thetaDD = getRandom(-0.001, 0.001, true);
+    while (Math.abs(this.thetaDD) < 0.00001) {
+      this.thetaDD = DDD.random(-0.001, 0.001, true);
     }
   };
 
-  Axion.prototype.move = function () {
+  Axion.prototype.move = function() {
     // draw - axions are high contrast
-    ctx.save();
-    ctx.fillStyle = 'rgba(16, 16, 16, ' + convertAlpha(150) + ')';
-    ctx.fillRect(this.x, this.y, 1, 1);
-    ctx.restore();
+    stage.ctx.save();
+    stage.ctx.fillStyle = 'rgba(16, 16, 16, ' + DDD.convertAlpha(150) + ')';
+    stage.ctx.fillRect(this.x, this.y, 1, 1);
+    stage.ctx.restore();
 
     // axions cast vertical glows, highlight/shadow emboss
     for (var dy = 1; dy < 5; dy++) {
-      ctx.save();
-      ctx.fillStyle = 'rgba(255, 255, 255, ' + convertAlpha(30 - dy * 6) + ')';
-      ctx.fillRect(this.x, this.y - dy, 1, 1);
-      ctx.restore();
+      stage.ctx.save();
+      stage.ctx.fillStyle = 'rgba(255, 255, 255, ' + DDD.convertAlpha(30 - dy * 6) + ')';
+      stage.ctx.fillRect(this.x, this.y - dy, 1, 1);
+      stage.ctx.restore();
     }
 
     for (var dy2 = 1; dy2 < 5; dy2++) {
-      ctx.save();
-      ctx.fillStyle = 'rgba(0, 0, 0, ' + convertAlpha(30 - dy * 6) + ')';
-      ctx.fillRect(this.x, this.y + dy2, 1, 1);
-      ctx.restore();
+      stage.ctx.save();
+      stage.ctx.fillStyle = 'rgba(0, 0, 0, ' + DDD.convertAlpha(30 - dy * 6) + ')';
+      stage.ctx.fillRect(this.x, this.y + dy2, 1, 1);
+      stage.ctx.restore();
     }
 
     // move
@@ -452,16 +450,16 @@
     this.speed *= this.speedD;
     this.speedD *= 0.9999;
 
-    if (getRandom(0, 100) > 30) {
-      this.x = centerX;
-      this.y = centerY;
+    if (DDD.random(0, 100) > 30) {
+      this.x = stage.center.x;
+      this.y = stage.center.y;
       this.collide();
     }
   };
 
   setup();
 
-  document.body.addEventListener('click', function (e) {
+  document.body.addEventListener('click', function(e) {
     // fire 11 of each particle type
     for (var k = 0; k < 11; k++) {
       collideOne(event);
@@ -470,13 +468,13 @@
     boom = true;
   });
 
-  window.addEventListener('keyup', function (e) {
+  window.addEventListener('keyup', function(e) {
     if (event.keyCode === 32) {
       boom = true;
-      ctx.save();
-        ctx.fillStyle = '#FFF';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.restore();
+      stage.ctx.save();
+      stage.ctx.fillStyle = '#FFF';
+      stage.ctx.fillRect(0, 0, stage.width, stage.height);
+      stage.ctx.restore();
       collideAll();
     }
   });

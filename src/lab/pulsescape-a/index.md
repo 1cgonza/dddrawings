@@ -9,6 +9,4 @@ tags:
   - dataset-pulse
 categories:
   -
-scripts:
-  - Functions
 ---

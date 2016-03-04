@@ -7,6 +7,4 @@ image: https://farm2.staticflickr.com/1573/24900231951_b11de08b2e_b.jpg
 thumb: https://farm2.staticflickr.com/1573/24900231951_b11de08b2e.jpg
 tags:
   - dataset-monitor
-scripts:
-  - Functions
 ---

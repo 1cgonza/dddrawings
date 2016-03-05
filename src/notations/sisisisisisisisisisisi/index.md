@@ -6,8 +6,6 @@ year: 2011
 date: 2015-10-05 18:05:58
 image: https://farm1.staticflickr.com/759/21426729903_07f7da538b_b.jpg
 thumb: https://farm1.staticflickr.com/759/21426729903_07f7da538b.jpg
-scripts:
-  - Functions
 poster: SiSiSiSiSiSiSiSiSiSiSi-poster.jpg
 videos:
   - mp4: SiSiSiSiSiSiSiSiSiSiSi.mp4

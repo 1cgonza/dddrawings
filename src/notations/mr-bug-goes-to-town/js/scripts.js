@@ -52,7 +52,7 @@
   }
 
   function timelineUpdate() {
-    timeline.ctx.clearRect(0, 0, timeline.width, timeline.canvas.height);
+    timeline.ctx.clearRect(0, 0, timeline.canvas.width, timeline.canvas.height);
 
     var x = (video.currentTime * timeline.step) + timeline.offX;
 
@@ -60,8 +60,8 @@
       timeline.img,
       0, 0,
       timeline.imgW, timeline.imgH,
-      0, (timeline.canvas.height / 2) - (timeline.height / 2),
-      timeline.width, timeline.height
+      0, (timeline.canvas.height / 2) - (timeline.resizeH / 2),
+      timeline.canvas.width, timeline.resizeH
     );
     timeline.ctx.beginPath();
     timeline.ctx.moveTo(x, 0);
@@ -71,10 +71,12 @@
   }
 
   function updateSize() {
-    timeline.update();
-    var area = DDD.sizeFromPercentage(timeline.innerPageWidthPercent, timeline.width);
+    timeline.canvas.width = timeline.container.offsetWidth;
+    timeline.canvas.height = window.innerHeight;
+    timeline.resizeH = DDD.sizeFromPercentage(DDD.getPercent(timeline.canvas.width, timeline.imgW), timeline.imgH);
+    var area = DDD.sizeFromPercentage(timeline.innerPageWidthPercent, timeline.canvas.width);
     timeline.step = area / video.duration;
-    timeline.offX = DDD.sizeFromPercentage(timeline.offsetLeftPercent, timeline.width);
+    timeline.offX = DDD.sizeFromPercentage(timeline.offsetLeftPercent, timeline.canvas.width);
     timelineUpdate();
 
     return false;

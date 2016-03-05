@@ -1,8 +1,9 @@
 (function() {
   'use strict';
 
-  var notationsWrapper = document.getElementById('right-col');
-  var notes            = document.getElementById('box');
+  var animReq;
+  var container = document.getElementById('right-col');
+  var notes     = document.getElementById('box');
   var video;
   var r  = 0;
   var r2 = 0;
@@ -23,15 +24,11 @@
     fps: 24,
     url: '/data/notations/sisisisisisisisisisisi.json',
     cb: notationsReady,
-    container: notationsWrapper,
+    container: container,
     loadingEle: document.querySelector('#right-col .loading')
   });
 
   var debug = false;
-  var ref = DDD.canvas(notationsWrapper, {
-    w: notations.width,
-    h: notations.height
-  });
 
   function notationsReady(d) {
     notations.d = d.sections;
@@ -40,50 +37,33 @@
 
     /*----------  DEBUG  ----------*/
     if (debug) {
-      for (var i = 0; i < d.sections.length; i++) {
-        if (d.sections[i].hasOwnProperty('r') &&  d.sections[i].hasOwnProperty('r2')) {
-          var r1 = d.sections[i].r;
-          var r2 = d.sections[i].r2;
-          var h1 = d.sections[i].h;
-          var h2 = d.sections[i].h2;
-
-          ref.ctx.save();
-          ref.ctx.translate(ref.canvas.width / 2, ref.canvas.height / 2);
-
-          ref.ctx.beginPath();
-          ref.ctx.moveTo(0, 0);
-          ref.ctx.rotate(r1 * Math.PI / 180);
-          ref.ctx.lineTo(0, -h1);
-          ref.ctx.strokeStyle = 'rgba(0,0,0,0.3)';
-          ref.ctx.stroke();
-
-          ref.ctx.beginPath();
-          ref.ctx.translate(0, -h1);
-          ref.ctx.moveTo(0, 0);
-          ref.ctx.rotate(r2 * Math.PI / 180);
-          ref.ctx.lineTo(0, -h2);
-          ref.ctx.strokeStyle = 'rgba(255,0,0,0.3)';
-          ref.ctx.stroke();
-
-          ref.ctx.restore();
-        }
-      }
+      debugReferencePoint();
     }
   }
 
   function videoReady() {
-    video.controls = true;
-    video.addEventListener('play', playerLoop, false);
-    video.addEventListener('seeking', playerLoop, false);
+    updateSize();
     notationsUpdate();
+
     notations.loading.style.opacity = 0;
+    video.controls = true;
+
+    video.onplay = function() {
+      animReq = requestAnimationFrame(playerLoop);
+      return false;
+    };
+
+    video.onpause = function() {
+      window.cancelAnimationFrame(playerLoop);
+      return false;
+    };
+
+    video.onseeking = notationsUpdate;
   }
 
-  function playerLoop(event) {
-    if (!video.paused || video.seeking) {
-      notationsUpdate();
-      requestAnimationFrame(playerLoop);
-    }
+  function playerLoop() {
+    notationsUpdate();
+    animReq = requestAnimationFrame(playerLoop);
   }
 
   function notationsUpdate() {
@@ -106,7 +86,7 @@
     var hStep  = (next.h - current.h) / sectionLength;
     var h2Step = (next.h2 - current.h2) / sectionLength;
 
-    notations.ctx.clearRect(0, 0, notations.width, notations.canvas.height);
+    notations.ctx.clearRect(0, 0, notations.canvas.width, notations.canvas.height);
 
     r  = (lengthOffset * rStep) + current.r;
     r2 = (lengthOffset * r2Step) + current.r2;
@@ -120,12 +100,12 @@
       notations.img,
       0, 0,
       notations.imgW, notations.imgH,
-      0, 0,
-      notations.width, notations.height
+      0, (notations.canvas.height / 2) - (notations.resizeH / 2),
+      notations.canvas.width, notations.resizeH
     );
 
     notations.ctx.save();
-    notations.ctx.translate(notations.width / 2, notations.height / 2);
+    notations.ctx.translate(notations.canvas.width / 2, notations.canvas.height / 2);
     notations.ctx.rotate(r * Math.PI / 180);
 
     notations.ctx.beginPath();
@@ -147,18 +127,20 @@
 
   function resetHeightInData() {
     for (var i = 0; i < notations.d.length; i++) {
-      notations.d[i].h  = DDD.sizeFromPercentage(notations.d[i].hPercent, notations.width);
-      notations.d[i].h2 = DDD.sizeFromPercentage(notations.d[i].h2Percent, notations.width);
+      notations.d[i].h  = DDD.sizeFromPercentage(notations.d[i].hPercent, notations.canvas.width);
+      notations.d[i].h2 = DDD.sizeFromPercentage(notations.d[i].h2Percent, notations.canvas.width);
     }
   }
 
-  window.onresize = function() {
-    notations.update();
+  function updateSize() {
+    notations.canvas.width  = container.offsetWidth;
+    notations.canvas.height = window.innerHeight;
+    notations.resizeH = DDD.sizeFromPercentage(DDD.getPercent(notations.canvas.width, notations.imgW), notations.imgH);
     resetHeightInData();
     notationsUpdate();
+  }
 
-    return false;
-  };
+  window.onresize = updateSize;
 
   document.getElementById('notes').onclick = function(event) {
     event.preventDefault();
@@ -173,5 +155,38 @@
 
     return false;
   };
+
+  function debugReferencePoint() {
+    var ref = DDD.canvas(container, {w: notations.canvas.width, h: notations.canvas.height});
+
+    for (var i = 0; i < d.sections.length; i++) {
+      if (d.sections[i].hasOwnProperty('r') &&  d.sections[i].hasOwnProperty('r2')) {
+        var r1 = d.sections[i].r;
+        var r2 = d.sections[i].r2;
+        var h1 = d.sections[i].h;
+        var h2 = d.sections[i].h2;
+
+        ref.ctx.save();
+        ref.ctx.translate(ref.canvas.width / 2, ref.canvas.height / 2);
+
+        ref.ctx.beginPath();
+        ref.ctx.moveTo(0, 0);
+        ref.ctx.rotate(r1 * Math.PI / 180);
+        ref.ctx.lineTo(0, -h1);
+        ref.ctx.strokeStyle = 'rgba(0,0,0,0.3)';
+        ref.ctx.stroke();
+
+        ref.ctx.beginPath();
+        ref.ctx.translate(0, -h1);
+        ref.ctx.moveTo(0, 0);
+        ref.ctx.rotate(r2 * Math.PI / 180);
+        ref.ctx.lineTo(0, -h2);
+        ref.ctx.strokeStyle = 'rgba(255,0,0,0.3)';
+        ref.ctx.stroke();
+
+        ref.ctx.restore();
+      }
+    }
+  }
 
 })();

@@ -26,9 +26,9 @@ var Notations = function(data) {
   this.img.onload = this.imageReady.bind(this);
   this.img.src    = data.img.src;
 
-  var stage = DDD.canvas(this.container, {w: this.width});
+  var stage   = DDD.canvas(this.container, {w: this.width});
   this.canvas = stage.canvas;
-  this.ctx = stage.ctx;
+  this.ctx    = stage.ctx;
 
   DDD.json(data.url, data.cb);
 };
@@ -41,7 +41,7 @@ Notations.prototype.update = function() {
   this.width = this.container.offsetWidth;
 
   if (typeof this.canvas !== 'undefined') {
-    this.canvas.width = this.width;
+    this.canvas.width  = this.width;
     this.canvas.height = window.innerHeight;
   }
 

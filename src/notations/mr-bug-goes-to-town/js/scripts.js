@@ -2,6 +2,7 @@
   'use strict';
 
   var video;
+  var animReq;
   var timeline = new Notations({
     img: {
       width: 1874,
@@ -25,28 +26,35 @@
   }
 
   function videoReady() {
+    updateSize();
     timelineUpdate();
 
-    video.controls = true;
-    video.addEventListener('play', playerLoop, false);
-    video.addEventListener('seeking', playerLoop, false);
     timeline.loading.style.opacity = 0;
+
+    video.controls = true;
+
+    video.onplay = function() {
+      animReq = requestAnimationFrame(playerLoop);
+      return false;
+    };
+
+    video.onseeking = timelineUpdate;
+
+    video.onpause = function() {
+      window.cancelAnimationFrame(animReq);
+      return false;
+    };
   }
 
-  function playerLoop(event) {
-    if (!video.paused || video.seeking) {
-      timelineUpdate();
-      requestAnimationFrame(playerLoop);
-    }
+  function playerLoop() {
+    timelineUpdate();
+    animReq = requestAnimationFrame(playerLoop);
   }
 
   function timelineUpdate() {
-    var offLeft  = DDD.sizeFromPercentage(timeline.offsetLeftPercent, timeline.width);
-    var area     = DDD.sizeFromPercentage(timeline.innerPageWidthPercent, timeline.container.offsetWidth);
-    var timeStep = area / video.duration;
     timeline.ctx.clearRect(0, 0, timeline.width, timeline.canvas.height);
 
-    var timelineHeaderX = (video.currentTime * timeStep) + offLeft;
+    var x = (video.currentTime * timeline.step) + timeline.offX;
 
     timeline.ctx.drawImage(
       timeline.img,
@@ -56,18 +64,22 @@
       timeline.width, timeline.height
     );
     timeline.ctx.beginPath();
-    timeline.ctx.moveTo(timelineHeaderX, 0);
-    timeline.ctx.lineTo(timelineHeaderX, timeline.imgH);
+    timeline.ctx.moveTo(x, 0);
+    timeline.ctx.lineTo(x, timeline.imgH);
     timeline.ctx.strokeStyle = '#fe0404';
     timeline.ctx.stroke();
   }
 
-  window.onresize = function() {
+  function updateSize() {
     timeline.update();
-    timeline.canvas.width = timeline.width;
-    timeline.canvas.height = window.innerHeight;
+    var area = DDD.sizeFromPercentage(timeline.innerPageWidthPercent, timeline.width);
+    timeline.step = area / video.duration;
+    timeline.offX = DDD.sizeFromPercentage(timeline.offsetLeftPercent, timeline.width);
     timelineUpdate();
+
     return false;
-  };
+  }
+
+  window.onresize = updateSize;
 
 })();

@@ -1,20 +1,8 @@
-(function () {
+(function() {
   'use strict';
 
-  /*===============================
-  =            GLOBALS            =
-  ===============================*/
-  var timelineWrapper  = document.getElementById('middle-col');
-  var notationsWrapper = document.getElementById('right-col');
-  var loadingTL        = document.querySelector('#middle-col .loading');
-  var loadingN         = document.querySelector('#right-col .loading');
-  var v                = document.getElementById('video');
-  var timelineImg;
-  var timelineHeaderX;
-  var timelineH = window.innerHeight;
-  /*=====  End of GLOBALS  ======*/
-
-  var timelineData = {
+  var video;
+  var timeline = new Notations({
     img: {
       width: 1874,
       height: 1023,
@@ -28,43 +16,38 @@
     fps: 24,
     url: '/data/notations/bug-goes-to-town.json',
     cb: timelineReady,
-    container: timelineWrapper,
-    loadingEle: loadingTL
-  };
+    container: document.getElementById('middle-col'),
+    loadingEle: document.querySelector('#middle-col .loading')
+  });
 
-  var timeline = new Notations(timelineData);
-
-  function timelineReady () {
-    new NotationsVideo( v, videoReady );
+  function timelineReady() {
+    video = new NotationsVideo(document.getElementById('video'), videoReady).video;
   }
 
-  function videoReady () {
+  function videoReady() {
     timelineUpdate();
 
-    v.controls = true;
-    v.addEventListener('play', playerLoop, false);
-    v.addEventListener('seeking', playerLoop, false);
+    video.controls = true;
+    video.addEventListener('play', playerLoop, false);
+    video.addEventListener('seeking', playerLoop, false);
     timeline.loading.style.opacity = 0;
   }
 
-  function playerLoop (event) {
-    if (!v.paused || v.seeking) {
+  function playerLoop(event) {
+    if (!video.paused || video.seeking) {
       timelineUpdate();
       requestAnimationFrame(playerLoop);
     }
   }
 
   function timelineUpdate() {
-    var offLeft = newSizefromPercentage(timeline.offsetLeftPercent, timeline.width);
-    var area = newSizefromPercentage(timeline.innerPageWidthPercent, timeline.container.offsetWidth);
-    var timeStep = area / v.duration;
+    var offLeft  = DDD.sizeFromPercentage(timeline.offsetLeftPercent, timeline.width);
+    var area     = DDD.sizeFromPercentage(timeline.innerPageWidthPercent, timeline.container.offsetWidth);
+    var timeStep = area / video.duration;
     timeline.ctx.clearRect(0, 0, timeline.width, timeline.canvas.height);
 
-    timelineHeaderX = (v.currentTime * timeStep) + offLeft;
-    timelineDraw();
-  }
+    var timelineHeaderX = (video.currentTime * timeStep) + offLeft;
 
-  function timelineDraw() {
     timeline.ctx.drawImage(
       timeline.img,
       0, 0,
@@ -79,13 +62,12 @@
     timeline.ctx.stroke();
   }
 
-  function resizeElements () {
+  window.onresize = function() {
     timeline.update();
     timeline.canvas.width = timeline.width;
     timeline.canvas.height = window.innerHeight;
     timelineUpdate();
-  }
-
-  window.onresize = resizeElements;
+    return false;
+  };
 
 })();

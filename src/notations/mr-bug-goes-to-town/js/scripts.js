@@ -74,9 +74,9 @@
     timeline.canvas.width = timeline.container.offsetWidth;
     timeline.canvas.height = window.innerHeight;
     timeline.resizeH = DDD.sizeFromPercentage(DDD.getPercent(timeline.canvas.width, timeline.imgW), timeline.imgH);
-    var area = DDD.sizeFromPercentage(timeline.innerPageWidthPercent, timeline.canvas.width);
+    var area = DDD.sizeFromPercentage(timeline.percent.w, timeline.canvas.width);
     timeline.step = area / video.duration;
-    timeline.offX = DDD.sizeFromPercentage(timeline.offsetLeftPercent, timeline.canvas.width);
+    timeline.offX = DDD.sizeFromPercentage(timeline.percent.left, timeline.canvas.width);
     timelineUpdate();
 
     return false;

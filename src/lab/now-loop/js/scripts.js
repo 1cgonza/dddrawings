@@ -1,67 +1,50 @@
-(function () {
+(function() {
   'use strict';
-  var loaded    = false;
   var container = document.getElementById('ddd-container');
   var loading   = document.getElementById('ddd-loading');
-  var t = new Transform();
 
-  /*==========  CREATE CANVAS  ==========*/
-  var canvas = document.createElement('canvas');
-  var back = document.createElement('canvas');
-  var ctx    = canvas.getContext('2d');
-  var bCtx = back.getContext('2d');
-  canvas.width  = window.innerWidth;
-  canvas.height = window.innerHeight;
-  back.width = canvas.width;
-  back.height = canvas.height;
-  var centerX = canvas.width / 2 | 0;
-  var centerY = canvas.height / 2 | 0;
+  /*----------  SET STAGE  ----------*/
+  var bg      = DDD.canvas(container);
+  var stage   = DDD.canvas(container);
 
-  canvas.style.position = 'absolute';
-  canvas.style.top = '0';
-  back.style.position = 'absolute';
-  back.style.top = '0';
-  bCtx.fillStyle = '#F0E397';
-  bCtx.fillRect(0, 0, canvas.width, canvas.height);
-  // bCtx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-  bCtx.fillStyle = '#AC5441';
-  ctx.strokeStyle = '#F12E2A';
+  bg.ctx.fillStyle = '#F0E397';
+  bg.ctx.fillRect(0, 0, bg.w, bg.h);
+  bg.ctx.fillStyle = '#AC5441';
+  stage.ctx.strokeStyle = '#F12E2A';
 
   /*----------  GLOBAL VARIABLES  ----------*/
-  var secRadius = canvas.height / 3.2 | 0;
-  var minRadius = canvas.height / 2.8 | 0;
-  var hRadius   = canvas.height / 2.4 | 0;
+  var TWO_PI = Math.PI * 2;
+  var t = new DDD.Transform();
+  var secRadius = stage.h / 3.2 | 0;
+  var minRadius = stage.h / 2.8 | 0;
+  var hRadius   = stage.h / 2.4 | 0;
   // var angleIncrement = 1.26 * Math.PI / 180; // 2 turns
   var angleIncrement = 0.54 * Math.PI / 180; // 1 turns
-  var outerRad = canvas.height * 0.30;
+  var outerRad = stage.h * 0.30;
   var offY = outerRad / 4;
   var prevMin = -1;
   var prevSec = -1;
   var t1000 = [];
   var t60 = [];
   var t24 = [];
-  var backFontSize = 10;
   var date = new Date();
   var years = date.getUTCFullYear() - 1984;
   var months = date.getUTCMonth() + 1;
   var days = date.getUTCDate();
   var yearsCoords = {
-    x: centerX - (centerX / 2) | 0,
-    y: centerY - (centerY / 2) | 0
+    x: stage.center.x - (stage.center.x / 2) | 0,
+    y: stage.center.y - (stage.center.y / 2) | 0
   };
   var monthsCoords = {
-    x: centerX + (centerX / 2) | 0,
-    y: centerY + (centerY / 2) | 0
+    x: stage.center.x + (stage.center.x / 2) | 0,
+    y: stage.center.y + (stage.center.y / 2) | 0
   };
   var daysCoords = {
-    x: centerX + (centerX / 1.5) | 0,
-    y: centerY - (centerY / 1.5) | 0
+    x: stage.center.x + (stage.center.x / 1.5) | 0,
+    y: stage.center.y - (stage.center.y / 1.5) | 0
   };
 
-  container.appendChild(back);
-  container.appendChild(canvas);
-
-  function animate () {
+  function animate() {
     var d   = new Date(); // Return date in UTC
     var ms  = d.getMilliseconds();
     var sec = d.getSeconds();
@@ -72,56 +55,56 @@
     requestAnimationFrame(animate);
   }
 
-  function msClockSpiral (ms, sec, min, h) {
+  function msClockSpiral(ms, sec, min, h) {
     /*----------  CLEAR CANVAS  ----------*/
     t.reset();
     setTransformOnCtx(t.m);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stage.ctx.clearRect(0, 0, stage.w, stage.h);
 
     /*----------  INIT PATH  ----------*/
-    ctx.beginPath();
+    stage.ctx.beginPath();
 
     /*----------  MOVE TO CENTER  ----------*/
-    ctx.moveTo(centerX, centerY + offY);
+    stage.ctx.moveTo(stage.center.x, stage.center.y + offY);
 
     /*----------  MILLISECONDS  ----------*/
     setTransformOnCtx(t1000[ms]);
-    ctx.lineTo(0, 0);
+    stage.ctx.lineTo(0, 0);
 
     /*----------  SECONDS  ----------*/
     setTransformOnCtx(t60[sec]);
-    ctx.lineTo(0.5, -secRadius);
+    stage.ctx.lineTo(0.5, -secRadius);
 
     /*----------  MINUTES  ----------*/
     setTransformOnCtx(t60[min]);
-    ctx.lineTo(0.5, -minRadius);
+    stage.ctx.lineTo(0.5, -minRadius);
 
     /*----------  HOURS  ----------*/
     setTransformOnCtx(t24[h]);
-    ctx.lineTo(0.5, -hRadius);
+    stage.ctx.lineTo(0.5, -hRadius);
 
     t.reset();
     setTransformOnCtx(t.m);
 
     /*----------  DAYS  ----------*/
-    ctx.lineTo( daysCoords.x, daysCoords.y );
+    stage.ctx.lineTo(daysCoords.x, daysCoords.y);
 
     /*----------  MONTHS  ----------*/
-    ctx.lineTo( monthsCoords.x, monthsCoords.y );
+    stage.ctx.lineTo(monthsCoords.x, monthsCoords.y);
 
     /*----------  YEARS  ----------*/
-    ctx.lineTo( yearsCoords.x, yearsCoords.y );
+    stage.ctx.lineTo(yearsCoords.x, yearsCoords.y);
 
     /*----------  DRAW LINE  ----------*/
     // Finally draw the lines.
-    ctx.stroke();
+    stage.ctx.stroke();
   }
 
-  function setTransformOnCtx (tr) {
-    ctx.setTransform( tr[0], tr[1], tr[2], tr[3], tr[4], tr[5] );
+  function setTransformOnCtx(tr) {
+    stage.ctx.setTransform(tr[0], tr[1], tr[2], tr[3], tr[4], tr[5]);
   }
 
-  function createBackground () {
+  function createBackground() {
     var count = 0;
     drawYears();
     drawMonths();
@@ -133,17 +116,17 @@
     }
   }
 
-  function saveTransforms (value) {
+  function saveTransforms(value) {
     if (value < 24) {
       t.reset();
-      t.translateAndRotate(centerX, centerY, (value * 15) * Math.PI / 180);
+      t.translateAndRotate(stage.center.x, stage.center.y, (value * 15) * Math.PI / 180);
       t24[value] = getCurrentTranforms();
       drawCircle(hRadius, 3, value);
     }
 
     if (value < 60) {
       t.reset();
-      t.translateAndRotate(centerX, centerY, (value * 6) * Math.PI / 180);
+      t.translateAndRotate(stage.center.x, stage.center.y, (value * 6) * Math.PI / 180);
       t60[value] = getCurrentTranforms();
       drawCircle(secRadius, 1, value);
       drawCircle(minRadius, 2, value);
@@ -151,64 +134,62 @@
 
     t.reset();
 
-    var newValue = value > 500 ? value - 1000 : value;
+    var newValue  = value > 500 ? value - 1000 : value;
     var ratio     = newValue / 500;
     var angle     = newValue * angleIncrement;
     var spiralRad = ratio * outerRad;
-    var x         = centerX + Math.cos(angle) * spiralRad;
-    var y         = centerY + Math.sin(angle) * spiralRad;
+    var x         = stage.center.x + Math.cos(angle) * spiralRad;
+    var y         = stage.center.y + Math.sin(angle) * spiralRad;
 
     t.translate(x, y + offY);
     t1000[value] = getCurrentTranforms();
     drawMs();
   }
 
-  function getCurrentTranforms () {
+  function getCurrentTranforms() {
     return [t.m[0], t.m[1], t.m[2], t.m[3], t.m[4], t.m[5]];
   }
 
-  function drawCircle (radius, size, value) {
-    bCtx.setTransform( t.m[0], t.m[1], t.m[2], t.m[3], t.m[4], t.m[5] );
-    bCtx.fillRect(0, -radius, size, size);
-    // bCtx.strokeText(value, 0, -radius);
+  function drawCircle(radius, size, value) {
+    bg.ctx.setTransform(t.m[0], t.m[1], t.m[2], t.m[3], t.m[4], t.m[5]);
+    bg.ctx.fillRect(0, -radius, size, size);
+    // bg.ctx.strokeText(value, 0, -radius);
   }
 
-  function drawMs () {
-    bCtx.setTransform( t.m[0], t.m[1], t.m[2], t.m[3], t.m[4], t.m[5] );
-    bCtx.fillRect(0, 0, 1, 1);
+  function drawMs() {
+    bg.ctx.setTransform(t.m[0], t.m[1], t.m[2], t.m[3], t.m[4], t.m[5]);
+    bg.ctx.fillRect(0, 0, 1, 1);
   }
 
-  function drawYears () {
-    bCtx.save();
-      bCtx.translate( yearsCoords.x, yearsCoords.y );
-      for (var y = 0; y < years; y++) {
-        for (var s = 0; s < 111; s++) {
-          bCtx.rotate((s + y) * Math.PI / 180);
-          bCtx.fillRect(s + y | 0, 0, 1, 1);
-        }
+  function drawYears() {
+    bg.ctx.save();
+    bg.ctx.translate(yearsCoords.x, yearsCoords.y);
+    for (var y = 0; y < years; y++) {
+      for (var s = 0; s < 111; s++) {
+        bg.ctx.rotate((s + y) * Math.PI / 180);
+        bg.ctx.fillRect(s + y | 0, 0, 1, 1);
       }
-    bCtx.restore();
+    }
+    bg.ctx.restore();
   }
 
-  function drawMonths () {
-    bCtx.save();
-      bCtx.translate( monthsCoords.x, monthsCoords.y );
-      for (var i = 1; i < 24; i++) {
-        for (var j = 0; j < months; j++) {
-          bCtx.rotate((i) * Math.PI / 180);
-          bCtx.fillRect(i * j, 0, 1.5, 1.5);
-        }
+  function drawMonths() {
+    bg.ctx.save();
+    bg.ctx.translate(monthsCoords.x, monthsCoords.y);
+    for (var i = 1; i < 24; i++) {
+      for (var j = 0; j < months; j++) {
+        bg.ctx.rotate((i) * Math.PI / 180);
+        bg.ctx.fillRect(i * j, 0, 1.5, 1.5);
       }
-    bCtx.restore();
+    }
+    bg.ctx.restore();
   }
 
-  function drawDays () {
-    var TWO_PI = Math.PI * 2;
-
+  function drawDays() {
     for (var i = 1; i < 100; i++) {
-      var x = 30 * Math.sin( TWO_PI / i ) + daysCoords.x;
-      var y = 30 * Math.cos( TWO_PI / i ) + daysCoords.y;
-      bCtx.fillRect(x, y, 1, 1);
+      var x = 30 * Math.sin(TWO_PI / i) + daysCoords.x;
+      var y = 30 * Math.cos(TWO_PI / i) + daysCoords.y;
+      bg.ctx.fillRect(x, y, 1, 1);
     }
   }
 

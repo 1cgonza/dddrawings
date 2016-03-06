@@ -11,6 +11,4 @@ tags:
   - dataset-monitor
   - map
   - sketch
-scripts:
-  - Functions
 ---

@@ -1,25 +1,33 @@
-(function () {
+(function() {
   'use strict';
   var container = document.getElementById('ddd-container');
   var loading   = document.getElementById('ddd-loading');
 
   /*----------  SET STAGE  ----------*/
-  var stage    = createCanvas(container);
-  var timeline = createCanvas(container);
+  var stage    = DDD.canvas(container);
+  var timeline = DDD.canvas(container);
 
   /*----------  GLOBALS  ----------*/
-  var stageW, stageH, centerX, centerY, current, currentI, points, timeStart, timeEnd, step, animReq;
-  var TWO_PI    = Math.PI * 2;
-  var year      = 2008;
-  var req       = new DREQ();
-  var d         = {};
-  var mapZoom   = 11;
-  var mapCenter; // Center of Colombia
-  var perlin    = new PerlinNoise();
-  var max       = 300;
+  var current = '';
+  var currentI = 0;
+  var points = [];
+  var timeStart = 0;
+  var timeEnd = 0;
+  var step = 0;
+  var animReq;
+  var mode = 1;
+  var TWO_PI = Math.PI * 2;
+  var map = new DDD.Map({
+    center: {lon: -71.999996, lat: 4.000002} // Center of Colombia
+  });
+  var year   = 2008;
+  var req    = new DDD.DataRequest();
+  var d      = {};
+  var perlin = new PerlinNoise();
+  var max    = 300;
 
   var img = new Image();
-  img.onload = function () {
+  img.onload = function() {
     init();
     drawBG();
   };
@@ -68,22 +76,37 @@
   /*==================================
   =            YEARS MENU            =
   ==================================*/
-  function clickEvent (event) {
+  function clickEvent(event) {
     if (event.target !== current) {
       window.cancelAnimationFrame(animReq);
       req.abort();
       loading.style.opacity = 1;
-      resetCurrentClass(current, event.target);
+      DDD.resetCurrent(current, event.target);
       current = event.target;
       year = Number(event.target.textContent);
 
+      mode = 1;
       clearStage();
       initValues();
       loadData();
     }
   }
 
-  function menuReady (menu, first) {
+  function menuReady(menu, first) {
+    var random = document.createElement('li');
+    random.innerText = 'Random';
+    random.onclick = function() {
+      window.cancelAnimationFrame(animReq);
+      req.abort();
+      clearStage();
+      initValues();
+      loadData();
+      mode = 2;
+      console.log('tick');
+      return false;
+    };
+    random.style.backgroundColor = '#EDE397';
+    menu.appendChild(random);
     container.appendChild(menu);
     current = first;
     loadData();
@@ -92,7 +115,7 @@
 
   function init() {
     initValues();
-    yearsListMenu (2008, 2015, year, clickEvent, menuReady);
+    DDD.yearsMenu(2008, 2015, year, clickEvent, menuReady);
   }
 
   function drawBG() {
@@ -102,35 +125,29 @@
     stage.ctx.restore();
   }
 
-  function initValues () {
-    stageW   = window.innerWidth;
-    stageH   = window.innerHeight;
-    centerX  = stageW / 2 | 0;
-    centerY  = stageH / 2 | 0;
+  function initValues() {
+    stage.w = timeline.w = stage.canvas.width = window.innerWidth;
+    stage.h = timeline.h = timeline.canvas.height = window.innerHeight;
+    stage.center.x = stage.w / 2 | 0;
+    stage.center.y = stage.h / 2 | 0;
+    stage.ctx.globalAlpha = 0.05;
+    map.updateSize(stage.w, stage.h);
+
     points    = [];
     currentI  = 0;
     timeStart = Date.parse(year + '-01-01 00:00:00');
     timeEnd   = Date.parse(year + 1 + '-01-01 00:00:00');
-    step      = stageW / (timeEnd - timeStart);
-    mapCenter = null;
-    mapCenter = convertCoordinates(-71.999996, 4.000002); // Center of Colombia
-
-    stage.canvas.width = stageW;
-    stage.canvas.height = stageH;
-    timeline.canvas.width = stageW;
-    timeline.canvas.height = stageH;
-
-    stage.ctx.globalAlpha = 0.05;
+    step      = stage.w / (timeEnd - timeStart);
 
     drawBG();
   }
 
   function clearStage() {
-    stage.ctx.clearRect(0, 0, stageW, stageH);
-    timeline.ctx.clearRect(0, 0, stageW, stageH);
+    stage.ctx.clearRect(0, 0, stage.w, stage.h);
+    timeline.ctx.clearRect(0, 0, timeline.w, timeline.h);
   }
 
-  function dataReady (data) {
+  function dataReady(data) {
     d = data;
     loading.style.opacity = 0;
     animate();
@@ -138,18 +155,31 @@
 
   function animate() {
     if (currentI < d.length) {
-      var amount = d[currentI].hasOwnProperty('total_v') ? Number(d[currentI].total_v) : 0;
-      var loc = convertCoordinates( d[currentI].lon, d[currentI].lat );
-      var timeEvent = d[currentI].hasOwnProperty('fecha_ini') ? Date.parse( d[currentI].fecha_ini ) : null;
-      var timeX = timeEvent - timeStart;
-      perlin.setSeed( amount );
+      var amount = 0;
+      var loc;
 
-      if (amount > 0) {
-        generatePoints( amount, loc.x + centerX, loc.y + centerY, d[currentI].cat[0] );
-        // console.log(loc);
+      if (mode === 1) {
+        amount = d[currentI].hasOwnProperty('total_v') ? Number(d[currentI].total_v) : 0;
+        loc = map.convertCoordinates(d[currentI].lon, d[currentI].lat);
+        perlin.setSeed(amount);
+      } else if (mode === 2) {
+        amount = DDD.random(0, DDD.random(1, 50));
+        loc = {
+          x: DDD.random(0, stage.w) - stage.center.x,
+          y: DDD.random(0, stage.h) - stage.center.y
+        };
       }
 
-      for(var i = points.length - 1; i > 0; i--) {
+      var timeEvent = d[currentI].hasOwnProperty('fecha_ini') ? Date.parse(d[currentI].fecha_ini) : null;
+      var timeX = timeEvent - timeStart;
+
+      perlin.setSeed(amount);
+
+      if (amount > 0) {
+        generatePoints(amount, loc.x + stage.center.x, loc.y + stage.center.y, d[currentI].cat[0]);
+      }
+
+      for (var i = points.length - 1; i > 0; i--) {
         var p = points[i];
         p.update();
 
@@ -160,55 +190,40 @@
 
       if (currentI === 0) {
         timeline.ctx.beginPath();
-        timeline.ctx.moveTo( timeX * step, stageH - 2 );
+        timeline.ctx.moveTo(timeX * step, timeline.h - 2);
       }
 
-      timeline.ctx.lineTo( timeX * step, stageH - 2);
+      timeline.ctx.lineTo(timeX * step, timeline.h - 2);
       timeline.ctx.stroke();
 
       currentI++;
       animReq = requestAnimationFrame(animate);
     }
-    // else if (opacity <= 1) {
-    //   stage.ctx.fillStyle = 'rgba(255, 255, 255, ' + opacity + ')';
-    //   stage.ctx.fillRect(0, 0, stageW, stageH);
-
-    //   opacity += 0.0005;
-    //   animReq = requestAnimationFrame(animate);
-    // }
   }
 
   function generatePoints(amount, x, y, cat) {
-    var color = cats[cat];
+    var color;
+
+    if (mode === 1) {
+      color = cats[cat];
+    } else if (mode === 2) {
+      var keys = Object.keys(cats);
+      var randomKey = keys[ DDD.random(0, keys.length) ];
+      color = cats[randomKey];
+    }
+    // var color = cats[cat];
     amount = amount < max ? amount : max;
 
     for (var i = 0; i < amount; i++) {
-      points.push( new Point(x, y, amount + i, color) );
+      points.push(new Point(x, y, amount + i, color));
     }
   }
 
   /*===============================
   =            HELPERS            =
   ===============================*/
-  function loadData () {
-    req.getD('../../data/monitor/violencia-geo-' + year + '.json', dataReady);
-  }
-
-  /*----------  MAP COORDINATES TO X & Y  ----------*/
-  function convertCoordinates (lon, lat) {
-    var zoomX     = stageW * mapZoom;
-    var zoomY     = centerY * mapZoom;
-    var latRad    = Number(lat) * Math.PI / 180;
-    var mercatorN = Math.log( Math.tan( (Math.PI / 4 ) + (latRad / 2) ) );
-    var x         = (Number(lon) + 180) * (zoomX / 360);
-    var y         = (zoomY - (zoomX * mercatorN / TWO_PI ) );
-
-    if (mapCenter) {
-      x -= mapCenter.x;
-      y -= mapCenter.y;
-    }
-
-    return {x: x, y: y};
+  function loadData() {
+    req.json('../../data/monitor/violencia-geo-' + year + '.json', dataReady);
   }
 
   /*----------  POINT  ----------*/
@@ -222,15 +237,14 @@
   };
 
   Point.prototype.update = function() {
-    var xv = Math.cos( perlin.noise(this.x * 0.01, this.y * 0.01) * (this.r * TWO_PI) );
-    var yv = Math.sin( perlin.noise(this.x * 0.01, this.y * 0.01) * (this.r * TWO_PI) );
+    var xv = Math.cos(perlin.noise(this.x * 0.01, this.y * 0.01) * (this.r * TWO_PI));
+    var yv = Math.sin(perlin.noise(this.x * 0.01, this.y * 0.01) * (this.r * TWO_PI));
     var xt = this.x + xv;
     var yt = this.y + yv;
 
     if (this.timer >= 800) {
       this.finished = true;
-    }
-    else if (this.x > stageW || this.x < 0 || this.y > stageH || this.y < 0) {
+    } else if (this.x > stage.w || this.x < 0 || this.y > stage.h || this.y < 0) {
       this.finished = true;
     }
 
@@ -256,28 +270,28 @@
     var w = i2 || 521288629;
 
     this.intGenerator = function() {
-      z = ( 36969 * (z & 65535) + (z >>> 16) ) & 0xFFFFFFFF;
-      w = ( 18000 * (w & 65535) + (w >>> 16) ) & 0xFFFFFFFF;
-      return ( ( (z & 0xFFFF) << 16 ) | (w & 0xFFFF) ) & 0xFFFFFFFF;
+      z = (36969 * (z & 65535) + (z >>> 16)) & 0xFFFFFFFF;
+      w = (18000 * (w & 65535) + (w >>> 16)) & 0xFFFFFFFF;
+      return (((z & 0xFFFF) << 16) | (w & 0xFFFF)) & 0xFFFFFFFF;
     };
   }
 
-  function PerlinGenerator (seed) {
-    var rnd = new Marsaglia( seed, (seed << 16) + (seed >> 16) );
+  function PerlinGenerator(seed) {
+    var rnd = new Marsaglia(seed, (seed << 16) + (seed >> 16));
     var i, j;
     var perm = new Uint8Array(512);
 
-    for(i = 0; i < 256; ++i) {
+    for (i = 0; i < 256; ++i) {
       perm[i] = i;
     }
 
-    for( i = 0; i < 256; ++i) {
+    for (i = 0; i < 256; ++i) {
       var t = perm[j = rnd.intGenerator() & 0xFF];
       perm[j] = perm[i];
       perm[i] = t;
     }
 
-    for( i= 0; i < 256; ++i) {
+    for (i = 0; i < 256; ++i) {
       perm[i + 256] = perm[i];
     }
 
@@ -301,13 +315,13 @@
       var p1 = perm[X + 1] + Y;
       return lerp(
         fy,
-        lerp( fx, grad2d(perm[p0], x, y), grad2d(perm[p1], x - 1, y) ),
-        lerp( fx, grad2d(perm[p0 + 1], x, y - 1), grad2d(perm[p1 + 1], x - 1, y - 1) )
+        lerp(fx, grad2d(perm[p0], x, y), grad2d(perm[p1], x - 1, y)),
+        lerp(fx, grad2d(perm[p0 + 1], x, y - 1), grad2d(perm[p1 + 1], x - 1, y - 1))
       );
     };
   }
 
-  function PerlinNoise () {
+  function PerlinNoise() {
     this.octaves = 4;
     this.fallout = 0.5;
   }
@@ -330,12 +344,11 @@
 
     for (var i = 0; i < this.octaves; ++i) {
       effect *= this.fallout;
-      sum += effect * ( 1 + this.generator.noise2d(k * x, k * y) ) / 2;
+      sum += effect * (1 + this.generator.noise2d(k * x, k * y)) / 2;
       k *= 2;
     }
     return sum;
   };
 
   /*=====  End of HELPERS  ======*/
-  // init();
 })();

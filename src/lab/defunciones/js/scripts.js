@@ -1,18 +1,17 @@
-(function () {
+(function() {
   'use strict';
-  /*===============================
-  =            GLOBALS            =
-  ===============================*/
-  var violenceReq = new DREQ();
-  var mapReq = new DREQ();
+
+  var violenceReq = new DDD.DataRequest();
+  var mapReq      = new DDD.DataRequest();
 
   /*----------  STAGE  ----------*/
   var container = document.getElementById('ddd-container');
   var loading   = document.getElementById('ddd-loading');
-  var stageW    = window.innerWidth;
-  var stageH    = window.innerHeight;
-  var centerX   = stageW / 2 | 0;
-  var centerY   = stageH / 1.5 | 0;
+
+  var bg    = DDD.canvas(container);
+  var stage = DDD.canvas(container);
+  var log   = DDD.canvas(container);
+  bg.center.y = stage.center.y = bg.h / 1.5 | 0;
 
   /*----------  DATA  ----------*/
   var year   = 2009;
@@ -29,9 +28,7 @@
   var tick  = 0;
 
   /*----------  MAP  ----------*/
-  var colCenter = [-71.999996,4.000002];
-  var mapZ = 8;
-  var mapCenter = convertCoordinates(colCenter[0], colCenter[1], mapZ);
+  var map = new DDD.Map({zoom: 8, width: stage.w, height: stage.h, center: {lon: -71.999996, lat: 4.000002}});
 
   /*----------  TIME  ----------*/
   var prevTimePosition = 0;
@@ -81,31 +78,15 @@
     }
   ];
 
-  /*----------  CANVAS  ----------*/
-  var bg = createCanvas(container, {
-    w: stageW,
-    h: stageH
-  });
-
-  var stage = createCanvas(container, {
-    w: stageW,
-    h: stageH,
-  });
-
-  var log = createCanvas(container, {
-    w: stageW,
-    h: stageH
-  });
-
   /*----------  MENU  ----------*/
   var current;
-  yearsListMenu(2008, 2015, year, yearClickEvent, menuReady);
+  DDD.yearsMenu(2008, 2015, year, yearClickEvent, menuReady);
 
-  function yearClickEvent (event) {
+  function yearClickEvent(event) {
     if (event.target !== current) {
       window.cancelAnimationFrame(animReq);
       loading.style.opacity = 1;
-      resetCurrentClass(current, event.target);
+      DDD.resetCurrent(current, event.target);
       current = event.target;
       year = event.target.textContent;
 
@@ -113,14 +94,12 @@
     }
   }
 
-  function menuReady (menu, currentFirst) {
+  function menuReady(menu, currentFirst) {
     container.appendChild(menu);
     current = currentFirst;
   }
 
-  /*=====  End of GLOBALS  ======*/
-
-  function reloadStage () {
+  function reloadStage() {
     dataI = 0;
     bodies = [];
     d      = [];
@@ -129,24 +108,24 @@
     dIni = moment.tz(year + '-01-01T00:00:00', 'America/Bogota');
     dEnd = moment.tz(year + '-12-31T12:59:59', 'America/Bogota');
 
-    stage.ctx.clearRect(0, 0, stageW, stageH);
-    log.ctx.clearRect(0, 0, stageW, stageH);
-    bg.ctx.clearRect(0, 0, stageW, stageH);
+    stage.ctx.clearRect(0, 0, stage.w, stage.h);
+    log.ctx.clearRect(0, 0, log.w, log.h);
+    bg.ctx.clearRect(0, 0, bg.w, bg.h);
 
     requestViolenceData();
     checkAssetsLoaded();
   }
 
-  function requestViolenceData () {
-    violenceReq.getD( '../../data/monitor/violencia-geo-' + year + '.json', processViolenceData );
+  function requestViolenceData() {
+    violenceReq.getD('../../data/monitor/violencia-geo-' + year + '.json', processViolenceData);
   }
 
-  function init () {
+  function init() {
     bg.ctx.globalCompositeOperation = 'darken';
     bg.ctx.fillStyle = 'white';
 
     requestViolenceData();
-    mapReq.getD( '../../data/geo/col-50m.json', processGeoData );
+    mapReq.getD('../../data/geo/col-50m.json', processGeoData);
 
     for (var i = 0; i < imgs.length; i++) {
       var sprite = new Sprite(imgs[i].options);
@@ -158,7 +137,7 @@
     checkAssetsLoaded();
   }
 
-  function checkAssetsLoaded () {
+  function checkAssetsLoaded() {
     if (imgsLoaded === imgs.length && dLoaded && geoLoaded) {
       drawMap();
       animate();
@@ -168,21 +147,21 @@
     }
   }
 
-  function imgLoaded () {
+  function imgLoaded() {
     imgsLoaded++;
   }
 
-  function processViolenceData (data) {
+  function processViolenceData(data) {
     d = data;
     dLoaded = true;
   }
 
-  function processGeoData (data) {
+  function processGeoData(data) {
     geoD = data.coordinates;
     geoLoaded = true;
   }
 
-  function drawMap () {
+  function drawMap() {
     for (var i = 0; i < geoD.length; i++) {
       var poly = geoD[i];
 
@@ -192,23 +171,23 @@
 
         for (var n = 0; n < layer.length; n++) {
           var node = layer[n];
-          var coords = convertCoordinates(node[0], node[1], mapZ);
+          var coords = map.convertCoordinates(node[0], node[1]);
 
           bg.ctx.save();
-            bg.ctx.translate(centerX, centerY);
-            bg.ctx.drawImage(
-              lines.img,
-              getRandom(0, lines.cols) * lines.fw, 0,
-              lines.fw, lines.fh,
-              coords.x - lines.offX, coords.y - lines.offY,
-              lines.fw, lines.fh
-            );
+          bg.ctx.translate(bg.center.x, bg.center.y);
+          bg.ctx.drawImage(
+            lines.img,
+            DDD.random(0, lines.cols) * lines.fw, 0,
+            lines.fw, lines.fh,
+            coords.x - lines.offX, coords.y - lines.offY,
+            lines.fw, lines.fh
+          );
 
-            if (n === 0) {
-              bg.ctx.moveTo(coords.x, coords.y);
-            } else {
-              bg.ctx.lineTo(coords.x, coords.y);
-            }
+          if (n === 0) {
+            bg.ctx.moveTo(coords.x, coords.y);
+          } else {
+            bg.ctx.lineTo(coords.x, coords.y);
+          }
 
           bg.ctx.restore();
 
@@ -221,7 +200,7 @@
     }
   }
 
-  function animate () {
+  function animate() {
     if (dataI < d.length - 1) {
       if (tick === hold) {
         draw(dataI);
@@ -241,12 +220,12 @@
     }
   }
 
-  function draw (i) {
+  function draw(i) {
     var e = d[i];
     if ('total_v' in e && 'cat' in e && e.cat.indexOf('Homicidio') >= 0) {
       var total = Number(d[i].total_v);
       var date = moment.tz(d[i].fecha_ini, 'America/Bogota');
-      var elapsed = ( (date - dIni) / 31536000000) * stageW;
+      var elapsed = ((date - dIni) / 31536000000) * stage.w;
 
       log.ctx.beginPath();
       log.ctx.moveTo(prevTimePosition, 0);
@@ -256,8 +235,8 @@
       prevTimePosition = elapsed;
 
       if ('lon' in e && 'lat' in e) {
-        var coords = convertCoordinates(e.lon, e.lat, mapZ);
-        var fx = getRandom(0, shadows.cols);
+        var coords = map.convertCoordinates(e.lon, e.lat);
+        var fx = DDD.random(0, shadows.cols);
         var fy;
 
         for (var t = 0; t < total; t++) {
@@ -266,23 +245,23 @@
         }
 
         bg.ctx.save();
-          bg.ctx.translate(centerX, centerY);
+        bg.ctx.translate(bg.center.x, bg.center.y);
 
-          if (total > 0 && total === 1) {
-            fy = 0;
-          } else if (total <= 8) {
-            fy = total;
-          } else {
-            fy = 8;
-          }
-          bg.ctx.globalCompositeOperation = 'source-atop';
-          bg.ctx.drawImage(
-            shadows.img,
-            fx * shadows.fw, fy * shadows.fh,
-            shadows.fw, shadows.fh,
-            coords.x - shadows.offX, coords.y - shadows.offY,
-            shadows.fw, shadows.fh
-          );
+        if (total > 0 && total === 1) {
+          fy = 0;
+        } else if (total <= 8) {
+          fy = total;
+        } else {
+          fy = 8;
+        }
+        bg.ctx.globalCompositeOperation = 'source-atop';
+        bg.ctx.drawImage(
+          shadows.img,
+          fx * shadows.fw, fy * shadows.fh,
+          shadows.fw, shadows.fh,
+          coords.x - shadows.offX, coords.y - shadows.offY,
+          shadows.fw, shadows.fh
+        );
 
         bg.ctx.restore();
       }
@@ -290,9 +269,9 @@
 
     if (bodies.length > 0) {
       stage.ctx.save();
-        stage.ctx.globalCompositeOperation = 'source-over';
-        stage.ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-        stage.ctx.fillRect(0, 0, stageW, stageH);
+      stage.ctx.globalCompositeOperation = 'source-over';
+      stage.ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+      stage.ctx.fillRect(0, 0, stage.w, stage.h);
       stage.ctx.restore();
       stage.ctx.drawImage(bg.canvas, 0, 0);
 
@@ -304,27 +283,11 @@
     }
   }
 
-  function convertCoordinates (lon, lat, zoom) {
-    var zoomX = stageW * zoom;
-    var zoomY = centerY * zoom;
-    var latRad = Number(lat) * Math.PI / 180;
-    var mercatorN = Math.log( Math.tan( (Math.PI / 4 ) + (latRad / 2) ) );
-    var x = (Number(lon) + 180) * (zoomX / 360);
-    var y = (zoomY - (zoomX * mercatorN / (Math.PI * 2) ) );
-
-    if (mapCenter) {
-      x -= mapCenter.x;
-      y -= mapCenter.y;
-    }
-
-    return {x: x | 0, y: y | 0};
-  }
-
   /*===============================
   =            CLASSES            =
   ===============================*/
   /*----------  SPRITE  ----------*/
-  var Sprite = function (op) {
+  var Sprite = function(op) {
     this.img = new Image();
     this.src = op.src;
     this.w = op.w;
@@ -338,7 +301,7 @@
   };
 
   /*----------  LEVIT  ----------*/
-  function Levit (coords, num) {
+  function Levit(coords, num) {
     this.x = coords.x;
     this.y = coords.y;
     this.frameX = 0;
@@ -351,17 +314,19 @@
 
   Levit.prototype.draw = function() {
     if (this.count < levit.cols * 2) {
-      if (!this.forward) this.pushY += levit.fh / 15;
+      if (!this.forward) {
+        this.pushY += levit.fh / 15;
+      }
       stage.ctx.save();
-        stage.ctx.translate(centerX, centerY);
-        stage.ctx.rotate(this.r * Math.PI / 20);
-        stage.ctx.drawImage(
-          levit.img,
-          this.frameX * levit.fw, 0,
-          levit.fw, levit.fh,
-          this.x - levit.offX, this.y - levit.offY - this.pushY,
-          levit.fw, levit.fh
-        );
+      stage.ctx.translate(stage.center.x, stage.center.y);
+      stage.ctx.rotate(this.r * Math.PI / 20);
+      stage.ctx.drawImage(
+        levit.img,
+        this.frameX * levit.fw, 0,
+        levit.fw, levit.fh,
+        this.x - levit.offX, this.y - levit.offY - this.pushY,
+        levit.fw, levit.fh
+      );
       stage.ctx.restore();
 
       if (this.forward) {
@@ -370,7 +335,10 @@
         this.frameX--;
       }
       this.count++;
-      if (this.frameX === levit.cols - 1) this.forward = false;
+
+      if (this.frameX === levit.cols - 1) {
+        this.forward = false;
+      }
     } else {
       this.del();
     }

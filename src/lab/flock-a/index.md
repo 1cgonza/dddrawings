@@ -10,6 +10,4 @@ tags:
   - dataset-ingeominas
 categories:
   -
-scripts:
-  - Functions
 ---

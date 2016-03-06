@@ -8,7 +8,5 @@ tags:
   - Jared Tarbell
 categories:
   -
-scripts:
-  - Functions
 ---
 A translation of Jared Tarbell's <a href="http://www.complexification.net/gallery/machines/guts/" target="_blank">"Guts"</a> from Processing to JavaScript. See original <a href="http://www.complexification.net/gallery/machines/guts/appletl/guts_l.pde" target="_blank">source code</a>, or more of Tarbell's work at <a href="http://www.complexification.net/gallery/" target="_blank">complexification.net</a>.

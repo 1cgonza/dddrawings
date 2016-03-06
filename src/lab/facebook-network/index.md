@@ -11,6 +11,4 @@ tags:
   - dataset-fb
 categories:
   -
-scripts:
-  - Functions
 ---

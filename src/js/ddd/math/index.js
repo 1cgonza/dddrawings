@@ -1,3 +1,34 @@
+var math = {
+  PI: Math.PI,
+  TWO_PI: Math.PI * 2,
+  QUARTER_PI: Math.PI / 4,
+  toRad: Math.PI / 180,
+  random: getRandom,
+  Transform: Transform,
+  sizeFromPercentage: sizeFromPercentage,
+  getPercent: getPercent
+};
+
+module.exports = math;
+
+function getRandom(min, max, isFloat) {
+  var random = Math.floor(Math.random() * (max - min)) + min;
+
+  if (isFloat) {
+    random = Math.random() * (max - min) + min;
+  }
+
+  return random;
+}
+
+function sizeFromPercentage(percent, totalSize) {
+  return percent / 100 * totalSize;
+}
+
+function getPercent(section, total) {
+  return (section / total) * 100;
+}
+
 // Last updated November 2011
 // By Simon Sarris
 // www.simonsarris.com

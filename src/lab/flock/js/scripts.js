@@ -1,13 +1,15 @@
-(function () {
+(function() {
   'use strict';
+
+  /*----------  SET STAGE  ----------*/
   var container = document.getElementById('ddd-container');
   var loading   = document.getElementById('ddd-loading');
-  var stageW = window.innerWidth;
-  var stageH = window.innerHeight;
+  var stage     = DDD.canvas(container);
+
   var flockSize = 50;
   var flock     = [];
 
-  /*==========  SPRITE OPTIONS  ==========*/
+  /*----------  SPRITE  ----------*/
   var options = {
     width: 226,
     height: 50,
@@ -16,27 +18,18 @@
     cellOffsetY: -25,
     framesPerImage: 5
   };
-
-  /*==========  CREATE CANVAS  ==========*/
-  var canvas    = document.createElement('canvas');
-  var ctx       = canvas.getContext('2d');
-  canvas.width  = stageW;
-  canvas.height = stageH;
-  container.appendChild(canvas);
-
-  /*==========  LOAD SPRITE  ==========*/
   var img = new Image();
   img.onload = initFlock;
   img.src = '../../img/sprites/birdFly_f5_w226_h50.png';
 
-  function initFlock () {
+  function initFlock() {
     options.frameW  = options.width / options.cols | 0;
     options.frameH  = options.height;
     options.loopEnd = options.framesPerImage * options.cols;
 
-    ctx.globalAlpha = 1;
+    stage.ctx.globalAlpha = 1;
 
-    for (var i = 0; i < flockSize; i++){
+    for (var i = 0; i < flockSize; i++) {
       flock[i] = new Bird();
     }
 
@@ -44,8 +37,8 @@
     loading.style.opacity = 0;
   }
 
-  function animate () {
-    flock.forEach(function (bird) {
+  function animate() {
+    flock.forEach(function(bird) {
       bird.update();
       bird.draw();
     });
@@ -57,7 +50,7 @@
   ============================*/
   function Bird() {
     // start the loop of each bird in a random frame so they look different
-    this.firstFrameX   = Math.random() * options.cols | 0;
+    this.firstFrameX   = DDD.random(0, options.cols);
     this.currentFrameX = this.firstFrameX * options.frameW;
 
     this.cycleCounter   = this.firstFrameX * options.framesPerImage;
@@ -82,24 +75,24 @@
 
   Bird.prototype.shuffle = function() {
     // Start again in a new random x position outside the screen (left).
-    this.x = -( Math.random() * stageW  ) | 0;
+    this.x = DDD.random(-stage.w, 0);
     // Start again in a new random y position.
-    this.y = ( Math.random() * stageH ) | 0;
+    this.y = DDD.random(0, stage.h);
 
     // Set a new speed.
-    this.vx = 15 + (Math.random() * 11) | 0;
+    this.vx = 10 + DDD.random(0, 11) | 0;
 
     /**
     * Set new direction.
     * This returns a random value in both negative and positive.
     * Negative makes the bird fly up and positive down.
     **/
-    this.vy = ( Math.random() * 5 ) - 2 | 0;
+    this.vy = DDD.random(-1, 2, true);
   };
 
   Bird.prototype.update = function() {
     // Once the bird is out of screen, recycle it by runnning the shuffle function to get new parameters.
-    if (this.x > stageW) {
+    if (this.x > stage.w) {
       this.shuffle();
     }
 
@@ -123,27 +116,26 @@
   };
 
   Bird.prototype.draw = function() {
-    ctx.save();
+    stage.ctx.save();
     // FOG
-    ctx.globalAlpha = 0.05;
-    ctx.globalCompositeOperation = 'destination-out';
-    ctx.fillRect(0, 0, stageW, stageH);
+    stage.ctx.globalAlpha = 0.05;
+    stage.ctx.globalCompositeOperation = 'destination-out';
+    stage.ctx.fillRect(0, 0, stage.w, stage.h);
 
     // back to normal painting before rendering the bird
-    ctx.globalAlpha = 1;
-    ctx.globalCompositeOperation = 'source-over';
-    ctx.rotate(this.rotation);
-    ctx.drawImage(
+    stage.ctx.globalAlpha = 1;
+    stage.ctx.globalCompositeOperation = 'source-over';
+    stage.ctx.rotate(this.rotation);
+    stage.ctx.drawImage(
       img,
       this.currentFrameX, 0,
       options.frameW, options.frameH,
       this.x, this.y,
       options.frameW, options.frameH
     );
-    ctx.restore();
+    stage.ctx.restore();
   };
 
   /*-----  End of BIRD  ------*/
 
 })();
-

@@ -7,6 +7,4 @@ image: https://farm8.staticflickr.com/7492/16056216548_7b989ac2d8_b.jpg
 thumb: https://farm8.staticflickr.com/7492/16056216548_7b989ac2d8.jpg
 tags:
   - dataset-pulse
-scripts:
-  - Functions
 ---

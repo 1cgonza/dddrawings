@@ -36,27 +36,25 @@ var defaults = {
     d3: 'd3-3.5.6.min',
     momentTimezone: 'moment',
   },
-  gFont: "Inconsolata:400,700"
+  gFont: 'Inconsolata:400,700'
 };
 
-function attachOptionsToDefaults (options) {
+function attachOptionsToDefaults(options) {
   for (var option in options) {
     defaults[option] = options[option];
   }
   return defaults;
 }
 
-var defineEnvironment = function (args) {
+var defineEnvironment = function(args) {
   var env = attachOptionsToDefaults(environments.dev);
 
-  args.forEach(function (val) {
+  args.forEach(function(val) {
     if (val === '--prod') {
       env = attachOptionsToDefaults(environments.prod);
-    }
-    else if (val === '--deploy') {
+    } else if (val === '--deploy') {
       env = attachOptionsToDefaults(environments.deploy);
-    }
-    else if (val === '--clean') {
+    } else if (val === '--clean') {
       env = environments.clean;
     }
   });

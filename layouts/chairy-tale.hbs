@@ -25,12 +25,12 @@
 
     <div id="middle-col">
       <p class="loading">Loading Timeline...</p>
-      <canvas id="timeline" width="100" height="100"></canvas>
+      <canvas id="timeline" height="0"></canvas>
     </div>
 
     <div id="right-col">
       <p class="loading">Loading Notations...</p>
-      <canvas id="notations" width="100" height="100"></canvas>
+      <canvas id="notations" height="0"></canvas>
     </div>
 
   </section>
@@ -44,5 +44,7 @@
   {{setScripts scripts}}
 {{/if}}
 
+<script src ="{{ dddLibrary }}"></script>
+<script src ="/js/Notations.js"></script>
 <script src ="./js/scripts.js"></script>
 {{> footer }}

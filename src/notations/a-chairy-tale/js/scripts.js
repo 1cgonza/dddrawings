@@ -1,272 +1,223 @@
-(function () {
+(function() {
   'use strict';
-  var req = new DREQ();
-  var notesBTN = document.getElementById('notes');
+  var animReq;
   var notes = document.getElementById('box');
-  var close = document.getElementById('close-box');
-  var topMenuHeight = 0;
-  var notationsData = [];
-  var NotationsDocument = function() {
-    this.pageWidth              = 1360;
-    this.pageHeight             = 2070;
-    this.pageMarginTop          = 112;
-    this.pageMarginBottom       = 40;
-    this.secondsPerPage         = 160;
-    this.fps                    = 24;
-    this.innerPageHeight        = this.pageHeight - this.pageMarginTop - this.pageMarginBottom;
-    this.innerPageHeightPercent = this.innerPageHeight / this.pageHeight * 100;
-    this.oneSecondSize          = this.innerPageHeight / this.secondsPerPage;
-    this.oneSecondPercent       = this.oneSecondSize / this.pageHeight * 100;
-    this.offsetTopPercent       = this.pageMarginTop / this.pageHeight * 100;
-    this.offsetBottomPercent    = this.pageMarginBottom / this.pageHeight * 100;
+
+  var assets = {
+    data: '../../data/notations/chairy-tale.json',
+    smallImg: '../../img/notations/chairy-tale-small.jpg',
+    largeImg: '../../img/notations/chairy-tale-notations.jpg',
   };
-  var options = new NotationsDocument();
+  var assetsLoaded = 0;
+  assets.length = Object.keys(assets).length;
+
+  var options = {
+    pageWidth: 1360,
+    pageHeight: 2070,
+    pageMarginTop: 112,
+    pageMarginBottom: 40,
+    secondsPerPage: 160,
+    fps: 24,
+    percent: {}
+  };
+  var innerPageHeight    = options.pageHeight - options.pageMarginTop - options.pageMarginBottom;
+  options.percent.h      = DDD.getPercent(innerPageHeight, options.pageHeight);
+  options.percent.top    = DDD.getPercent(options.pageMarginTop, options.pageHeight);
+  options.percent.bottom = DDD.getPercent(options.pageMarginBottom, options.pageHeight);
 
   // Set globally the video player and two canvases that will communicate with each other.
-  var v;
+  var video = new NotationsVideo(document.getElementById('video'), videoReady).video;
 
-  var timelineCanvas, timelineContext, timelineWrapper, timelineHeaderY, timelineImg, timelineImageX, timelineNewCurrentTime;
-  var timelineLoaded = false;
+  var notationsData  = [];
+  var timeline       = {};
+  timeline.container = document.getElementById('middle-col');
+  timeline.canvas    = document.getElementById('timeline');
+  timeline.ctx       = timeline.canvas.getContext('2d');
+  timeline.imgW      = 200;
+  timeline.imgH      = 1218;
 
-  var notationsCanvas, notationsContext, notationsWrapper, notationsHeaderY, notationsImg, notationsImgY, notationsNewCurrentTime;
-  var notationsLoaded = false;
+  var notations       = {};
+  notations.container = document.getElementById('right-col');
+  notations.canvas    = document.getElementById('notations');
+  notations.ctx       = notations.canvas.getContext('2d');
+  notations.imgW      = 1000;
+  notations.imgH      = 6088;
 
-  // 1. LOAD: JSON Data about notations
-  req.getD( '../../data/notations/chairy-tale.json', loadNotationsData );
+  function videoReady() {
+    // Load JSON data about notations
+    DDD.json(assets.data, init);
+    checkAssetsLoaded();
 
-  function loadNotationsData(data) {
+    video.onplay = function() {
+      animReq = requestAnimationFrame(playerLoop);
+      return false;
+    };
+
+    video.onpause = function() {
+      window.cancelAnimationFrame(animReq);
+      return false;
+    };
+
+    video.onseeking = function() {
+      updateNotations();
+      return false;
+    };
+  }
+
+  function init(data) {
+    assetsLoaded++;
     notationsData = data.sections;
-    notaionsInit();
-    timelineInit();
-    loadVideo();
+
+    /*----------  NOTATIONS IMG  ----------*/
+    notations.img        = new Image();
+    notations.img.onload = assetLoadedEvent;
+    notations.img.src    = assets.largeImg;
+
+    /*----------  TIMELINE IMG  ----------*/
+    timeline.img        = new Image();
+    timeline.img.onload = assetLoadedEvent;
+    timeline.img.src    = assets.smallImg;
   }
 
-  function loadVideo() {
-    v = document.getElementById('video');
-
-    // Make sure the video is the correct size to fit the column.
-    resizeElements();
-
-    // Wait until video is ready to play.
-    videoState();
+  function assetLoadedEvent() {
+    assetsLoaded++;
   }
 
-  function videoState() {
-    if (v.readyState < 4) {
-      console.log('Checking video state...');
-      requestAnimationFrame(videoState);
+  function checkAssetsLoaded() {
+    if (assetsLoaded < assets.length) {
+      requestAnimationFrame(checkAssetsLoaded);
     } else {
-      console.log('The video is ready.');
-      notationsState();
-      cancelAnimationFrame(videoState);
-    }
-  }
-
-  function notationsState() {
-    if (!timelineLoaded && !notationsLoaded) {
-      requestAnimationFrame(notationsState);
-    } else {
-      v.controls = true;
-
-      v.addEventListener('play', function() {
-        playerLoop();
-      }, false);
-
-      v.addEventListener('seeking', function() {
-        playerLoop();
-      }, false);
+      resizeElements();
+      video.controls = true;
+      document.querySelector('#right-col .loading').style.display = 'none';
+      document.querySelector('#middle-col .loading').style.display = 'none';
     }
   }
 
   function playerLoop() {
-    if (!v.paused || v.seeking) {
-      timelineUpdate();
-      notationsUpdate();
-      requestAnimationFrame(playerLoop);
-    }
+    updateNotations();
+    requestAnimationFrame(playerLoop);
   }
 
-  function timelineInit() {
-    // var tl = createCanvas( timelineContainer);
-    timelineCanvas  = document.getElementById('timeline');
-    timelineContext = timelineCanvas.getContext('2d');
-    timelineWrapper = document.getElementById('middle-col');
-
-    timelineHeaderY = 0;
-
-    timelineSetImg();
-  }
-
-  function timelineSetImg() {
-    timelineImg = new Image();
-    timelineImg.addEventListener('load', function() {
-      timelineUpdate();
-      document.querySelector('#middle-col .loading').style.display = 'none';
-      // $('#middle-col .loading').fadeOut();
-      // $('#timeline').fadeIn('slow');
-      timelineLoaded = true;
-    });
-    timelineImg.src = '../../img/notations/chairy-tale-small.jpg';
-  }
-
-  function timelineUpdate() {
-    timelineCanvas.width  = timelineWrapper.offsetWidth;
-    timelineCanvas.height = window.innerHeight - topMenuHeight;
-    timelineImg.width     = timelineCanvas.width * (timelineCanvas.height / timelineImg.height);
-
-    var timelineSinglePageH   = timelineCanvas.height / 4;
-    var timelineInnerPageH    = newSizefromPercentage( options.innerPageHeightPercent, timelineSinglePageH );
-    var timelineOffsetTop     = newSizefromPercentage( options.offsetTopPercent, timelineSinglePageH );
-    var timelineOffsetBottom  = newSizefromPercentage( options.offsetBottomPercent, timelineSinglePageH );
-    var timelineOneSecondSize = timelineInnerPageH / options.secondsPerPage;
-
-    if (timelineCanvas.width > timelineImg.width) {
-      timelineImageX = (timelineCanvas.width - timelineImg.width) / 2;
-    } else {
-      timelineImageX = 0;
-    }
-
+  function updateNotations() {
     for (var i = 0; i < notationsData.length; i++) {
-      if ( i === 0 ) {
-        timelineFirstIndex(timelineOneSecondSize, timelineOffsetTop);
+      if (i === 0) {
+        if (video.currentTime <= 38) {
+          var adjustCurrentTime = video.currentTime * (30 / 38);
+
+          timeline.headerY = (adjustCurrentTime * timeline.step) + timeline.offTop;
+          notations.imgY   = (adjustCurrentTime * notations.step) + notations.offTop - notations.headerY;
+        }
       } else {
-        if (v.currentTime > 38) {
-          timelineNewCurrentTime = (v.currentTime - 38) * (550/548.96);
+        if (video.currentTime > 38) {
+          var currentTime = (video.currentTime - 38) * (550 / 548.96);
+          var sectionHead = notationsData[i - 1].notedEndFrame / options.fps;
+          var sectionTail = notationsData[i].notedEndFrame / options.fps;
 
-          var timelineSectionHead = notationsData[i-1].notedEndFrame / options.fps;
-          var timelineSectionEnd  = notationsData[i].notedEndFrame / options.fps;
+          if (currentTime >= sectionHead && currentTime <= sectionTail) {
+            // Move timeline header
+            timeline.headerY = (currentTime * timeline.step) + (timeline.offTop * notationsData[i].page) + (30 * timeline.step);
 
-          if ( timelineNewCurrentTime >= timelineSectionHead && timelineNewCurrentTime <= timelineSectionEnd ) {
-            timelineHeaderY = (timelineNewCurrentTime * timelineOneSecondSize) + (timelineOffsetTop * notationsData[i].page) + (30 * timelineOneSecondSize);
+            // Move notations image
+            notations.imgY = (currentTime * notations.step) + (notations.offTop * notationsData[i].page) +
+                             (30 * notations.step) - //add the first section that has 30 seconds label but lasts 38 in the video.
+                             notations.headerY;
 
             if (notationsData[i].page > 1) {
-              timelineHeaderY = timelineHeaderY + ( timelineOffsetBottom * (notationsData[i].page - 1) );
+              timeline.headerY = timeline.headerY + (timeline.offBottom * (notationsData[i].page - 1));
+              notations.imgY = notations.imgY + (notations.offBottom * (notationsData[i].page - 1));
             }
+
           }
         }
       }
     }
-    timelineDraw();
+
+    drawTimeline();
+    drawNotations();
   }
 
-  function timelineFirstIndex(oneSecondSize, offsetTop) {
-    if ( v.currentTime <= 38 ) {
-      timelineNewCurrentTime = v.currentTime * (30 / 38);
-      timelineHeaderY = (timelineNewCurrentTime * oneSecondSize) + offsetTop;
-    }
-  }
+  function drawTimeline() {
+    timeline.ctx.clearRect(0, 0, timeline.canvas.width, timeline.canvas.height);
+    timeline.ctx.drawImage(
+      timeline.img,
+      timeline.imgX, 0,
+      timeline.imgResizeW, timeline.canvas.height
+    );
 
-  function timelineDraw() {
-    timelineContext.clearRect(0, timelineHeaderY - 2, timelineCanvas.width, 4);
-    timelineContext.drawImage(timelineImg, timelineImageX, 0, timelineImg.width, timelineCanvas.height );
-
-    timelineContext.beginPath();
-    timelineContext.moveTo(0, timelineHeaderY);
-    timelineContext.lineTo(timelineCanvas.width, timelineHeaderY);
-    timelineContext.strokeStyle = '#fe0404';
-    timelineContext.stroke();
+    timeline.ctx.beginPath();
+    timeline.ctx.moveTo(0, timeline.headerY);
+    timeline.ctx.lineTo(timeline.canvas.width, timeline.headerY);
+    timeline.ctx.strokeStyle = '#fe0404';
+    timeline.ctx.stroke();
   }
 
   /*=================================
   =            NOTATIONS            =
   =================================*/
+  function drawNotations() {
+    notations.ctx.clearRect(0, 0, notations.canvas.width, notations.canvas.height);
+    notations.ctx.drawImage(
+      notations.img,
+      0, -notations.imgY,
+      notations.canvas.width, notations.imgH * (notations.canvas.width / notations.imgW)
+    );
 
-  function notaionsInit() {
-    notationsCanvas  = document.getElementById('notations');
-    notationsContext = notationsCanvas.getContext('2d');
-    notationsWrapper = document.getElementById('right-col');
-    notationsSetImage();
+    notations.ctx.beginPath();
+    notations.ctx.moveTo(0, notations.headerY);
+    notations.ctx.lineTo(notations.canvas.width, notations.headerY);
+    notations.ctx.strokeStyle = '#fe0404';
+    notations.ctx.stroke();
   }
-
-  function notationsSetImage() {
-    notationsImg = new Image();
-    notationsImg.addEventListener('load', function() {
-      notationsUpdate();
-      var loader = document.querySelector('#right-col .loading');
-      loader.style.display = 'none';
-      // $('#notations').fadeIn('slow');
-      notationsLoaded = true;
-    });
-    notationsImg.src = '../../img/notations/chairy-tale-notations.jpg';
-  }
-
-  function notationsUpdate() {
-    notationsCanvas.width  = notationsWrapper.offsetWidth;
-    notationsCanvas.height = window.innerHeight - topMenuHeight;
-
-    var notationsImgNewW       = notationsCanvas.width;
-    var notationsImgWidthScale = notationsImgNewW / notationsImg.width * 100;
-    var notationsImgNewH       = newSizefromPercentage( notationsImgWidthScale, notationsImg.height ) / 4;
-    var notationsInnerPageH    = newSizefromPercentage( options.innerPageHeightPercent, notationsImgNewH );
-    var notationsOffsetTop     = newSizefromPercentage( options.offsetTopPercent, notationsImgNewH );
-    var notationsOffsetBottom  = newSizefromPercentage( options.offsetBottomPercent, notationsImgNewH );
-    var notationsOneSecondSize = notationsInnerPageH / options.secondsPerPage;
-
-    notationsHeaderY = notationsCanvas.height / 2;
-
-    for (var i = 0; i < notationsData.length; i++) {
-      if ( i === 0 ) {
-        notationsFirstIndex(notationsOneSecondSize, notationsOffsetTop);
-      } else {
-        notationsNewCurrentTime = (v.currentTime - 38) * (550/548.96);
-
-        var sectionHead = notationsData[i-1].notedEndFrame / options.fps;
-        var sectionEnd = notationsData[i].notedEndFrame / options.fps;
-
-        if ( notationsNewCurrentTime >= sectionHead && notationsNewCurrentTime <= sectionEnd ) {
-          notationsImgY = (notationsNewCurrentTime * notationsOneSecondSize) +
-          (notationsOffsetTop * notationsData[i].page) +
-          (30 * notationsOneSecondSize) - //add the first section that has 30 seconds label but lasts 38 in the video.
-          notationsHeaderY;
-
-          if (notationsData[i].page > 1) {
-            notationsImgY = notationsImgY + ( notationsOffsetBottom * (notationsData[i].page - 1) );
-          }
-        }
-      }
-    }
-
-    notationsDraw();
-  }
-
-  function notationsFirstIndex(oneSecondSize, offsetTop) {
-    if ( v.currentTime <= 38 ) {
-      notationsNewCurrentTime = v.currentTime * (30 / 38);
-      notationsImgY = (notationsNewCurrentTime * oneSecondSize) + offsetTop - notationsHeaderY;
-    }
-  }
-
-  function notationsDraw() {
-    notationsContext.drawImage( notationsImg, 0, -notationsImgY, notationsCanvas.width, notationsImg.height * (notationsCanvas.width / notationsImg.width));
-
-    notationsContext.beginPath();
-    notationsContext.moveTo(0, notationsHeaderY);
-    notationsContext.lineTo(notationsCanvas.width, notationsHeaderY);
-    notationsContext.strokeStyle = '#fe0404';
-    notationsContext.stroke();
-  }
-
   /*-----  End of NOTATIONS  ------*/
 
   function resizeElements() {
+    /*----------  RESIZE TIMELINE  ----------*/
+    timeline.canvas.width  = timeline.container.offsetWidth;
+    timeline.canvas.height = window.innerHeight;
+    timeline.imgResizeW    = timeline.canvas.width * (timeline.canvas.height / timeline.imgH);
+    timeline.pageH         = timeline.canvas.height / 4;
+    timeline.offTop        = DDD.sizeFromPercentage(options.percent.top, timeline.pageH);
+    timeline.offBottom     = DDD.sizeFromPercentage(options.percent.bottom, timeline.pageH);
+    timeline.step          = DDD.sizeFromPercentage(options.percent.h, timeline.pageH) / options.secondsPerPage;
+
+    if (timeline.canvas.width > timeline.imgResizeW) {
+      timeline.imgX = (timeline.canvas.width - timeline.imgResizeW) / 2;
+    } else {
+      timeline.imgX = 0;
+    }
+
+    /*----------  RESIZE NOTATIONS  ----------*/
+    notations.canvas.width  = notations.container.offsetWidth;
+    notations.canvas.height = window.innerHeight;
+    notations.headerY       = notations.canvas.height / 2;
+    notations.resizeH       = DDD.sizeFromPercentage(DDD.getPercent(notations.canvas.width, notations.imgW), notations.imgH) / 4;
+    notations.offTop        = DDD.sizeFromPercentage(options.percent.top, notations.resizeH);
+    notations.offBottom     = DDD.sizeFromPercentage(options.percent.bottom, notations.resizeH);
+    notations.step          = DDD.sizeFromPercentage(options.percent.h, notations.resizeH) / options.secondsPerPage;
+
+    /*----------  RESIZE VIDEO  ----------*/
     var leftW = document.getElementById('left-col').offsetWidth;
-    var resizePercent = leftW / v.width * 100;
-    v.width = leftW;
-    v.height = newSizefromPercentage(resizePercent, v.height);
-    timelineUpdate();
-    notationsUpdate();
+    var resizePercent = leftW / video.width * 100;
+    video.width = leftW;
+    video.height = DDD.sizeFromPercentage(resizePercent, video.height);
+
+    // Render again
+    updateNotations();
   }
 
   window.onresize = resizeElements;
 
-  notesBTN.addEventListener('click', function (event) {
+  document.getElementById('notes').onclick = function(event) {
     event.preventDefault();
     notes.style.display = 'block';
-  });
+    return false;
+  };
 
-  close.addEventListener('click', function (event) {
+  document.getElementById('close-box').onclick = function(event) {
     event.preventDefault();
     notes.style.display = 'none';
-  });
+    return false;
+  };
 
 })();

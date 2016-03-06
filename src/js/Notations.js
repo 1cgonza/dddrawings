@@ -7,46 +7,34 @@ var Notations = function(data) {
   this.imgH = data.img.height;
   this.fps  = data.fps;
 
-  var innerPageWidth  = this.imgW - data.img.offLeft - data.img.offRight;
-  var innerPageHeight = this.imgW - data.img.offTop - data.img.offBottom;
+  var areaWidth     = this.imgW - data.img.offLeft - data.img.offRight;
+  var areaHeight    = this.imgH - data.img.offTop - data.img.offBottom;
 
-  this.innerPageHeightPercent = DDD.getPercent(innerPageHeight, this.imgH);
-  this.innerPageWidthPercent  = DDD.getPercent(innerPageWidth, this.imgW);
-  this.oneSecondSize          = innerPageHeight / data.secPerPage;
-  this.oneSecondPercent       = DDD.getPercent(this.oneSecondSize, this.imgH);
-  this.offsetTopPercent       = DDD.getPercent(data.img.offTop, this.imgH);
-  this.offsetRightPercent     = DDD.getPercent(data.img.offRight, this.imgW);
-  this.offsetBottomPercent    = DDD.getPercent(data.img.offBottom, this.imgH);
-  this.offsetLeftPercent      = DDD.getPercent(data.img.offLeft, this.imgW);
+  this.percent = {
+    h: DDD.getPercent(areaHeight, this.imgH),
+    w: DDD.getPercent(areaWidth, this.imgW),
+    top: DDD.getPercent(data.img.offTop, this.imgH),
+    bottom: DDD.getPercent(data.img.offBottom, this.imgH),
+    left: DDD.getPercent(data.img.offLeft, this.imgW),
+    right: DDD.getPercent(data.img.offRight, this.imgW)
+  };
 
-  this.update();
+  this.stage  = DDD.canvas(this.container, {w: this.container.offsetWidth});
+  this.canvas = this.stage.canvas;
+  this.ctx    = this.stage.ctx;
 
-  this.imgLoaded  = false;
+  this.imageLoaded  = false;
   this.img        = new Image();
   this.img.onload = this.imageReady.bind(this);
   this.img.src    = data.img.src;
 
-  var stage   = DDD.canvas(this.container, {w: this.width});
-  this.canvas = stage.canvas;
-  this.ctx    = stage.ctx;
-
-  DDD.json(data.url, data.cb);
-};
-
-Notations.prototype.imageReady = function(event) {
-  this.imageLoaded = true;
-};
-
-Notations.prototype.update = function() {
-  this.width = this.container.offsetWidth;
-
-  if (typeof this.canvas !== 'undefined') {
-    this.canvas.width  = this.width;
-    this.canvas.height = window.innerHeight;
+  if (data.url) {
+    DDD.json(data.url, data.cb);
   }
+};
 
-  var pageScale = DDD.getPercent(this.width, this.imgW);
-  this.height   = DDD.sizeFromPercentage(pageScale, this.imgH);
+Notations.prototype.imageReady = function() {
+  this.imageLoaded = true;
 };
 
 var NotationsVideo = function(video, cb) {

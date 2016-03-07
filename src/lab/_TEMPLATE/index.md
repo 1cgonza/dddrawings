@@ -11,6 +11,4 @@ tags:
   -
 categories:
   -
-scripts:
-  - Functions
 ---

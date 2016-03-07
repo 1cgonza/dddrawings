@@ -3,29 +3,29 @@ var circularJSON = require('circular-json');
 var slugify      = require('slug');
 var metadata     = require('./config')(process.argv);
 
-function helpers (Handlebars) {
+function helpers(Handlebars) {
   Handlebars.registerPartial({
     head: fs.readFileSync(__dirname + '/layouts/partials/head.hbs').toString(),
     footer: fs.readFileSync(__dirname + '/layouts/partials/footer.hbs').toString()
   });
 
   Handlebars.registerHelper({
-    debug: function (context) {
+    debug: function(context) {
       return new Handlebars.SafeString(
         '<pre class="debug"><code class="json">' + circularJSON.stringify(context, null, 2)  + '</code></pre>'
       );
     },
 
-    siteNav: function (slug, collection) {
+    siteNav: function(slug, collection) {
       var pages = ['Home', 'Lab', 'Notations', 'Datasets'];
       var list = '';
 
-      pages.forEach( function (name) {
-        var safeSlug = slugify( name, {lower: true} );
+      pages.forEach(function(name) {
+        var safeSlug = slugify(name, {lower: true});
         var pageURL = '';
         var eleClass = '';
 
-        if ( name === 'Home' ) {
+        if (name === 'Home') {
           pageURL = metadata.baseUrl;
         } else {
           pageURL = setURL(safeSlug, false, true);
@@ -43,7 +43,7 @@ function helpers (Handlebars) {
       return new Handlebars.SafeString(list);
     },
 
-    bodyClass: function (slug, collection, archive) {
+    bodyClass: function(slug, collection, archive) {
       var bodyClass = 'page';
       var name = 'ddd';
 
@@ -57,7 +57,7 @@ function helpers (Handlebars) {
       return new Handlebars.SafeString(bodyClass + name);
     },
 
-    pageTitle: function (title) {
+    pageTitle: function(title) {
       var pageTitle = metadata.siteTitle;
 
       if (title && title.length > 0 && title !== 'Home') {
@@ -67,7 +67,7 @@ function helpers (Handlebars) {
       return new Handlebars.SafeString(pageTitle);
     },
 
-    pageDescription: function (description, excerpt) {
+    pageDescription: function(description, excerpt) {
       var pageDescription = description ? description : metadata.siteDescription;
 
       if (!description && excerpt.length > 0) {
@@ -77,24 +77,34 @@ function helpers (Handlebars) {
       return pageDescription;
     },
 
-    featuredImg: function (image) {
+    featuredImg: function(image) {
       var featuredImg = image ? image : metadata.defaultImage;
 
       return new Handlebars.SafeString(featuredImg);
     },
 
-    getThumb: function (thumb) {
+    getThumb: function(thumb) {
       var pageThumb = thumb ? thumb : metadata.defaultThumb;
 
       return new Handlebars.SafeString(pageThumb);
     },
 
-    setLibraries: function (libs) {
+    dddLibrary: function() {
+      var name = 'ddd.js';
+
+      if (metadata.env !== 'dev') {
+        name = 'ddd.min.js';
+      }
+
+      return new Handlebars.SafeString(setURL('js', name, false));
+    },
+
+    setLibraries: function(libs) {
       var libraries = metadata.extLibraries;
       var tags = '';
 
-      if ( Array.isArray(libs) ) {
-        libs.forEach(function (name) {
+      if (Array.isArray(libs)) {
+        libs.forEach(function(name) {
           if (name in libraries) {
             tags += setScriptTags(libraries[name], metadata.baseUrl + 'js/vendor/');
           }
@@ -104,10 +114,10 @@ function helpers (Handlebars) {
       return new Handlebars.SafeString(tags);
     },
 
-    setVideos: function (videos) {
+    setVideos: function(videos) {
       var ret = '';
       var path = metadata.videosPath;
-      videos.forEach(function (video, i) {
+      videos.forEach(function(video, i) {
         for (var type in video) {
           ret += '<source src="' + path + video[type] + '" type="video/' + type + '">';
         }
@@ -116,7 +126,7 @@ function helpers (Handlebars) {
       return new Handlebars.SafeString(ret);
     },
 
-    setScripts: function (scripts) {
+    setScripts: function(scripts) {
       var url = setURL('js', false, true);
       var tags = setScriptTags(scripts, url);
 
@@ -125,10 +135,10 @@ function helpers (Handlebars) {
 
     setURL: setURL,
 
-    getRelatedLab: function (tag, metal) {
+    getRelatedLab: function(tag, metal) {
       var labPosts = metal.data.root.lab;
       var ret = '';
-      labPosts.forEach(function (post) {
+      labPosts.forEach(function(post) {
         if (post.tags && post.tags.indexOf(tag) > -1) {
           var url = setURL('lab', post.slug, true);
           ret += '<li><a href="' + url + '">' + post.title + '</a></li>';
@@ -143,12 +153,12 @@ function helpers (Handlebars) {
     }
   });
 
-  function setScriptTags (scripts, url) {
+  function setScriptTags(scripts, url) {
     var ret = '';
     var tag = '';
 
-    if ( Array.isArray(scripts) ) {
-      scripts.forEach(function (script) {
+    if (Array.isArray(scripts)) {
+      scripts.forEach(function(script) {
         tag = '<script src="' + url + script + '.js"></script>';
         ret += tag;
       });
@@ -160,7 +170,7 @@ function helpers (Handlebars) {
     return ret;
   }
 
-  function setURL (pre, path, withTail) {
+  function setURL(pre, path, withTail) {
     var url;
     pre  = Array.isArray(pre) ? pre[0] : pre;
     url  = typeof pre === 'string' ? pre : '';

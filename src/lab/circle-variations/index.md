@@ -8,8 +8,6 @@ thumb: https://farm8.staticflickr.com/7496/16034760288_e78ef83d54.jpg
 libraries:
   - jquery
   - jqueryUi
-scripts:
-  - Functions
 tags:
   - earthquakes
   - ingeominas

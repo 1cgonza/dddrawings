@@ -6,6 +6,7 @@
   #sprites{
     position: absolute;
     top: 20%;
+    z-index: 99999;
 
     li {
       margin-bottom: 0.5em;

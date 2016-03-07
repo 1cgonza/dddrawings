@@ -1,32 +1,28 @@
-(function () {
+(function() {
   'use strict';
 
-  /*----------  GLOBALS  ----------*/
   var container = document.getElementById('ddd-container');
   var loading   = document.getElementById('ddd-loading');
-  var stageW = window.innerWidth;
-  var stageH = window.innerHeight;
-  var centerX = stageW / 2  | 0;
-  var centerY = stageH / 2 | 0;
+
+  /*----------  SET STAGE  ----------*/
+  var stage = DDD.canvas(container);
+
+  /*----------  GLOBALS  ----------*/
   var eqData = [];
-  var taData = {
-    raw: [],
-    current: []
-  };
+  var taData = {raw: [], current: []};
   var flock = [];
   var eqDataI = 0;
   var taDataI = 0;
   var nextAttack;
   var num = 1555; // 1555 victims from 1988-2012
-  var vLimit = 10;
   var animReq;
   var mode = -1;
   var currentX = 0;
   var currentY = 0;
   var TWO_PI = Math.PI * 2;
   var tick = 0;
-  var eqReq = new DREQ();
-  var taReq = new DREQ();
+  var eqReq = new DDD.DataRequest();
+  var taReq = new DDD.DataRequest();
 
   // SPRITE
   var img = new Image();
@@ -40,8 +36,10 @@
   var frameH = Math.round(imgH / rows);
 
   // MAP
-  var zoom = 13;
-  var mapCenter = convertCoordinates(-71.999996, 4.000002);
+  var map = new DDD.Map({
+    zoom: 13, width: stage.w, height: stage.h,
+    center: {lon: -71.999996, lat: 4.000002}
+  });
 
   // MENU
   var current;
@@ -68,52 +66,44 @@
   var assestsLoaded = 0;
   var totalAssets = Object.keys(assets).length;
 
+  DDD.html.yearsMenu(1993, 2015, currentYear, yearClickEvent, menuReady);
 
-  /*----------  CREATE CANVAS  ----------*/
-  var canvas = document.createElement('canvas');
-  var ctx    = canvas.getContext('2d');
-  canvas.width  = stageW;
-  canvas.height = stageH;
-  container.appendChild(canvas);
-
-  yearsListMenu (1993, 2015, currentYear, yearClickEvent, menuReady);
-
-  function menuReady (menu, currentBtn) {
+  function menuReady(menu, currentBtn) {
     container.appendChild(menu);
     current = currentBtn;
     currentYear = currentBtn.textContent;
     init();
   }
 
-  function yearClickEvent (event) {
+  function yearClickEvent(event) {
     eqReq.abort(); // Stop any current download, if any.
     loading.style.opacity = 1;
     window.cancelAnimationFrame(animReq);
 
-    ctx.clearRect(0, 0, stageW, stageH);
+    stage.ctx.clearRect(0, 0, stage.w, stage.h);
     currentYear = event.target.textContent;
-    resetCurrentClass(current, event.target);
+    DDD.html.resetCurrent(current, event.target);
     current = event.target;
     eqDataI = 0;
     taDataI = 0;
+    mode = -1;
     if (assets.taData.loaded) {
       taData.current = taData.raw.hasOwnProperty(currentYear) ? taData.raw[currentYear] : [];
     }
     assestsLoaded--;
     assets.eqData.update();
     init();
-    console.log(taData.current);
   }
 
   function init() {
-    eqReq.getD(assets.eqData.url, function (data) {
+    eqReq.json(assets.eqData.url, function(data) {
       eqData = data;
       assets.eqData.loaded = true;
       assestsLoaded++;
     });
 
     if (!assets.taData.loaded) {
-      taReq.getD(assets.taData.url, function (data) {
+      taReq.json(assets.taData.url, function(data) {
         taData.raw = data;
         taData.current = data.hasOwnProperty(currentYear) ? data[currentYear] : null;
         nextAttack = taData.current[0].date.unix;
@@ -123,7 +113,7 @@
     }
 
     if (!assets.birdSprite.loaded) {
-      img.onload = function () {
+      img.onload = function() {
         assestsLoaded++;
         assets.birdSprite.loaded = true;
       };
@@ -136,8 +126,8 @@
   function checkAssetsLoaded() {
     if (assestsLoaded === totalAssets) {
       for (var i = 0; i < num; i++) {
-        var x = getRandom(-stageH, 0);
-        var y = getRandom(0, stageH);
+        var x = DDD.random(-stage.h, 0);
+        var y = DDD.random(0, stage.h);
         flock[i] = new Bird(x, y);
       }
       loading.style.opacity = 0;
@@ -147,46 +137,35 @@
     }
   }
 
-  function convertCoordinates (lon, lat) {
-    var zoomX = stageW * zoom;
-    var zoomY = centerY * zoom;
-    var latRad = Number(lat) * Math.PI / 180;
-    var mercatorN = Math.log( Math.tan( (Math.PI / 4 ) + (latRad / 2) ) );
-    var x = (Number(lon) + 180) * (zoomX / 360);
-    var y = (zoomY - (zoomX * mercatorN / (Math.PI * 2) ) );
-
-    if (mapCenter) {
-      x -= mapCenter.x;
-      y -= mapCenter.y;
-    }
-
-    return {x: x | 0, y: y | 0};
-  }
-
-  function animate () {
+  function animate() {
     if (eqDataI < eqData.length) {
       var d = eqData[eqDataI];
 
       if (d.ml > 4 || eqDataI === 0) {
-        var coords = convertCoordinates(d.lon, d.lat);
-        currentX = coords.x + centerX;
-        currentY = coords.y + centerY;
+        var coords = map.convertCoordinates(d.lon, d.lat);
+        currentX = coords.x + stage.center.x;
+        currentY = coords.y + stage.center.y;
       }
 
       if (tick > 3) {
         var orientationFix = mode === 1 ? Math.PI : 0;
-        ctx.clearRect(0, 0, stageW, stageH);
+        stage.ctx.clearRect(0, 0, stage.w, stage.h);
+
         for (var i = 0; i < flock.length; i++) {
           flock[i].update(currentX, currentY);
           flock[i].draw(orientationFix);
         }
+
         tick = 0;
-        ctx.fillRect(currentX, currentY, 5, 5);
+        stage.ctx.fillRect(currentX, currentY, 5, 5);
       }
 
-      if ( nextAttack < Number(d.utc) ) {
-        taDataI = (taDataI + 1) > taData.current.length ? taData.current.length : taDataI + 1;
-        // console.log(taDataI)
+      /**
+        TODO:
+        - Fix dates so both data sets match in time, right now, not all TA are getting triggered on a year play.
+       */
+      if (taDataI < taData.current.length - 1 && nextAttack < +d.utc) {
+        taDataI++;
         nextAttack = taData.current[taDataI].date.unix;
         mode = 3;
       }
@@ -205,27 +184,24 @@
     }
   }
 
-  function Bird (x, y) {
+  function Bird(x, y) {
     this.x = x;
     this.y = y;
     this.vx = 0;
     this.vy = 0;
     this.ax = 0;
     this.ay = 0;
-    this.mass = getRandom(20, 30);
+    this.mass = DDD.random(20, 30);
     this.orientation = 0;
     this.turnSpeed = TWO_PI / 30;
-    this.frameX = getRandom(0, 13);
+    this.frameX = DDD.random(0, 13);
   }
 
-/**
-
-  TODO:
-  - check distance for acceleration of birds if far from objective and slow for closer
-  - If mode is positive, make sure birds rotate away.
-
- */
-
+  /**
+    TODO:
+    - check distance for acceleration of birds if far from objective and slow for closer
+    - If mode is positive, make sure birds rotate away.
+   */
 
   Bird.prototype.update = function(tx, ty) {
     var dx = this.x - tx;
@@ -259,17 +235,17 @@
   };
 
   Bird.prototype.draw = function(r) {
-    ctx.save();
-      ctx.translate(this.x, this.y);
-      ctx.rotate(this.orientation - r);
-      ctx.drawImage(
-        img,
-        this.frameX * frameW, 0,
-        frameW, frameH,
-        -offX, -offY,
-        frameW, frameH
-      );
-    ctx.restore();
+    stage.ctx.save();
+    stage.ctx.translate(this.x, this.y);
+    stage.ctx.rotate(this.orientation - r);
+    stage.ctx.drawImage(
+      img,
+      this.frameX * frameW, 0,
+      frameW, frameH,
+      -offX, -offY,
+      frameW, frameH
+    );
+    stage.ctx.restore();
   };
 
 })();

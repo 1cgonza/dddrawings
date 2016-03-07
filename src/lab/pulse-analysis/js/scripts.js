@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
 
   /*----------  SET STAGE  ----------*/
@@ -10,12 +10,6 @@
   container.appendChild(info);
 
   /*----------  GLOBALS  ----------*/
-  var req              = new DREQ();
-  var loaded           = false;
-  var stageW           = window.innerWidth;
-  var stageH           = window.innerHeight;
-  var centerX          = stageW / 2 | 0;
-  var centerY          = stageH / 2 | 0;
   var rawData          = [];
   var uniqueBeatValues = [];
   var chunkIndex       = 0;
@@ -27,20 +21,19 @@
     beat: {min: 100000, max: 0}
   };
 
-  req.getD( '../../data/pulse/heart.2.json', processData );
+  DDD.json('../../data/pulse/heart.2.json', processData);
 
-  function processData (data) {
+  function processData(data) {
     for (var i = 0; i < data.beats.length; i++) {
       var point = data.beats[i];
-      var value = Number( point.substr(1) );
+      var value = Number(point.substr(1));
 
-      if( point.charAt(0) === 'S' ) {
+      if (point.charAt(0) === 'S') {
         rawData[count] = {raw: value};
 
         checkMinMax(value, 'raw');
         count++;
-      }
-      else if (point.charAt(0) === 'B') {
+      } else if (point.charAt(0) === 'B') {
         var preVal = rawData[count - 1];
         rawData[count - 1].bpm = value;
       }
@@ -57,13 +50,13 @@
                       'Unique Beats #: ' + uniqueBeatValues.length;
   }
 
-  function newArrayBeats (value) {
+  function newArrayBeats(value) {
     peaksCount++;
     /**
     * some() Tests an element in an array with the passed function.
     * https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/some
     **/
-    var alreadyExists = uniqueBeatValues.some(function (element) {
+    var alreadyExists = uniqueBeatValues.some(function(element) {
       return element === value;
     });
 
@@ -76,7 +69,7 @@
     checkMinMax(value, 'beat');
   }
 
-  function checkMinMax (value, type) {
+  function checkMinMax(value, type) {
     if (value < minMaxValues[type].min) {
       minMaxValues[type].min = value;
     }
@@ -87,7 +80,7 @@
   }
 
   function getCanvasRow() {
-    var c = createCanvas(container, {
+    var c = DDD.canvas(container, {
       position: 'relative',
       w: chunkW,
       h: minMaxValues.raw.max - minMaxValues.raw.min + 20,
@@ -103,7 +96,7 @@
   * That way the page renders progresively each canvas, as if it was loading faster.
   * With a loop, the page only renders when the loop is done, leaving the page blank for a long time.
   **/
-  function arrayChunks () {
+  function arrayChunks() {
     if (chunkIndex < rawData.length) {
       var data = rawData.slice(chunkIndex, chunkIndex + chunkW);
       var c = getCanvasRow();
@@ -124,7 +117,7 @@
   **/
 
   function renderSingleChunk(start) {
-    var slicedData = rawData.slice( chunkW * start, chunkW * (start + 1) );
+    var slicedData = rawData.slice(chunkW * start, chunkW * (start + 1));
     var c = getCanvasRow();
 
     new Drawing(c, slicedData);
@@ -134,6 +127,7 @@
     this.data          = data;
     this.canvas        = c.canvas;
     this.ctx           = c.ctx;
+    this.h             = c.h;
     this.dataUpCounter = 0;
     this.timeBtwnBeats = 0;
     this.lastBeat      = 0;
@@ -143,31 +137,33 @@
       // add .5 pixels to correct the canvas line rendering.
       var x = i * this.gap + 0.5;
 
-      if ( this.data[i].hasOwnProperty('bpm') ) {
+      if (this.data[i].hasOwnProperty('bpm')) {
         this.ctx.beginPath();
-        this.ctx.moveTo(x, this.canvas.height);
+        this.ctx.moveTo(x, this.h);
         this.ctx.strokeStyle = 'deeppink';
-        this.ctx.lineTo(x, this.canvas.height + minMaxValues.raw.min - this.data[i].raw - (this.data[i].bpm * 0.5) );
-        this.ctx.strokeText( this.data[i].bpm + ', ' + this.data[i].raw, x - 5, this.canvas.height + minMaxValues.raw.min - this.data[i].raw - (this.data[i].bpm * 0.5) );
+        this.ctx.lineTo(x, this.h + minMaxValues.raw.min - this.data[i].raw - (this.data[i].bpm * 0.5));
+        this.ctx.strokeText(this.data[i].bpm + ', ' + this.data[i].raw, x - 5, this.h + minMaxValues.raw.min - this.data[i].raw - (this.data[i].bpm * 0.5));
         this.ctx.stroke();
       }
 
-      if ( i > 0 && this.data[i].raw > this.data[i - 1].raw ) {
+      if (i > 0 && this.data[i].raw > this.data[i - 1].raw) {
         this.dataUpCounter++;
       }
 
-      if ( this.dataUpCounter > 3 && this.data[i].raw >= this.data[i - 1].raw && this.sampleSum(i) > 10 && this.data[i].raw >= 518) {
+      if (this.dataUpCounter > 3 && this.data[i].raw >= this.data[i - 1].raw && this.sampleSum(i) > 10 && this.data[i].raw >= 518) {
         this.dataUpCounter = 0;
 
         this.ctx.beginPath();
-        this.ctx.moveTo( x, this.canvas.height );
-        this.ctx.lineTo( x, this.canvas.height + minMaxValues.raw.min - this.data[i].raw );
+        this.ctx.moveTo(x, this.h);
+        this.ctx.lineTo(x, this.h + minMaxValues.raw.min - this.data[i].raw);
         this.ctx.strokeStyle = 'crimson';
         this.ctx.stroke();
         this.printText(x, i);
-        // this.ctx.strokeText( this.data[i], x - 5, this.canvas.height + minMaxValues.raw.min - this.data[i] - 3 );
+        // this.ctx.strokeText( this.data[i], x - 5, this.h + minMaxValues.raw.min - this.data[i] - 3 );
 
-        if (this.timeBtwnBeats > 55) this.errorSampleRange(x);
+        if (this.timeBtwnBeats > 55) {
+          this.errorSampleRange(x);
+        }
 
         this.timeBtwnBeats = 0;
         this.lastBeat = x;
@@ -177,8 +173,8 @@
       } else {
         this.timeBtwnBeats++;
         this.ctx.beginPath();
-        this.ctx.moveTo( x, this.canvas.height );
-        this.ctx.lineTo( x, this.canvas.height + minMaxValues.raw.min - this.data[i].raw );
+        this.ctx.moveTo(x, this.h);
+        this.ctx.lineTo(x, this.h + minMaxValues.raw.min - this.data[i].raw);
 
         if (this.data[i].raw < 490) {
           this.ctx.strokeStyle = 'blue';
@@ -187,8 +183,7 @@
         } else if (this.data[i].raw === 518) {
           this.ctx.strokeStyle = '#a16ccb';
           this.printText(x, i);
-        }
-        else {
+        } else {
           this.ctx.strokeStyle = 'black';
         }
 
@@ -204,15 +199,15 @@
     }
   }
 
-  Drawing.prototype.printText = function (x, i) {
-    this.ctx.strokeText( this.data[i].raw, x - 5, this.canvas.height + minMaxValues.raw.min - this.data[i].raw - 3 );
+  Drawing.prototype.printText = function(x, i) {
+    this.ctx.strokeText(this.data[i].raw, x - 5, this.h + minMaxValues.raw.min - this.data[i].raw - 3);
   };
 
   Drawing.prototype.sampleSum = function(i) {
     var sum = 0;
     var sample = 15;
 
-    if ( i < this.data.length - 1 && this.data[i].raw > this.data[i + 1].raw ) {
+    if (i < this.data.length - 1 && this.data[i].raw > this.data[i + 1].raw) {
       if (this.data.length > sample && i > sample) {
         for (var j = 0; j < sample; j++) {
 
@@ -229,11 +224,11 @@
 
   Drawing.prototype.errorSampleRange = function(x) {
     this.ctx.save();
-      this.ctx.globalAlpha = 0.3;
-      this.ctx.beginPath();
-      this.ctx.rect(this.lastBeat, 0, x - this.lastBeat, this.canvas.height);
-      this.ctx.fillStyle = 'green';
-      this.ctx.fill();
+    this.ctx.globalAlpha = 0.3;
+    this.ctx.beginPath();
+    this.ctx.rect(this.lastBeat, 0, x - this.lastBeat, this.h);
+    this.ctx.fillStyle = 'green';
+    this.ctx.fill();
     this.ctx.restore();
   };
 })();

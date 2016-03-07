@@ -1,4 +1,4 @@
-(function () {
+(function() {
   'use strict';
 
   /*----------  SET STAGE  ----------*/
@@ -12,7 +12,7 @@
   var centerX = stageW / 2 | 0;
   var centerY = stageH / 2 | 0;
 
-  function init () {
+  function init() {
     loading.style.opacity = 0;
   }
 

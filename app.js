@@ -1,13 +1,13 @@
-var hbs          = require('handlebars');
-var deploy       = require('./deploy');
-var clean        = require('./clean');
-var build        = require('./build');
-var metadata     = require('./config')(process.argv);
+var hbs      = require('handlebars');
+var deploy   = require('./deploy');
+var clean    = require('./clean');
+var build    = require('./build');
+var metadata = require('./config')(process.argv);
 require('./hbs-helpers')(hbs);
 
 if (metadata.env === 'clean') {
   clean();
-} else if(metadata.env === 'deploy') {
+} else if (metadata.env === 'deploy') {
   clean(buildAndDeploy);
 } else if (metadata.env === 'prod') {
   build.once();
@@ -17,6 +17,6 @@ if (metadata.env === 'clean') {
   build.serve();
 }
 
-function buildAndDeploy () {
+function buildAndDeploy() {
   build.once(deploy);
 }

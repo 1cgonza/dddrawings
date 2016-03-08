@@ -3,14 +3,10 @@
   {{#each collections}}
   {{#each this}}
   {{#if archive}}
-  <article>
-    <header>
-      <h3><a href="{{ setURL slug false true }}">{{ title }}</a></h3>
-    </header>
-    <section>
-      <p class="section-description">{{ description }}</p>
-    </section>
-  </article>
+  <section>
+    <h3><a href="{{ setURL slug false true }}">{{ title }}</a></h3>
+    <p class="section-description">{{ description }}</p>
+  </section>
   {{/if}}
   {{/each}}
   {{/each}}

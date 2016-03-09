@@ -22,16 +22,8 @@
 
       <div id="description">
         {{#if excerpt }} {{{ excerpt }}} {{/if}}
-        <a id="notes" href="#" title="About">Read more</a>
+        {{#if contents}}<a id="notes" href="#" title="About">Read more</a>{{/if}}
       </div>
-    </div>
-
-    <div id="middle-col">
-      <p class="loading">Loading Timeline...</p>
-    </div>
-
-    <div id="right-col">
-      <p class="loading">Loading Notations...</p>
     </div>
 
   </section>

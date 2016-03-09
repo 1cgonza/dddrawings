@@ -1,5 +1,5 @@
 ---
-layout: notations-single.hbs
+layout: notations-cols.hbs
 title: SiSiSiSiSiSiSiSiSiSiSi
 director: Juan Camilo González
 year: 2011

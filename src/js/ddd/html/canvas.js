@@ -51,6 +51,7 @@ function canvas2D(container, options) {
   }
 
   return {
+    container: container,
     canvas: canvas,
     w: canvas.width,
     h: canvas.height,

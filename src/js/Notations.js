@@ -24,6 +24,7 @@ var Notations = function(data) {
   this.ctx    = this.stage.ctx;
 
   this.imageLoaded  = false;
+  this.imgCallback = data.img.cb;
   this.img        = new Image();
   this.img.onload = this.imageReady.bind(this);
   this.img.src    = data.img.src;
@@ -35,6 +36,7 @@ var Notations = function(data) {
 
 Notations.prototype.imageReady = function() {
   this.imageLoaded = true;
+  this.imgCallback();
 };
 
 var NotationsVideo = function(video, cb) {

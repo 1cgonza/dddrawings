@@ -29,19 +29,20 @@
   var video = new NotationsVideo(document.getElementById('video'), videoReady).video;
 
   var notationsData  = [];
-  var timeline       = {};
-  timeline.container = document.getElementById('middle-col');
-  timeline.canvas    = document.getElementById('timeline');
-  timeline.ctx       = timeline.canvas.getContext('2d');
-  timeline.imgW      = 200;
-  timeline.imgH      = 1218;
 
-  var notations       = {};
-  notations.container = document.getElementById('right-col');
-  notations.canvas    = document.getElementById('notations');
-  notations.ctx       = notations.canvas.getContext('2d');
-  notations.imgW      = 1000;
-  notations.imgH      = 6088;
+  var timeline                    = DDD.canvas(document.getElementById('middle-col'), {position: 'relative'});
+  timeline.canvas.style.opacity   = 0;
+  timeline.container.style.width  = '10%';
+  timeline.container.style.height = window.innerHeight + 'px';
+  timeline.imgW                   = 200;
+  timeline.imgH                   = 1218;
+
+  var notations                    = DDD.canvas(document.getElementById('right-col'), {position: 'relative'});
+  notations.canvas.style.opacity   = 0;
+  notations.container.style.width  = '50%';
+  notations.container.style.height = window.innerHeight + 'px';
+  notations.imgW                   = 1000;
+  notations.imgH                   = 6088;
 
   function videoReady() {
     // Load JSON data about notations
@@ -89,8 +90,11 @@
     } else {
       resizeElements();
       video.controls = true;
-      document.querySelector('#right-col .loading').style.display = 'none';
-      document.querySelector('#middle-col .loading').style.display = 'none';
+
+      document.querySelector('#right-col .loading').style.opacity = 0;
+      document.querySelector('#middle-col .loading').style.opacity = 0;
+      timeline.canvas.style.opacity = 1;
+      notations.canvas.style.opacity = 1;
     }
   }
 

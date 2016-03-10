@@ -2,8 +2,16 @@
   'use strict';
 
   var animReq;
-  var container = document.getElementById('right-col');
-  var notes     = document.getElementById('box');
+  var assetsLoaded = 0;
+  var container = document.getElementById('ddd-container');
+  var stage = document.createElement('div');
+  stage.id = 'right-col';
+  stage.style.width = '60%';
+  stage.style.height = window.innerHeight + 'px';
+
+  container.appendChild(stage);
+
+  var notes = document.getElementById('box');
   var video;
   var r  = 0;
   var r2 = 0;
@@ -18,17 +26,26 @@
       offRight: 24,
       offBottom: 17,
       offLeft: 165,
-      src: '/img/notations/sisisi-notations.jpg'
+      src: '/img/notations/sisisi-notations.jpg',
+      cb: assetReady
     },
     secPerPage: 160,
     fps: 24,
     url: '/data/notations/sisisisisisisisisisisi.json',
     cb: notationsReady,
-    container: container,
-    loadingEle: document.querySelector('#right-col .loading')
+    container: stage
   });
+  notations.canvas.style.opacity = 0;
+  var loader = document.createElement('p');
+  loader.className = 'loading';
+  loader.innerText = 'Loading Notations';
+  stage.appendChild(loader);
 
   var debug = false;
+
+  function assetReady() {
+    assetsLoaded++;
+  }
 
   function notationsReady(d) {
     notations.d = d.sections;
@@ -45,7 +62,8 @@
     updateSize();
     notationsUpdate();
 
-    notations.loading.style.opacity = 0;
+    loader.style.opacity = 0;
+    notations.canvas.style.opacity = 1;
     video.controls = true;
 
     video.onplay = function() {
@@ -133,7 +151,7 @@
   }
 
   function updateSize() {
-    notations.canvas.width  = container.offsetWidth;
+    notations.canvas.width  = stage.offsetWidth;
     notations.canvas.height = window.innerHeight;
     notations.resizeH = DDD.sizeFromPercentage(DDD.getPercent(notations.canvas.width, notations.imgW), notations.imgH);
     resetHeightInData();
@@ -157,7 +175,7 @@
   };
 
   function debugReferencePoint() {
-    var ref = DDD.canvas(container, {w: notations.canvas.width, h: notations.canvas.height});
+    var ref = DDD.canvas(stage, {w: notations.canvas.width, h: notations.canvas.height});
 
     for (var i = 0; i < d.sections.length; i++) {
       if (d.sections[i].hasOwnProperty('r') &&  d.sections[i].hasOwnProperty('r2')) {

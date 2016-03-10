@@ -3,6 +3,10 @@
   min-width: 1000px;
   height: 100%;
 
+  #ddd-container * {
+    transition: 1s opacity ease-in-out;
+  }
+
   h1,
   h2,
   h3,
@@ -37,13 +41,8 @@
     }
   }
 
-  #middle-col, #right-col {
-    display: none;
-  }
-
   canvas {
     display: none;
-    // opacity: 0;
   }
 
   video {
@@ -116,7 +115,51 @@
       right: 1em;
     }
   }
+
+  .loading {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 40%;
+    margin: 0;
+  }
 }
+
+/*=============================
+=            TANGO            =
+=============================*/
+.single-notations.tango {
+  #top-row {
+    header {
+      padding: 1em;
+    }
+
+    .film-title {
+      font-size: 1.5em;
+    }
+
+    header, video {
+      vertical-align: top;
+    }
+
+    header {
+      width: 60%;
+      display: inline-block;
+      text-align: center;
+    }
+
+    #video-container {
+      width: 40%;
+      position: fixed;
+      height: 100%;
+      background-color: black;
+      right: 0;
+      top: 0;
+    }
+  }
+}
+
+/*=====  End of TANGO  ======*/
 
 /*=====================================
 =            A CHAIRY TALE            =
@@ -144,21 +187,13 @@
   }
 
   #middle-col {
-    width: 10%;
+    color: white;
     background-color: black;
   }
 
   #right-col {
     width: 50%;
   }
-
-  .loading {
-    position: absolute;
-    width: 100%;
-    text-align: center;
-    top: 250px;
-  }
-
 }
 /*-----  End of A CHAIRY TALE  ------*/
 

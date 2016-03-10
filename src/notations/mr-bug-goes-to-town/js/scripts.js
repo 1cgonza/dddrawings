@@ -1,9 +1,19 @@
 (function() {
   'use strict';
 
+  var assetsLoaded = 0;
   var video;
   var animReq;
-  var timeline = new Notations({
+
+  var container = document.getElementById('ddd-container');
+  var stage = document.createElement('div');
+  stage.id = 'right-col';
+  stage.style.width = '60%';
+  stage.style.height = window.innerHeight + 'px';
+
+  container.appendChild(stage);
+
+  var notations = new Notations({
     img: {
       width: 1874,
       height: 1023,
@@ -11,25 +21,35 @@
       offRight: 24,
       offBottom: 17,
       offLeft: 165,
-      src: '/img/notations/bug-goes-to-town.jpg'
+      src: '/img/notations/bug-goes-to-town.jpg',
+      cb: assetReady
     },
     secPerPage: 160,
     fps: 24,
     url: '/data/notations/bug-goes-to-town.json',
-    cb: timelineReady,
-    container: document.getElementById('middle-col'),
-    loadingEle: document.querySelector('#middle-col .loading')
+    cb: notationsReady,
+    container: stage,
   });
+  notations.canvas.style.opacity = 0;
+  var loader = document.createElement('p');
+  loader.className = 'loading';
+  loader.innerText = 'Loading Notations...)';
+  stage.appendChild(loader);
 
-  function timelineReady() {
+  function assetReady() {
+    assetsLoaded++;
+  }
+
+  function notationsReady() {
     video = new NotationsVideo(document.getElementById('video'), videoReady).video;
   }
 
   function videoReady() {
     updateSize();
-    timelineUpdate();
+    notationsUpdate();
 
-    timeline.loading.style.opacity = 0;
+    loader.style.opacity = 0;
+    notations.canvas.style.opacity = 1;
 
     video.controls = true;
 
@@ -38,7 +58,7 @@
       return false;
     };
 
-    video.onseeking = timelineUpdate;
+    video.onseeking = notationsUpdate;
 
     video.onpause = function() {
       window.cancelAnimationFrame(animReq);
@@ -47,37 +67,37 @@
   }
 
   function playerLoop() {
-    timelineUpdate();
+    notationsUpdate();
     animReq = requestAnimationFrame(playerLoop);
   }
 
-  function timelineUpdate() {
-    timeline.ctx.clearRect(0, 0, timeline.canvas.width, timeline.canvas.height);
+  function notationsUpdate() {
+    notations.ctx.clearRect(0, 0, notations.canvas.width, notations.canvas.height);
 
-    var x = (video.currentTime * timeline.step) + timeline.offX;
+    var x = (video.currentTime * notations.step) + notations.offX;
 
-    timeline.ctx.drawImage(
-      timeline.img,
+    notations.ctx.drawImage(
+      notations.img,
       0, 0,
-      timeline.imgW, timeline.imgH,
-      0, (timeline.canvas.height / 2) - (timeline.resizeH / 2),
-      timeline.canvas.width, timeline.resizeH
+      notations.imgW, notations.imgH,
+      0, (notations.canvas.height / 2) - (notations.resizeH / 2),
+      notations.canvas.width, notations.resizeH
     );
-    timeline.ctx.beginPath();
-    timeline.ctx.moveTo(x, 0);
-    timeline.ctx.lineTo(x, timeline.imgH);
-    timeline.ctx.strokeStyle = '#fe0404';
-    timeline.ctx.stroke();
+    notations.ctx.beginPath();
+    notations.ctx.moveTo(x, 0);
+    notations.ctx.lineTo(x, notations.imgH);
+    notations.ctx.strokeStyle = '#fe0404';
+    notations.ctx.stroke();
   }
 
   function updateSize() {
-    timeline.canvas.width = timeline.container.offsetWidth;
-    timeline.canvas.height = window.innerHeight;
-    timeline.resizeH = DDD.sizeFromPercentage(DDD.getPercent(timeline.canvas.width, timeline.imgW), timeline.imgH);
-    var area = DDD.sizeFromPercentage(timeline.percent.w, timeline.canvas.width);
-    timeline.step = area / video.duration;
-    timeline.offX = DDD.sizeFromPercentage(timeline.percent.left, timeline.canvas.width);
-    timelineUpdate();
+    notations.canvas.width = notations.container.offsetWidth;
+    notations.canvas.height = window.innerHeight;
+    notations.resizeH = DDD.sizeFromPercentage(DDD.getPercent(notations.canvas.width, notations.imgW), notations.imgH);
+    var area = DDD.sizeFromPercentage(notations.percent.w, notations.canvas.width);
+    notations.step = area / video.duration;
+    notations.offX = DDD.sizeFromPercentage(notations.percent.left, notations.canvas.width);
+    notationsUpdate();
 
     return false;
   }

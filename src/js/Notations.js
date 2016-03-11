@@ -1,6 +1,5 @@
 var Notations = function(data) {
   this.container = data.container;
-  this.loading   = data.loadingEle;
 
   // Image Dimensions
   this.imgW = data.img.width;

@@ -33,7 +33,7 @@
   notations.canvas.style.opacity = 0;
   var loader = document.createElement('p');
   loader.className = 'loading';
-  loader.innerText = 'Loading Notations...)';
+  loader.innerText = 'Loading Notations...';
   stage.appendChild(loader);
 
   function assetReady() {

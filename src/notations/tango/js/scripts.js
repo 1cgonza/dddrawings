@@ -81,6 +81,62 @@
       video.controls = true;
 
       // videoControl();
+      left.onmousedown = function(event) {
+        prevX = event.clientX;
+        dragging = true;
+
+        return false;
+      };
+
+      left.onmouseup = stopDrag;
+      bottom.onmouseup = stopDrag;
+
+      left.onmousemove = function(event) {
+        if (dragging) {
+          var distance = prevX - event.clientX;
+          video.currentTime += resize.videoNotationsW * distance;
+          prevX = event.clientX;
+        } else {
+          // var x = event.clientX;
+          // var y = event.layerY;
+          // var x1 = DDD.sizeFromPercentage(resize.notationsPercent, data.characters[0].x1);
+          // var x2 = DDD.sizeFromPercentage(resize.notationsPercent, data.characters[0].x2);
+
+          // var y1 = DDD.sizeFromPercentage(resize.notationsPercent, data.characters[0].y1);
+          // var y2 = DDD.sizeFromPercentage(resize.notationsPercent, data.characters[1].y1);
+
+          // var halfPoint = y1 + ((y2 - y1) / 2);
+
+          // if (y >= halfPoint) {
+          //   console.log(data.characters[1].eng);
+          // } else {
+          //   console.log(data.characters[0].eng);
+          // }
+        }
+
+        return false;
+      };
+
+      bottom.onmousedown = function(event) {
+        var distance = event.clientX - tX;
+        video.currentTime += resize.videoTimelineW * distance;
+        dragging = true;
+
+        return false;
+      };
+
+      bottom.onmousemove = function(event) {
+        if (dragging) {
+          var distance = event.clientX - tX;
+          video.currentTime += resize.videoTimelineW * distance;
+        }
+        return false;
+      };
+
+      function stopDrag() {
+        dragging = false;
+        return false;
+      }
 
       loadingNotations.style.opacity = 0;
       notations.canvas.style.opacity = 1;
@@ -280,63 +336,6 @@
   };
 
   window.onresize = resize.updateRepaint.bind(resize);
-
-  left.onmousedown = function(event) {
-    prevX = event.clientX;
-    dragging = true;
-
-    return false;
-  };
-
-  left.onmouseup = stopDrag;
-  bottom.onmouseup = stopDrag;
-
-  left.onmousemove = function(event) {
-    if (dragging) {
-      var distance = prevX - event.clientX;
-      video.currentTime += resize.videoNotationsW * distance;
-      prevX = event.clientX;
-    } else {
-      // var x = event.clientX;
-      // var y = event.layerY;
-      // var x1 = DDD.sizeFromPercentage(resize.notationsPercent, data.characters[0].x1);
-      // var x2 = DDD.sizeFromPercentage(resize.notationsPercent, data.characters[0].x2);
-
-      // var y1 = DDD.sizeFromPercentage(resize.notationsPercent, data.characters[0].y1);
-      // var y2 = DDD.sizeFromPercentage(resize.notationsPercent, data.characters[1].y1);
-
-      // var halfPoint = y1 + ((y2 - y1) / 2);
-
-      // if (y >= halfPoint) {
-      //   console.log(data.characters[1].eng);
-      // } else {
-      //   console.log(data.characters[0].eng);
-      // }
-    }
-
-    return false;
-  };
-
-  bottom.onmousedown = function(event) {
-    var distance = event.clientX - tX;
-    video.currentTime += resize.videoTimelineW * distance;
-    dragging = true;
-
-    return false;
-  };
-
-  bottom.onmousemove = function(event) {
-    if (dragging) {
-      var distance = event.clientX - tX;
-      video.currentTime += resize.videoTimelineW * distance;
-    }
-    return false;
-  };
-
-  function stopDrag() {
-    dragging = false;
-    return false;
-  }
 
   function videoControl() {
     var container = document.getElementById('video-container');

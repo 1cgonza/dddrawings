@@ -96,6 +96,7 @@
           var distance = prevX - event.clientX;
           video.currentTime += resize.videoNotationsW * distance;
           prevX = event.clientX;
+          updateAll();
         } else {
           // var x = event.clientX;
           // var y = event.layerY;
@@ -121,6 +122,7 @@
         var distance = event.clientX - tX;
         video.currentTime += resize.videoTimelineW * distance;
         dragging = true;
+        updateAll();
 
         return false;
       };
@@ -129,6 +131,7 @@
         if (dragging) {
           var distance = event.clientX - tX;
           video.currentTime += resize.videoTimelineW * distance;
+          updateAll();
         }
         return false;
       };
@@ -136,6 +139,12 @@
       function stopDrag() {
         dragging = false;
         return false;
+      }
+
+      function updateAll() {
+        if (video.paused) {
+          updateNotations();
+        }
       }
 
       loadingNotations.style.opacity = 0;
@@ -176,6 +185,7 @@
       updateNotations();
       return false;
     };
+
   }
 
   function playerLoop() {

@@ -6,14 +6,19 @@
   var sectionsLen = 0;
   var bleedBottom = 30;
   var dataLoaded  = false;
+  var dragging    = false;
+  var prevX       = 0;
+  var tX          = 0;
   var header      = document.getElementById('header');
   var container   = document.getElementById('ddd-container');
   var bottom      = document.createElement('div');
   var left        = document.createElement('div');
   var video       = new NotationsVideo(document.getElementById('video'), videoReady).video;
 
+  bottom.id             = 'bottom';
   bottom.style.position = 'fixed';
-  left.style.position = 'fixed';
+  left.id               = 'left';
+  left.style.position   = 'fixed';
   container.appendChild(bottom);
   container.appendChild(left);
 
@@ -153,8 +158,8 @@
     var timeOffset    = currentTime - current.start;
     var stepN         = timeOffset * (current.notationsW / sectionLength);
     var stepT         = timeOffset * (current.timelineW / sectionLength);
+    tX            = stepT + (current.timelineX);
     var nX            = stepN + (current.notationsX - notations.offX);
-    var tX            = stepT + (current.timelineX);
 
     timeline.ctx.clearRect(0, 0, resize.bottomW, resize.bottomH);
     timeline.ctx.beginPath();
@@ -191,10 +196,11 @@
   var resize = {
     reset: function() {
       this.bottomW          = window.innerWidth;
+      this.topH             = header.offsetHeight;
       this.timelinePercent  = DDD.getPercent(this.bottomW, timeline.imgW);
       this.adjustPercent    = DDD.getPercent(timeline.imgW, data.imgW);
       this.bottomH          = DDD.sizeFromPercentage(this.timelinePercent, timeline.imgH) + bleedBottom | 0;
-      this.leftH            = window.innerHeight - header.offsetHeight - this.bottomH;
+      this.leftH            = window.innerHeight - this.topH - this.bottomH;
       this.notationsPercent = DDD.getPercent(this.leftH, notations.imgH);
     },
 
@@ -227,6 +233,7 @@
       var videoH = window.innerHeight - this.bottomH;
       video.style.maxHeight = videoH + 'px';
       video.style.marginTop = (videoH / 2) - (video.offsetHeight / 2) + 'px';
+      this.videoTimelineW = video.duration / this.adjustTimelineX(data.endX - data.initX);
     },
 
     resizeNotations: function(noReset) {
@@ -234,7 +241,7 @@
         this.reset();
       }
       this.leftW              = left.offsetWidth;
-      left.style.top          = header.offsetHeight + 'px';
+      left.style.top          = this.topH + 'px';
       left.style.height       = this.leftH + 'px';
 
       notations.resizeW       = DDD.sizeFromPercentage(this.notationsPercent, notations.imgW);
@@ -245,6 +252,8 @@
         notations.offX = DDD.sizeFromPercentage(this.notationsPercent, data.initX) | 0;
         notations.ctx.strokeStyle = 'red';
       }
+
+      this.videoNotationsW = video.duration / DDD.sizeFromPercentage(this.notationsPercent, data.endX - data.initX);
     },
 
     resizeData: function() {
@@ -271,6 +280,63 @@
   };
 
   window.onresize = resize.updateRepaint.bind(resize);
+
+  left.onmousedown = function(event) {
+    prevX = event.clientX;
+    dragging = true;
+
+    return false;
+  };
+
+  left.onmouseup = stopDrag;
+  bottom.onmouseup = stopDrag;
+
+  left.onmousemove = function(event) {
+    if (dragging) {
+      var distance = prevX - event.clientX;
+      video.currentTime += resize.videoNotationsW * distance;
+      prevX = event.clientX;
+    } else {
+      // var x = event.clientX;
+      // var y = event.layerY;
+      // var x1 = DDD.sizeFromPercentage(resize.notationsPercent, data.characters[0].x1);
+      // var x2 = DDD.sizeFromPercentage(resize.notationsPercent, data.characters[0].x2);
+
+      // var y1 = DDD.sizeFromPercentage(resize.notationsPercent, data.characters[0].y1);
+      // var y2 = DDD.sizeFromPercentage(resize.notationsPercent, data.characters[1].y1);
+
+      // var halfPoint = y1 + ((y2 - y1) / 2);
+
+      // if (y >= halfPoint) {
+      //   console.log(data.characters[1].eng);
+      // } else {
+      //   console.log(data.characters[0].eng);
+      // }
+    }
+
+    return false;
+  };
+
+  bottom.onmousedown = function(event) {
+    var distance = event.clientX - tX;
+    video.currentTime += resize.videoTimelineW * distance;
+    dragging = true;
+
+    return false;
+  };
+
+  bottom.onmousemove = function(event) {
+    if (dragging) {
+      var distance = event.clientX - tX;
+      video.currentTime += resize.videoTimelineW * distance;
+    }
+    return false;
+  };
+
+  function stopDrag() {
+    dragging = false;
+    return false;
+  }
 
   function videoControl() {
     var container = document.getElementById('video-container');

@@ -157,6 +157,18 @@
       top: 0;
     }
   }
+
+  #left {
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  #bottom {
+    &:active {
+      cursor: ew-resize;
+    }
+  }
 }
 
 /*=====  End of TANGO  ======*/

@@ -133,8 +133,8 @@
 
     points    = [];
     currentI  = 0;
-    timeStart = Date.parse(year + '-01-01 00:00:00');
-    timeEnd   = Date.parse(year + 1 + '-01-01 00:00:00');
+    timeStart = Date.parse(year + '/01/01 00:00:00');
+    timeEnd   = Date.parse(year + 1 + '/01/01 00:00:00');
     step      = stage.w / (timeEnd - timeStart);
 
     drawBG();
@@ -156,7 +156,7 @@
       var loc;
 
       if (mode === 1) {
-        amount = d[currentI].hasOwnProperty('total_v') ? Number(d[currentI].total_v) : 0;
+        amount = d[currentI].hasOwnProperty('totalV') ? Number(d[currentI].totalV) : 0;
         loc = map.convertCoordinates(d[currentI].lon, d[currentI].lat);
         perlin.setSeed(amount);
       } else if (mode === 2) {
@@ -167,7 +167,7 @@
         };
       }
 
-      var timeEvent = d[currentI].hasOwnProperty('fecha_ini') ? Date.parse(d[currentI].fecha_ini) : null;
+      var timeEvent = d[currentI].hasOwnProperty('fechaIni') ? Date.parse(d[currentI].fechaIni) : null;
       var timeX = timeEvent - timeStart;
 
       perlin.setSeed(amount);
@@ -275,7 +275,8 @@
 
   function PerlinGenerator(seed) {
     var rnd = new Marsaglia(seed, (seed << 16) + (seed >> 16));
-    var i, j;
+    var i;
+    var j;
     var perm = new Uint8Array(512);
 
     for (i = 0; i < 256; ++i) {

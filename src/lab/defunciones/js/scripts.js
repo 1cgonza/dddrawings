@@ -237,9 +237,9 @@
 
   function draw(i) {
     var e = d[i];
-    if ('total_v' in e && 'cat' in e && e.cat.indexOf('Homicidio') >= 0) {
-      var total = Number(d[i].total_v);
-      var date = moment.tz(d[i].fecha_ini, 'America/Bogota');
+    if ('totalV' in e && 'cat' in e && e.cat.indexOf('Homicidio') >= 0) {
+      var total = Number(d[i].totalV);
+      var date = moment.tz(d[i].fechaIni, 'America/Bogota');
       var elapsed = ((date - dIni) / 31536000000) * stage.w;
 
       log.ctx.beginPath();

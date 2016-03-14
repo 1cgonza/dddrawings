@@ -7,7 +7,7 @@
 
   /*----------  SET STAGE  ----------*/
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementById('ddd-loading');
+  var loading   = document.createElement('div');
   var bg        = DDD.canvas(container);
   var stage     = DDD.canvas(container);
   stage.ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
@@ -87,7 +87,7 @@
   =            EQ            =
   ==========================*/
   function updateEQMap(year) {
-    req.json('../../data/ingeominas/eq' + year + '.json', processEQData);
+    req.json('../../data/ingeominas/eq' + year + '.json', processEQData, null, container, 'Loading Seismic Data', loading);
   }
 
   function processEQData(data) {
@@ -155,11 +155,13 @@
     container.appendChild(menu);
     currentYear = currEle;
     updateEQMap(currEle.textContent);
-    req2.json('../../data/geo/col-50m.json', processMapData);
+    req2.json('../../data/geo/col-50m.json', processMapData, null, container, 'Loading Map Data', loading);
     optionsMenu();
   }
 
   function yearClickEvent(event) {
+    req.abort();
+    loading.innerHTML = '';
     loading.style.opacity = 1;
     window.cancelAnimationFrame(animReq);
     DDD.html.resetCurrent(currentYear, event.target);

@@ -1,7 +1,6 @@
 (function() {
   'use strict';
 
-  var assetsLoaded = 0;
   var video;
   var animReq;
 
@@ -22,7 +21,8 @@
       offBottom: 17,
       offLeft: 165,
       src: '/img/notations/bug-goes-to-town.jpg',
-      cb: assetReady
+      cb: imgReady,
+      msg: 'Loading Notations'
     },
     secPerPage: 160,
     fps: 24,
@@ -31,13 +31,11 @@
     container: stage,
   });
   notations.canvas.style.opacity = 0;
-  var loader = document.createElement('p');
-  loader.className = 'loading';
-  loader.innerText = 'Loading Notations...';
-  stage.appendChild(loader);
 
-  function assetReady() {
-    assetsLoaded++;
+  function imgReady() {
+    updateSize();
+    notationsRepaint();
+    notations.canvas.style.opacity = 1;
   }
 
   function notationsReady() {
@@ -47,9 +45,6 @@
   function videoReady() {
     updateSize();
     notationsUpdate();
-
-    loader.style.opacity = 0;
-    notations.canvas.style.opacity = 1;
 
     video.controls = true;
 
@@ -76,6 +71,15 @@
 
     var x = (video.currentTime * notations.step) + notations.offX;
 
+    notationsRepaint();
+    notations.ctx.beginPath();
+    notations.ctx.moveTo(x, 0);
+    notations.ctx.lineTo(x, notations.imgH);
+    notations.ctx.strokeStyle = '#fe0404';
+    notations.ctx.stroke();
+  }
+
+  function notationsRepaint() {
     notations.ctx.drawImage(
       notations.img,
       0, 0,
@@ -83,11 +87,6 @@
       0, (notations.canvas.height / 2) - (notations.resizeH / 2),
       notations.canvas.width, notations.resizeH
     );
-    notations.ctx.beginPath();
-    notations.ctx.moveTo(x, 0);
-    notations.ctx.lineTo(x, notations.imgH);
-    notations.ctx.strokeStyle = '#fe0404';
-    notations.ctx.stroke();
   }
 
   function updateSize() {

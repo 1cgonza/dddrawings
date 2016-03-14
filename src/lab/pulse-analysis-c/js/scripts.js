@@ -2,7 +2,7 @@
   'use strict';
   var loaded    = false;
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementById('ddd-loading');
+  container.style.color = 'white';
   document.body.style.backgroundColor = 'black';
 
   /*----------  GLOBAL VARIABLES  ----------*/
@@ -38,7 +38,7 @@
   base.ctx.fillStyle                = 'rgba(255, 89, 237, 1)';
   grid.ctx.globalCompositeOperation = 'darken';
 
-  DDD.json('../../data/pulse/heart.2.json', processData);
+  DDD.json('../../data/pulse/heart.2.json', processData, null, container, 'Loading Pulse Data');
 
   function processData(data) {
     for (var i = 0; i < data.beats.length / 3; i++) {

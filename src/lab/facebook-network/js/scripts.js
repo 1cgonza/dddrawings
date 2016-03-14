@@ -1,7 +1,6 @@
 (function() {
   'use strict';
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementById('ddd-loading');
   var wrapper   = document.createElement('section');
   var w         = window.innerWidth;
   var h         = window.innerHeight;
@@ -17,7 +16,6 @@
     if (error) {
       console.error('Error loading data');
     } else {
-      loading.style.opacity = 0;
       network = new FN(data);
       network.init(current);
     }

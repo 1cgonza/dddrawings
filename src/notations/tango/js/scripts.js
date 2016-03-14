@@ -35,7 +35,8 @@
       width: 2000,
       height: 103,
       src: assets.small,
-      cb: timelineReady
+      cb: timelineReady,
+      msg: 'Loading Timeline'
     },
     'fps': 24,
     container: bottom,
@@ -49,7 +50,7 @@
 
   var loadingTimeline = document.createElement('p');
   loadingTimeline.className = 'loading';
-  loadingTimeline.innerText = 'Loading Timeline...';
+  loadingTimeline.innerText = '';
   bottom.appendChild(loadingTimeline);
 
   var notations = new Notations({
@@ -57,7 +58,8 @@
       width: 15458,
       height: 800,
       src: assets.large,
-      cb: assetReady
+      cb: notationsReady,
+      msg: 'Loading Notations \n (This is a large image, please be patient)'
     },
     fps: 24,
     container: left,
@@ -68,10 +70,10 @@
   left.style.height = notations.canvas.height + 'px';
   left.style.top    = header.offsetHeight + 'px';
 
-  var loadingNotations = document.createElement('p');
-  loadingNotations.className = 'loading';
-  loadingNotations.innerText = 'Loading Notations... \n \n (This is a large image, please be patient)';
-  left.appendChild(loadingNotations);
+  // var loadingNotations = document.createElement('p');
+  // loadingNotations.className = 'loading';
+  // loadingNotations.innerText = 'Loading Notations... \n \n (This is a large image, please be patient)';
+  // left.appendChild(loadingNotations);
 
   function checkAssetsLoaded() {
     if (assetsLoaded < assetsLength) {
@@ -146,9 +148,6 @@
           updateNotations();
         }
       }
-
-      loadingNotations.style.opacity = 0;
-      notations.canvas.style.opacity = 1;
     }
   }
 
@@ -156,8 +155,16 @@
     assetsLoaded++;
     resize.resizeTimeline();
     repaintTimeline();
-    loadingTimeline.style.opacity = 0;
+    // loadingTimeline.style.opacity = 0;
     timeline.canvas.style.opacity = 1;
+  }
+
+  function notationsReady() {
+    assetsLoaded++;
+    resize.resizeNotations();
+    repaintNotations(0);
+    // loadingNotations.style.opacity = 0;
+    notations.canvas.style.opacity = 1;
   }
 
   function dataReady(d) {
@@ -224,7 +231,7 @@
     var timeOffset    = currentTime - current.start;
     var stepN         = timeOffset * (current.notationsW / sectionLength);
     var stepT         = timeOffset * (current.timelineW / sectionLength);
-    tX            = stepT + (current.timelineX);
+    tX                = stepT + (current.timelineX);
     var nX            = stepN + (current.notationsX - notations.offX);
 
     timeline.ctx.clearRect(0, 0, resize.bottomW, resize.bottomH);
@@ -234,18 +241,22 @@
     timeline.ctx.stroke();
 
     notations.ctx.clearRect(0, 0, resize.leftW, resize.leftH);
-    notations.ctx.drawImage(
-      notations.img,
-      0, 0,
-      notations.imgW, notations.imgH,
-      -nX, 0,
-      notations.resizeW, resize.leftH
-    );
+    repaintNotations(nX);
 
     notations.ctx.beginPath();
     notations.ctx.moveTo(notations.offX, 0);
     notations.ctx.lineTo(notations.offX, resize.leftH);
     notations.ctx.stroke();
+  }
+
+  function repaintNotations(x) {
+    notations.ctx.drawImage(
+      notations.img,
+      0, 0,
+      notations.imgW, notations.imgH,
+      -x, 0,
+      notations.resizeW, resize.leftH
+    );
   }
 
   function repaintTimeline() {

@@ -1,7 +1,6 @@
 (function() {
   'use strict';
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementById('ddd-loading');
 
   /*----------  SET STAGE  ----------*/
   var stage    = DDD.canvas(container);
@@ -80,7 +79,6 @@
     if (event.target !== current) {
       window.cancelAnimationFrame(animReq);
       req.abort();
-      loading.style.opacity = 1;
       DDD.resetCurrent(current, event.target);
       current = event.target;
       year = Number(event.target.textContent);
@@ -149,7 +147,6 @@
 
   function dataReady(data) {
     d = data;
-    loading.style.opacity = 0;
     animate();
   }
 
@@ -223,7 +220,7 @@
   =            HELPERS            =
   ===============================*/
   function loadData() {
-    req.json('../../data/monitor/violencia-geo-' + year + '.json', dataReady);
+    req.json('../../data/monitor/violencia-geo-' + year + '.json', dataReady, null, container, 'Loading data');
   }
 
   /*----------  POINT  ----------*/

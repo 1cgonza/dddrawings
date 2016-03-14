@@ -3,7 +3,6 @@
 
   /*----------  SET STAGE  ----------*/
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementById('ddd-loading');
   var info      = document.createElement('span');
   container.style.textAlign = 'center';
   info.className = 'info';
@@ -21,7 +20,7 @@
     beat: {min: 100000, max: 0}
   };
 
-  DDD.json('../../data/pulse/heart.2.json', processData);
+  DDD.json('../../data/pulse/heart.2.json', processData, null, container, 'Loading Pulse Data');
 
   function processData(data) {
     for (var i = 0; i < data.beats.length; i++) {
@@ -103,8 +102,6 @@
 
       new Drawing(c, data);
       requestAnimationFrame(arrayChunks);
-    } else {
-      loading.style.opacity = 0;
     }
     chunkIndex += chunkW;
     printInfo();

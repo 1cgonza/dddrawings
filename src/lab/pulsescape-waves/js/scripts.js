@@ -1,7 +1,6 @@
 (function() {
   'use strict';
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementById('ddd-loading');
 
   /*----------  GLOBALS  ----------*/
   var rawData = [[]];
@@ -11,7 +10,7 @@
   var tick    = 0;
   container.style.backgroundColor = '#000000';
 
-  DDD.json('../../data/pulse/heart.2.json', init);
+  DDD.json('../../data/pulse/heart.2.json', init, null, container, 'Loading Pulse Data');
 
   function init(data) {
     for (var i = 0; i < data.beats.length; i++) {
@@ -45,8 +44,6 @@
       new Drawing(data, row);
       tick++;
       requestAnimationFrame(createRows);
-    } else {
-      loading.style.opacity = 0;
     }
   }
 

@@ -27,7 +27,8 @@
       offBottom: 17,
       offLeft: 165,
       src: '/img/notations/sisisi-notations.jpg',
-      cb: assetReady
+      cb: assetReady,
+      msg: 'Loading Notations'
     },
     secPerPage: 160,
     fps: 24,
@@ -36,10 +37,6 @@
     container: stage
   });
   notations.canvas.style.opacity = 0;
-  var loader = document.createElement('p');
-  loader.className = 'loading';
-  loader.innerText = 'Loading Notations';
-  stage.appendChild(loader);
 
   var debug = false;
 
@@ -62,7 +59,6 @@
     updateSize();
     notationsUpdate();
 
-    loader.style.opacity = 0;
     notations.canvas.style.opacity = 1;
     video.controls = true;
 

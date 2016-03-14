@@ -2,7 +2,7 @@
   'use strict';
 
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementById('ddd-loading');
+  var loading   = document.createElement('div');
 
   /*----------  SET STAGE  ----------*/
   var stage = DDD.canvas(container);
@@ -77,6 +77,7 @@
 
   function yearClickEvent(event) {
     eqReq.abort(); // Stop any current download, if any.
+    loading.innerHTML = '';
     loading.style.opacity = 1;
     window.cancelAnimationFrame(animReq);
 
@@ -100,7 +101,7 @@
       eqData = data;
       assets.eqData.loaded = true;
       assestsLoaded++;
-    });
+    }, null, container, 'Loading Seismic Data', loading);
 
     if (!assets.taData.loaded) {
       taReq.json(assets.taData.url, function(data) {
@@ -109,7 +110,7 @@
         nextAttack = taData.current[0].date.unix;
         assets.taData.loaded = true;
         assestsLoaded++;
-      });
+      }, null, container, 'Loading Violence Data', loading);
     }
 
     if (!assets.birdSprite.loaded) {

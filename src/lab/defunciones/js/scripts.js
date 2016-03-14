@@ -1,12 +1,12 @@
 (function() {
   'use strict';
 
+  var loading = document.createElement('div');
   var violenceReq = new DDD.DataRequest();
   var mapReq      = new DDD.DataRequest();
 
   /*----------  STAGE  ----------*/
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementById('ddd-loading');
 
   var bg    = DDD.canvas(container);
   var stage = DDD.canvas(container);
@@ -85,8 +85,10 @@
   function yearClickEvent(event) {
     if (event.target !== current) {
       window.cancelAnimationFrame(animReq);
+      loading.innerHTML = '';
       loading.style.opacity = 1;
       DDD.resetCurrent(current, event.target);
+      violenceReq.abort();
       current = event.target;
       year = event.target.textContent;
 
@@ -117,7 +119,14 @@
   }
 
   function requestViolenceData() {
-    violenceReq.getD('../../data/monitor/violencia-geo-' + year + '.json', processViolenceData);
+    violenceReq.json(
+      '../../data/monitor/violencia-geo-' + year + '.json',
+      processViolenceData,
+      null,
+      container,
+      'Loading Violence Data',
+      loading
+    );
   }
 
   function init() {
@@ -125,7 +134,13 @@
     bg.ctx.fillStyle = 'white';
 
     requestViolenceData();
-    mapReq.getD('../../data/geo/col-50m.json', processGeoData);
+    mapReq.json('../../data/geo/col-50m.json',
+      processGeoData,
+      null,
+      container,
+      'Loading Map Data',
+      loading
+    );
 
     for (var i = 0; i < imgs.length; i++) {
       var sprite = new Sprite(imgs[i].options);

@@ -1,7 +1,6 @@
 (function() {
   'use strict';
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementById('ddd-loading');
 
   /*----------  SET STAGE  ----------*/
   var bg     = DDD.canvas(container, {position: 'fixed'});
@@ -35,7 +34,7 @@
     bg.img        = new Image();
     bg.img.onload = loadBackground;
     bg.img.src    = '../../img/backgrounds/white-paper.jpg';
-  });
+  }, null, container, 'Loading Pulse Data');
 
   function loadBackground() {
     bg.ctx.drawImage(
@@ -51,7 +50,6 @@
     }
 
     animate();
-    loading.style.opacity = 0;
   }
 
   function animate(timestamp) {

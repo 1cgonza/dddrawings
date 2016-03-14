@@ -12,11 +12,13 @@ var ddd = {
   html: require('./html'),
   yearsMenu: require('./html').yearsMenu,
   resetCurrent: require('./html').resetCurrent,
+  base64: require('./html').base64,
 
   Map: require('./map'),
 
   DataRequest: require('./http/req').DataRequest,
   json: require('./http/req').json,
+  image: require('./http/req').image,
 
   color: require('./color'),
   hexToRgb: require('./color').hexToRgb,

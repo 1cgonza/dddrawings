@@ -8,7 +8,6 @@
   'use strict';
   var loaded    = false;
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementById('ddd-loading');
   var stage     = DDD.canvas(container);
 
   /*----------  GLOBAL VARIABLES  ----------*/
@@ -82,7 +81,6 @@
 
       begin();
       draw();
-      loading.style.opacity = 0;
     }
   }
 

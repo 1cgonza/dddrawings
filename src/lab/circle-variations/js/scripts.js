@@ -1,7 +1,6 @@
 (function() {
   'use strict';
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementById('ddd-loading');
   var stage     = DDD.canvas(container);
 
   var eqData        = [];
@@ -95,12 +94,14 @@
     setupInterface();
     drawing = new Drawing();
     animate();
+    requestData();
+  }
 
-    req.getD('../../data/ingeominas/eq' + options.year + '.json', dataReady);
+  function requestData() {
+    req.json('../../data/ingeominas/eq' + options.year + '.json', dataReady, null, container, 'Loading seismic data of year ' + options.year);
   }
 
   function dataReady(data) {
-    loading.style.opacity = 0;
     eqData = data;
 
     if (!imgLoaded) {
@@ -114,7 +115,6 @@
     imgObj.onload = function() {
       imgLoaded = true;
       drawing.draw();
-      loading.style.opacity = 0;
     };
     imgObj.src = options.sprite;
   }
@@ -331,7 +331,6 @@
   };
 
   Drawing.prototype.redraw = function(loadNewData) {
-    loading.style.opacity = 1;
     eqIndex = 0;
     animating = currentStrokeBtn.classList.contains('play') ? true : false;
 
@@ -339,9 +338,8 @@
 
     if (loadNewData) {
       eqData.pop();
-      req.json('../../data/ingeominas/eq' + options.year + '.json', dataReady);
+      requestData();
     } else {
-      loading.style.opacity = 0;
       this.draw();
     }
   };

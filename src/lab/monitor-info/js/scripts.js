@@ -1,7 +1,6 @@
 (function() {
   'use strict';
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementById('ddd-loading');
 
   var req     = new DDD.DataRequest();
   var year    = 2008;
@@ -26,7 +25,6 @@
 
   function clickEvent(event) {
     if (event.target !== current) {
-      loading.style.opacity = 1;
       summaryContainer.innerHTML = '';
       req.abort();
       DDD.resetCurrent(current, event.target);
@@ -46,7 +44,7 @@
     if (summary.hasOwnProperty(year)) {
       renderSummary();
     } else {
-      req.json('../../data/monitor/violencia-geo-' + year + '.json', dataReady);
+      req.json('../../data/monitor/violencia-geo-' + year + '.json', dataReady, null, container, 'Loading Data');
     }
   }
 
@@ -110,8 +108,6 @@
 
       summaryContainer.appendChild(ele);
     }
-
-    loading.style.opacity = 0;
   }
 
   function drawChart(eve) {

@@ -1,7 +1,6 @@
 (function() {
   'use strict';
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementById('ddd-loading');
   var stage     = DDD.canvas(container);
 
   /*----------  GLOBALS  ----------*/
@@ -14,7 +13,7 @@
   var night      = false;
   var animationReq;
 
-  DDD.json('../../data/pulse/heart.2.json', init);
+  DDD.json('../../data/pulse/heart.2.json', init, null, container, 'Loading Pulse Data');
 
   function init(data) {
     for (var i = 0; i < data.beats.length; i++) {
@@ -29,7 +28,6 @@
 
     restart();
     animationReq = requestAnimationFrame(render);
-    loading.style.opacity = 0;
   }
 
   function restart() {

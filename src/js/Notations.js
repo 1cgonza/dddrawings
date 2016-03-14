@@ -1,5 +1,6 @@
 var Notations = function(data) {
   this.container = data.container;
+  this.imgCallback = data.img.cb;
 
   // Image Dimensions
   this.imgW = data.img.width;
@@ -22,20 +23,19 @@ var Notations = function(data) {
   this.canvas = this.stage.canvas;
   this.ctx    = this.stage.ctx;
 
-  this.imageLoaded  = false;
-  this.imgCallback = data.img.cb;
-  this.img        = new Image();
-  this.img.onload = this.imageReady.bind(this);
-  this.img.src    = data.img.src;
+  DDD.image(data.img.src, this.prepareImageData.bind(this), null, this.container, data.img.msg);
 
   if (data.url) {
     DDD.json(data.url, data.cb);
   }
 };
 
-Notations.prototype.imageReady = function() {
-  this.imageLoaded = true;
-  this.imgCallback();
+Notations.prototype.prepareImageData = function(res) {
+  this.img = new Image();
+  this.img.onload = function() {
+    this.imgCallback();
+  }.bind(this);
+  this.img.src = 'data:image/jpeg;base64,' + DDD.base64(res);
 };
 
 var NotationsVideo = function(video, cb) {

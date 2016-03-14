@@ -1,7 +1,5 @@
 (function() {
   'use strict';
-  /*----------  GLOBALS  ----------*/
-  var loading = document.getElementById('ddd-loading');
 
   /*----------  SET STAGE  ----------*/
   var stage = DDD.canvas(document.getElementById('ddd-container'));
@@ -28,8 +26,6 @@
   grid.img.src    = grid.src;
 
   function init() {
-    loading.style.opacity = 0;
-
     grid.cellW   = grid.width / grid.cols | 0;
     grid.cellH   = grid.height / grid.rows | 0;
     grid.centerX = grid.cellW / 2 | 0;

@@ -48,11 +48,6 @@
   bottom.style.bottom   = 0;
   var timelineBg = DDD.canvas(bottom, {h: timeline.canvas.height, zi: 1});
 
-  var loadingTimeline = document.createElement('p');
-  loadingTimeline.className = 'loading';
-  loadingTimeline.innerText = '';
-  bottom.appendChild(loadingTimeline);
-
   var notations = new Notations({
     img: {
       width: 15458,
@@ -69,11 +64,6 @@
   left.style.width  = '60%';
   left.style.height = notations.canvas.height + 'px';
   left.style.top    = header.offsetHeight + 'px';
-
-  // var loadingNotations = document.createElement('p');
-  // loadingNotations.className = 'loading';
-  // loadingNotations.innerText = 'Loading Notations... \n \n (This is a large image, please be patient)';
-  // left.appendChild(loadingNotations);
 
   function checkAssetsLoaded() {
     if (assetsLoaded < assetsLength) {
@@ -155,7 +145,6 @@
     assetsLoaded++;
     resize.resizeTimeline();
     repaintTimeline();
-    // loadingTimeline.style.opacity = 0;
     timeline.canvas.style.opacity = 1;
   }
 
@@ -163,7 +152,6 @@
     assetsLoaded++;
     resize.resizeNotations();
     repaintNotations(0);
-    // loadingNotations.style.opacity = 0;
     notations.canvas.style.opacity = 1;
   }
 

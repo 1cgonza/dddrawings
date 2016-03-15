@@ -15,6 +15,7 @@ DataRequest.prototype.getD = function(url, callback, ret, type, container, msgLo
   var msg;
 
   var hasLoading = false;
+  var progressBar = false;
   if (loading) {
     hasLoading = true;
     loading = loading;
@@ -27,7 +28,7 @@ DataRequest.prototype.getD = function(url, callback, ret, type, container, msgLo
   container  = container || document.body;
 
   this.oReq.onloadstart = displayProgress;
-  this.oReq.onprogress = updateProgress;
+  this.oReq.onprogress = updateProgress.bind(this);
   this.oReq.onloadend = hideProgress;
   this.oReq.onload = function() {
     var data = this.oReq.responseText;
@@ -54,11 +55,24 @@ DataRequest.prototype.getD = function(url, callback, ret, type, container, msgLo
 
   function updateProgress(event) {
     if (event.lengthComputable) {
+      if (!progressBar) {
+        progress              = document.createElement('progress');
+        progress.className    = 'progress';
+        progress.style.zIndex = 0;
+        progress.value        = 0;
+        progress.max          = 100;
+
+        loading.insertBefore(progress, msg);
+        progressBar = true;
+      }
       var value = event.loaded / event.total * 100;
       progress.value = value;
       msg.innerText = Math.floor(value) + '%' + '\n' + msgLoading;
     } else {
-      console.log('File size unknown, unable to show progress bar');
+      progress = document.createElement('div');
+      progress.className = 'no-progress';
+      loading.insertBefore(progress, msg);
+      this.oReq.onprogress = null;
     }
   }
 
@@ -70,18 +84,11 @@ DataRequest.prototype.getD = function(url, callback, ret, type, container, msgLo
   }
 
   function displayProgress() {
-    loading.style.zIndex = 99999;
+    loading.style.zIndex = 9;
     msg = document.createElement('p');
     msg.className = 'loading-msg';
-    msg.innerText = '0%' + '\n' + msgLoading;
+    msg.innerText = msgLoading;
 
-    progress              = document.createElement('progress');
-    progress.className    = 'progress';
-    progress.style.zIndex = 0;
-    progress.value        = 0;
-    progress.max          = 100;
-
-    loading.appendChild(progress);
     loading.appendChild(msg);
     container.appendChild(loading);
   }

@@ -23,6 +23,7 @@
     "browser-sync": "^2.11.1",
     "chalk": "^1.1.1",
     "circular-json": "^0.3.0",
+    "connect-gzip-static": "^1.0.0",
     "del": "^2.2.0",
     "gulp": "^3.9.1",
     "gulp-gh-pages": "^0.5.4",

@@ -17,6 +17,7 @@ var metadata     = require('./config')(process.argv);
 var path         = require('path');
 var webpack      = require('metalsmith-webpack');
 var UglifyJs     = require('webpack').optimize.UglifyJsPlugin;
+var gzip         = require('connect-gzip-static')('./build');
 
 var webpackConfig = {
   context: path.resolve(__dirname, './src/js/ddd'),
@@ -45,7 +46,14 @@ function watch() {
     }],
     // logLevel: 'debug',
     notify: false
-  });
+  }
+  // , cb // uncomment to test gzip delivery on localhost. Just like this it breaks the autoreload
+  );
+  function cb(err, bs) {
+    bs.addMiddleware('*', gzip, {
+      override: true
+    });
+  }
 }
 
 function build(callback) {

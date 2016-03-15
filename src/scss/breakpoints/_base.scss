@@ -221,6 +221,13 @@ ul {
       line-height: 1.3;
       font-size: 0.8em;
     }
+
+    .no-progress {
+      &::before {
+        content: '...';
+        display: block;
+      }
+    }
   }
 
   canvas {

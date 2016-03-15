@@ -2,7 +2,16 @@
   'use strict';
 
   var animReq;
-  var data        = {};
+  var data = {};
+
+  var assets = {
+    json: '/data/notations/tango.json',
+    small: '/img/notations/tango-small.jpg',
+    large: '/img/notations/tango.jpg'
+  };
+  var assetsLoaded = 0;
+  var assetsLength = Object.keys(assets).length;
+
   var sectionsLen = 0;
   var bleedBottom = 30;
   var dataLoaded  = false;
@@ -21,14 +30,6 @@
   left.style.position   = 'fixed';
   container.appendChild(bottom);
   container.appendChild(left);
-
-  var assets = {
-    data: '/data/notations/tango.json',
-    small: '/img/notations/tango-small.jpg',
-    large: '/img/notations/tango.jpg'
-  };
-  var assetsLoaded = 0;
-  var assetsLength = Object.keys(assets).length;
 
   var timeline = new Notations({
     img: {
@@ -163,7 +164,7 @@
   }
 
   function videoReady() {
-    DDD.json(assets.data, dataReady);
+    DDD.json(assets.json, dataReady);
     checkAssetsLoaded();
 
     video.onplay = function() {

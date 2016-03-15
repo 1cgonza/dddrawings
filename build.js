@@ -12,7 +12,7 @@ var autoprefixer = require('metalsmith-autoprefixer');
 var drafts       = require('metalsmith-drafts');
 var slug         = require('slug');
 var chalk        = require('chalk');
-var browserSync  = require('browser-sync');
+var browserSync  = require('browser-sync').create();
 var metadata     = require('./config')(process.argv);
 var path         = require('path');
 var webpack      = require('metalsmith-webpack');
@@ -32,7 +32,7 @@ function serve() {
 }
 
 function watch() {
-  browserSync({
+  browserSync.init({
     server: 'build',
     files: [{
       match: ['src/**/*.md', 'src/scss/**/*.scss', 'src/**/*.js', 'layouts/**/*.hbs'],

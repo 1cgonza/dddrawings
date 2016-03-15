@@ -3,7 +3,6 @@
 
   /*----------  SET STAGE  ----------*/
   var container = document.getElementById('ddd-container');
-  var stage     = createCanvas(container);
 
   /*----------  GLOBALS  ----------*/
   var stageW  = window.innerWidth;
@@ -11,4 +10,9 @@
   var centerX = stageW / 2 | 0;
   var centerY = stageH / 2 | 0;
 
+  DDD.json('/data/pulse/heart.json', dataReady, null, container, 'Loading Data');
+
+  function dataReady(d) {
+    console.log(d);
+  }
 })();

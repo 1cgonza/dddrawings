@@ -144,6 +144,10 @@
         return false;
       };
 
+      left.onmouseleave = function() {
+        dragging = false;
+      };
+
       bottom.onmousedown = function(event) {
         var distance = event.clientX - tX;
         video.currentTime += resize.videoTimelineW * distance;

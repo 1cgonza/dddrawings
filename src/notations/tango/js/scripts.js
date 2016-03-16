@@ -18,18 +18,30 @@
   var dragging    = false;
   var prevX       = 0;
   var tX          = 0;
+  var nX          = 0;
   var header      = document.getElementById('header');
   var container   = document.getElementById('ddd-container');
   var bottom      = document.createElement('div');
   var left        = document.createElement('div');
+  var labelBox    = document.createElement('div');
+  var polish      = document.createElement('p');
+  var eng         = document.createElement('p');
   var video       = new NotationsVideo(document.getElementById('video'), videoReady).video;
 
-  bottom.id             = 'bottom';
-  bottom.style.position = 'fixed';
-  left.id               = 'left';
-  left.style.position   = 'fixed';
+  bottom.id               = 'bottom';
+  bottom.style.position   = 'fixed';
+  left.id                 = 'left';
+  left.style.position     = 'fixed';
+  labelBox.id             = 'label-box';
+
   container.appendChild(bottom);
   container.appendChild(left);
+
+  eng.className = 'eng';
+  polish.className = 'pol';
+  labelBox.appendChild(polish);
+  labelBox.appendChild(eng);
+  left.appendChild(labelBox);
 
   var timeline = new Notations({
     img: {
@@ -102,21 +114,31 @@
           prevX = event.clientX;
           updateAll();
         } else {
-          // var x = event.clientX;
-          // var y = event.layerY;
-          // var x1 = DDD.sizeFromPercentage(resize.notationsPercent, data.characters[0].x1);
-          // var x2 = DDD.sizeFromPercentage(resize.notationsPercent, data.characters[0].x2);
+          var x = event.clientX;
+          var y = event.clientY;
+          var labelsLength = data.labels.length;
+          var onLabel = false;
 
-          // var y1 = DDD.sizeFromPercentage(resize.notationsPercent, data.characters[0].y1);
-          // var y2 = DDD.sizeFromPercentage(resize.notationsPercent, data.characters[1].y1);
+          for (var i = 0; i < labelsLength; i++) {
+            var x1 = data.labels[i].nX - nX;
+            var x2 = x1 + data.labels[i].nW;
+            var y1 = data.labels[i].nY;
+            var y2 = y1 + data.labels[i].nH;
 
-          // var halfPoint = y1 + ((y2 - y1) / 2);
+            if (x >= x1 && x < x2 && y >= y1 && y < y2) {
+              labelBox.className = data.labels[i].class;
+              labelBox.style.top = (y1 - resize.topH - 16) + 'px';
+              polish.innerText = data.labels[i].label;
+              eng.innerText = data.labels[i].eng;
+              onLabel = true;
+              labelBox.style.opacity = 1;
+              break;
+            }
+          }
 
-          // if (y >= halfPoint) {
-          //   console.log(data.characters[1].eng);
-          // } else {
-          //   console.log(data.characters[0].eng);
-          // }
+          if (!onLabel) {
+            labelBox.style.opacity = 0;
+          }
         }
 
         return false;
@@ -218,10 +240,10 @@
 
     var sectionLength = next.start - current.start;
     var timeOffset    = currentTime - current.start;
-    var stepN         = timeOffset * (current.notationsW / sectionLength);
-    var stepT         = timeOffset * (current.timelineW / sectionLength);
-    tX                = stepT + (current.timelineX);
-    var nX            = stepN + (current.notationsX - notations.offX);
+    var stepN         = timeOffset * (current.nW / sectionLength);
+    var stepT         = timeOffset * (current.tW / sectionLength);
+    tX                = stepT + (current.tX);
+    nX                = stepN + (current.nX - notations.offX);
 
     timeline.ctx.clearRect(0, 0, resize.bottomW, resize.bottomH);
     timeline.ctx.beginPath();
@@ -317,21 +339,39 @@
       if (dataLoaded) {
         notations.offX = DDD.sizeFromPercentage(this.notationsPercent, data.initX) | 0;
         notations.ctx.strokeStyle = 'red';
+
+        labelBox.style.left = notations.offX + 'px';
       }
 
       this.videoNotationsW = video.duration / DDD.sizeFromPercentage(this.notationsPercent, data.endX - data.initX);
     },
 
     resizeData: function() {
-      for (var i = 0; i < data.sections.length; i++) {
+      var sectionsLength = data.sections.length;
+      var labelsLength = data.labels.length;
+      var bg = 'e03f40';
+
+      for (var i = 0; i < sectionsLength; i++) {
         var x = data.sections[i].x;
         var w = i === data.sections.length - 1 ? data.endX - x : data.sections[i + 1].x - x;
 
-        data.sections[i].notationsX = DDD.sizeFromPercentage(this.notationsPercent, x) | 0;
-        data.sections[i].notationsW = DDD.sizeFromPercentage(this.notationsPercent, w) | 0;
+        data.sections[i].nX = DDD.sizeFromPercentage(this.notationsPercent, x) | 0;
+        data.sections[i].nW = DDD.sizeFromPercentage(this.notationsPercent, w) | 0;
 
-        data.sections[i].timelineX = this.adjustTimelineX(x) | 0;
-        data.sections[i].timelineW = this.adjustTimelineX(w) | 0;
+        data.sections[i].tX = this.adjustTimelineX(x) | 0;
+        data.sections[i].tW = this.adjustTimelineX(w) | 0;
+      }
+
+      for (var j = 0; j < labelsLength; j++) {
+        var x = data.labels[j].x;
+        var y = data.labels[j].y;
+        var w = data.labels[j].w;
+        var h = data.labels[j].h;
+
+        data.labels[j].nX = DDD.sizeFromPercentage(this.notationsPercent, x) | 0;
+        data.labels[j].nY = this.topH + DDD.sizeFromPercentage(this.notationsPercent, y) | 0;
+        data.labels[j].nW = DDD.sizeFromPercentage(this.notationsPercent, w) | 0;
+        data.labels[j].nH = DDD.sizeFromPercentage(this.notationsPercent, h) | 0;
       }
     },
 

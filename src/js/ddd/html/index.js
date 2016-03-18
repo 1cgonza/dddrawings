@@ -37,7 +37,10 @@ function yearsMenu(yearStart, yearEnd, current, clickEvent, callback) {
 
 function resetCurrent(old, target, className) {
   className = className || 'current';
-  old.classList.remove(className);
+
+  if (old) {
+    old.classList.remove(className);
+  }
   target.classList.add(className);
 }
 

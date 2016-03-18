@@ -23,7 +23,9 @@ var ddd = {
   color: require('./color'),
   hexToRgb: require('./color').hexToRgb,
   rgbToHex: require('./color').rgbToHex,
-  convertAlpha: require('./color').convertAlpha
+  convertAlpha: require('./color').convertAlpha,
+
+  Audio: require('./audio')
 };
 
 global.DDD = ddd;

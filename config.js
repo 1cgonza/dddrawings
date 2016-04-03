@@ -1,7 +1,7 @@
 var environments = {
   dev: {
-    baseUrl: 'http://localhost:3000/',
-    videosPath: 'http://localhost:3000/videos/',
+    baseUrl: '/',
+    videosPath: '/videos/',
     env: 'dev'
   },
   prod: {

@@ -64,4 +64,6 @@ Map.prototype.convertCoordinates = function(lon, lat) {
   return {x: x, y: y};
 };
 
-module.exports = Map;
+module.exports = {
+  Map: Map
+};

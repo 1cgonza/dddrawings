@@ -24,7 +24,7 @@
  * @param {Number}    options.left       CSS left.
  * @param {Number}    options.zi         CSS z-index
  */
-function canvas2D(container, options) {
+function canvas(container, options) {
   var canvas = document.createElement('canvas');
   var ctx = canvas.getContext('2d');
 
@@ -63,4 +63,4 @@ function canvas2D(container, options) {
   };
 }
 
-module.exports = canvas2D;
+module.exports = canvas;

@@ -1,7 +1,8 @@
 var html = {
   yearsMenu: yearsMenu,
   resetCurrent: resetCurrent,
-  base64: base64
+  base64: base64,
+  canvas: require('./canvas')
 };
 
 module.exports = html;

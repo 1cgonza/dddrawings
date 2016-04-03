@@ -28,32 +28,30 @@ var webpackConfig = {
   }
 };
 
-function serve() {
-  build(watch);
-}
-
-function watch() {
-  browserSync.init({
-    server: 'build',
-    files: [{
-      match: ['src/**/*.md', 'src/scss/**/*.scss', 'src/**/*.js', 'layouts/**/*.hbs'],
-      fn: function(event, file) {
-        if (event === 'change') {
-          build(this.reload);
-          console.log(chalk.cyan('Updated file: ') + chalk.yellow(file));
-        }
+var bsConfig = {
+  server: 'build',
+  files: [{
+    match: ['src/**/*.md', 'src/scss/**/*.scss', 'src/**/*.js', 'layouts/**/*.hbs'],
+    fn: function(event, file) {
+      if (event === 'change') {
+        build(this.reload);
+        console.log(chalk.cyan('Updated file: ') + chalk.yellow(file));
       }
-    }],
-    // logLevel: 'debug',
-    notify: false
-  }
-  // , cb // uncomment to test gzip delivery on localhost. Just like this it breaks the autoreload
-  );
-  function cb(err, bs) {
-    bs.addMiddleware('*', gzip, {
-      override: true
-    });
-  }
+    }
+  }],
+  // logLevel: 'debug',
+  notify: false
+};
+
+function serve() {
+  browserSync.init(bsConfig, function(err, bs) {
+    build();
+
+    // uncomment to test gzip delivery on localhost. Just like this it breaks the autoreload
+    // bs.addMiddleware('*', gzip, {
+    //   override: true
+    // });
+  });
 }
 
 function build(callback) {
@@ -131,9 +129,12 @@ function build(callback) {
     if (err) {
       throw err;
     }
+
     if (callback) {
       callback();
-    } else {
+    }
+
+    if (metadata.env === 'prod') {
       console.log(chalk.yellow('......................| Production build is done |......................'));
     }
   });

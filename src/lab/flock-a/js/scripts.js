@@ -8,30 +8,30 @@
   var stage = DDD.canvas(container);
 
   /*----------  GLOBALS  ----------*/
-  var eqData = [];
-  var taData = {raw: [], current: []};
-  var flock = [];
-  var eqDataI = 0;
-  var taDataI = 0;
   var nextAttack;
-  var num = 1555; // 1555 victims from 1988-2012
   var animReq;
-  var mode = -1;
+  var eqData   = [];
+  var taData   = {raw: [], current: []};
+  var flock    = [];
+  var eqDataI  = 0;
+  var taDataI  = 0;
+  var num      = 1555; // 1555 victims from 1988-2012
+  var mode     = -1;
   var currentX = 0;
   var currentY = 0;
-  var TWO_PI = Math.PI * 2;
-  var tick = 0;
-  var eqReq = new DDD.DataRequest();
-  var taReq = new DDD.DataRequest();
+  var TWO_PI   = Math.PI * 2;
+  var tick     = 0;
+  var eqReq    = new DDD.DataRequest();
+  var taReq    = new DDD.DataRequest();
 
   // SPRITE
-  var img = new Image();
-  var cols = 14;
-  var rows = 1;
-  var imgW = 614;
-  var imgH = 50;
-  var offX = 25;
-  var offY = 25;
+  var img    = new Image();
+  var cols   = 14;
+  var rows   = 1;
+  var imgW   = 614;
+  var imgH   = 50;
+  var offX   = 25;
+  var offY   = 25;
   var frameW = Math.round(imgW / cols);
   var frameH = Math.round(imgH / rows);
 
@@ -66,7 +66,7 @@
   var assestsLoaded = 0;
   var totalAssets = Object.keys(assets).length;
 
-  DDD.html.yearsMenu(1993, 2015, currentYear, yearClickEvent, menuReady);
+  DDD.yearsMenu(1993, 2015, currentYear, yearClickEvent, menuReady);
 
   function menuReady(menu, currentBtn) {
     container.appendChild(menu);
@@ -83,7 +83,7 @@
 
     stage.ctx.clearRect(0, 0, stage.w, stage.h);
     currentYear = event.target.textContent;
-    DDD.html.resetCurrent(current, event.target);
+    DDD.resetCurrent(current, event.target);
     current = event.target;
     eqDataI = 0;
     taDataI = 0;

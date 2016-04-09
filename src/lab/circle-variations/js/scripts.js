@@ -305,26 +305,24 @@
       for (var i = 0; i < eqData.length; i++) {
         // Check the range of the slider and render only within those values
         if (eqData[i].ml >= options.rangeStart && eqData[i].ml <= options.rangeEnd) {
-          this.defineRenderMode(eqData[i].utc, eqData[i].ml);
+          this.defineRenderMode(eqData[i].date.unix, eqData[i].ml);
         }
       }
     }
   };
 
-  Drawing.prototype.defineRenderMode = function(utc, ml) {
-    var eventDate  = utc;
-    var dReset     = eventDate - (Date.parse(options.year) * 0.001);
-    var rot        = dReset * this.secondsW;
-    var magnitude  = ml;
+  Drawing.prototype.defineRenderMode = function(unix, ml) {
+    var dReset    = unix - (Date.parse(options.year) * 0.001);
+    var rot       = dReset * this.secondsW;
 
     stage.ctx.save();
     stage.ctx.translate(stage.center.x, stage.center.y);
     stage.ctx.rotate(rot * Math.PI / 180);
 
     if (options.spriteRows === 1) {
-      this.oneRowSpriteStroke(magnitude);
+      this.oneRowSpriteStroke(ml);
     } else {
-      this.multiRowSpriteStroke(magnitude);
+      this.multiRowSpriteStroke(ml);
     }
 
     stage.ctx.restore();
@@ -379,7 +377,7 @@
     * When a magnitude is an integer I know that it is always the first column in the sprite, so it can be assigned to index 0.
     **/
     if (magnitude % 1 === 0) {
-      spriteRow = magnitude;
+      spriteRow    = magnitude;
       spriteColumn = 0;
     } else {
       mlValues     = magnitude.toString().split('.');

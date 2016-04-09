@@ -12,13 +12,6 @@ var Audio = function(audios, cb) {
   var retAudios = {};
 
   this.ctx            = new AudioContext();
-  this.gainNode       = this.ctx.createGain();
-  this.oscillatorNode = this.ctx.createOscillator();
-  this.pannerNode     = this.ctx.createPanner();
-  this.listenerNode   = this.ctx.listener;
-
-  this.oscillatorNode.connect(this.gainNode);
-  this.gainNode.connect(this.ctx.destination);
 
   for (var name in audios) {
     req(
@@ -45,7 +38,6 @@ var Audio = function(audios, cb) {
       }
       var src = this.ctx.createBufferSource();
       src.buffer = buffer;
-      src.connect(this.gainNode);
       retAudios[name] = src;
       checkLoaded();
     }
@@ -72,4 +64,6 @@ Audio.prototype.source = function(src) {
   return src;
 };
 
-module.exports = Audio;
+module.exports = {
+  Audio: Audio
+};

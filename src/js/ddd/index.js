@@ -12,4 +12,3 @@ global.DDD = Object.assign(
   require('./audio'),
   require('./webgl')
 );
-console.log(DDD)

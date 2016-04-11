@@ -31,7 +31,7 @@
   // Animate
   var playerI = 0;
 
-  DDD.html.yearsMenu(1993, 2015, 2003, yearClickEvent, yearsMenuReady);
+  DDD.yearsMenu(1993, 2015, 2003, yearClickEvent, yearsMenuReady);
 
   /*===========================
   =            MAP            =
@@ -164,7 +164,7 @@
     loading.innerHTML = '';
     loading.style.opacity = 1;
     window.cancelAnimationFrame(animReq);
-    DDD.html.resetCurrent(currentYear, event.target);
+    DDD.resetCurrent(currentYear, event.target);
     currentYear = event.target;
     stage.ctx.clearRect(0, 0, stage.w, stage.h);
     updateEQMap(currentYear.textContent);
@@ -193,7 +193,7 @@
         playerI = 0;
         animating = false;
         resetAnimationBTN();
-        DDD.html.resetCurrent(currentOption, event.target);
+        DDD.resetCurrent(currentOption, event.target);
         currentOption = event.target;
         stage.ctx.clearRect(0, 0, stage.w, stage.h);
         optionMode = i;
@@ -208,17 +208,17 @@
     animateOption(c);
 
     c.style.position = 'absolute';
-    c.style.top = '40%';
-    c.style.zIndex = 9999;
+    c.style.top      = '40%';
+    c.style.zIndex   = 9999;
     container.appendChild(c);
   }
 
   function animateOption(c) {
-    animateBTN.innerHTML = '&#9658';
-    animateBTN.style.padding = '0.3em';
+    animateBTN.innerHTML       = '&#9658';
+    animateBTN.style.padding   = '0.3em';
     animateBTN.style.listStyle = 'none';
-    animateBTN.style.margin = '0.5em 0';
-    animateBTN.style.cursor = 'pointer';
+    animateBTN.style.margin    = '0.5em 0';
+    animateBTN.style.cursor    = 'pointer';
     c.appendChild(animateBTN);
 
     animateBTN.onclick = function() {

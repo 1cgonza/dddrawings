@@ -67,10 +67,10 @@
   }
 
   function defineEqData(data) {
-    var yearEnd    = Number(options.year) + 1;
-    yearLength = (Date.parse(yearEnd) - Date.parse(options.year)) * 0.001;
-    secondsW   = 360 / yearLength;
-    eqData     = data;
+    var yearEnd = options.year + 1;
+    yearLength  = (Date.parse(yearEnd) - Date.parse(options.year)) * 0.001;
+    secondsW    = 360 / yearLength;
+    eqData      = data;
   }
 
   function defineTaData(data) {
@@ -191,7 +191,7 @@
       values: [options.rangeStart, options.rangeEnd],
       slide: function(event, ui) {
         options.rangeStart = ui.values[0];
-        options.rangeEnd = ui.values[1];
+        options.rangeEnd   = ui.values[1];
         $('#slider-magnitude .slider-values').text(options.rangeStart + ' - ' + options.rangeEnd + ' Ml');
         eqNodeChangeRange();
       }
@@ -318,7 +318,7 @@
 
   function eqNodeTransform() {
     eqNode.attr('transform', function(d) {
-      eventDate = d.utc;
+      eventDate = d.date.unix;
       var dReset = eventDate - (Date.parse(options.year) * 0.001);
 
       var rot = dReset * secondsW;
@@ -409,7 +409,6 @@
       infoBox.selectAll('p').remove();
       d3.select(this).select('polygon').style('opacity', options.opacity);
     });
-
   }
 
   /*-----  End of TA  ------*/
@@ -417,13 +416,10 @@
   /*==============================
   =            RESIZE            =
   ==============================*/
-  function resize() {
+  window.onresize = function() {
     screenWidth  = window.innerWidth;
     screenHeight = window.innerHeight;
     redraw();
-  }
-
-  window.onresize = resize;
-
+  };
   /*-----  End of RESIZE  ------*/
 })();

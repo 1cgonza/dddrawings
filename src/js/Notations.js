@@ -32,24 +32,33 @@ var Notations = function(data) {
 
 Notations.prototype.prepareImageData = function(res) {
   this.img = new Image();
-  this.img.onload = function() {
-    this.imgCallback();
-  }.bind(this);
+  this.img.onload = this.imgCallback;
   this.img.src = 'data:image/jpeg;base64,' + DDD.base64(res);
 };
 
-var NotationsVideo = function(video, cb) {
-  this.video = video;
-  this.videoReady = cb;
-  this.checkVideoState();
-};
+var notationsVideo = function(video, cb) {
+  video.oncanplay = function() {
+    cb();
+    return false;
+  };
 
-NotationsVideo.prototype.checkVideoState = function() {
-  if (this.video.readyState < 4) {
-    console.log('Checking video state...');
-    requestAnimationFrame(this.checkVideoState.bind(this));
-  } else {
-    console.log('The video is ready.');
-    this.videoReady();
-  }
+  // TODO: implement some progress report or abort if taking too long
+  // var startLoading = Date.now();
+  video.onprogress = function() {
+    // var now = Date.now();
+    // if (now - startLoading >= 10000 && video.readyState < 4) {
+    //   ...abort?
+    // }
+    return false;
+  };
+
+  video.onerror = function(event) {
+    var errMsg = document.createElement('div');
+    errMsg.innerHTML = video.innerHTML;
+    video.parentNode.replaceChild(errMsg, video);
+    return false;
+    console.log(err);
+  };
+
+  return video;
 };

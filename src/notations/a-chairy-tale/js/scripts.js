@@ -1,6 +1,7 @@
 (function() {
   'use strict';
   var animReq;
+  var stageReady = false;
   var notes = document.getElementById('box');
 
   var assets = {
@@ -26,7 +27,7 @@
   options.percent.bottom = DDD.getPercent(options.pageMarginBottom, options.pageHeight);
 
   // Set globally the video player and two canvases that will communicate with each other.
-  var video = new NotationsVideo(document.getElementById('video'), videoReady).video;
+  var video = notationsVideo(document.getElementById('video'), videoReady);
 
   var notationsData  = [];
 
@@ -90,6 +91,7 @@
     } else {
       resizeElements();
       video.controls = true;
+      stageReady = true;
 
       document.querySelector('#right-col .loading').style.opacity = 0;
       document.querySelector('#middle-col .loading').style.opacity = 0;
@@ -210,7 +212,12 @@
     updateNotations();
   }
 
-  window.onresize = resizeElements;
+  window.onresize = function() {
+    if (stageReady) {
+      resizeElements();
+    }
+    return false;
+  };
 
   document.getElementById('notes').onclick = function(event) {
     event.preventDefault();

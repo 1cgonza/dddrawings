@@ -39,7 +39,7 @@
   }
 
   function notationsReady() {
-    video = new NotationsVideo(document.getElementById('video'), videoReady).video;
+    video = notationsVideo(document.getElementById('video'), videoReady);
   }
 
   function videoReady() {

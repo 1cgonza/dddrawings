@@ -46,7 +46,7 @@
 
   function notationsReady(d) {
     notations.d = d.sections;
-    video = new NotationsVideo(document.getElementById('video'), videoReady).video;
+    video = notationsVideo(document.getElementById('video'), videoReady);
     resetHeightInData();
 
     /*----------  DEBUG  ----------*/

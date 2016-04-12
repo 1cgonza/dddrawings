@@ -26,13 +26,13 @@
   var labelBox    = document.createElement('div');
   var polish      = document.createElement('p');
   var eng         = document.createElement('p');
-  var video       = new NotationsVideo(document.getElementById('video'), videoReady).video;
+  var video       = notationsVideo(document.getElementById('video'), videoReady);
 
-  bottom.id               = 'bottom';
-  bottom.style.position   = 'fixed';
-  left.id                 = 'left';
-  left.style.position     = 'fixed';
-  labelBox.id             = 'label-box';
+  bottom.id             = 'bottom';
+  bottom.style.position = 'fixed';
+  left.id               = 'left';
+  left.style.position   = 'fixed';
+  labelBox.id           = 'label-box';
 
   container.appendChild(bottom);
   container.appendChild(left);

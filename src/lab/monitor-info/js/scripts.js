@@ -61,28 +61,25 @@
     for (var i = 0; i < d.length; i++) {
       var event = d[i];
 
-      if (Array.isArray(event.cat)) {
-        for (var j = 0; j < event.cat.length; j++) {
-          var name = event.cat[j];
+      for (var j = 0; j < event.cat.length; j++) {
+        var name = event.cat[j];
 
-          if (!cats.hasOwnProperty(name)) {
-            cats[name] = [];
-            cats[name].totalVictimas = 0;
-          }
-
-          if (event.hasOwnProperty('totalV')) {
-            var count = Number(event.totalV);
-            // global count
-            cats[totalVictimsKey] += count;
-            // category count
-            cats[name].totalVictimas += count;
-          }
-
-          cats[name].push(event);
+        if (!cats.hasOwnProperty(name)) {
+          cats[name] = [];
+          cats[name].totalVictimas = 0;
         }
-      } else {
-        console.log(i, 'NOT ARRAY:', event);
+
+        if (event.hasOwnProperty('vTotal')) {
+          var count = event.vTotal;
+          // global count
+          cats[totalVictimsKey] += count;
+          // category count
+          cats[name].totalVictimas += count;
+        }
+
+        cats[name].push(event);
       }
+
     }
 
     summary[year] = cats;
@@ -113,14 +110,14 @@
   function drawChart(eve) {
     var category  = eve.target._dddCategory;
     var d         = summary[year][category];
-    var timeStart = Date.parse(year + '/01/01 00:00:00');
-    var timeEnd   = Date.parse(year + 1 + '/01/01 00:00:00');
+    var timeStart = Date.parse(year + '/01/01 00:00:00') / 1000;
+    var timeEnd   = Date.parse(year + 1 + '/01/01 00:00:00') / 1000;
     var step      = stage.w / (timeEnd - timeStart);
     var y         = eve.target.offsetTop + 40;
 
     for (var i = 0; i < d.length; i++) {
-      var timeEvent = d[i].hasOwnProperty('fechaIni') ? Date.parse(d[i].fechaIni) : null;
-      var victims = d[i].hasOwnProperty('totalV') ? Number(d[i].totalV) : 0;
+      var timeEvent = d[i].hasOwnProperty('fecha') ? d[i].fecha.unix : null;
+      var victims = d[i].hasOwnProperty('vTotal') ? d[i].vTotal : 0;
       var timeX = timeEvent - timeStart;
 
       stage.ctx.beginPath();

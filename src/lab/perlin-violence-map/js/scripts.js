@@ -133,8 +133,8 @@
 
     points    = [];
     currentI  = 0;
-    timeStart = Date.parse(year + '/01/01 00:00:00');
-    timeEnd   = Date.parse(year + 1 + '/01/01 00:00:00');
+    timeStart = Date.parse(year + '/01/01 00:00:00') / 1000;
+    timeEnd   = Date.parse(year + 1 + '/01/01 00:00:00') / 1000;
     step      = stage.w / (timeEnd - timeStart);
 
     drawBG();
@@ -156,7 +156,7 @@
       var loc;
 
       if (mode === 1) {
-        amount = d[currentI].hasOwnProperty('totalV') ? Number(d[currentI].totalV) : 0;
+        amount = d[currentI].hasOwnProperty('vTotal') ? d[currentI].vTotal : 0;
         loc = map.convertCoordinates(d[currentI].lon, d[currentI].lat);
         perlin.setSeed(amount);
       } else if (mode === 2) {
@@ -167,7 +167,7 @@
         };
       }
 
-      var timeEvent = d[currentI].hasOwnProperty('fechaIni') ? Date.parse(d[currentI].fechaIni) : null;
+      var timeEvent = d[currentI].hasOwnProperty('fecha') ? d[currentI].fecha.unix : null;
       var timeX = timeEvent - timeStart;
 
       perlin.setSeed(amount);

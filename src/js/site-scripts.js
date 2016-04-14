@@ -2,7 +2,10 @@
   var mainNav = document.getElementById('main-nav');
   var menuIcon = document.getElementById('menu-icon');
 
-  document.onclick = function(event) {
+  document.ontouchend = function() {};
+  document.onclick = toggleEvent;
+
+  function toggleEvent(event) {
     if (menuIcon === event.target || menuIcon.contains(event.target)) {
       mainNav.classList.toggle('open');
       menuIcon.classList.toggle('open');

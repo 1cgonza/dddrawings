@@ -34,8 +34,10 @@
   var prevTimePosition = 0;
 
   // Set dates range as ISO 8601 YYYY-MM-DDThh:mm:ss
-  var dIni = moment.tz(year + '-01-01T00:00:00', 'America/Bogota');
-  var dEnd = moment.tz(year + '-12-31T12:59:59', 'America/Bogota');
+  var dIni = Date.parse(year + '/01/01 00:00:00') / 1000;
+  var dEnd = Date.parse(year + 1 + '/01/01 00:00:00') / 1000;
+  // var dIni = moment.tz(year + '-01-01T00:00:00', 'America/Bogota');
+  // var dEnd = moment.tz(year + '-12-31T12:59:59', 'America/Bogota');
 
   /*----------  SPRITES  ----------*/
   var imgsLoaded = 0;
@@ -104,11 +106,13 @@
   function reloadStage() {
     dataI = 0;
     bodies = [];
-    d      = [];
-    dLoaded   = false;
+    d = [];
+    dLoaded = false;
     prevTimePosition = 0;
-    dIni = moment.tz(year + '-01-01T00:00:00', 'America/Bogota');
-    dEnd = moment.tz(year + '-12-31T12:59:59', 'America/Bogota');
+    dIni = Date.parse(year + '/01/01 00:00:00') / 1000;
+    dEnd = Date.parse(year + 1 + '/01/01 00:00:00') / 1000;
+    // dIni = moment.tz(year + '-01-01T00:00:00', 'America/Bogota');
+    // dEnd = moment.tz(year + '-12-31T12:59:59', 'America/Bogota');
 
     stage.ctx.clearRect(0, 0, stage.w, stage.h);
     log.ctx.clearRect(0, 0, log.w, log.h);
@@ -237,10 +241,10 @@
 
   function draw(i) {
     var e = d[i];
-    if ('totalV' in e && 'cat' in e && e.cat.indexOf('Homicidio') >= 0) {
-      var total = Number(d[i].totalV);
-      var date = moment.tz(d[i].fechaIni, 'America/Bogota');
-      var elapsed = ((date - dIni) / 31536000000) * stage.w;
+    if (e.hasOwnProperty('vTotal') && e.hasOwnProperty('cat') && e.cat.indexOf('Homicidio') >= 0) {
+      var total = d[i].vTotal;
+      var date = d[i].fecha.unix;
+      var elapsed = ((date - dIni) / 31536000) * stage.w;
 
       log.ctx.beginPath();
       log.ctx.moveTo(prevTimePosition, 0);

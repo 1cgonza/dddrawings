@@ -15,6 +15,8 @@
   var PI           = Math.PI;
   var HALF_PI      = PI / 2;
   var TWO_PI       = PI * 2;
+  var _neighborhoodRadius = 200;
+  var _maxSpeed = DDD.random(4, 10, true);
 
   var oReq     = new DDD.DataRequest();
   var stageW   = window.innerWidth;
@@ -256,82 +258,75 @@
     this.velocity.y = DDD.random(1, 2, true);
     this.velocity.z = DDD.random(1, 2, true);
 
-    this.color = {r: 0, g: 0, b: 0};
+    this.acceleration = new DDD.Vector();
+  };
 
-    var _neighborhoodRadius = 200;
-    var _maxSpeed = DDD.random(4, 10, true);
+  Bird.prototype.run = function() {
+    if (Math.random() > 0.5) {
+      this.flock();
+    }
+    this.move();
+  };
 
-    var _acceleration = new DDD.Vector();
+  Bird.prototype.flock = function() {
+    this.acceleration.add(this.reach(0.005));
+    this.acceleration.add(this.separation(stage.children));
+  };
 
-    /*----------  METHODS  ----------*/
+  Bird.prototype.move = function() {
+    this.velocity.add(this.acceleration);
+    var l = this.velocity.length();
 
-    this.run = function() {
-      if (Math.random() > 0.5) {
-        this.flock();
-      }
-      this.move();
-    };
+    if (l > _maxSpeed) {
+      this.velocity.divideScalar(l / _maxSpeed);
+    }
 
-    this.flock = function() {
-      _acceleration.add(this.reach(0.005));
-      _acceleration.add(this.separation(stage.children));
-    };
+    this.position.add(this.velocity);
+    this.acceleration.set(0, 0, 0);
+  };
 
-    this.move = function() {
-      this.velocity.add(_acceleration);
-      var l = this.velocity.length();
+  Bird.prototype.repulse = function(v) {
+    var distance = this.position.distanceTo(v);
 
-      if (l > _maxSpeed) {
-        this.velocity.divideScalar(l / _maxSpeed);
-      }
-
-      this.position.add(this.velocity);
-      _acceleration.set(0, 0, 0);
-    };
-
-    this.repulse = function(v) {
-      var distance = this.position.distanceTo(v);
-
-      if (distance < stageW) {
-        var steer = new DDD.Vector();
-        steer.subVectors(this.position, v);
-        steer.multiplyScalar(0.5 / distance);
-        _acceleration.add(steer);
-      }
-    };
-
-    this.reach = function(amount) {
+    if (distance < stageW) {
       var steer = new DDD.Vector();
-      steer.subVectors(target, this.position);
-      steer.multiplyScalar(amount);
-      return steer;
-    };
+      steer.subVectors(this.position, v);
+      steer.multiplyScalar(0.5 / distance);
+      this.acceleration.add(steer);
+    }
+  };
 
-    this.separation = function(flock) {
-      var bird;
-      var distance;
-      var posSum = new DDD.Vector();
-      var repulse = new DDD.Vector();
-      var flockSize = flock.length;
-      var i = flockSize - 1;
+  Bird.prototype.reach = function(amount) {
+    var steer = new DDD.Vector();
+    steer.subVectors(target, this.position);
+    steer.multiplyScalar(amount);
+    return steer;
+  };
 
-      for (i; i >= 0; i -= 11) {
-        if (Math.random() > 0.5) {
-          continue;
-        }
-        bird = flock[i];
-        distance = bird.position.distanceTo(this.position);
+  Bird.prototype.separation = function(flock) {
+    var bird;
+    var distance;
+    var posSum = new DDD.Vector();
+    var repulse = new DDD.Vector();
+    var flockSize = flock.length;
+    var i = flockSize - 1;
 
-        if (distance > 0 && distance <= _neighborhoodRadius) {
-          repulse.subVectors(this.position, bird.position);
-          repulse.normalize();
-          repulse.divideScalar(distance);
-          posSum.add(repulse);
-        }
+    for (i; i >= 0; i -= 11) {
+      if (Math.random() > 0.5) {
+        continue;
       }
+      bird = flock[i];
+      distance = bird.position.distanceTo(this.position);
 
-      return posSum;
-    };
+      if (distance > 0 && distance <= _neighborhoodRadius) {
+        repulse.subVectors(this.position, bird.position);
+        repulse.normalize();
+        repulse.divideScalar(distance);
+        posSum.add(repulse);
+      }
+    }
+
+    return posSum;
   };
 
   Bird.prototype.update = function() {

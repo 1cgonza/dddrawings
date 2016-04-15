@@ -113,7 +113,7 @@
       currentYear = event.target;
       year = Number(event.target.textContent);
       stage.children = [];
-      getFirstAttachOfYear();
+      getFirstAttackOfYear();
 
       loadData();
     }
@@ -122,11 +122,11 @@
   function processTAData(d) {
     taData = d;
     taDataLoaded = true;
-    getFirstAttachOfYear();
+    getFirstAttackOfYear();
     assetLoaded();
   }
 
-  function getFirstAttachOfYear() {
+  function getFirstAttackOfYear() {
     var yearStart = Date.parse(year) / 1000;
     var dLength = taData.length;
     var i;

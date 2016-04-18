@@ -4,7 +4,7 @@
   /*----------  GLOBALS  ----------*/
   var animReq;
   var currentYear;
-  var year         = 2014;
+  var year         = 2003;
   var seismicData  = [];
   var seismicDataI = 0;
   var taData       = [];
@@ -16,7 +16,7 @@
   var HALF_PI      = PI / 2;
   var TWO_PI       = PI * 2;
   var _neighborhoodRadius = 200;
-  var _maxSpeed = DDD.random(4, 10, true);
+  var _maxSpeed = DDD.random(6, 10, true);
 
   var oReq     = new DDD.DataRequest();
   var stageW   = window.innerWidth;
@@ -209,10 +209,7 @@
         target.set(coords.x + centerX, coords.y + centerY, d.km || 200);
       }
 
-      if (tick > 0) {
-        updateBirds();
-        tick = 0;
-      }
+      updateBirds();
 
       webgl.render(stage);
       tick++;

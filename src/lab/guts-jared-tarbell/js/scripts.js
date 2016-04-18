@@ -278,7 +278,7 @@
       var tex = Math.sin(i * w);
       var lex = Math.sin(tex);
 
-      stage.ctx.fillStyle = DDD.color.getRGBA(this.c, DDD.color.convertAlpha(256 * a));
+      stage.ctx.fillStyle = DDD.getRGBA(this.c, DDD.convertAlpha(256 * a));
       stage.ctx.fillRect(
         ox + (x - ox) * lex | 0,
         oy + (y - oy) * lex | 0,
@@ -299,7 +299,7 @@
       var tex = Math.sin(i * w);
       var lex = 0.5 * Math.sin(tex);
 
-      stage.ctx.fillStyle = DDD.color.getRGBA(this.c, DDD.color.convertAlpha(256 * a));
+      stage.ctx.fillStyle = DDD.getRGBA(this.c, DDD.convertAlpha(256 * a));
       stage.ctx.fillRect(
         ox + (x - ox) * (0.5 + lex) | 0,
         oy + (y - oy) * (0.5 + lex) | 0,
@@ -325,7 +325,7 @@
       var tex = Math.sin(i * w);
       var lex = 0.5 * Math.sin(tex);
 
-      stage.ctx.fillStyle = DDD.color.getRGBA(this.c, DDD.color.convertAlpha(256 * a));
+      stage.ctx.fillStyle = DDD.getRGBA(this.c, DDD.convertAlpha(256 * a));
       stage.ctx.fillRect(
         ox + (x - ox) * lex | 0,
         oy + (y - oy) * lex | 0,

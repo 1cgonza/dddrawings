@@ -1,5 +1,5 @@
 ---
-layout: notations-rows.hbs
+layout: notations-tango.hbs
 title: Tango
 director: Zbigniew Rybczyński
 year: 1980

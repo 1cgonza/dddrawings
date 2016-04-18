@@ -44,13 +44,19 @@
     if (summary.hasOwnProperty(year)) {
       renderSummary();
     } else {
-      req.json('../../data/monitor/violencia-geo-' + year + '.json', dataReady, null, container, 'Loading Data');
+      req.json({
+        url: '../../data/monitor/violencia-geo-' + year + '.json',
+        container: container,
+        loadingMsg: 'Loading Data'
+      })
+      .then(function(d) {
+        categorizeEvents(d);
+        renderSummary();
+      })
+      .catch(function(err) {
+        console.error(err);
+      });
     }
-  }
-
-  function dataReady(d) {
-    categorizeEvents(d);
-    renderSummary();
   }
 
   function categorizeEvents(d) {

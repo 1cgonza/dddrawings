@@ -1,17 +1,19 @@
 (function() {
   'use strict';
 
-  var loading = document.createElement('div');
   var violenceReq = new DDD.DataRequest();
   var mapReq      = new DDD.DataRequest();
 
   /*----------  STAGE  ----------*/
   var container = document.getElementById('ddd-container');
-
+  var loading = document.createElement('div');
   var bg    = DDD.canvas(container);
   var stage = DDD.canvas(container);
   var log   = DDD.canvas(container);
+
+  loading.className = 'loading';
   bg.center.y = stage.center.y = bg.h / 1.5 | 0;
+  container.appendChild(loading);
 
   /*----------  DATA  ----------*/
   var year   = 2009;
@@ -28,7 +30,12 @@
   var tick  = 0;
 
   /*----------  MAP  ----------*/
-  var map = new DDD.Map({zoom: 8, width: stage.w, height: stage.h, center: {lon: -71.999996, lat: 4.000002}});
+  var map = new DDD.Map({
+    zoom: 8,
+    width: stage.w,
+    height: stage.h,
+    center: {lon: -71.999996, lat: 4.000002}
+  });
 
   /*----------  TIME  ----------*/
   var prevTimePosition = 0;
@@ -36,8 +43,6 @@
   // Set dates range as ISO 8601 YYYY-MM-DDThh:mm:ss
   var dIni = Date.parse(year + '/01/01 00:00:00') / 1000;
   var dEnd = Date.parse(year + 1 + '/01/01 00:00:00') / 1000;
-  // var dIni = moment.tz(year + '-01-01T00:00:00', 'America/Bogota');
-  // var dEnd = moment.tz(year + '-12-31T12:59:59', 'America/Bogota');
 
   /*----------  SPRITES  ----------*/
   var imgsLoaded = 0;
@@ -111,8 +116,6 @@
     prevTimePosition = 0;
     dIni = Date.parse(year + '/01/01 00:00:00') / 1000;
     dEnd = Date.parse(year + 1 + '/01/01 00:00:00') / 1000;
-    // dIni = moment.tz(year + '-01-01T00:00:00', 'America/Bogota');
-    // dEnd = moment.tz(year + '-12-31T12:59:59', 'America/Bogota');
 
     stage.ctx.clearRect(0, 0, stage.w, stage.h);
     log.ctx.clearRect(0, 0, log.w, log.h);
@@ -123,14 +126,19 @@
   }
 
   function requestViolenceData() {
-    violenceReq.json(
-      '../../data/monitor/violencia-geo-' + year + '.json',
-      processViolenceData,
-      null,
-      container,
-      'Loading Violence Data',
-      loading
-    );
+    violenceReq.json({
+      url: '../../data/monitor/violencia-geo-' + year + '.json',
+      container: container,
+      loadingMsg: 'Loading Violence Data',
+      loadingEle: loading
+    })
+    .then(function(data) {
+      d = data;
+      dLoaded = true;
+    })
+    .catch(function(err) {
+      console.error(err);
+    });
   }
 
   function init() {
@@ -138,13 +146,19 @@
     bg.ctx.fillStyle = 'white';
 
     requestViolenceData();
-    mapReq.json('../../data/geo/col-50m.json',
-      processGeoData,
-      null,
-      container,
-      'Loading Map Data',
-      loading
-    );
+    mapReq.json({
+      url: '../../data/geo/col-50m.json',
+      container: container,
+      loadingMsg: 'Loading Map Data',
+      loadingEle: loading
+    })
+    .then(function(data) {
+      geoD = data.coordinates;
+      geoLoaded = true;
+    })
+    .catch(function(err) {
+      console.error(err);
+    });
 
     for (var i = 0; i < imgs.length; i++) {
       var sprite = new Sprite(imgs[i].options);
@@ -160,7 +174,6 @@
     if (imgsLoaded === imgs.length && dLoaded && geoLoaded) {
       drawMap();
       animate();
-      loading.style.opacity = 0;
     } else {
       animReq = requestAnimationFrame(checkAssetsLoaded);
     }
@@ -168,16 +181,6 @@
 
   function imgLoaded() {
     imgsLoaded++;
-  }
-
-  function processViolenceData(data) {
-    d = data;
-    dLoaded = true;
-  }
-
-  function processGeoData(data) {
-    geoD = data.coordinates;
-    geoLoaded = true;
   }
 
   function drawMap() {

@@ -1,132 +1,172 @@
+function json(options) {
+  var req = new DataRequest();
+  return req.json(options);
+}
+
+function image(options) {
+  var o = new DataRequest();
+  o.req.overrideMimeType('text/plain; charset=x-user-defined');
+
+  return o.getD(options)
+  .then(function(res) {
+    if (res.ret !== undefined) {
+      return res;
+    } else {
+      return res.data;
+    }
+  })
+  .catch(function(err) {
+    console.error(err);
+  });
+}
+
+function audio(options) {
+  var o = new DataRequest();
+  o.req.responseType = 'arraybuffer';
+
+  return o.getD(options)
+  .then(function(res) {
+    return res;
+  })
+  .catch(function(err) {
+    console.error('Error fetching audio file', err);
+  });
+}
+
 function DataRequest() {
-  this.oReq = new XMLHttpRequest();
+  this.req = new XMLHttpRequest();
 }
 
 DataRequest.prototype.abort = function() {
-  this.oReq.abort();
+  this.req.abort();
 };
 
-DataRequest.prototype.json = function(url, callback, ret, container, msgLoading, loading) {
-  this.getD(url, callback, ret, 'application/json', container, msgLoading, loading);
-};
+DataRequest.prototype.json = function(options) {
+  this.req.overrideMimeType('application/json');
 
-DataRequest.prototype.getD = function(url, callback, ret, type, container, msgLoading, loading, resType) {
-  var progress;
-  var msg;
-
-  msgLoading = msgLoading || '';
-  container  = container || document.body;
-
-  var hasLoading = false;
-  var progressBar = false;
-
-  if (loading) {
-    hasLoading = true;
-    loading = loading;
-  } else {
-    loading = container.querySelector('.loading');
-
-    if (!loading) {
-      loading = document.createElement('div');
-      container.appendChild(loading);
-    }
-  }
-  loading.className = 'loading';
-
-  this.oReq.onloadstart = displayProgress;
-  this.oReq.onprogress = updateProgress.bind(this);
-  this.oReq.onloadend = hideProgress;
-  this.oReq.onload = function() {
-    var data;
-    if (resType === 'arraybuffer') {
-      data = this.oReq.response;
+  return this.getD(options)
+  .then(function(res) {
+    if (res.ret !== undefined) {
+      res.data = JSON.parse(res.data);
+      return res;
     } else {
-      data = this.oReq.responseText;
+      return JSON.parse(res.data);
     }
+  })
+  .catch(function(err) {
+    console.error('Error in data request, reason:', err);
+  });
+};
 
-    if (type === 'application/json') {
-      data = JSON.parse(data);
+DataRequest.prototype.getD = function(options) {
+  if (typeof options === 'object') {
+    if (!options.url) {
+      console.error('The request did not receive a url, instead got', options.url);
+      return;
     }
-    callback(data, ret);
-  }.bind(this);
-
-  this.oReq.onerror = function(event) {
-    console.error('Error loading file', event);
-  };
-  this.oReq.onabort = function() {
-    // console.log('Request aborted');
-  };
-
-  this.oReq.open('GET', url, true);
-
-  if (type) {
-    this.oReq.overrideMimeType(type);
+  } else if (typeof options === 'string' && options.length > 0) {
+    options = {
+      url: options
+    };
   }
 
-  if (resType) {
-    this.oReq.responseType = resType;
+  var msg;
+  var progress;
+  var progressBar = false;
+  var req = this.req;
+  var loadingMsg = options.loadingMsg || 'Loading';
+  var container  = options.container || document.body;
+
+  var loadingWrapper = container.querySelector('.loading');
+
+  if (!loadingWrapper) {
+    loadingWrapper = document.createElement('div');
+    loadingWrapper.className = 'loading';
+    container.appendChild(loadingWrapper);
   }
 
-  this.oReq.send(null);
+  var hasLoading = !!options.loadingEle;
+  var loadingEle = hasLoading ? options.loadingEle : null;
+
+  if (!loadingEle) {
+    var firstLoadingEle = container.querySelector('.loading-ele');
+    loadingEle = document.createElement('div');
+    loadingEle.className = 'loadingEle';
+
+    if (firstLoadingEle) {
+      loadingWrapper.insertBefore(firstLoadingEle, loadingEle);
+    } else {
+      loadingWrapper.appendChild(loadingEle);
+    }
+  }
+
+  function displayProgress() {
+    loadingEle.style.opacity = 1;
+    loadingWrapper.style.zIndex = 9;
+
+    msg = loadingEle.querySelector('.loading-msg');
+    if (!msg) {
+      msg = document.createElement('p');
+      msg.className = 'loading-msg';
+      msg.innerText = loadingMsg;
+      loadingEle.appendChild(msg);
+    };
+  }
 
   function updateProgress(event) {
     if (event.lengthComputable) {
       if (!progressBar) {
-        progress = container.querySelector('.progress');
+        // console.log(loadingEle)
+        progress = loadingEle.querySelector('.progress');
+
         if (!progress) {
           progress              = document.createElement('progress');
           progress.className    = 'progress';
           progress.style.zIndex = 0;
           progress.max          = 100;
           progress.value        = 0;
-          loading.insertBefore(progress, msg);
+          loadingEle.insertBefore(progress, msg);
           progressBar = true;
         }
       }
       var value = event.loaded / event.total * 100;
       progress.value = value;
-      msg.innerText = Math.floor(value) + '%' + '\n' + msgLoading;
+      msg.innerText = Math.floor(value) + '%' + '\n' + loadingMsg;
     } else {
       // progress = document.createElement('div');
       // progress.className = 'no-progress';
       // loading.insertBefore(progress, msg);
-      this.oReq.onprogress = null;
+      req.onprogress = null;
     }
   }
 
   function hideProgress() {
     if (!hasLoading) {
-      loading.style.opacity = 0;
+      loadingEle.style.display = 'none';
     }
-    loading.style.zIndex = 0;
+    loadingWrapper.style.zIndex = 0;
   }
 
-  function displayProgress() {
-    loading.style.opacity = 1;
-    loading.style.zIndex = 9;
+  return new Promise(function(resolve, reject) {
+    req.open('GET', options.url, true);
+    req.onloadstart = displayProgress;
+    req.onprogress  = updateProgress;
+    req.onloadend   = hideProgress;
 
-    msg = container.querySelector('.loading-msg');
-    if (!msg) {
-      msg = document.createElement('p');
-      msg.className = 'loading-msg';
-      msg.innerText = msgLoading;
-      loading.appendChild(msg);
+    req.onload = function() {
+      if (req.status === 200) {
+        resolve({data: req.response, ret: options.ret});
+      } else {
+        reject(req.statusText);
+      }
     };
-  }
+    req.onerror = function() {
+      reject('Network Error');
+    };
+
+    req.send(null);
+  });
 };
-
-function json(url, callback, ret, container, msgLoading, loading) {
-  var req = new DataRequest();
-  req.json(url, callback, ret, container, msgLoading);
-}
-
-function image(url, callback, ret, container, msgLoading, loading) {
-  var req = new DataRequest().getD(url, callback, ret, 'text/plain; charset=x-user-defined', container, msgLoading);
-}
-
-function audio(url, callback, ret, container, msgLoading, loading) {
-  var req = new DataRequest().getD(url, callback, ret, null, container, msgLoading, null, 'arraybuffer');
-}
 
 module.exports = {
   DataRequest: DataRequest,

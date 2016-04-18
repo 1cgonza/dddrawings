@@ -38,7 +38,15 @@
   base.ctx.fillStyle                = 'rgba(255, 89, 237, 1)';
   grid.ctx.globalCompositeOperation = 'darken';
 
-  DDD.json('../../data/pulse/heart.2.json', processData, null, container, 'Loading Pulse Data');
+  DDD.json({
+    url: '../../data/pulse/heart.2.json',
+    container: container,
+    loadingMsg: 'Loading Pulse Data'
+  })
+  .then(processData)
+  .catch(function(err) {
+    console.error(err);
+  });
 
   function processData(data) {
     for (var i = 0; i < data.beats.length / 3; i++) {

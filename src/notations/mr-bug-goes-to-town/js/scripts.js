@@ -90,7 +90,7 @@
   }
 
   function updateSize() {
-    notations.canvas.width = notations.container.offsetWidth;
+    notations.canvas.width = stage.offsetWidth;
     notations.canvas.height = window.innerHeight;
     notations.resizeH = DDD.sizeFromPercentage(DDD.getPercent(notations.canvas.width, notations.imgW), notations.imgH);
     var area = DDD.sizeFromPercentage(notations.percent.w, notations.canvas.width);

@@ -6,7 +6,6 @@
 
   /*----------  STAGE  ----------*/
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementById('ddd-loading');
 
   var stage = DDD.canvas(container);
   var log   = DDD.canvas(container);
@@ -32,8 +31,8 @@
   var prevTimePosition = 0;
 
   // Set dates range as ISO 8601 YYYY-MM-DDThh:mm:ss
-  var dIni = moment.tz(year + '-01-01T00:00:00', 'America/Bogota');
-  var dEnd = moment.tz(year + '-12-31T12:59:59', 'America/Bogota');
+  var dIni = Date.parse(year + '-01-01T00:00:00') / 1000;
+  var dEnd = Date.parse(year + '-12-31T12:59:59') / 1000;
 
   /*----------  MENU  ----------*/
   var current;
@@ -41,8 +40,8 @@
 
   function yearClickEvent(event) {
     if (event.target !== current) {
+      violenceReq.abort();
       window.cancelAnimationFrame(animReq);
-      loading.style.opacity = 1;
       DDD.resetCurrent(current, event.target);
       current = event.target;
       year = event.target.textContent;
@@ -63,8 +62,8 @@
     d      = [];
     dLoaded   = false;
     prevTimePosition = 0;
-    dIni = moment.tz(year + '-01-01T00:00:00', 'America/Bogota');
-    dEnd = moment.tz(year + '-12-31T12:59:59', 'America/Bogota');
+    dIni = Date.parse(year + '-01-01T00:00:00') / 1000;
+    dEnd = Date.parse(year + '-12-31T12:59:59') / 1000;
 
     stage.ctx.clearRect(0, 0, stage.w, stage.h);
     log.ctx.clearRect(0, 0, log.w, log.h);
@@ -73,11 +72,14 @@
   }
 
   function requestViolenceData() {
-    violenceReq.getD('../../data/monitor/violencia-geo-' + year + '.json', function(data) {
+    violenceReq.json('../../data/monitor/violencia-geo-' + year + '.json')
+    .then(function(data) {
       d = data;
       dLoaded = true;
-      loading.style.opacity = 0;
       animate();
+    })
+    .catch(function(err) {
+      console.error(err);
     });
   }
 
@@ -103,10 +105,10 @@
 
   function draw(i) {
     var e = d[i];
-    if ('total_v' in e && 'cat' in e && e.cat.indexOf('Homicidio') >= 0) {
-      var total = Number(d[i].total_v);
-      var date = moment.tz(d[i].fecha_ini, 'America/Bogota');
-      var elapsed = ((date - dIni) / 31536000000) * stage.w;
+    if ('vTotal' in e && 'cat' in e && e.cat.indexOf('Homicidio') >= 0) {
+      var total = d[i].vTotal;
+      var date = d[i].fecha.unix;
+      var elapsed = ((date - dIni) / 31536000) * stage.w;
 
       log.ctx.beginPath();
       log.ctx.moveTo(prevTimePosition, 0);

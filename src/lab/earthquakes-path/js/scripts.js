@@ -87,11 +87,23 @@
   =            EQ            =
   ==========================*/
   function updateEQMap(year) {
-    req.json('../../data/ingeominas/eq' + year + '.json', processEQData, null, container, 'Loading Seismic Data', loading);
+    req.json({
+      url: '../../data/ingeominas/eq' + year + '.json',
+      container: container,
+      loadingMsg: 'Loading Seismic Data',
+      loadingEle: loading
+    })
+    .then(initProcess)
+    .catch(function(err) {
+      console.error(err);
+    });
   }
+  /*=====  End of EQ  ======*/
 
-  function processEQData(data) {
-    eqData = data;
+  function initProcess(data) {
+    if (data) {
+      eqData = data;
+    }
 
     checkMapState();
 
@@ -101,16 +113,13 @@
           playerI = 0;
           animReq = requestAnimationFrame(animate);
         } else {
-          drawMap(data, stage.ctx, optionMode);
+          drawMap(eqData, stage.ctx, optionMode);
         }
-
-        loading.style.opacity = 0;
       } else {
         animReq = requestAnimationFrame(checkMapState);
       }
     }
   }
-  /*=====  End of EQ  ======*/
 
   /*===============================
   =            ANIMATE            =
@@ -155,7 +164,16 @@
     container.appendChild(menu);
     currentYear = currEle;
     updateEQMap(currEle.textContent);
-    req2.json('../../data/geo/col-50m.json', processMapData, null, container, 'Loading Map Data', loading);
+    req2.json({
+      url: '../../data/geo/col-50m.json',
+      container: container,
+      loadingMsg: 'Loading Map Data',
+      loadingEle: loading
+    })
+    .then(processMapData)
+    .catch(function(err) {
+      console.error(err);
+    });
     optionsMenu();
   }
 
@@ -197,7 +215,7 @@
         currentOption = event.target;
         stage.ctx.clearRect(0, 0, stage.w, stage.h);
         optionMode = i;
-        updateEQMap(currentYear.textContent);
+        initProcess(null);
 
         return false;
       };

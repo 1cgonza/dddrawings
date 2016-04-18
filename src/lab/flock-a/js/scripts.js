@@ -3,6 +3,8 @@
 
   var container = document.getElementById('ddd-container');
   var loading   = document.createElement('div');
+  loading.className = 'loading';
+  container.appendChild(loading);
 
   /*----------  SET STAGE  ----------*/
   var stage = DDD.canvas(container);
@@ -97,20 +99,38 @@
   }
 
   function init() {
-    eqReq.json(assets.eqData.url, function(data) {
+    eqReq.json({
+      url: assets.eqData.url,
+      container: container,
+      loadingMsg: 'Loading Seismic Data',
+      loadingEle: loading
+    })
+    .then(function(data) {
       eqData = data;
       assets.eqData.loaded = true;
       assestsLoaded++;
-    }, null, container, 'Loading Seismic Data', loading);
+    })
+    .catch(function(err) {
+      console.error(err);
+    });
 
     if (!assets.taData.loaded) {
-      taReq.json(assets.taData.url, function(data) {
+      taReq.json({
+        url: assets.taData.url,
+        container: container,
+        loadingMsg: 'Loading Violence Data',
+        loadingEle: loading
+      })
+      .then(function(data) {
         taData.raw = data;
         taData.current = data.hasOwnProperty(currentYear) ? data[currentYear] : null;
         nextAttack = taData.current[0].date.unix;
         assets.taData.loaded = true;
         assestsLoaded++;
-      }, null, container, 'Loading Violence Data', loading);
+      })
+      .catch(function(err) {
+        console.error(err);
+      });
     }
 
     if (!assets.birdSprite.loaded) {

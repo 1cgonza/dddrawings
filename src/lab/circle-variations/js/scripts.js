@@ -98,17 +98,23 @@
   }
 
   function requestData() {
-    req.json('../../data/ingeominas/eq' + options.year + '.json', dataReady, null, container, 'Loading seismic data of year ' + options.year);
-  }
+    req.json({
+      url: '../../data/ingeominas/eq' + options.year + '.json',
+      container: container,
+      loadngMsg: 'Loading seismic data of year ' + options.year
+    })
+    .then(function(data) {
+      eqData = data;
 
-  function dataReady(data) {
-    eqData = data;
-
-    if (!imgLoaded) {
-      loadSprite();
-    } else {
-      drawing.draw();
-    }
+      if (!imgLoaded) {
+        loadSprite();
+      } else {
+        drawing.draw();
+      }
+    })
+    .catch(function(err) {
+      console.error(err);
+    });
   }
 
   function loadSprite() {
@@ -122,7 +128,7 @@
   function animate() {
     if (animating) {
       if (eqIndex < eqData.length) {
-        drawing.defineRenderMode(eqData[eqIndex].utc, eqData[eqIndex].ml);
+        drawing.defineRenderMode(eqData[eqIndex].date.unix, eqData[eqIndex].ml);
         eqIndex++;
       } else {
         animating = false;
@@ -312,9 +318,9 @@
   };
 
   Drawing.prototype.defineRenderMode = function(unix, ml) {
-    var dReset    = unix - (Date.parse(options.year) * 0.001);
-    var rot       = dReset * this.secondsW;
-
+    var dReset = unix - (Date.parse(options.year) / 1000);
+    var rot    = dReset * this.secondsW;
+    // console.log(unix)
     stage.ctx.save();
     stage.ctx.translate(stage.center.x, stage.center.y);
     stage.ctx.rotate(rot * Math.PI / 180);

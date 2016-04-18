@@ -3,6 +3,7 @@
   var animReq;
   var stageReady = false;
   var notes = document.getElementById('box');
+  var decription = document.getElementById('description');
 
   var assets = {
     data: '../../data/notations/chairy-tale.json',
@@ -47,7 +48,14 @@
 
   function videoReady() {
     // Load JSON data about notations
-    DDD.json(assets.data, init);
+    DDD.json({
+      url: assets.data,
+      container: decription
+    })
+    .then(init)
+    .catch(function(err) {
+      console.error(err);
+    });
     checkAssetsLoaded();
 
     video.onplay = function() {

@@ -145,11 +145,6 @@
     timeline.ctx.clearRect(0, 0, timeline.w, timeline.h);
   }
 
-  function dataReady(data) {
-    d = data;
-    animate();
-  }
-
   function animate() {
     if (currentI < d.length) {
       var amount = 0;
@@ -220,7 +215,18 @@
   =            HELPERS            =
   ===============================*/
   function loadData() {
-    req.json('../../data/monitor/violencia-geo-' + year + '.json', dataReady, null, container, 'Loading data');
+    req.json({
+      url: '../../data/monitor/violencia-geo-' + year + '.json',
+      container: container,
+      loadingMsg: 'Loading data',
+    })
+    .then(function(res) {
+      d = res;
+      animate();
+    })
+    .catch(function(err) {
+      console.error(err);
+    });
   }
 
   /*----------  POINT  ----------*/

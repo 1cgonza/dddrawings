@@ -93,16 +93,35 @@
   }
 
   function loadData() {
-    oReq.json(
-      '../../data/ingeominas/eq' + year + '.json',
-      processEQData, null, container, 'Loading Seismic Data'
-    );
+    oReq.json({
+      url: '../../data/ingeominas/eq' + year + '.json',
+      container: container,
+      loadingMsg: 'Loading Seismic Data'
+    })
+    .then(function(d) {
+      seismicData = d;
+      seismicDataI = 0;
+      assetLoaded();
+    })
+    .catch(function(err) {
+      console.error(err);
+    });
 
     if (!taDataLoaded) {
-      DDD.json(
-        '../../data/cmh/AtentadosTerroristas1988-2012.json',
-        processTAData, null, container, 'Loading Violence Data'
-      );
+      DDD.json({
+        url: '../../data/cmh/AtentadosTerroristas1988-2012.json',
+        container: container,
+        loadingMsg: 'Loading Violence Data'
+      })
+      .then(function(d) {
+        taData = d;
+        taDataLoaded = true;
+        getFirstAttackOfYear();
+        assetLoaded();
+      })
+      .catch(function(err) {
+        console.error(err);
+      });
     }
   }
 
@@ -121,13 +140,6 @@
     }
   }
 
-  function processTAData(d) {
-    taData = d;
-    taDataLoaded = true;
-    getFirstAttackOfYear();
-    assetLoaded();
-  }
-
   function getFirstAttackOfYear() {
     var yearStart = Date.parse(year) / 1000;
     var dLength = taData.length;
@@ -140,12 +152,6 @@
         break;
       }
     }
-  }
-
-  function processEQData(d) {
-    seismicData = d;
-    seismicDataI = 0;
-    assetLoaded();
   }
 
   function init() {

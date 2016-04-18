@@ -20,9 +20,12 @@
     beat: {min: 100000, max: 0}
   };
 
-  DDD.json('../../data/pulse/heart.2.json', processData, null, container, 'Loading Pulse Data');
-
-  function processData(data) {
+  DDD.json({
+    url: '../../data/pulse/heart.2.json',
+    container: container,
+    loadingMsg: 'Loading Pulse Data'
+  })
+  .then(function(data) {
     for (var i = 0; i < data.beats.length; i++) {
       var point = data.beats[i];
       var value = Number(point.substr(1));
@@ -39,7 +42,10 @@
     }
 
     arrayChunks();
-  }
+  })
+  .catch(function(err) {
+    console.error(err);
+  });
 
   function printInfo() {
     info.innerHTML =  'RAW - Min: ' + minMaxValues.raw.min + ' - Max: ' + minMaxValues.raw.max + ' || ' +

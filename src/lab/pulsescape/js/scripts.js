@@ -20,7 +20,12 @@
   /*----------  BACKGROUND  ----------*/
   var bgImg;
 
-  DDD.json('../../data/pulse/heart.2.json', function(data) {
+  DDD.json({
+    url: '../../data/pulse/heart.2.json',
+    container: container,
+    loadingMsg: 'Loading Pulse Data'
+  })
+  .then(function(data) {
     for (var i = 0; i < data.beats.length; i++) {
       if (data.beats[i].charAt(0) === 'B' && data.beats[i + 1].charAt(0) === 'Q') {
         var bpm  = Number(data.beats[i].substr(1));
@@ -34,7 +39,10 @@
     bg.img        = new Image();
     bg.img.onload = loadBackground;
     bg.img.src    = '../../img/backgrounds/white-paper.jpg';
-  }, null, container, 'Loading Pulse Data');
+  })
+  .catch(function(err) {
+    console.error(err);
+  });
 
   function loadBackground() {
     bg.ctx.drawImage(

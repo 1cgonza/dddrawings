@@ -121,6 +121,10 @@
 =            TANGO            =
 =============================*/
 .single-notations.tango {
+  header, video {
+    vertical-align: top;
+  }
+
   #top-row {
     header {
       padding: 1em;
@@ -130,24 +134,20 @@
       font-size: 1.5em;
     }
 
-    header, video {
-      vertical-align: top;
-    }
-
     header {
       width: 60%;
       display: inline-block;
       text-align: center;
     }
+  }
 
-    #video-container {
-      width: 40%;
-      position: fixed;
-      height: 100%;
-      background-color: black;
-      right: 0;
-      top: 0;
-    }
+  #video-container {
+    width: 40%;
+    position: fixed;
+    height: 100%;
+    background-color: black;
+    right: 0;
+    top: 0;
   }
 
   #left {
@@ -174,7 +174,7 @@
       margin: 0.2em;
     }
 
-    .eng {
+    #eng {
       font-style: italic;
     }
 

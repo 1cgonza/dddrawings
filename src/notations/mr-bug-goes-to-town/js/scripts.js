@@ -90,12 +90,13 @@
   }
 
   function updateSize() {
-    notations.canvas.width = stage.offsetWidth;
+    var w = stage.offsetWidth;
+    var area = DDD.sizeFromPercentage(notations.percent.w, w);
+    notations.canvas.width = w;
     notations.canvas.height = window.innerHeight;
-    notations.resizeH = DDD.sizeFromPercentage(DDD.getPercent(notations.canvas.width, notations.imgW), notations.imgH);
-    var area = DDD.sizeFromPercentage(notations.percent.w, notations.canvas.width);
+    notations.resizeH = DDD.sizeFromPercentage(DDD.getPercent(w, notations.imgW), notations.imgH);
     notations.step = area / video.duration;
-    notations.offX = DDD.sizeFromPercentage(notations.percent.left, notations.canvas.width);
+    notations.offX = DDD.sizeFromPercentage(notations.percent.left, w);
     notationsUpdate();
 
     return false;

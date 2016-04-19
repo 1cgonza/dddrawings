@@ -37,13 +37,8 @@
     }
   }
 
-  #middle-col, #right-col {
-    display: none;
-  }
-
   canvas {
     display: none;
-    // opacity: 0;
   }
 
   video {
@@ -116,7 +111,91 @@
       right: 1em;
     }
   }
+
+  .loading {
+    top: 40%;
+  }
 }
+
+/*=============================
+=            TANGO            =
+=============================*/
+.single-notations.tango {
+  header, video {
+    vertical-align: top;
+  }
+
+  #top-row {
+    header {
+      padding: 1em;
+    }
+
+    .film-title {
+      font-size: 1.5em;
+    }
+
+    header {
+      width: 60%;
+      display: inline-block;
+      text-align: center;
+    }
+  }
+
+  #video-container {
+    width: 40%;
+    position: fixed;
+    height: 100%;
+    background-color: black;
+    right: 0;
+    top: 0;
+  }
+
+  #left {
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  #bottom {
+    &:active {
+      cursor: ew-resize;
+    }
+  }
+
+  #label-box {
+    position: absolute;
+    z-index: 999;
+    padding: 0.3em;
+    font-size: 0.9em;
+    line-height: 1;
+    transition: 0.25s opacity ease-in-out;
+
+    p {
+      margin: 0.2em;
+    }
+
+    #eng {
+      font-style: italic;
+    }
+
+    &.red {
+      background-color: rgba(224, 29, 26, 0.8);
+      color: #1F2421
+    }
+
+    &.black {
+      background-color: rgba(31, 36, 33, 0.7);
+      color: #F4F6F5
+    }
+
+    &.white {
+      background-color: rgba(244, 246, 245, 0.7);
+      color: #1F2421;
+    }
+  }
+}
+
+/*=====  End of TANGO  ======*/
 
 /*=====================================
 =            A CHAIRY TALE            =
@@ -144,21 +223,13 @@
   }
 
   #middle-col {
-    width: 10%;
+    color: white;
     background-color: black;
   }
 
   #right-col {
     width: 50%;
   }
-
-  .loading {
-    position: absolute;
-    width: 100%;
-    text-align: center;
-    top: 250px;
-  }
-
 }
 /*-----  End of A CHAIRY TALE  ------*/
 

@@ -1,7 +1,6 @@
 (function() {
   'use strict';
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementById('ddd-loading');
 
   /*----------  SET STAGE  ----------*/
   var stage    = DDD.canvas(container);
@@ -80,7 +79,6 @@
     if (event.target !== current) {
       window.cancelAnimationFrame(animReq);
       req.abort();
-      loading.style.opacity = 1;
       DDD.resetCurrent(current, event.target);
       current = event.target;
       year = Number(event.target.textContent);
@@ -135,8 +133,8 @@
 
     points    = [];
     currentI  = 0;
-    timeStart = Date.parse(year + '-01-01 00:00:00');
-    timeEnd   = Date.parse(year + 1 + '-01-01 00:00:00');
+    timeStart = Date.parse(year + '/01/01 00:00:00') / 1000;
+    timeEnd   = Date.parse(year + 1 + '/01/01 00:00:00') / 1000;
     step      = stage.w / (timeEnd - timeStart);
 
     drawBG();
@@ -147,19 +145,13 @@
     timeline.ctx.clearRect(0, 0, timeline.w, timeline.h);
   }
 
-  function dataReady(data) {
-    d = data;
-    loading.style.opacity = 0;
-    animate();
-  }
-
   function animate() {
     if (currentI < d.length) {
       var amount = 0;
       var loc;
 
       if (mode === 1) {
-        amount = d[currentI].hasOwnProperty('total_v') ? Number(d[currentI].total_v) : 0;
+        amount = d[currentI].hasOwnProperty('vTotal') ? d[currentI].vTotal : 0;
         loc = map.convertCoordinates(d[currentI].lon, d[currentI].lat);
         perlin.setSeed(amount);
       } else if (mode === 2) {
@@ -170,7 +162,7 @@
         };
       }
 
-      var timeEvent = d[currentI].hasOwnProperty('fecha_ini') ? Date.parse(d[currentI].fecha_ini) : null;
+      var timeEvent = d[currentI].hasOwnProperty('fecha') ? d[currentI].fecha.unix : null;
       var timeX = timeEvent - timeStart;
 
       perlin.setSeed(amount);
@@ -223,7 +215,18 @@
   =            HELPERS            =
   ===============================*/
   function loadData() {
-    req.json('../../data/monitor/violencia-geo-' + year + '.json', dataReady);
+    req.json({
+      url: '../../data/monitor/violencia-geo-' + year + '.json',
+      container: container,
+      loadingMsg: 'Loading data',
+    })
+    .then(function(res) {
+      d = res;
+      animate();
+    })
+    .catch(function(err) {
+      console.error(err);
+    });
   }
 
   /*----------  POINT  ----------*/
@@ -278,7 +281,8 @@
 
   function PerlinGenerator(seed) {
     var rnd = new Marsaglia(seed, (seed << 16) + (seed >> 16));
-    var i, j;
+    var i;
+    var j;
     var perm = new Uint8Array(512);
 
     for (i = 0; i < 256; ++i) {

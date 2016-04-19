@@ -1,7 +1,6 @@
 (function() {
   'use strict';
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementById('ddd-loading');
   var stage     = DDD.canvas(container);
 
   var eqData        = [];
@@ -95,26 +94,33 @@
     setupInterface();
     drawing = new Drawing();
     animate();
-
-    req.getD('../../data/ingeominas/eq' + options.year + '.json', dataReady);
+    requestData();
   }
 
-  function dataReady(data) {
-    loading.style.opacity = 0;
-    eqData = data;
+  function requestData() {
+    req.json({
+      url: '../../data/ingeominas/eq' + options.year + '.json',
+      container: container,
+      loadngMsg: 'Loading seismic data of year ' + options.year
+    })
+    .then(function(data) {
+      eqData = data;
 
-    if (!imgLoaded) {
-      loadSprite();
-    } else {
-      drawing.draw();
-    }
+      if (!imgLoaded) {
+        loadSprite();
+      } else {
+        drawing.draw();
+      }
+    })
+    .catch(function(err) {
+      console.error(err);
+    });
   }
 
   function loadSprite() {
     imgObj.onload = function() {
       imgLoaded = true;
       drawing.draw();
-      loading.style.opacity = 0;
     };
     imgObj.src = options.sprite;
   }
@@ -122,7 +128,7 @@
   function animate() {
     if (animating) {
       if (eqIndex < eqData.length) {
-        drawing.defineRenderMode(eqData[eqIndex].utc, eqData[eqIndex].ml);
+        drawing.defineRenderMode(eqData[eqIndex].date.unix, eqData[eqIndex].ml);
         eqIndex++;
       } else {
         animating = false;
@@ -305,33 +311,30 @@
       for (var i = 0; i < eqData.length; i++) {
         // Check the range of the slider and render only within those values
         if (eqData[i].ml >= options.rangeStart && eqData[i].ml <= options.rangeEnd) {
-          this.defineRenderMode(eqData[i].utc, eqData[i].ml);
+          this.defineRenderMode(eqData[i].date.unix, eqData[i].ml);
         }
       }
     }
   };
 
-  Drawing.prototype.defineRenderMode = function(utc, ml) {
-    var eventDate  = utc;
-    var dReset     = eventDate - (Date.parse(options.year) * 0.001);
-    var rot        = dReset * this.secondsW;
-    var magnitude  = ml;
-
+  Drawing.prototype.defineRenderMode = function(unix, ml) {
+    var dReset = unix - (Date.parse(options.year) / 1000);
+    var rot    = dReset * this.secondsW;
+    // console.log(unix)
     stage.ctx.save();
     stage.ctx.translate(stage.center.x, stage.center.y);
     stage.ctx.rotate(rot * Math.PI / 180);
 
     if (options.spriteRows === 1) {
-      this.oneRowSpriteStroke(magnitude);
+      this.oneRowSpriteStroke(ml);
     } else {
-      this.multiRowSpriteStroke(magnitude);
+      this.multiRowSpriteStroke(ml);
     }
 
     stage.ctx.restore();
   };
 
   Drawing.prototype.redraw = function(loadNewData) {
-    loading.style.opacity = 1;
     eqIndex = 0;
     animating = currentStrokeBtn.classList.contains('play') ? true : false;
 
@@ -339,9 +342,8 @@
 
     if (loadNewData) {
       eqData.pop();
-      req.json('../../data/ingeominas/eq' + options.year + '.json', dataReady);
+      requestData();
     } else {
-      loading.style.opacity = 0;
       this.draw();
     }
   };
@@ -381,7 +383,7 @@
     * When a magnitude is an integer I know that it is always the first column in the sprite, so it can be assigned to index 0.
     **/
     if (magnitude % 1 === 0) {
-      spriteRow = magnitude;
+      spriteRow    = magnitude;
       spriteColumn = 0;
     } else {
       mlValues     = magnitude.toString().split('.');

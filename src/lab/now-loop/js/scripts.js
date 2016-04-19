@@ -1,7 +1,6 @@
 (function() {
   'use strict';
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementById('ddd-loading');
 
   /*----------  SET STAGE  ----------*/
   var bg      = DDD.canvas(container);
@@ -195,6 +194,4 @@
 
   createBackground();
   animate();
-  loading.style.opacity = 0;
-
 })();

@@ -8,7 +8,6 @@
   'use strict';
   var loaded    = false;
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementById('ddd-loading');
 
   /*----------  SET STAGE  ----------*/
   var stage = DDD.canvas(container);
@@ -22,8 +21,6 @@
   var count    = 0;
 
   function init() {
-    loading.style.opacity = 0;
-
     stage.ctx.fillStyle = '#000';
     stage.ctx.fillRect(0, 0, stage.w, stage.h);
 

@@ -12,7 +12,6 @@
   'use strict';
   /*----------  GLOBALS  ----------*/
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementById('ddd-loading');
   var TWO_PI    = Math.PI * 2;
 
   // particle proportions
@@ -68,7 +67,6 @@
     boom = true;
     collideAll();
     draw();
-    loading.style.opacity = 0;
   }
 
   function draw() {

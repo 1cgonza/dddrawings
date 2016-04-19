@@ -2,7 +2,7 @@
   'use strict';
   var loaded    = false;
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementById('ddd-loading');
+  container.style.color = 'white';
   document.body.style.backgroundColor = 'black';
 
   /*----------  GLOBALS  ----------*/
@@ -28,13 +28,21 @@
   var base  = DDD.canvas(container);
   var offT  = DDD.canvas(null);
 
-  stage.ctx.strokeStyle    = 'rgba(255, 236, 37, 1)';
-  grid.ctx.fillStyle   = 'rgba(255, 89, 237, 1)';
-  grid.ctx.strokeStyle = 'rgba(255, 89, 237, 0.1)';
-  base.ctx.strokeStyle = 'rgba(255, 236, 37, 0.05)';
-  base.ctx.fillStyle   = 'rgba(255, 89, 237, 1)';
+  stage.ctx.strokeStyle = 'rgba(255, 236, 37, 1)';
+  grid.ctx.fillStyle    = 'rgba(255, 89, 237, 1)';
+  grid.ctx.strokeStyle  = 'rgba(255, 89, 237, 0.1)';
+  base.ctx.strokeStyle  = 'rgba(255, 236, 37, 0.05)';
+  base.ctx.fillStyle    = 'rgba(255, 89, 237, 1)';
 
-  DDD.json('../../data/pulse/heart.2.json', processData);
+  DDD.json({
+    url: '../../data/pulse/heart.2.json',
+    container: container,
+    loadingMsg: 'Loading Pulse Data'
+  })
+  .then(processData)
+  .catch(function(err) {
+    console.error(err);
+  });
 
   function processData(data) {
     for (var i = 0; i < data.beats.length / 3; i++) {

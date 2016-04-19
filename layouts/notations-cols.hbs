@@ -1,7 +1,10 @@
 {{> head }}
-<main role="main" class="with-nav single-notations {{ slug }}">
+<main class="with-nav single-notations {{ slug }}">
 
-  {{!-- <div id="box" class="content"><a id="close-box" href="#" class="close">X</a>{{{ contents }}}</div> --}}
+  <section id="box" class="content">
+    <a id="close-box" href="#" class="close">X</a>
+    {{{ contents }}}
+  </section>
 
   <section id="ddd-container">
     <div id="left-col">
@@ -18,12 +21,10 @@
       {{/if}}
 
       <div id="description">
-        <p class="disclaimer">This application is created for educational and research purposes only. The Copyright of the source material (images and video) remain with the original owners.</p>
+        {{#if excerpt }} {{{ excerpt }}} {{/if}}
+        {{#if contents}}<a id="notes" href="#" title="About">Read more</a>{{/if}}
+        {{#if disclaimer}}<p class="disclaimer">{{{ disclaimer }}}</p>{{/if}}
       </div>
-    </div>
-
-    <div id="middle-col">
-      <p class="loading">Loading Timeline...</p>
     </div>
 
   </section>

@@ -12,11 +12,12 @@ var autoprefixer = require('metalsmith-autoprefixer');
 var drafts       = require('metalsmith-drafts');
 var slug         = require('slug');
 var chalk        = require('chalk');
-var browserSync  = require('browser-sync');
+var browserSync  = require('browser-sync').create();
 var metadata     = require('./config')(process.argv);
 var path         = require('path');
 var webpack      = require('metalsmith-webpack');
 var UglifyJs     = require('webpack').optimize.UglifyJsPlugin;
+var gzip         = require('connect-gzip-static')('./build');
 
 var webpackConfig = {
   context: path.resolve(__dirname, './src/js/ddd'),
@@ -27,24 +28,29 @@ var webpackConfig = {
   }
 };
 
-function serve() {
-  build(watch);
-}
-
-function watch() {
-  browserSync({
-    server: 'build',
-    files: [{
-      match: ['src/**/*.md', 'src/scss/**/*.scss', 'src/**/*.js', 'layouts/**/*.hbs'],
-      fn: function(event, file) {
-        if (event === 'change') {
-          build(this.reload);
-          console.log(chalk.cyan('Updated file: ') + chalk.yellow(file));
-        }
+var bsConfig = {
+  server: 'build',
+  files: [{
+    match: ['src/**/*.md', 'src/scss/**/*.scss', 'src/**/*.js', 'layouts/**/*.hbs'],
+    fn: function(event, file) {
+      if (event === 'change') {
+        build(this.reload);
+        console.log(chalk.cyan('Updated file: ') + chalk.yellow(file));
       }
-    }],
-    // logLevel: 'debug',
-    notify: false
+    }
+  }],
+  // logLevel: 'debug',
+  notify: false
+};
+
+function serve() {
+  browserSync.init(bsConfig, function(err, bs) {
+    build();
+
+    // uncomment to test gzip delivery on localhost. Just like this it breaks the autoreload
+    // bs.addMiddleware('*', gzip, {
+    //   override: true
+    // });
   });
 }
 
@@ -123,9 +129,12 @@ function build(callback) {
     if (err) {
       throw err;
     }
+
     if (callback) {
       callback();
-    } else {
+    }
+
+    if (metadata.env === 'prod') {
       console.log(chalk.yellow('......................| Production build is done |......................'));
     }
   });

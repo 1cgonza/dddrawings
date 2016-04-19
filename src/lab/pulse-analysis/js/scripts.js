@@ -3,7 +3,6 @@
 
   /*----------  SET STAGE  ----------*/
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementById('ddd-loading');
   var info      = document.createElement('span');
   container.style.textAlign = 'center';
   info.className = 'info';
@@ -21,9 +20,12 @@
     beat: {min: 100000, max: 0}
   };
 
-  DDD.json('../../data/pulse/heart.2.json', processData);
-
-  function processData(data) {
+  DDD.json({
+    url: '../../data/pulse/heart.2.json',
+    container: container,
+    loadingMsg: 'Loading Pulse Data'
+  })
+  .then(function(data) {
     for (var i = 0; i < data.beats.length; i++) {
       var point = data.beats[i];
       var value = Number(point.substr(1));
@@ -40,7 +42,10 @@
     }
 
     arrayChunks();
-  }
+  })
+  .catch(function(err) {
+    console.error(err);
+  });
 
   function printInfo() {
     info.innerHTML =  'RAW - Min: ' + minMaxValues.raw.min + ' - Max: ' + minMaxValues.raw.max + ' || ' +
@@ -103,8 +108,6 @@
 
       new Drawing(c, data);
       requestAnimationFrame(arrayChunks);
-    } else {
-      loading.style.opacity = 0;
     }
     chunkIndex += chunkW;
     printInfo();

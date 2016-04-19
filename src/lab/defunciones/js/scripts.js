@@ -6,12 +6,14 @@
 
   /*----------  STAGE  ----------*/
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementById('ddd-loading');
-
+  var loading = document.createElement('div');
   var bg    = DDD.canvas(container);
   var stage = DDD.canvas(container);
   var log   = DDD.canvas(container);
+
+  loading.className = 'loading';
   bg.center.y = stage.center.y = bg.h / 1.5 | 0;
+  container.appendChild(loading);
 
   /*----------  DATA  ----------*/
   var year   = 2009;
@@ -28,14 +30,19 @@
   var tick  = 0;
 
   /*----------  MAP  ----------*/
-  var map = new DDD.Map({zoom: 8, width: stage.w, height: stage.h, center: {lon: -71.999996, lat: 4.000002}});
+  var map = new DDD.Map({
+    zoom: 8,
+    width: stage.w,
+    height: stage.h,
+    center: {lon: -71.999996, lat: 4.000002}
+  });
 
   /*----------  TIME  ----------*/
   var prevTimePosition = 0;
 
   // Set dates range as ISO 8601 YYYY-MM-DDThh:mm:ss
-  var dIni = moment.tz(year + '-01-01T00:00:00', 'America/Bogota');
-  var dEnd = moment.tz(year + '-12-31T12:59:59', 'America/Bogota');
+  var dIni = Date.parse(year + '/01/01 00:00:00') / 1000;
+  var dEnd = Date.parse(year + 1 + '/01/01 00:00:00') / 1000;
 
   /*----------  SPRITES  ----------*/
   var imgsLoaded = 0;
@@ -85,8 +92,10 @@
   function yearClickEvent(event) {
     if (event.target !== current) {
       window.cancelAnimationFrame(animReq);
+      loading.innerHTML = '';
       loading.style.opacity = 1;
       DDD.resetCurrent(current, event.target);
+      violenceReq.abort();
       current = event.target;
       year = event.target.textContent;
 
@@ -102,11 +111,11 @@
   function reloadStage() {
     dataI = 0;
     bodies = [];
-    d      = [];
-    dLoaded   = false;
+    d = [];
+    dLoaded = false;
     prevTimePosition = 0;
-    dIni = moment.tz(year + '-01-01T00:00:00', 'America/Bogota');
-    dEnd = moment.tz(year + '-12-31T12:59:59', 'America/Bogota');
+    dIni = Date.parse(year + '/01/01 00:00:00') / 1000;
+    dEnd = Date.parse(year + 1 + '/01/01 00:00:00') / 1000;
 
     stage.ctx.clearRect(0, 0, stage.w, stage.h);
     log.ctx.clearRect(0, 0, log.w, log.h);
@@ -117,7 +126,19 @@
   }
 
   function requestViolenceData() {
-    violenceReq.getD('../../data/monitor/violencia-geo-' + year + '.json', processViolenceData);
+    violenceReq.json({
+      url: '../../data/monitor/violencia-geo-' + year + '.json',
+      container: container,
+      loadingMsg: 'Loading Violence Data',
+      loadingEle: loading
+    })
+    .then(function(data) {
+      d = data;
+      dLoaded = true;
+    })
+    .catch(function(err) {
+      console.error(err);
+    });
   }
 
   function init() {
@@ -125,7 +146,19 @@
     bg.ctx.fillStyle = 'white';
 
     requestViolenceData();
-    mapReq.getD('../../data/geo/col-50m.json', processGeoData);
+    mapReq.json({
+      url: '../../data/geo/col-50m.json',
+      container: container,
+      loadingMsg: 'Loading Map Data',
+      loadingEle: loading
+    })
+    .then(function(data) {
+      geoD = data.coordinates;
+      geoLoaded = true;
+    })
+    .catch(function(err) {
+      console.error(err);
+    });
 
     for (var i = 0; i < imgs.length; i++) {
       var sprite = new Sprite(imgs[i].options);
@@ -141,7 +174,6 @@
     if (imgsLoaded === imgs.length && dLoaded && geoLoaded) {
       drawMap();
       animate();
-      loading.style.opacity = 0;
     } else {
       animReq = requestAnimationFrame(checkAssetsLoaded);
     }
@@ -149,16 +181,6 @@
 
   function imgLoaded() {
     imgsLoaded++;
-  }
-
-  function processViolenceData(data) {
-    d = data;
-    dLoaded = true;
-  }
-
-  function processGeoData(data) {
-    geoD = data.coordinates;
-    geoLoaded = true;
   }
 
   function drawMap() {
@@ -222,10 +244,10 @@
 
   function draw(i) {
     var e = d[i];
-    if ('total_v' in e && 'cat' in e && e.cat.indexOf('Homicidio') >= 0) {
-      var total = Number(d[i].total_v);
-      var date = moment.tz(d[i].fecha_ini, 'America/Bogota');
-      var elapsed = ((date - dIni) / 31536000000) * stage.w;
+    if (e.hasOwnProperty('vTotal') && e.hasOwnProperty('cat') && e.cat.indexOf('Homicidio') >= 0) {
+      var total = d[i].vTotal;
+      var date = d[i].fecha.unix;
+      var elapsed = ((date - dIni) / 31536000) * stage.w;
 
       log.ctx.beginPath();
       log.ctx.moveTo(prevTimePosition, 0);

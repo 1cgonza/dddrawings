@@ -6,7 +6,15 @@ var math = {
   random: getRandom,
   Transform: Transform,
   sizeFromPercentage: sizeFromPercentage,
-  getPercent: getPercent
+  getPercent: getPercent,
+  isPowerOfTwo: isPowerOfTwo,
+
+  // Shapes
+  Point: require('./Point'),
+  Rectangle: require('./Rectangle'),
+  Matrix: require('./Matrix'),
+  TextureUvs: require('./TextureUvs'),
+  Vector: require('./Vector')
 };
 
 module.exports = math;
@@ -27,6 +35,10 @@ function sizeFromPercentage(percent, totalSize) {
 
 function getPercent(section, total) {
   return (section / total) * 100;
+}
+
+function isPowerOfTwo(width, height) {
+  return (width > 0 && (width & (width - 1)) === 0 && height > 0 && (height & (height - 1)) === 0);
 }
 
 // Last updated November 2011

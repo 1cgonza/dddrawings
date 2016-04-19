@@ -1,7 +1,9 @@
 (function() {
   'use strict';
   var animReq;
+  var stageReady = false;
   var notes = document.getElementById('box');
+  var decription = document.getElementById('description');
 
   var assets = {
     data: '../../data/notations/chairy-tale.json',
@@ -26,26 +28,34 @@
   options.percent.bottom = DDD.getPercent(options.pageMarginBottom, options.pageHeight);
 
   // Set globally the video player and two canvases that will communicate with each other.
-  var video = new NotationsVideo(document.getElementById('video'), videoReady).video;
+  var video = notationsVideo(document.getElementById('video'), videoReady);
 
   var notationsData  = [];
-  var timeline       = {};
-  timeline.container = document.getElementById('middle-col');
-  timeline.canvas    = document.getElementById('timeline');
-  timeline.ctx       = timeline.canvas.getContext('2d');
-  timeline.imgW      = 200;
-  timeline.imgH      = 1218;
 
-  var notations       = {};
-  notations.container = document.getElementById('right-col');
-  notations.canvas    = document.getElementById('notations');
-  notations.ctx       = notations.canvas.getContext('2d');
-  notations.imgW      = 1000;
-  notations.imgH      = 6088;
+  var timeline                    = DDD.canvas(document.getElementById('middle-col'), {position: 'relative'});
+  timeline.canvas.style.opacity   = 0;
+  timeline.container.style.width  = '10%';
+  timeline.container.style.height = window.innerHeight + 'px';
+  timeline.imgW                   = 200;
+  timeline.imgH                   = 1218;
+
+  var notations                    = DDD.canvas(document.getElementById('right-col'), {position: 'relative'});
+  notations.canvas.style.opacity   = 0;
+  notations.container.style.width  = '50%';
+  notations.container.style.height = window.innerHeight + 'px';
+  notations.imgW                   = 1000;
+  notations.imgH                   = 6088;
 
   function videoReady() {
     // Load JSON data about notations
-    DDD.json(assets.data, init);
+    DDD.json({
+      url: assets.data,
+      container: decription
+    })
+    .then(init)
+    .catch(function(err) {
+      console.error(err);
+    });
     checkAssetsLoaded();
 
     video.onplay = function() {
@@ -89,8 +99,12 @@
     } else {
       resizeElements();
       video.controls = true;
-      document.querySelector('#right-col .loading').style.display = 'none';
-      document.querySelector('#middle-col .loading').style.display = 'none';
+      stageReady = true;
+
+      document.querySelector('#right-col .loading').style.opacity = 0;
+      document.querySelector('#middle-col .loading').style.opacity = 0;
+      timeline.canvas.style.opacity = 1;
+      notations.canvas.style.opacity = 1;
     }
   }
 
@@ -206,7 +220,12 @@
     updateNotations();
   }
 
-  window.onresize = resizeElements;
+  window.onresize = function() {
+    if (stageReady) {
+      resizeElements();
+    }
+    return false;
+  };
 
   document.getElementById('notes').onclick = function(event) {
     event.preventDefault();

@@ -3,7 +3,6 @@
 
   /*----------  SET STAGE  ----------*/
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementById('ddd-loading');
   var stage     = DDD.canvas(container);
 
   var flockSize = 50;
@@ -34,7 +33,6 @@
     }
 
     animate();
-    loading.style.opacity = 0;
   }
 
   function animate() {

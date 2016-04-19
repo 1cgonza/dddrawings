@@ -2,36 +2,38 @@
   'use strict';
 
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementById('ddd-loading');
+  var loading   = document.createElement('div');
+  loading.className = 'loading';
+  container.appendChild(loading);
 
   /*----------  SET STAGE  ----------*/
   var stage = DDD.canvas(container);
 
   /*----------  GLOBALS  ----------*/
-  var eqData = [];
-  var taData = {raw: [], current: []};
-  var flock = [];
-  var eqDataI = 0;
-  var taDataI = 0;
   var nextAttack;
-  var num = 1555; // 1555 victims from 1988-2012
   var animReq;
-  var mode = -1;
+  var eqData   = [];
+  var taData   = {raw: [], current: []};
+  var flock    = [];
+  var eqDataI  = 0;
+  var taDataI  = 0;
+  var num      = 1555; // 1555 victims from 1988-2012
+  var mode     = -1;
   var currentX = 0;
   var currentY = 0;
-  var TWO_PI = Math.PI * 2;
-  var tick = 0;
-  var eqReq = new DDD.DataRequest();
-  var taReq = new DDD.DataRequest();
+  var TWO_PI   = Math.PI * 2;
+  var tick     = 0;
+  var eqReq    = new DDD.DataRequest();
+  var taReq    = new DDD.DataRequest();
 
   // SPRITE
-  var img = new Image();
-  var cols = 14;
-  var rows = 1;
-  var imgW = 614;
-  var imgH = 50;
-  var offX = 25;
-  var offY = 25;
+  var img    = new Image();
+  var cols   = 14;
+  var rows   = 1;
+  var imgW   = 614;
+  var imgH   = 50;
+  var offX   = 25;
+  var offY   = 25;
   var frameW = Math.round(imgW / cols);
   var frameH = Math.round(imgH / rows);
 
@@ -66,7 +68,7 @@
   var assestsLoaded = 0;
   var totalAssets = Object.keys(assets).length;
 
-  DDD.html.yearsMenu(1993, 2015, currentYear, yearClickEvent, menuReady);
+  DDD.yearsMenu(1993, 2015, currentYear, yearClickEvent, menuReady);
 
   function menuReady(menu, currentBtn) {
     container.appendChild(menu);
@@ -77,12 +79,13 @@
 
   function yearClickEvent(event) {
     eqReq.abort(); // Stop any current download, if any.
+    loading.innerHTML = '';
     loading.style.opacity = 1;
     window.cancelAnimationFrame(animReq);
 
     stage.ctx.clearRect(0, 0, stage.w, stage.h);
     currentYear = event.target.textContent;
-    DDD.html.resetCurrent(current, event.target);
+    DDD.resetCurrent(current, event.target);
     current = event.target;
     eqDataI = 0;
     taDataI = 0;
@@ -96,19 +99,37 @@
   }
 
   function init() {
-    eqReq.json(assets.eqData.url, function(data) {
+    eqReq.json({
+      url: assets.eqData.url,
+      container: container,
+      loadingMsg: 'Loading Seismic Data',
+      loadingEle: loading
+    })
+    .then(function(data) {
       eqData = data;
       assets.eqData.loaded = true;
       assestsLoaded++;
+    })
+    .catch(function(err) {
+      console.error(err);
     });
 
     if (!assets.taData.loaded) {
-      taReq.json(assets.taData.url, function(data) {
+      taReq.json({
+        url: assets.taData.url,
+        container: container,
+        loadingMsg: 'Loading Violence Data',
+        loadingEle: loading
+      })
+      .then(function(data) {
         taData.raw = data;
         taData.current = data.hasOwnProperty(currentYear) ? data[currentYear] : null;
         nextAttack = taData.current[0].date.unix;
         assets.taData.loaded = true;
         assestsLoaded++;
+      })
+      .catch(function(err) {
+        console.error(err);
       });
     }
 

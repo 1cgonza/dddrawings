@@ -1,7 +1,6 @@
 (function() {
   'use strict';
   var container = document.getElementById('ddd-container');
-  var loading   = document.getElementById('ddd-loading');
   var stage     = DDD.canvas(container);
 
   /*----------  GLOBALS  ----------*/
@@ -14,9 +13,12 @@
   var night      = false;
   var animationReq;
 
-  DDD.json('../../data/pulse/heart.2.json', init);
-
-  function init(data) {
+  DDD.json({
+    url: '../../data/pulse/heart.2.json',
+    container: container,
+    loadingMsg: 'Loading Pulse Data'
+  })
+  .then(function(data) {
     for (var i = 0; i < data.beats.length; i++) {
       if (data.beats[i].charAt(0) === 'S') {
         pulse.push(Number(data.beats[i].substr(1)));
@@ -29,8 +31,10 @@
 
     restart();
     animationReq = requestAnimationFrame(render);
-    loading.style.opacity = 0;
-  }
+  })
+  .catch(function(err) {
+    console.error(err);
+  });
 
   function restart() {
     stage.ctx.translate(stage.center.x, stage.center.y);

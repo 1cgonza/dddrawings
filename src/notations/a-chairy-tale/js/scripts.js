@@ -2,10 +2,16 @@
   'use strict';
   var animReq;
   var stageReady = false;
-  var notes = document.getElementById('box');
+  var notes      = document.getElementById('box');
   var decription = document.getElementById('description');
+  var left       = document.getElementById('left-col');
+  var middle     = document.getElementById('middle-col');
+  var right      = document.getElementById('right-col');
+  var loadingR   = right.querySelector('.loading');
+  var loadingM   = middle.querySelector('.loading');
 
   var assets = {
+    video: document.getElementById('video'),
     data: '../../data/notations/chairy-tale.json',
     smallImg: '../../img/notations/chairy-tale-small.jpg',
     largeImg: '../../img/notations/chairy-tale-notations.jpg',
@@ -28,35 +34,108 @@
   options.percent.bottom = DDD.getPercent(options.pageMarginBottom, options.pageHeight);
 
   // Set globally the video player and two canvases that will communicate with each other.
-  var video = notationsVideo(document.getElementById('video'), videoReady);
+  var video = notationsVideo(assets.video, videoReady);
 
   var notationsData  = [];
 
-  var timeline                    = DDD.canvas(document.getElementById('middle-col'), {position: 'relative'});
-  timeline.canvas.style.opacity   = 0;
-  timeline.container.style.width  = '10%';
-  timeline.container.style.height = window.innerHeight + 'px';
-  timeline.imgW                   = 200;
-  timeline.imgH                   = 1218;
+  var timeline = DDD.canvas(middle, {css: {position: 'relative', opacity: 0}});
+  middle.style.width = '10%';
 
-  var notations                    = DDD.canvas(document.getElementById('right-col'), {position: 'relative'});
-  notations.canvas.style.opacity   = 0;
-  notations.container.style.width  = '50%';
-  notations.container.style.height = window.innerHeight + 'px';
-  notations.imgW                   = 1000;
-  notations.imgH                   = 6088;
+  var notations = DDD.canvas(right, {css: {position: 'relative', opacity: 0}});
+  right.style.width = '50%';
+  notations.imgW = 1000;
+  notations.imgH = 6088;
+
+  var resize = {
+    stage: function() {
+      this.height = window.innerHeight;
+    },
+    timeline: function() {
+      var h = this.height;
+      var ih = 1218;
+      timeline.canvas.width  = middle.offsetWidth;
+      timeline.canvas.height = h;
+      timeline.imgResizeW    = timeline.canvas.width * (h / ih);
+      timeline.pageH         = h / 4;
+      timeline.offTop        = DDD.sizeFromPercentage(options.percent.top, timeline.pageH);
+      timeline.offBottom     = DDD.sizeFromPercentage(options.percent.bottom, timeline.pageH);
+      timeline.step          = DDD.sizeFromPercentage(options.percent.h, timeline.pageH) / options.secondsPerPage;
+      middle.style.height    = h + 'px';
+
+      if (timeline.canvas.width > timeline.imgResizeW) {
+        timeline.imgX = (timeline.canvas.width - timeline.imgResizeW) / 2;
+      } else {
+        timeline.imgX = 0;
+      }
+    },
+    notations: function() {
+      var w = right.offsetWidth;
+      var h = window.innerHeight;
+      var h2 = DDD.sizeFromPercentage(DDD.getPercent(w, notations.imgW), notations.imgH) / 4;
+      notations.canvas.width  = w;
+      notations.canvas.height = h;
+      notations.headerY       = h / 2;
+      notations.offTop        = DDD.sizeFromPercentage(options.percent.top, h2);
+      notations.offBottom     = DDD.sizeFromPercentage(options.percent.bottom, h2);
+      notations.step          = DDD.sizeFromPercentage(options.percent.h, h2) / options.secondsPerPage;
+    },
+    video: function() {
+      var leftW = left.offsetWidth;
+      var resizePercent = leftW / video.width * 100;
+      video.width = leftW;
+      video.height = DDD.sizeFromPercentage(resizePercent, video.height);
+    },
+    all: function() {
+      this.timeline();
+      this.notations();
+      this.video();
+      updateNotations();
+    }
+  };
+
+  resize.stage();
+  loadingR.style.opacity = 1;
+  loadingM.style.opacity = 1;
 
   function videoReady() {
+    resize.video();
     // Load JSON data about notations
     DDD.json({
       url: assets.data,
       container: decription
     })
-    .then(init)
+    .then(function(data) {
+      notationsData = data.sections;
+
+      /*----------  NOTATIONS IMG  ----------*/
+      notations.img = new Image();
+      notations.img.onload = function() {
+        resize.notations();
+        notations.imgY = notations.offTop - notations.headerY;
+        loadingR.style.opacity = 0;
+        notations.canvas.style.opacity = 1;
+        checkAssetsLoaded();
+        drawNotations();
+      };
+      notations.img.src = assets.largeImg;
+
+      /*----------  TIMELINE IMG  ----------*/
+      timeline.img = new Image();
+      timeline.img.onload = function() {
+        resize.timeline();
+        timeline.headerY = timeline.offTop;
+        loadingM.style.opacity = 0;
+        timeline.canvas.style.opacity = 1;
+        checkAssetsLoaded();
+        drawTimeline();
+      };
+      timeline.img.src = assets.smallImg;
+
+      checkAssetsLoaded();
+    })
     .catch(function(err) {
       console.error(err);
     });
-    checkAssetsLoaded();
 
     video.onplay = function() {
       animReq = requestAnimationFrame(playerLoop);
@@ -72,39 +151,16 @@
       updateNotations();
       return false;
     };
-  }
 
-  function init(data) {
-    assetsLoaded++;
-    notationsData = data.sections;
-
-    /*----------  NOTATIONS IMG  ----------*/
-    notations.img        = new Image();
-    notations.img.onload = assetLoadedEvent;
-    notations.img.src    = assets.largeImg;
-
-    /*----------  TIMELINE IMG  ----------*/
-    timeline.img        = new Image();
-    timeline.img.onload = assetLoadedEvent;
-    timeline.img.src    = assets.smallImg;
-  }
-
-  function assetLoadedEvent() {
-    assetsLoaded++;
+    checkAssetsLoaded();
   }
 
   function checkAssetsLoaded() {
-    if (assetsLoaded < assets.length) {
-      requestAnimationFrame(checkAssetsLoaded);
-    } else {
-      resizeElements();
+    assetsLoaded++;
+
+    if (assetsLoaded === assets.length) {
       video.controls = true;
       stageReady = true;
-
-      document.querySelector('#right-col .loading').style.opacity = 0;
-      document.querySelector('#middle-col .loading').style.opacity = 0;
-      timeline.canvas.style.opacity = 1;
-      notations.canvas.style.opacity = 1;
     }
   }
 
@@ -114,36 +170,41 @@
   }
 
   function updateNotations() {
-    for (var i = 0; i < notationsData.length; i++) {
-      if (i === 0) {
-        if (video.currentTime <= 38) {
-          var adjustCurrentTime = video.currentTime * (30 / 38);
+    var time = video.currentTime;
 
-          timeline.headerY = (adjustCurrentTime * timeline.step) + timeline.offTop;
-          notations.imgY   = (adjustCurrentTime * notations.step) + notations.offTop - notations.headerY;
+    if (time <= 38) {
+      var adjustCurrentTime = time * (30 / 38);
+
+      timeline.headerY = (adjustCurrentTime * timeline.step) + timeline.offTop;
+      notations.imgY   = (adjustCurrentTime * notations.step) + notations.offTop - notations.headerY;
+    } else {
+      var i;
+      var current;
+      var currentTime = (time - 38) * (550 / 548.96);
+
+      for (i = 1; i < notationsData.length; i++) {
+        var head = notationsData[i - 1].notedEndFrame / options.fps;
+        var tail = notationsData[i].notedEndFrame / options.fps;
+
+        if (currentTime >= head && currentTime <= tail) {
+          current = notationsData[i].page;
+          break;
         }
-      } else {
-        if (video.currentTime > 38) {
-          var currentTime = (video.currentTime - 38) * (550 / 548.96);
-          var sectionHead = notationsData[i - 1].notedEndFrame / options.fps;
-          var sectionTail = notationsData[i].notedEndFrame / options.fps;
+      }
 
-          if (currentTime >= sectionHead && currentTime <= sectionTail) {
-            // Move timeline header
-            timeline.headerY = (currentTime * timeline.step) + (timeline.offTop * notationsData[i].page) + (30 * timeline.step);
+      // Move timeline header
+      timeline.headerY = (currentTime * timeline.step) +
+                         (timeline.offTop * current) +
+                         (30 * timeline.step);
 
-            // Move notations image
-            notations.imgY = (currentTime * notations.step) + (notations.offTop * notationsData[i].page) +
-                             (30 * notations.step) - //add the first section that has 30 seconds label but lasts 38 in the video.
-                             notations.headerY;
+      // Move notations image
+      notations.imgY = (currentTime * notations.step) + (notations.offTop * current) +
+                       (30 * notations.step) - //add the first section that has 30 seconds label but lasts 38 in the video.
+                       notations.headerY;
 
-            if (notationsData[i].page > 1) {
-              timeline.headerY = timeline.headerY + (timeline.offBottom * (notationsData[i].page - 1));
-              notations.imgY = notations.imgY + (notations.offBottom * (notationsData[i].page - 1));
-            }
-
-          }
-        }
+      if (current > 1) {
+        timeline.headerY = timeline.headerY + (timeline.offBottom * (current - 1));
+        notations.imgY = notations.imgY + (notations.offBottom * (current - 1));
       }
     }
 
@@ -166,13 +227,12 @@
     timeline.ctx.stroke();
   }
 
-  /*=================================
-  =            NOTATIONS            =
-  =================================*/
   function drawNotations() {
     notations.ctx.clearRect(0, 0, notations.canvas.width, notations.canvas.height);
     notations.ctx.drawImage(
       notations.img,
+      0, 0,
+      notations.imgW, notations.imgH,
       0, -notations.imgY,
       notations.canvas.width, notations.imgH * (notations.canvas.width / notations.imgW)
     );
@@ -183,46 +243,10 @@
     notations.ctx.strokeStyle = '#fe0404';
     notations.ctx.stroke();
   }
-  /*-----  End of NOTATIONS  ------*/
-
-  function resizeElements() {
-    /*----------  RESIZE TIMELINE  ----------*/
-    timeline.canvas.width  = timeline.container.offsetWidth;
-    timeline.canvas.height = window.innerHeight;
-    timeline.imgResizeW    = timeline.canvas.width * (timeline.canvas.height / timeline.imgH);
-    timeline.pageH         = timeline.canvas.height / 4;
-    timeline.offTop        = DDD.sizeFromPercentage(options.percent.top, timeline.pageH);
-    timeline.offBottom     = DDD.sizeFromPercentage(options.percent.bottom, timeline.pageH);
-    timeline.step          = DDD.sizeFromPercentage(options.percent.h, timeline.pageH) / options.secondsPerPage;
-
-    if (timeline.canvas.width > timeline.imgResizeW) {
-      timeline.imgX = (timeline.canvas.width - timeline.imgResizeW) / 2;
-    } else {
-      timeline.imgX = 0;
-    }
-
-    /*----------  RESIZE NOTATIONS  ----------*/
-    notations.canvas.width  = notations.container.offsetWidth;
-    notations.canvas.height = window.innerHeight;
-    notations.headerY       = notations.canvas.height / 2;
-    notations.resizeH       = DDD.sizeFromPercentage(DDD.getPercent(notations.canvas.width, notations.imgW), notations.imgH) / 4;
-    notations.offTop        = DDD.sizeFromPercentage(options.percent.top, notations.resizeH);
-    notations.offBottom     = DDD.sizeFromPercentage(options.percent.bottom, notations.resizeH);
-    notations.step          = DDD.sizeFromPercentage(options.percent.h, notations.resizeH) / options.secondsPerPage;
-
-    /*----------  RESIZE VIDEO  ----------*/
-    var leftW = document.getElementById('left-col').offsetWidth;
-    var resizePercent = leftW / video.width * 100;
-    video.width = leftW;
-    video.height = DDD.sizeFromPercentage(resizePercent, video.height);
-
-    // Render again
-    updateNotations();
-  }
 
   window.onresize = function() {
     if (stageReady) {
-      resizeElements();
+      resize.all();
     }
     return false;
   };

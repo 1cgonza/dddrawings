@@ -1,21 +1,21 @@
-{{> head }}
+{{> head}}
 <main role="main" class="with-nav archive datasets-archive">
   <header class="page-header">
-    <h1 class="page-title">{{ title }}</h1>
-    <div class="page-description">{{{ contents }}}</div>
+    <h1 class="page-title">{{title}}</h1>
+    <div class="page-description">{{{contents}}}</div>
   </header>
 
   {{#each collections.datasets}}{{#unless archive}}
-  <section class="item {{ slug }}">
-    <h3 class="item-title"><a href="{{ setURL 'datasets' slug true }}">{{ title }}</a></h3>
+  <section class="item {{slug}}">
+    <h3 class="item-title"><a href="{{setURL 'datasets' slug true}}">{{title}}</a></h3>
 
     <div class="item-description">
-      <p>Summary: {{#if description}} {{ description }} {{else}} {{#if excerpt}} {{{ excerpt }}} {{/if}} {{/if}}</p>
-      {{#if parsedURL}}<p>Parsed (JSON): <a href="{{ parsedURL }}" target="_blank">{{ parsedURL }}</a></p>{{/if}}
-      {{#if sourceURL}}<p>Source: <a href="{{ sourceURL }}" target="_blank">{{ sourceURL }}</a></p>{{/if}}
+      <p>Summary: {{#if description}} {{description}} {{else}} {{#if excerpt}} {{{excerpt}}} {{/if}} {{/if}}</p>
+      {{#if parsedURL}}<p>Parsed (JSON): <a href="{{parsedURL}}" target="_blank">{{parsedURL}}</a></p>{{/if}}
+      {{#if sourceURL}}<p>Source: <a href="{{sourceURL}}" target="_blank">{{sourceURL}}</a></p>{{/if}}
       {{#if tagLink}}{{ getRelatedLab tagLink }}{{/if}}
     </div>
   </section>
   {{/unless}}{{/each}}
 </main>
-{{> footer }}
+{{> footer}}

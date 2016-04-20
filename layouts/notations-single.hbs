@@ -1,0 +1,22 @@
+{{> head}}
+<main class="with-nav single-notations {{slug}}">
+  <section id="ddd-container">
+    <div id="top-row">
+      <header id="header">
+        <span class="film-title">{{title}} ({{year}})</span>
+        <span class="film-director">by {{director}}</span>
+      </header>
+    </div>
+    {{{contents}}}
+  </section>
+</main>
+
+{{#if libraries}}
+  {{setLibraries libraries}}
+{{/if}}
+
+{{#if scripts}}
+  {{setScripts scripts}}
+{{/if}}
+
+{{> footer}}

@@ -1,6 +1,8 @@
 var fs           = require('fs');
 var circularJSON = require('circular-json');
 var slugify      = require('slug');
+var stripTags    = require('striptags');
+var path = require('path');
 var metadata     = require('./config')(process.argv);
 
 function helpers(Handlebars) {
@@ -74,13 +76,27 @@ function helpers(Handlebars) {
         pageDescription = excerpt;
       }
 
-      return pageDescription;
+      return stripTags(pageDescription);
     },
 
-    featuredImg: function(image) {
-      var featuredImg = image ? image : metadata.defaultImage;
+    featuredImg: function(collection, name, type) {
+      if (!name) {
+        collection = '';
+        name = metadata.defaultImgPath;
+      }
+      if (!type) {
+        console.error('Error generating image URL: Third parameter needs to be the size eg: \'large\', \'thumb\'...');
+        type = '';
+      }
 
-      return new Handlebars.SafeString(featuredImg);
+      collection = Array.isArray(collection) ? collection[0] : collection;
+      collection = path.join('img', collection);
+      name = typeof name === 'string' ? name : '';
+      type = typeof type === 'string' ? type : '';
+
+      var imgName = type === 'full' ? name + '.jpg' : name + '-' + type + '.jpg';
+
+      return new Handlebars.SafeString(setURL(collection, imgName, false));
     },
 
     getThumb: function(thumb) {
@@ -116,10 +132,10 @@ function helpers(Handlebars) {
 
     setVideos: function(videos) {
       var ret = '';
-      var path = metadata.videosPath;
+      var url = metadata.videosPath;
       videos.forEach(function(video, i) {
         for (var type in video) {
-          ret += '<source src="' + path + video[type] + '" type="video/' + type + '">';
+          ret += '<source src="' + url + video[type] + '" type="video/' + type + '">';
         }
       });
 
@@ -182,14 +198,14 @@ function helpers(Handlebars) {
     return ret;
   }
 
-  function setURL(pre, path, withTail) {
+  function setURL(pre, slug, withTail) {
     var url;
     pre  = Array.isArray(pre) ? pre[0] : pre;
-    url  = typeof pre === 'string' ? pre : '';
-    url += typeof path === 'string' && path.length > 0 && pre !== path ? '/' + path : '';
-    url += withTail === true ? '/' : '';
+    pre = typeof pre === 'string' ? pre : '';
+    slug = typeof slug === 'string' ? slug : '';
+    withTail = typeof withTail === 'boolean' && withTail ? '/' : '';
 
-    return metadata.baseUrl + url;
+    return path.join(metadata.baseUrl, pre, slug, withTail);
   }
 }
 

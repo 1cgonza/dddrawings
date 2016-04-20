@@ -1,17 +1,17 @@
-{{> head }}
-<main role="main" class="with-nav single-notations {{ slug }}">
+{{> head}}
+<main role="main" class="with-nav single-notations {{slug}}">
 
-  <div id="box" class="content"><a id="close-box" href="#" class="close">X</a>{{{ contents }}}</div>
+  <div id="box" class="content"><a id="close-box" href="#" class="close">X</a>{{{contents}}}</div>
 
   <section id="ddd-container">
     <div id="left-col">
       <header>
-        <h1 class="film-title">{{ title }} ({{ year }})</h1>
-        <h3 class="film-director">by {{ director }}</h3>
+        <h1 class="film-title">{{title}} ({{year}})</h1>
+        <h3 class="film-director">by {{director}}</h3>
       </header>
 
       {{#if videos}}
-      <video id="video" width="640" height="404" preload {{#if poster}}poster="../../img/posters/{{ poster }}{{/if}}">
+      <video id="video" width="640" height="404" preload {{#if poster}}poster="../../img/posters/{{poster}} {{/if}}">
       {{setVideos videos}}
       You need to update your browser to play this video.
       </video>
@@ -43,7 +43,7 @@
   {{setScripts scripts}}
 {{/if}}
 
-<script src ="{{ dddLibrary }}"></script>
+<script src ="{{dddLibrary}}"></script>
 <script src ="/js/Notations.js"></script>
 <script src ="./js/scripts.js"></script>
-{{> footer }}
+{{> footer}}

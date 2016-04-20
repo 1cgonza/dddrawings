@@ -4,32 +4,32 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ pageTitle title }}</title>
-  <link rel="shortcut icon" href="{{ setURL 'favicon.ico?v=1' false false}}" type="image/x-icon">
-  <meta name="description" content="{{ pageDescription description }}">
+  <title>{{pageTitle title}}</title>
+  <link rel="shortcut icon" href="{{setURL 'favicon.ico?v=1' false false}}" type="image/x-icon">
+  <meta name="description" content="{{pageDescription description}}">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="{{ pageTitle title }}">
+  <meta property="og:title" content="{{pageTitle title}}">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="{{ setURL collection slug true }}">
-  <meta property="og:image" content="{{ featuredImg image }}">
-  <meta property="og:description" content="{{ pageDescription description }}">
-  <meta property="og:site_name" content="{{ siteTitle }}">
+  <meta property="og:url" content="{{setURL collection slug true}}">
+  <meta property="og:image" content="{{featuredImg collection imgName 'large'}}">
+  <meta property="og:description" content="{{pageDescription description excerpt}}">
+  <meta property="og:site_name" content="{{siteTitle}}">
 
   <!-- Twitter Card data -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="{{ siteTitle }}">
-  <meta name="twitter:creator" content="{{ twitter }}">
-  <meta name="twitter:title" content="{{ pageTitle title }}">
-  <meta name="twitter:description" content="{{ pageDescription description excerpt }}">
-  <meta name="twitter:image" content="{{ featuredImg image }}">
+  <meta name="twitter:site" content="{{siteTitle}}">
+  <meta name="twitter:creator" content="{{twitter}}">
+  <meta name="twitter:title" content="{{pageTitle title}}">
+  <meta name="twitter:description" content="{{pageDescription description excerpt}}">
+  <meta name="twitter:image" content="{{featuredImg collection imgName 'large'}}">
 
-  <link rel="author" href="{{ googlePlus }}">
-  {{#if gFont }}
-  <link href="http://fonts.googleapis.com/css?family={{ gFont }}" rel='stylesheet' type='text/css'>
+  <link rel="author" href="{{googlePlus}}">
+  {{#if gFont}}
+  <link href="http://fonts.googleapis.com/css?family={{gFont}}" rel='stylesheet' type='text/css'>
   {{/if}}
 
-  <link rel="stylesheet" href={{ setURL 'css' 'style.css' false }}>
+  <link rel="stylesheet" href={{setURL 'css' 'style.css' false}}>
 </head>
 <body class="{{bodyClass slug collection archive}}">
   <nav id="site-nav" role="navigation">

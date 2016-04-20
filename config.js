@@ -28,8 +28,7 @@ var defaults = {
   twitter: '@1cgonza',
   github: '1cgonza',
   googlePlus: 'https://plus.google.com/+JuanCamiloGonz%C3%A1lezJ/posts',
-  defaultImage: 'https://farm9.staticflickr.com/8592/16218761572_2f7b03d274_b.jpg',
-  defaultThumb: 'https://farm9.staticflickr.com/8592/16218761572_2f7b03d274.jpg',
+  defaultImgPath: '/img/lab/perlin-violence-map',
   extLibraries: {
     jquery: 'jquery-2.1.4.min',
     jqueryUi: 'jquery-ui-1.11.4.min',

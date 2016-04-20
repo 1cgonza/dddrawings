@@ -1,52 +1,70 @@
-{{> head }}
+{{> head}}
 <main role="main" class="with-nav archive notations-archive">
   <header class="page-header">
-    <h1 class="page-title">{{ title }}</h1>
-    <div class="page-description">{{{ contents }}}</div>
+    <h1 class="page-title">{{title}}</h1>
+    <div class="page-description">{{{contents}}}</div>
   </header>
   <section class="archive-items">
-    {{#each collections.notations}}{{#unless archive}}
-    <div class="item {{ slug }}">
+  <h2>Interactive</h2>
+    {{#each collections.notations}}{{#if interactive}}
+    <div class="item {{slug}}">
       <div class="info">
-        <h3 class="item-title"><a href="{{ setURL 'notations' slug true }}">{{ title }}</a></h3>
-        <div class="item-description">{{#if description }} {{ description }} {{else}} {{#if excerpt }} {{{ excerpt }}} {{/if}} {{/if}}</div>
+        <h3 class="item-title"><a href="{{setURL 'notations' slug true}}">{{title}}</a></h3>
+        <div class="item-description">
+          {{#if description}}
+            {{{description}}}
+          {{else}}
+            {{#if excerpt}} {{{excerpt}}} {{/if}}
+          {{/if}}
+        </div>
       </div>
       <div class="item-img">
-        <a href="{{ setURL 'notations' slug true }}">
-          {{#if thumb }}
-          <img src="{{ thumb }}" alt="{{ title }}">
+        <a href="{{setURL 'notations' slug true}}">
+          {{#if imgName}}
+          <img src="{{featuredImg collection imgName 'thumb'}}" alt="{{title}}">
           {{else}}
           <div class="no-image"></div>
           {{/if}}
         </a>
       </div>
-
     </div>
-    {{/unless}}{{/each}}
+    {{/if}}{{/each}}
   </section>
 
   <section class="archive-items">
-  <h1>Gallery</h1>
-    <div class="item ">
+  <h2>Gallery</h2>
+    {{#each collections.notations}}{{#unless archive}}{{#unless interactive}}
+    <div class="item {{slug}}">
       <div class="info">
-        <h3 class="item-title"><a href="">Panther</a></h3>
-        <div class="item-description">By Vuk Jevremovic</div>
+        {{!-- <h3 class="item-title"><a href="{{setURL 'notations' slug true}}">{{title}}</a></h3> --}}
+        <h3 class="item-title">{{title}} {{#if year}}({{year}}){{/if}}</h3>
+        {{#if description}}
+        <div class="item-description">{{{description}}}</div>
+        {{/if}}
       </div>
       <div class="item-img">
-        <a href="{{ setURL 'img/notations/panthera1.jpg' '' }}">
-          <img src="{{ setURL 'img/notations/panthera1.jpg' '' }}" alt="">
+        {{!-- <a href="{{setURL 'notations' slug true}}"> --}}
+        {{#if imgName}}
+        <a href="{{featuredImg collection imgName 'full'}}">
+          {{#if imgName}}
+          <img src="{{featuredImg collection imgName 'thumb'}}" alt="{{title}}">
+          {{else}}
+          <div class="no-image"></div>
+          {{/if}}
         </a>
+        {{/if}}
       </div>
     </div>
+    {{/unless}}{{/unless}}{{/each}}
 
-    <div class="item ">
+{{!--     <div class="item ">
       <div class="info">
         <h3 class="item-title"><a href="">New Book</a></h3>
         <div class="item-description">By Zbigniew Rybczyński</div>
       </div>
       <div class="item-img">
-        <a href="{{ setURL 'img/notations/adk11_NewBook.jpg' '' }}">
-          <img src="{{ setURL 'img/notations/adk11_NewBook.jpg' '' }}" alt="">
+        <a href="{{setURL 'img/notations/adk11_NewBook.jpg' ''}}">
+          <img src="{{setURL 'img/notations/adk11_NewBook.jpg' ''}}" alt="">
         </a>
       </div>
     </div>
@@ -57,36 +75,14 @@
         <div class="item-description">By Oskar Fischinger</div>
       </div>
       <div class="item-img">
-        <a href="{{ setURL 'img/notations/CVM_Kreise_34611.jpg' '' }}">
-          <img src="{{ setURL 'img/notations/CVM_Kreise_34611.jpg' '' }}" alt="">
+        <a href="{{setURL 'img/notations/CVM_Kreise_34611.jpg' ''}}">
+          <img src="{{setURL 'img/notations/CVM_Kreise_34611.jpg' ''}}" alt="">
         </a>
       </div>
     </div>
 
-    <div class="item ">
-      <div class="info">
-        <h3 class="item-title"><a href="">0.1</a></h3>
-        <div class="item-description">By Diana Reichenback</div>
-      </div>
-      <div class="item-img">
-        <a href="{{ setURL 'img/notations/No.366-166.jpg' '' }}">
-          <img src="{{ setURL 'img/notations/No.366-166.jpg' '' }}" alt="">
-        </a>
-      </div>
-    </div>
-
-    <div class="item ">
-      <div class="info">
-        <h3 class="item-title"><a href="">Carne</a></h3>
-        <div class="item-description">By Carlos Gomez Salamanca</div>
-      </div>
-      <div class="item-img">
-        <a href="{{ setURL 'img/notations/carne.jpg' '' }}">
-          <img src="{{ setURL 'img/notations/carne.jpg' '' }}" alt="">
-        </a>
-      </div>
-    </div>
+ --}}
 
   </section>
 </main>
-{{> footer }}
+{{> footer}}

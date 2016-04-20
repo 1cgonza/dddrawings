@@ -18,6 +18,7 @@ var path         = require('path');
 var webpack      = require('metalsmith-webpack');
 var UglifyJs     = require('webpack').optimize.UglifyJsPlugin;
 var gzip         = require('connect-gzip-static')('./build');
+var imgManager   = require('./images-manager').plugin;
 
 var webpackConfig = {
   context: path.resolve(__dirname, './src/js/ddd'),
@@ -71,7 +72,8 @@ function build(callback) {
       reverse: true
     },
     notations: {
-      pattern: 'notations/**/*.md'
+      pattern: 'notations/**/*.md',
+      sortBy: 'year'
     },
     datasets: {
       pattern: 'datasets/**/*.md'
@@ -102,6 +104,10 @@ function build(callback) {
     if (safeSlug !== null) {
       file.slug = safeSlug;
     }
+  }));
+
+  metalsmith.use(imgManager({
+    log: 'new'
   }));
 
   metalsmith.use(layouts({

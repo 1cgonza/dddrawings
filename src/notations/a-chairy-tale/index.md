@@ -1,12 +1,12 @@
 ---
 title: A Chairy Tale
+interactive: true
+layout: notations-chairy-tale.hbs
 director: Norman McLaren & Claude Jutra
 year: 1957
 date: 2015-09-06 15:12:33
 description: Notations by Norman McLaren for the film A Chairy Tale.
-image: https://farm1.staticflickr.com/620/21215756251_e7f1427eeb_b.jpg
-thumb: https://farm1.staticflickr.com/620/21215756251_e7f1427eeb.jpg
-layout: notations-chairy-tale.hbs
+imgName: chairy-tale
 poster: a-chairy-tale-poster.jpg
 videos:
   - mp4: a-chairy-tale.mp4

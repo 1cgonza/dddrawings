@@ -10,12 +10,12 @@ var each         = require('metalsmith-each');
 var excerpts     = require('metalsmith-better-excerpts');
 var autoprefixer = require('metalsmith-autoprefixer');
 var drafts       = require('metalsmith-drafts');
+var webpack      = require('metalsmith-webpack');
 var slug         = require('slug');
 var chalk        = require('chalk');
 var browserSync  = require('browser-sync').create();
 var metadata     = require('./config')(process.argv);
 var path         = require('path');
-var webpack      = require('metalsmith-webpack');
 var UglifyJs     = require('webpack').optimize.UglifyJsPlugin;
 var gzip         = require('connect-gzip-static')('./build');
 var imgManager   = require('./images-manager').plugin;
@@ -141,7 +141,7 @@ function build(callback) {
     }
 
     if (metadata.env === 'prod') {
-      console.log(chalk.yellow('......................| Production build is done |......................'));
+      console.log(chalk.yellow('..::| Production build is done |::..'));
     }
   });
 }

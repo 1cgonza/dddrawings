@@ -28,7 +28,7 @@ var defaults = {
   twitter: '@1cgonza',
   github: '1cgonza',
   googlePlus: 'https://plus.google.com/+JuanCamiloGonz%C3%A1lezJ/posts',
-  defaultImgPath: '/img/lab/perlin-violence-map',
+  defaultImgPath: '/lab/perlin-violence-map',
   extLibraries: {
     jquery: 'jquery-2.1.4.min',
     jqueryUi: 'jquery-ui-1.11.4.min',

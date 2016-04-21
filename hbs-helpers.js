@@ -205,7 +205,7 @@ function helpers(Handlebars) {
     slug = typeof slug === 'string' ? slug : '';
     withTail = typeof withTail === 'boolean' && withTail ? '/' : '';
 
-    return path.join(metadata.baseUrl, pre, slug, withTail);
+    return metadata.baseUrl + path.join(pre, slug, withTail);
   }
 }
 

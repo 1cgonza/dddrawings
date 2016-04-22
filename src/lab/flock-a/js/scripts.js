@@ -248,11 +248,8 @@
     this.x += Math.cos(this.orientation) * this.ax;
     this.y += Math.sin(this.orientation) * this.ay;
 
-    this.frameX++;
-
-    if (this.frameX >= 14) {
-      this.frameX = 0;
-    }
+    // nice way to loop through frames
+    this.frameX = (this.frameX + 1) % cols;
   };
 
   Bird.prototype.draw = function(r) {

@@ -181,10 +181,6 @@
         stage.ctx.fillRect(currentX, currentY, 5, 5);
       }
 
-      /**
-        TODO:
-        - Fix dates so both data sets match in time, right now, not all TA are getting triggered on a year play.
-       */
       if (taDataI < taData.current.length - 1 && nextAttack < +d.utc) {
         taDataI++;
         nextAttack = taData.current[taDataI].date.unix;

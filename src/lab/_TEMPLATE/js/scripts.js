@@ -3,7 +3,7 @@
 
   /*----------  SET STAGE  ----------*/
   var container = document.getElementById('ddd-container');
-  var stage     = createCanvas(container);
+  var stage     = DDD.canvas(container);
 
   /*----------  GLOBALS  ----------*/
   var stageW  = window.innerWidth;

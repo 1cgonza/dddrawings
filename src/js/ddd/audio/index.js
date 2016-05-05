@@ -11,7 +11,7 @@ var Audio = function(audios, cb) {
   var loaded   = 0;
   var retAudios = {};
 
-  this.ctx            = new AudioContext();
+  this.ctx = new AudioContext();
 
   for (var name in audios) {
     req(

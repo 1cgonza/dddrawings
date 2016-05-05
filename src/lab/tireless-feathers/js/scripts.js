@@ -3,6 +3,8 @@
 
   /*----------  SET STAGE  ----------*/
   var stage = DDD.canvas(document.getElementById('ddd-container'));
+  var stageW;
+  var stageH;
 
   /*----------  SET GRID (Image Sprite) ----------*/
   var grid = {
@@ -35,17 +37,17 @@
   }
 
   function setSize() {
-    stage.canvas.width  = window.innerWidth;
-    stage.canvas.height = window.innerHeight;
-    stage.center.x      = stage.canvas.width / 2 | 0;
-    stage.center.y      = stage.canvas.height / 2 | 0;
+    stage.canvas.width  = stageW = window.innerWidth;
+    stage.canvas.height = stageH = window.innerHeight;
+    stage.center.x      = stageW / 2 | 0;
+    stage.center.y      = stageH / 2 | 0;
 
     /**
     * Think of the screen as a grid that matches the one on the image sprite.
     * So we measure the size of a cell on the screen based on the number of frames in the sprite.
     **/
-    stage.cellW = stage.canvas.width / grid.cols | 0;
-    stage.cellH = stage.canvas.height / grid.rows | 0;
+    stage.cellW = stageW / grid.cols | 0;
+    stage.cellH = stageH / grid.rows | 0;
 
     render();
 
@@ -67,28 +69,10 @@
     );
   }
 
-  // We only try to update the frame when the mouse moves.
+  // We only update the frame when the mouse moves.
   stage.canvas.onmousemove = function(event) {
-    var x = event.clientX;
-    var y = event.clientY;
-    var frameX = 0;
-    var frameY = 0;
-
-    while (frameX < grid.cols) {
-      if (x < stage.cellW * (frameX + 1) && x > stage.cellW * frameX) {
-        grid.x = frameX;
-        break;
-      }
-      frameX++;
-    }
-
-    while (frameY < grid.rows) {
-      if (y < stage.cellH * (frameY + 1) && y > stage.cellH * frameY) {
-        grid.y = frameY;
-        break;
-      }
-      frameY++;
-    }
+    grid.x = (event.clientX / stageW) * grid.cols | 0;
+    grid.y = (event.clientY / stageH) * grid.rows | 0;
 
     render();
 

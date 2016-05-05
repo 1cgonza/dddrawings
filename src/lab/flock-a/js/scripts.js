@@ -181,10 +181,6 @@
         stage.ctx.fillRect(currentX, currentY, 5, 5);
       }
 
-      /**
-        TODO:
-        - Fix dates so both data sets match in time, right now, not all TA are getting triggered on a year play.
-       */
       if (taDataI < taData.current.length - 1 && nextAttack < +d.utc) {
         taDataI++;
         nextAttack = taData.current[taDataI].date.unix;
@@ -248,11 +244,8 @@
     this.x += Math.cos(this.orientation) * this.ax;
     this.y += Math.sin(this.orientation) * this.ay;
 
-    this.frameX++;
-
-    if (this.frameX >= 14) {
-      this.frameX = 0;
-    }
+    // nice way to loop through frames
+    this.frameX = (this.frameX + 1) % cols;
   };
 
   Bird.prototype.draw = function(r) {

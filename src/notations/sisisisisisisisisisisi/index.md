@@ -11,7 +11,6 @@ videos:
   - mp4: SiSiSiSiSiSiSiSiSiSiSi.mp4
   - webm: SiSiSiSiSiSiSiSiSiSiSi.webm
   - ogg: SiSiSiSiSiSiSiSiSiSiSi.ogv
-gFont: "Vollkorn:400,400italic"
 ---
 ## Notations for SiSiSiSiSiSiSiSiSiSiSi
 For this film I used a circular structure that was mapped into an abstract notation. Even though the animation was made straight ahead, with no literary script or story-board, I used this map to know exactly where I was at all times. This approach allowed me to improvise freely within the constrains established by the structure conceived in the map.

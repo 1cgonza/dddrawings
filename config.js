@@ -33,9 +33,8 @@ var defaults = {
     jquery: 'jquery-2.1.4.min',
     jqueryUi: 'jquery-ui-1.11.4.min',
     d3: 'd3-3.5.6.min',
-    momentTimezone: 'moment',
-  },
-  gFont: 'Inconsolata:400,700'
+    momentTimezone: 'moment'
+  }
 };
 
 function attachOptionsToDefaults(options) {

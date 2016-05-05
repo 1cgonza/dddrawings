@@ -13,5 +13,4 @@ videos:
   - mp4: bug-goes-to-town.mp4
   - webm: bug-goes-to-town.webm
   - ogg: bug-goes-to-town.ogv
-gFont: "Geo|Warnes"
 ---

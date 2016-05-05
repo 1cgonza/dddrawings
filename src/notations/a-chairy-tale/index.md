@@ -12,7 +12,6 @@ videos:
   - mp4: a-chairy-tale.mp4
   - ogg: a-chairy-tale.ogg
   - webm: a-chairy-tale.webm
-gFont: "Vollkorn:400,400italic"
 ---
 > The picture was completely edited before we considered what to do about the sound. 
 >

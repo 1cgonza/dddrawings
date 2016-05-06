@@ -11,24 +11,27 @@
 
   /*----------  SET STAGE  ----------*/
   var stage = DDD.canvas(container);
-  stage.ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+  var stageW = stage.w;
+  var stageH = stage.h;
+  var centerX = stage.center.x;
+  var centerY = stage.center.y;
 
   /*----------  GLOBALs  ----------*/
   var num      = 5000;        // total number of particles
   var blackout = false;       // blackout is production control of white or black filaments
   var kaons    = [];          // kaons is array of path tracing particles
-  var TWO_PI   = Math.PI * 2;
+  var PI       = Math.PI;
+  var TWO_PI   = PI * 2;
   var count    = 0;
 
   function init() {
-    stage.ctx.fillStyle = '#000';
     stage.ctx.fillRect(0, 0, stage.w, stage.h);
+    var emitX = 30 * Math.sin(TWO_PI / num) + centerX;
+    var emitY = 30 * Math.cos(TWO_PI / num) + centerY;
 
     // begin with particle sling-shot around ring origin
     for (var i = 0; i < num; i++) {
-      var emitX = 30 * Math.sin(TWO_PI / num) + stage.center.x;
-      var emitY = 30 * Math.cos(TWO_PI / num) + stage.center.y;
-      var r = Math.PI * i / num;
+      var r = PI * i / num;
       kaons[i] = new Particle(emitX, emitY, r);
     }
 
@@ -57,12 +60,10 @@
     blackout = !blackout;
   }
 
-  function Particle(Dx, Dy, r) {
+  function Particle(x, y, r) {
     this.age = DDD.random(0, 200);
-    this.x = stage.center.x - Dx | 0;
-    this.y = stage.center.y - Dy | 0;
-    this.xx = 0;
-    this.yy = 0;
+    this.x = centerX - x;
+    this.y = centerY - y;
     this.vx = 2 * Math.cos(r);
     this.vy = 2 * Math.sin(r);
 
@@ -70,8 +71,8 @@
   }
 
   Particle.prototype.move = function() {
-    this.xx = this.x;
-    this.yy = this.y;
+    var _x = this.x;
+    var _y = this.y + centerY;
 
     this.x += this.vx;
     this.y += this.vy;
@@ -82,12 +83,12 @@
     stage.ctx.save();
     stage.ctx.strokeStyle = this.color;
     stage.ctx.beginPath();
-    stage.ctx.moveTo(stage.center.x + this.xx, stage.center.y + this.yy);
-    stage.ctx.lineTo(stage.center.x + this.x, stage.center.y + this.y);
+    stage.ctx.moveTo(centerX + _x, _y);
+    stage.ctx.lineTo(centerX + this.x, centerY + this.y);
     stage.ctx.stroke();
     stage.ctx.beginPath();
-    stage.ctx.moveTo(stage.center.x - this.xx, stage.center.y + this.yy);
-    stage.ctx.lineTo(stage.center.x - this.x, stage.center.y + this.y);
+    stage.ctx.moveTo(centerX - _x, _y);
+    stage.ctx.lineTo(centerX - this.x, centerY + this.y);
     stage.ctx.stroke();
     stage.ctx.restore();
 
@@ -95,10 +96,8 @@
 
     if (this.age > 200) {
       var t = DDD.random(0, TWO_PI, true);
-      this.x = 30 * Math.sin(t);
-      this.y = 30 * Math.cos(t);
-      this.xx = 0;
-      this.yy = 0;
+      this.x = 30 * Math.cos(t);
+      this.y = 30 * Math.sin(t);
       this.vx = 0;
       this.vy = 0;
       this.age = 0;
@@ -107,17 +106,10 @@
   };
 
   Particle.prototype.defineColor = function() {
-    if (blackout) {
-      this.color = 'rgba(0, 0, 0, 0.1)';
-    } else {
-      this.color = 'rgba(255, 255, 255, 0.1)';
-    }
+    this.color = blackout ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)';
   };
 
   init();
-
-  document.addEventListener('click', function(e) {
-    switchBlackout();
-  });
+  stage.canvas.onclick = switchBlackout;
 
 })();

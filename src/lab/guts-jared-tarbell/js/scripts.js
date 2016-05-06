@@ -9,83 +9,66 @@
   var loaded    = false;
   var container = document.getElementById('ddd-container');
   var stage     = DDD.canvas(container);
+  var stageW = stage.w;
+  var stageH = stage.h;
+  var centerX = stage.center.x;
+  var centerY = stage.center.y;
 
   /*----------  GLOBAL VARIABLES  ----------*/
-  var goodcolors = [];
+  var goodColors = [];
   var num        = 11;
   var cPaths     = [];
-  var TWO_PI     = Math.PI * 2;
-  var HALF_PI    = Math.PI / 2;
+  var pixels;
+  var imgData;
+  var TWO_PI  = Math.PI * 2;
+  var HALF_PI = Math.PI / 2;
   var animReq;
 
-  function setup() {
-    takeColor({
-      // w: 133,
-      // h: 178,
-      // max: 256,
-      // imgURL: '../../img/thumbs/nude.gif'
-    });
-  }
+  takeColor('/img/thumbs/nude.gif');
 
-  function takeColor(data) {
-    var colorStage = DDD.canvas(null, {w: 133, h: 178});
-
+  function takeColor(imgURL) {
     var img = new Image();
     img.onload = function() {
-      colorStage.ctx.drawImage(img, 0, 0);
-      processColor();
+      var w = img.naturalWidth;
+      var h = img.naturalHeight;
+      var temp = DDD.canvas(null, {w: w, h: h});
+
+      temp.ctx.drawImage(img, 0, 0);
+      var pixels = temp.ctx.getImageData(0, 0, w, h).data;
+
+      for (var i = 0; i < pixels.length; i += 4) {
+        var color = [pixels[i], pixels[i + 1], pixels[i + 2]];
+        var catchColor = false;
+
+        for (var j = 0; j < goodColors.length; j++) {
+          if (color[0] === goodColors[j][0] && color[1] === goodColors[j][1] && color[2] === goodColors[j][2]) {
+            catchColor = true;
+            break;
+          }
+        }
+
+        if (!catchColor) {
+          goodColors.push(color);
+        }
+      }
+
+      init();
     };
-    img.src = '../../img/thumbs/nude.gif';
+    img.src = imgURL;
+  }
 
-    function processColor() {
-      var count     = 0;
-      var max       = 256;
+  function init() {
+    stage.ctx.fillStyle = '#FFF';
+    stage.ctx.fillRect(0, 0, stageW, stageH);
+    imgData = stage.ctx.getImageData(0, 0, stageW, stageH);
+    pixels = imgData.data;
 
-      for (var x = 0; x < colorStage.w; x++) {
-        for (var y = 0; y < colorStage.h; y++) {
-          var pixel = colorStage.ctx.getImageData(x, y, 1, 1).data;
-
-          var cData = {r: pixel[0], g: pixel[1], b: pixel[2], a: pixel[3]};
-
-          var exists = false;
-
-          for (var n = goodcolors.length - 1; n >= 0; n--) {
-            if (JSON.stringify(goodcolors[n]) === JSON.stringify(cData)) {
-              exists = true;
-              break;
-            }
-          }
-
-          if (!exists) {
-            if (count < max) {
-              goodcolors.push(cData);
-              count++;
-            }
-          }
-        }
-      }
-
-      if (data.pumpW !== 'undefined' && data.pumpW > 0) {
-        var white = {r: 255, g: 255, b: 255, a: 1};
-        for (var i = 0; i < data.pumpW; i++) {
-          goodcolors.push(white);
-        }
-      }
-
-      if (data.pumpB !== 'undefined' && data.pumpB > 0) {
-        var black = {r: 0, g: 0, b: 0, a: 1};
-        for (var j = 0; j < data.pumpW; j++) {
-          goodcolors.push(black);
-        }
-      }
-
-      begin();
-      draw();
-    }
+    begin();
+    draw();
   }
 
   function someColor() {
-    return goodcolors[DDD.random(0, goodcolors.length)];
+    return goodColors[DDD.random(0, goodColors.length)];
   }
 
   function begin() {
@@ -100,6 +83,7 @@
         cPaths[c].grow();
       }
     }
+    stage.ctx.putImageData(imgData, 0, 0);
     animReq = requestAnimationFrame(draw);
   }
 
@@ -109,7 +93,7 @@
     this.numSands = 3;
     this.c = someColor();
     this.sandGut = new SandPainter(3);
-    this.sandGut.setColor({r: 0, g: 0, b: 0});
+    this.sandGut.c = [0,0,0];
     this.sandsCenter = [];
     this.sandsLeft = [];
     this.sandsRight = [];
@@ -118,23 +102,23 @@
       this.sandsCenter[s] = new SandPainter(0);
       this.sandsLeft[s] = new SandPainter(1);
       this.sandsRight[s] = new SandPainter(1);
-      this.sandsLeft[s].setColor({r: 0, g: 0, b: 0});
-      this.sandsRight[s].setColor({r: 0, g: 0, b: 0});
-      this.sandsCenter[s].setColor(someColor());
+      this.sandsLeft[s].c = [0,0,0];
+      this.sandsRight[s].c = [0,0,0];
+      this.sandsCenter[s].c = someColor();
     }
     this.reset();
   }
 
   CPath.prototype.reset = function() {
-    var d = DDD.random(0, stage.center.y, true);
+    var d = DDD.random(0, centerY, true);
     var t = DDD.random(0, TWO_PI, true);
-    var ci = goodcolors.length * 2 * d / stage.h | 0;
+    var ci = goodColors.length * 2 * d / stage.h | 0;
 
     this.x = d * Math.cos(t);
     this.y = d * Math.sin(t);
 
     for (var s = 0; s < this.numSands; s++) {
-      this.sandsCenter[s].setColor(goodcolors[ci]);
+      this.sandsCenter[s].c = goodColors[ci];
     }
 
     this.v = 0.5;
@@ -159,8 +143,8 @@
       // calculate distance
       var d = Math.sqrt(this.x * this.x + this.y * this.y);
       // calculate actual xy
-      var ax = stage.center.x + d * Math.cos(at);
-      var ay = stage.center.y + d * Math.sin(at);
+      var ax = centerX + d * Math.cos(at);
+      var ay = centerY + d * Math.sin(at);
       // calculate girth markers
       var cx = 0.5 * this.grth * Math.cos(ad - HALF_PI);
       var cy = 0.5 * this.grth * Math.sin(ad - HALF_PI);
@@ -170,12 +154,10 @@
       for (var s = 0; s < this.grth * 2; s++) {
         var dd = DDD.random(-0.9, 0.9, true);
 
-        stage.ctx.fillStyle = '#FFF';
-        stage.ctx.fillRect(
-          ax + dd * cx | 0,
-          ay + dd * cy | 0,
-          1, 1
-        );
+        var _x = ax + dd * cx | 0;
+        var _y = ay + dd * cy | 0;
+        var _i = (_y * stageW + _x) * 4;
+        setPixelColor(_i, [255,255,255], 1);
       }
 
       var newX = ax + cx * 0.6;
@@ -236,11 +218,11 @@
     this.fadeOut = true;
   };
 
-  function SandPainter(m) {
+  var SandPainter = function(m) {
     this.MODE = m;
     this.c = someColor();
     this.g = DDD.random(0, HALF_PI, true);
-  }
+  };
 
   SandPainter.prototype.render = function(x, y, ox, oy) {
     if (this.MODE === 3) {
@@ -278,12 +260,10 @@
       var tex = Math.sin(i * w);
       var lex = Math.sin(tex);
 
-      stage.ctx.fillStyle = DDD.getRGBA(this.c, DDD.convertAlpha(256 * a));
-      stage.ctx.fillRect(
-        ox + (x - ox) * lex | 0,
-        oy + (y - oy) * lex | 0,
-        1, 1
-      );
+      var _x = ox + (x - ox) * lex | 0;
+      var _y = oy + (y - oy) * lex | 0;
+      var _i = (_y * stageW + _x) * 4;
+      setPixelColor(_i, this.c, a);
     }
   };
 
@@ -299,17 +279,14 @@
       var tex = Math.sin(i * w);
       var lex = 0.5 * Math.sin(tex);
 
-      stage.ctx.fillStyle = DDD.getRGBA(this.c, DDD.convertAlpha(256 * a));
-      stage.ctx.fillRect(
-        ox + (x - ox) * (0.5 + lex) | 0,
-        oy + (y - oy) * (0.5 + lex) | 0,
-        1, 1
-      );
-      stage.ctx.fillRect(
-        ox + (x - ox) * (0.5 - lex) | 0,
-        oy + (y - oy) * (0.5 - lex) | 0,
-        1, 1
-      );
+      var _x1 = ox + (x - ox) * (0.5 + lex) | 0;
+      var _y1 = oy + (y - oy) * (0.5 + lex) | 0;
+      var _i1 = (_y1 * stageW + _x1) * 4;
+      var _x2 = ox + (x - ox) * (0.5 - lex) | 0;
+      var _y2 = oy + (y - oy) * (0.5 - lex) | 0;
+      var _i2 = (_y2 * stageW + _x2) * 4;
+      setPixelColor(_i1, this.c, a);
+      setPixelColor(_i2, this.c, a);
     }
   };
 
@@ -325,30 +302,36 @@
       var tex = Math.sin(i * w);
       var lex = 0.5 * Math.sin(tex);
 
-      stage.ctx.fillStyle = DDD.getRGBA(this.c, DDD.convertAlpha(256 * a));
-      stage.ctx.fillRect(
-        ox + (x - ox) * lex | 0,
-        oy + (y - oy) * lex | 0,
-        1, 1
-      );
-      stage.ctx.fillRect(
-        x + (ox - x) * lex | 0,
-        y + (oy - y) * lex | 0,
-        1, 1
-      );
+      var _x1 = ox + (x - ox) * lex | 0;
+      var _y1 = oy + (y - oy) * lex | 0;
+      var _i1 = (_y1 * stageW + _x1) * 4;
+      var _x2 = x + (ox - x) * lex | 0;
+      var _y2 = y + (oy - y) * lex | 0;
+      var _i2 = (_y2 * stageW + _x2) * 4;
+      setPixelColor(_i1, this.c, a);
+      setPixelColor(_i2, this.c, a);
     }
   };
 
-  SandPainter.prototype.setColor = function(c) {
-    this.c = c;
-  };
+  function setPixelColor(i, rgb, a) {
+    var a1 = 1 - a;
+    var r2 = pixels[i];
+    var g2 = pixels[i + 1];
+    var b2 = pixels[i + 2];
 
-  setup();
+    // Blend painter color with existing pixel based on alpha.
+    pixels[i]     = rgb[0] * a + r2 * a1;
+    pixels[i + 1] = rgb[1] * a + g2 * a1;
+    pixels[i + 2] = rgb[2] * a + b2 * a1;
+  }
 
   document.body.addEventListener('click', function(eve) {
+    var n = pixels.length;
+    for (var i = 0; i < n; i++) {
+      pixels[i] = 255;
+    }
+
     begin();
-    stage.ctx.fillStyle = '#FFF';
-    stage.ctx.fillRect(0, 0, stage.w, stage.h);
   });
 
 })();

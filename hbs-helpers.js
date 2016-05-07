@@ -200,7 +200,6 @@ function helpers(Handlebars) {
   }
 
   function setURL(pre, slug, withTail) {
-    // var link;
     pre  = Array.isArray(pre) ? pre[0] : pre;
     pre = typeof pre === 'string' ? pre : '';
     slug = typeof slug === 'string' && pre !== slug ? slug : '';

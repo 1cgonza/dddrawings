@@ -2,7 +2,8 @@ var fs           = require('fs');
 var circularJSON = require('circular-json');
 var slugify      = require('slug');
 var stripTags    = require('striptags');
-var path = require('path');
+var path         = require('path');
+var url          = require('url');
 var metadata     = require('./config')(process.argv);
 
 function helpers(Handlebars) {
@@ -132,10 +133,10 @@ function helpers(Handlebars) {
 
     setVideos: function(videos) {
       var ret = '';
-      var url = metadata.videosPath;
+      var link = metadata.videosPath;
       videos.forEach(function(video, i) {
         for (var type in video) {
-          ret += '<source src="' + url + video[type] + '" type="video/' + type + '">';
+          ret += '<source src="' + link + video[type] + '" type="video/' + type + '">';
         }
       });
 
@@ -143,8 +144,8 @@ function helpers(Handlebars) {
     },
 
     setScripts: function(scripts) {
-      var url = setURL('js', false, true);
-      var tags = setScriptTags(scripts, url);
+      var link = setURL('js', false, true);
+      var tags = setScriptTags(scripts, link);
 
       return new Handlebars.SafeString(tags);
     },
@@ -156,8 +157,8 @@ function helpers(Handlebars) {
       var ret = '';
       labPosts.forEach(function(post) {
         if (post.tags && post.tags.indexOf(tag) > -1) {
-          var url = setURL('lab', post.slug, true);
-          ret += '<li><a href="' + url + '">' + post.title + '</a></li>';
+          var link = setURL('lab', post.slug, true);
+          ret += '<li><a href="' + link + '">' + post.title + '</a></li>';
         }
       });
 
@@ -181,17 +182,17 @@ function helpers(Handlebars) {
     }
   });
 
-  function setScriptTags(scripts, url) {
+  function setScriptTags(scripts, link) {
     var ret = '';
     var tag = '';
 
     if (Array.isArray(scripts)) {
       scripts.forEach(function(script) {
-        tag = '<script src="' + url + script + '.js"></script>';
+        tag = '<script src="' + link + script + '.js"></script>';
         ret += tag;
       });
     } else {
-      tag = '<script src="' + url + scripts + '.js"></script>';
+      tag = '<script src="' + link + scripts + '.js"></script>';
       ret += tag;
     }
 
@@ -199,13 +200,13 @@ function helpers(Handlebars) {
   }
 
   function setURL(pre, slug, withTail) {
-    var url;
+    // var link;
     pre  = Array.isArray(pre) ? pre[0] : pre;
     pre = typeof pre === 'string' ? pre : '';
-    slug = typeof slug === 'string' ? slug : '';
+    slug = typeof slug === 'string' && pre !== slug ? slug : '';
     withTail = typeof withTail === 'boolean' && withTail ? '/' : '';
 
-    return metadata.baseUrl + path.join(pre, slug, withTail);
+    return url.resolve(metadata.baseUrl, path.join(pre, slug, withTail));
   }
 }
 

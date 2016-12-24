@@ -10,24 +10,13 @@ var each         = require('metalsmith-each');
 var excerpts     = require('metalsmith-better-excerpts');
 var autoprefixer = require('metalsmith-autoprefixer');
 var drafts       = require('metalsmith-drafts');
-var webpack      = require('metalsmith-webpack');
 var slug         = require('slug');
 var chalk        = require('chalk');
 var browserSync  = require('browser-sync').create();
 var metadata     = require('./config')(process.argv);
 var path         = require('path');
-var UglifyJs     = require('webpack').optimize.UglifyJsPlugin;
 var gzip         = require('connect-gzip-static')('./build');
 var imgManager   = require('./images-manager').plugin;
-
-var webpackConfig = {
-  context: path.resolve(__dirname, './src/js/ddd'),
-  entry: './index.js',
-  output: {
-    path: path.resolve(__dirname, './build/js'),
-    filename: 'ddd.js'
-  }
-};
 
 var bsConfig = {
   server: 'build',
@@ -116,20 +105,6 @@ function build(callback) {
   }));
 
   metalsmith.use(htmlMin());
-
-  if (metadata.env === 'prod' || metadata.env === 'deploy') {
-    webpackConfig.output.filename = 'ddd.min.js';
-
-    Object.assign(webpackConfig, {
-      plugins: [
-        new UglifyJs({
-          compress: {warnings: false}
-        })
-      ]
-    });
-  }
-
-  metalsmith.use(webpack(webpackConfig));
 
   metalsmith.build(function(err) {
     if (err) {

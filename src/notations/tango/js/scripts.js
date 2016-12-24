@@ -2,28 +2,29 @@
   'use strict';
 
   /*----------  Elements  ----------*/
-  var header    = document.getElementById('header');
-  var container = document.getElementById('ddd-container');
   var bottom    = document.getElementById('bottom');
   var left      = document.getElementById('left');
   var labelBox  = document.getElementById('label-box');
   var polish    = document.getElementById('pol');
   var eng       = document.getElementById('eng');
-  var videoC    = document.getElementById('video-container');
-  var video     = notationsVideo(document.getElementById('video'), videoReady);
-  var loading   = document.createElement('div');
-  var progress  = document.createElement('progress');
-  var msg       = document.createElement('p');
+
+  var video = notationsVideo(document.getElementById('video'), videoReady);
+
   var loadingMsg = 'Please be patient, loading large images';
+  var msg = document.createElement('p');
   msg.className = 'loading-msg';
   msg.innerText = loadingMsg;
+
+  var loading = document.createElement('div');
   loading.className = 'loading';
   loading.style.opacity = 0;
 
+  var progress  = document.createElement('progress');
   progress.className = 'progress';
   progress.style.zIndex = 0;
-  progress.max          = 100;
-  progress.value        = 0;
+  progress.max = 100;
+  progress.value = 0;
+
   loading.appendChild(progress);
   loading.appendChild(msg);
   left.appendChild(loading);
@@ -60,7 +61,7 @@
   var resize = {
     reset: function() {
       this.bottomW          = window.innerWidth;
-      this.topH             = header.offsetHeight;
+      this.topH             = document.getElementById('header').offsetHeight;
       this.timelinePercent  = DDD.getPercent(this.bottomW, images.totalW);
       this.bottomH          = DDD.sizeFromPercentage(this.timelinePercent, images.height) + bleedBottom | 0;
       this.leftH            = window.innerHeight - this.topH - this.bottomH;
@@ -170,13 +171,15 @@
   };
 
   function init() {
+    var videoC   = document.getElementById('video-container');
     var loading2 = document.createElement('div');
+
     loading2.className = 'loading';
     videoC.appendChild(loading2);
 
     DDD.json({
       url: '/data/notations/tango.json',
-      container: container,
+      container: document.getElementById('ddd-container'),
       loadingEle: loading2,
       loadingMsg: 'Loading metadata'
     })
@@ -442,93 +445,93 @@
 
   window.onresize = resize.updateRepaint.bind(resize);
 
-  function videoControl() {
-    var container = document.getElementById('video-container');
-    var back = document.createElement('button');
-    var forward = document.createElement('button');
+  // function videoControl() {
+  //   var container = document.getElementById('video-container');
+  //   var back = document.createElement('button');
+  //   var forward = document.createElement('button');
 
-    var back2 = document.createElement('button');
-    var forward2 = document.createElement('button');
+  //   var back2 = document.createElement('button');
+  //   var forward2 = document.createElement('button');
 
-    var back3 = document.createElement('button');
-    var forward3 = document.createElement('button');
+  //   var back3 = document.createElement('button');
+  //   var forward3 = document.createElement('button');
 
-    var back4 = document.createElement('button');
-    var forward4 = document.createElement('button');
+  //   var back4 = document.createElement('button');
+  //   var forward4 = document.createElement('button');
 
-    back.innerHTML = '&larr;';
-    forward.innerHTML = '&rarr;';
+  //   back.innerHTML = '&larr;';
+  //   forward.innerHTML = '&rarr;';
 
-    back2.innerHTML = '&larr;';
-    forward2.innerHTML = '&rarr;';
+  //   back2.innerHTML = '&larr;';
+  //   forward2.innerHTML = '&rarr;';
 
-    back3.innerHTML = '&larr;';
-    forward3.innerHTML = '&rarr;';
+  //   back3.innerHTML = '&larr;';
+  //   forward3.innerHTML = '&rarr;';
 
-    back4.innerHTML = '&larr;';
-    forward4.innerHTML = '&rarr;';
+  //   back4.innerHTML = '&larr;';
+  //   forward4.innerHTML = '&rarr;';
 
-    back.onclick = function() {
-      video.currentTime -= 0.0001;
-      console.log(video.currentTime);
-      return false;
-    };
+  //   back.onclick = function() {
+  //     video.currentTime -= 0.0001;
+  //     console.log(video.currentTime);
+  //     return false;
+  //   };
 
-    forward.onclick = function() {
-      video.currentTime += 0.0001;
-      console.log(video.currentTime);
-      return false;
-    };
+  //   forward.onclick = function() {
+  //     video.currentTime += 0.0001;
+  //     console.log(video.currentTime);
+  //     return false;
+  //   };
 
-    back2.onclick = function() {
-      video.currentTime -= 0.001;
-      console.log(video.currentTime);
-      return false;
-    };
+  //   back2.onclick = function() {
+  //     video.currentTime -= 0.001;
+  //     console.log(video.currentTime);
+  //     return false;
+  //   };
 
-    forward2.onclick = function() {
-      video.currentTime += 0.001;
-      console.log(video.currentTime);
-      return false;
-    };
+  //   forward2.onclick = function() {
+  //     video.currentTime += 0.001;
+  //     console.log(video.currentTime);
+  //     return false;
+  //   };
 
-    back3.onclick = function() {
-      video.currentTime -= 0.01;
-      console.log(video.currentTime);
-      return false;
-    };
+  //   back3.onclick = function() {
+  //     video.currentTime -= 0.01;
+  //     console.log(video.currentTime);
+  //     return false;
+  //   };
 
-    forward3.onclick = function() {
-      video.currentTime += 0.01;
-      console.log(video.currentTime);
-      return false;
-    };
+  //   forward3.onclick = function() {
+  //     video.currentTime += 0.01;
+  //     console.log(video.currentTime);
+  //     return false;
+  //   };
 
-    back4.onclick = function() {
-      video.currentTime -= 0.1;
-      console.log(video.currentTime);
-      return false;
-    };
+  //   back4.onclick = function() {
+  //     video.currentTime -= 0.1;
+  //     console.log(video.currentTime);
+  //     return false;
+  //   };
 
-    forward4.onclick = function() {
-      video.currentTime += 0.1;
-      console.log(video.currentTime);
-      return false;
-    };
+  //   forward4.onclick = function() {
+  //     video.currentTime += 0.1;
+  //     console.log(video.currentTime);
+  //     return false;
+  //   };
 
-    container.appendChild(back);
-    container.appendChild(forward);
-    container.appendChild(document.createElement('div'));
+  //   container.appendChild(back);
+  //   container.appendChild(forward);
+  //   container.appendChild(document.createElement('div'));
 
-    container.appendChild(back2);
-    container.appendChild(forward2);
-    container.appendChild(document.createElement('div'));
+  //   container.appendChild(back2);
+  //   container.appendChild(forward2);
+  //   container.appendChild(document.createElement('div'));
 
-    container.appendChild(back3);
-    container.appendChild(forward3);
-    container.appendChild(document.createElement('div'));
+  //   container.appendChild(back3);
+  //   container.appendChild(forward3);
+  //   container.appendChild(document.createElement('div'));
 
-    container.appendChild(back4);
-    container.appendChild(forward4);
-  }
+  //   container.appendChild(back4);
+  //   container.appendChild(forward4);
+  // }
 })();

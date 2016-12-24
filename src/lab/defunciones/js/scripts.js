@@ -87,7 +87,7 @@
 
   /*----------  MENU  ----------*/
   var current;
-  DDD.yearsMenu(2008, 2015, year, yearClickEvent, menuReady);
+  DDD.yearsMenu(2008, 2016, year, yearClickEvent, menuReady);
 
   function yearClickEvent(event) {
     if (event.target !== current) {
@@ -127,13 +127,13 @@
 
   function requestViolenceData() {
     violenceReq.json({
-      url: '../../data/monitor/violencia-geo-' + year + '.json',
+      url: '../../data/monitor/violencia-' + year + '.json',
       container: container,
       loadingMsg: 'Loading Violence Data',
       loadingEle: loading
     })
-    .then(function(data) {
-      d = data;
+    .then(function(res) {
+      d = res.data;
       dLoaded = true;
     })
     .catch(function(err) {

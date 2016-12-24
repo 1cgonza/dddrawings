@@ -17,13 +17,15 @@
   var mode = 1;
   var TWO_PI = Math.PI * 2;
   var map = new DDD.Map({
-    center: {lon: -71.999996, lat: 4.000002} // Center of Colombia
+    center: {lon: -74.297313, lat: 4.570917} // Center of Colombia
   });
-  var year   = 2008;
+  var year   = 2016;
   var req    = new DDD.DataRequest();
   var d      = {};
   var perlin = new PerlinNoise();
-  var max    = 300;
+  var max    = 3000;
+  var buffer;
+  var pixels;
 
   var img = new Image();
   img.onload = function() {
@@ -33,44 +35,45 @@
   img.src = '../../img/backgrounds/white-paper2.jpg';
 
   var cats = {
-    'Amenaza': '#F0F0F0',
-    'Artefacto Explosivo Improvisado': '#A5A7AD',
-    'Ataque a bienes culturales y religiosos': '#000000',
-    'Ataque a infraestructura militar/policial': '#BBBBBB',
-    'Ataque a infraestructura vial': '#A8A4A4',
-    'Ataque a misión humanitaria': '#010000',
-    'Ataque a misión médica': '#170301',
-    'Ataque y/o ocupación y/o uso infraestructura y/o bienes civiles': '#020100',
-    'Ataques a bienes indispensables para la superviviencia de la población civil': '#7C7573',
-    'Atentado': '#DAD1C7',
-    'Bloqueo de vías y/o Retén ilegal': '#FEFFF0',
-    'Combates': '#090101',
-    'Comunidades en riesgo': '#000000',
-    'Confinamiento/Bloqueo de comunidades': '#000000',
-    'Desaparición forzada': '#000000',
-    'Desplazamiento': '#FFFAF1',
-    'Emboscada': '#FEFFF7',
-    'Enfrentamiento entre actores no estatales': '#000000',
-    'Eventos de fuego amigo': '#000000',
-    'Explosivo encontrado': '#EFFFF9',
-    'Fosas Comunes': '#000000',
-    'Herida de civil en acción bélica': '#B6BAB4',
-    'Herida intencional en persona protegida': '#E5EBD9',
-    'Homicidio': '#000000',
-    'Hostigamiento': '#F3E7E2',
-    'Incursión': '#E2E3EB',
-    'Intento de homicidio': '#AFAFB6',
-    'Masacre': '#000000',
-    'Mina antipersonal': '#000000',
-    'Muerte de civil en acción bélica': '#000000',
-    'Munición sin explotar': '#303030',
-    'Reclutamiento forzado': '#080D02',
-    'Secuestro': '#000000',
-    'Toma de rehenes': '#CFCFCF',
-    'Tortura': '#000000',
-    'Uso de civiles como escudo': '#000000',
-    'Violencia sexual': '#CE18C9'
+    'Amenaza': ['#F0F0F0', [240, 240, 240]],
+    'Artefacto Explosivo Improvisado': ['#A5A7AD', [165, 167, 173]],
+    'Ataque a bienes culturales y religiosos': ['#000000', [0, 0, 0]],
+    'Ataque a infraestructura militar/policial': ['#BBBBBB', [187, 187, 187]],
+    'Ataque a infraestructura vial': ['#A8A4A4', [168, 164, 164]],
+    'Ataque a misión humanitaria': ['#010000', [1, 0, 0]],
+    'Ataque a misión médica': ['#170301', [23, 3, 1]],
+    'Ataque y/o ocupación y/o uso infraestructura y/o bienes civiles': ['#020100', [2, 1, 0]],
+    'Ataques a bienes indispensables para la superviviencia de la población civil': ['#7C7573', [124, 117, 115]],
+    'Atentado': ['#DAD1C7', [218, 209, 199]],
+    'Bloqueo de vías y/o Retén ilegal': ['#FEFFF0',[254, 255, 240]],
+    'Combates': ['#090101', [9, 1, 1]],
+    'Comunidades en riesgo': ['#000000', [0, 0, 0]],
+    'Confinamiento/Bloqueo de comunidades': ['#000000', [0, 0, 0]],
+    'Desaparición forzada': ['#000000', [0, 0, 0]],
+    'Desplazamiento': ['#FFFAF1', [255, 250, 241]],
+    'Emboscada': ['#FEFFF7', [254, 255, 247]],
+    'Enfrentamiento entre actores no estatales': ['#000000', [0, 0, 0]],
+    'Eventos de fuego amigo': ['#000000', [0, 0, 0]],
+    'Explosivo encontrado': ['#EFFFF9', [239, 255, 249]],
+    'Fosas Comunes': ['#000000', [0, 0, 0]],
+    'Herida de civil en acción bélica': ['#B6BAB4', [182, 186, 180]],
+    'Herida intencional en persona protegida': ['#E5EBD9', [229, 235, 217]],
+    'Homicidio': ['#000000', [0, 0, 0]],
+    'Hostigamiento': ['#F3E7E2', [243, 231, 226]],
+    'Incursión': ['#E2E3EB', [226, 227, 235]],
+    'Intento de homicidio': ['#AFAFB6', [175, 175, 182]],
+    'Masacre': ['#000000', [0, 0, 0]],
+    'Mina antipersonal': ['#000000', [0, 0, 0]],
+    'Muerte de civil en acción bélica': ['#000000', [0, 0, 0]],
+    'Munición sin explotar': ['#303030', [48, 48, 48]],
+    'Reclutamiento forzado': ['#080D02', [8, 13, 2]],
+    'Secuestro': ['#000000', [0, 0, 0]],
+    'Toma de rehenes': ['#CFCFCF', [207, 207, 207]],
+    'Tortura': ['#000000', [0, 0, 0]],
+    'Uso de civiles como escudo': ['#000000', [0, 0, 0]],
+    'Violencia sexual': ['#CE18C9', [206, 24, 201]]
   };
+  console.log(cats);
 
   /*==================================
   =            YEARS MENU            =
@@ -113,7 +116,7 @@
 
   function init() {
     initValues();
-    DDD.yearsMenu(2008, 2015, year, clickEvent, menuReady);
+    DDD.yearsMenu(2008, 2016, year, clickEvent, menuReady);
   }
 
   function drawBG() {
@@ -130,6 +133,9 @@
     stage.center.y = stage.h / 2 | 0;
     stage.ctx.globalAlpha = 0.05;
     map.updateSize(stage.w, stage.h);
+
+    buffer = stage.ctx.getImageData(0, 0, stage.w, stage.h);
+    pixels = buffer.data;
 
     points    = [];
     currentI  = 0;
@@ -153,7 +159,7 @@
       if (mode === 1) {
         amount = d[currentI].hasOwnProperty('vTotal') ? d[currentI].vTotal : 0;
         loc = map.convertCoordinates(d[currentI].lon, d[currentI].lat);
-        perlin.setSeed(amount);
+        // perlin.setSeed(amount);
       } else if (mode === 2) {
         amount = DDD.random(0, DDD.random(1, 50));
         loc = {
@@ -173,11 +179,12 @@
 
       for (var i = points.length - 1; i > 0; i--) {
         var p = points[i];
-        p.update();
 
         if (p.finished) {
           points.splice(i, 1);
         }
+
+        p.update();
       }
 
       if (currentI === 0) {
@@ -189,6 +196,9 @@
       timeline.ctx.stroke();
 
       currentI++;
+
+      // stage.ctx.putImageData(buffer, 0, 0);
+
       animReq = requestAnimationFrame(animate);
     }
   }
@@ -216,12 +226,12 @@
   ===============================*/
   function loadData() {
     req.json({
-      url: '../../data/monitor/violencia-geo-' + year + '.json',
+      url: '../../data/monitor/violencia-' + year + '.json',
       container: container,
       loadingMsg: 'Loading data',
     })
     .then(function(res) {
-      d = res;
+      d = res.data;
       animate();
     })
     .catch(function(err) {
@@ -238,6 +248,24 @@
     this.timer = 0;
     this.color = color;
   };
+var flag = 0;
+  function setPixelColor(i, rgb, a) {
+    var a1 = 1 - a;
+    var r2 = pixels[i];
+    var g2 = pixels[i + 1];
+    var b2 = pixels[i + 2];
+
+    // Blend painter color with existing pixel based on alpha.
+    pixels[i]     = rgb[0] * a + r2 * a1;
+    pixels[i + 1] = rgb[1] * a + g2 * a1;
+    pixels[i + 2] = rgb[2] * a + b2 * a1;
+    pixels[i + 3] = a;
+
+    if (flag < 100) {
+      console.log(pixels[i], pixels[i + 1], pixels[i + 2], pixels[i + 3]);
+      flag++;
+    }
+  }
 
   Point.prototype.update = function() {
     var xv = Math.cos(perlin.noise(this.x * 0.01, this.y * 0.01) * (this.r * TWO_PI));
@@ -251,10 +279,25 @@
       this.finished = true;
     }
 
+    // var _i = ((yt | 0) * stage.w + (xt | 0)) * 4;
+
+    // setPixelColor(_i, this.color[1], 255);
+    // pixels[_i] = this.color[1][0];
+    // pixels[++_i] = this.color[1][1];
+    // pixels[++_i] = this.color[1][2];
+    // pixels[++_i] = 180;
+// console.log(this.color[1]);
+    // stage.ctx.fillStyle = 'rgba(' + this.color[1][0] + ',' + this.color[1][1] + ',' + this.color[1][2] + ', 0.05)';
+    // stage.ctx.fillStyle = this.color[0];
+    // stage.ctx.fillRect(((xt | 0) - 0.5), ((yt | 0)), 1, 1);
+// if (flag < 100) {
+//   console.log(stage.w);
+//   flag++;
+// }
     stage.ctx.beginPath();
     stage.ctx.moveTo(xt, yt);
     stage.ctx.lineTo(this.x, this.y);
-    stage.ctx.strokeStyle = this.color;
+    stage.ctx.strokeStyle = this.color[0];
     stage.ctx.stroke();
 
     this.x = xt;

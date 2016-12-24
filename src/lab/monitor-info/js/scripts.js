@@ -21,7 +21,7 @@
   summaryContainer.style.margin     = 0;
   container.appendChild(summaryContainer);
 
-  DDD.yearsMenu(2008, 2015, 2008, clickEvent, menuReady);
+  DDD.yearsMenu(2008, 2016, 2008, clickEvent, menuReady);
 
   function clickEvent(event) {
     if (event.target !== current) {
@@ -45,12 +45,12 @@
       renderSummary();
     } else {
       req.json({
-        url: '../../data/monitor/violencia-geo-' + year + '.json',
+        url: '../../data/monitor/violencia-' + year + '.json',
         container: container,
         loadingMsg: 'Loading Data'
       })
-      .then(function(d) {
-        categorizeEvents(d);
+      .then(function(res) {
+        categorizeEvents(res.data);
         renderSummary();
       })
       .catch(function(err) {

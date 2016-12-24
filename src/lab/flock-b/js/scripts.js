@@ -35,25 +35,25 @@
     cb: imgReady,
     url: '/img/sprites/rotating_triangle.png',
     frames: [
-      {x: 0, y: 0, w: 41.101694915254235, h: 50},
-      {x: 41.101694915254235, y: 0, w: 41.101694915254235, h: 50},
-      {x: 82.20338983050847, y: 0, w: 41.101694915254235, h: 50},
-      {x: 123.30508474576271, y: 0, w: 41.101694915254235, h: 50},
-      {x: 164.40677966101694, y: 0, w: 41.101694915254235, h: 50},
-      {x: 205.50847457627117, y: 0, w: 41.101694915254235, h: 50},
-      {x: 246.61016949152543, y: 0, w: 41.101694915254235, h: 50},
-      {x: 287.7118644067796, y: 0, w: 41.101694915254235, h: 50},
-      {x: 328.8135593220339, y: 0, w: 41.101694915254235, h: 50},
-      {x: 369.91525423728814, y: 0, w: 41.101694915254235, h: 50},
-      {x: 411.01694915254234, y: 0, w: 41.101694915254235, h: 50},
-      {x: 452.1186440677966, y: 0, w: 41.101694915254235, h: 50},
-      {x: 493.22033898305085, y: 0, w: 41.101694915254235, h: 50},
-      {x: 534.3220338983051, y: 0, w: 41.101694915254235, h: 50},
-      {x: 575.4237288135593, y: 0, w: 41.101694915254235, h: 50},
-      {x: 616.5254237288135, y: 0, w: 41.101694915254235, h: 50},
-      {x: 657.6271186440678, y: 0, w: 41.101694915254235, h: 50},
-      {x: 698.728813559322, y: 0, w: 41.101694915254235, h: 50},
-      {x: 739.8305084745763, y: 0, w: 41.101694915254235, h: 50}
+      {x: 0, y: 0, w: 41, h: 50},
+      {x:  41, y: 0, w: 41, h: 50},
+      {x:  82, y: 0, w: 41, h: 50},
+      {x: 123, y: 0, w: 41, h: 50},
+      {x: 164, y: 0, w: 41, h: 50},
+      {x: 205, y: 0, w: 41, h: 50},
+      {x: 246, y: 0, w: 41, h: 50},
+      {x: 287, y: 0, w: 41, h: 50},
+      {x: 328, y: 0, w: 41, h: 50},
+      {x: 369, y: 0, w: 41, h: 50},
+      {x: 411, y: 0, w: 41, h: 50},
+      {x: 452, y: 0, w: 41, h: 50},
+      {x: 493, y: 0, w: 41, h: 50},
+      {x: 534, y: 0, w: 41, h: 50},
+      {x: 575, y: 0, w: 41, h: 50},
+      {x: 616, y: 0, w: 41, h: 50},
+      {x: 657, y: 0, w: 41, h: 50},
+      {x: 698, y: 0, w: 41, h: 50},
+      {x: 739, y: 0, w: 41, h: 50}
     ]
   };
   var framesXLength = imgData.frames.length;
@@ -63,13 +63,7 @@
   /*----------  SET STAGE  ----------*/
   var container = document.getElementById('ddd-container');
   var webgl     = new DDD.Webgl(container);
-  var stage     = new DDD.Stage(imgData, webgl, numParticles, {
-    scale: true,
-    position: true,
-    rotation: true,
-    uvs: true,
-    alpha: true
-  });
+  var stage     = new DDD.Stage(imgData, webgl, numParticles);
 
   var map = new DDD.Map({
     center: {lon: -71.999996, lat: 4.000002} // Center of Colombia
@@ -243,8 +237,7 @@
 
   var Bird = function() {
     this.rotation = 0.5;
-    this.anchor   = new DDD.Point(0.5);
-    this.scale    = new DDD.Point(1, 1);
+    this.scale    = 1;
     this.alpha    = 1;
     this.x        = DDD.random(-stageW / 2, 0);
     this.y        = DDD.random(0, stageH);
@@ -262,6 +255,9 @@
     this.velocity.z = DDD.random(1, 2, true);
 
     this.acceleration = new DDD.Vector();
+    this.steer = new DDD.Vector();
+    this.posSum = new DDD.Vector();
+    this.separate = new DDD.Vector();
   };
 
   Bird.prototype.run = function() {
@@ -292,44 +288,38 @@
     var distance = this.position.distanceTo(v);
 
     if (distance < stageW) {
-      var steer = new DDD.Vector();
-      steer.subVectors(this.position, v);
-      steer.multiplyScalar(0.5 / distance);
-      this.acceleration.add(steer);
+      this.steer.subVectors(this.position, v);
+      this.steer.multiplyScalar(0.5 / distance);
+      this.acceleration.add(this.steer);
     }
   };
 
   Bird.prototype.reach = function(amount) {
-    var steer = new DDD.Vector();
-    steer.subVectors(target, this.position);
-    steer.multiplyScalar(amount);
-    return steer;
+    this.steer.subVectors(target, this.position);
+    this.steer.multiplyScalar(amount);
+    return this.steer;
   };
 
   Bird.prototype.separation = function(flock) {
-    var bird;
-    var distance;
-    var posSum = new DDD.Vector();
-    var repulse = new DDD.Vector();
-    var flockSize = flock.length;
-    var i = flockSize - 1;
+    this.posSum.set(0, 0 , 0);
+    var i = numParticles - 1;
 
     for (i; i >= 0; i -= 11) {
       if (Math.random() > 0.5) {
         continue;
       }
-      bird = flock[i];
-      distance = bird.position.distanceTo(this.position);
+      var bird = flock[i];
+      var distance = bird.position.distanceTo(this.position);
 
       if (distance > 0 && distance <= _neighborhoodRadius) {
-        repulse.subVectors(this.position, bird.position);
-        repulse.normalize();
-        repulse.divideScalar(distance);
-        posSum.add(repulse);
+        this.separate.subVectors(this.position, bird.position);
+        this.separate.normalize();
+        this.separate.divideScalar(distance);
+        this.posSum.add(this.separate);
       }
     }
 
-    return posSum;
+    return this.posSum;
   };
 
   Bird.prototype.update = function() {
@@ -343,7 +333,7 @@
     this.rotation = this.ry > 0 ? HALF_PI - this.ry : HALF_PI - this.ry + TWO_PI;
     this.frame = this.rz > 0 ? this.rz / framesXLength | 0 : (this.rz + 360) / framesXLength | 0;
 
-    this.alpha = (this.position.z) / 300;
+    this.alpha = this.position.z / 300;
 
     if (this.alpha < 0) {
       this.alpha = 0;
@@ -351,10 +341,10 @@
       this.alpha = 1;
     }
 
-    this.scale.set(this.position.z / 250);
+    this.scale = this.position.z / 450;
 
-    if (this.scale.x < 0) {
-      this.scale.set(0);
+    if (this.scale < 0) {
+      this.scale = 0;
     }
   };
 

@@ -32,7 +32,7 @@
     "metalsmith": "^2.1.0",
     "metalsmith-autoprefixer": "^1.1.0",
     "metalsmith-better-excerpts": "^0.1.7",
-    "metalsmith-changed": "^0.2.0",
+    "metalsmith-changed": "^3.1.0",
     "metalsmith-collections": "^0.9.0",
     "metalsmith-drafts": "0.0.1",
     "metalsmith-each": "^0.1.1",

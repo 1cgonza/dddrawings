@@ -16,7 +16,7 @@ var browserSync  = require('browser-sync').create();
 var metadata     = require('./config')(process.argv);
 var path         = require('path');
 var gzip         = require('connect-gzip-static')('./build');
-var imgManager   = require('./images-manager').plugin;
+// var imgManager   = require('./images-manager').plugin;
 
 var bsConfig = {
   server: 'build',
@@ -95,9 +95,9 @@ function build(callback) {
     }
   }));
 
-  metalsmith.use(imgManager({
-    log: 'new'
-  }));
+  // metalsmith.use(imgManager({
+  //   log: 'new'
+  // }));
 
   metalsmith.use(layouts({
     engine: 'handlebars',

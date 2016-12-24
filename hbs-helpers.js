@@ -107,7 +107,7 @@ function helpers(Handlebars) {
     },
 
     dddLibrary: function() {
-      var name = 'ddd.js';
+      var name = 'ddd.min.js';
 
       if (metadata.env !== 'dev') {
         name = 'ddd.min.js';

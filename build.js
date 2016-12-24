@@ -47,10 +47,10 @@ function serve() {
 function build(callback) {
   var metalsmith = new Metalsmith(__dirname);
   metalsmith.clean(false);
+  metalsmith.metadata(metadata);
 
   metalsmith.use(drafts());
   metalsmith.use(changed());
-  metalsmith.metadata(metadata);
 
   metalsmith.use(ignore(['js/ddd/**/*', '**/.DS_Store', 'lab/_TEMPLATE/**/*']));
 

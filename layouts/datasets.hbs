@@ -10,7 +10,7 @@
     <h3 class="item-title"><a href="{{setURL 'datasets' slug true}}">{{title}}</a></h3>
 
     <div class="item-description">
-      <p>Summary: {{#if description}} {{description}} {{else}} {{#if excerpt}} {{{excerpt}}} {{/if}} {{/if}}</p>
+      {{#if description}}<p>Summary: {{description}}</p>{{/if}}
       {{#if parsedURL}}<p>Parsed (JSON): <a href="{{parsedURL}}" target="_blank">{{parsedURL}}</a></p>{{/if}}
       {{#if sourceURL}}<p>Source: <a href="{{sourceURL}}" target="_blank">{{sourceURL}}</a></p>{{/if}}
       {{#if tagLink}}{{ getRelatedLab tagLink }}{{/if}}

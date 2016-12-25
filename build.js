@@ -1,110 +1,35 @@
 var Metalsmith   = require('metalsmith');
-var ignore       = require('metalsmith-ignore');
-var collections  = require('metalsmith-collections');
-var sass         = require('metalsmith-sass');
-var markdown     = require('metalsmith-markdown');
-var layouts      = require('metalsmith-layouts');
-var htmlMin      = require('metalsmith-html-minifier');
-var changed      = require('metalsmith-changed');
-var each         = require('metalsmith-each');
-var excerpts     = require('metalsmith-better-excerpts');
-var autoprefixer = require('metalsmith-autoprefixer');
-var drafts       = require('metalsmith-drafts');
-var slug         = require('slug');
 var chalk        = require('chalk');
-var browserSync  = require('browser-sync').create();
 var metadata     = require('./config')(process.argv);
-var path         = require('path');
-var gzip         = require('connect-gzip-static')('./build');
 // var imgManager   = require('./images-manager').plugin;
 
-var bsConfig = {
-  server: 'build',
-  files: [{
-    match: ['src/**/*.md', 'src/scss/**/*.scss', 'src/**/*.js', 'layouts/**/*.hbs'],
-    fn: function(event, file) {
-      if (event === 'change') {
-        build(this.reload);
-        console.log(chalk.cyan('Updated file: ') + chalk.yellow(file));
-      }
-    }
-  }],
-  // logLevel: 'debug',
-  notify: false
-};
-
-function serve() {
-  browserSync.init(bsConfig, function(err, bs) {
-    build();
-
-    // uncomment to test gzip delivery on localhost. Just like this it breaks the autoreload
-    // bs.addMiddleware('*', gzip, {
-    //   override: true
-    // });
-  });
-}
+const tasksEntry = './tasks/build/';
+const plugins = [
+  'drafts',
+  'changed',
+  'ignore',
+  'collections',
+  'sass',
+  'autoprefixer',
+  'markdown',
+  'excerpts',
+  'slugs',
+  'layouts',
+  'html'
+];
 
 function build(callback) {
   var metalsmith = new Metalsmith(__dirname);
   metalsmith.clean(false);
   metalsmith.metadata(metadata);
 
-  metalsmith.use(drafts());
-  metalsmith.use(changed());
-
-  metalsmith.use(ignore(['js/ddd/**/*', '**/.DS_Store', 'lab/_TEMPLATE/**/*']));
-
-  metalsmith.use(collections({
-    lab: {
-      pattern: 'lab/**/*.md',
-      sortBy: 'date',
-      reverse: true
-    },
-    notations: {
-      pattern: 'notations/**/*.md',
-      sortBy: 'year'
-    },
-    datasets: {
-      pattern: 'datasets/**/*.md'
-    },
-    dissertation: {
-      pattern: 'dissertation/**/*.md'
-    }
-  }));
-
-  metalsmith.use(sass({
-    outputStyle: 'compressed',
-    outputDir: 'css/'
-  }));
-
-  metalsmith.use(autoprefixer());
-
-  metalsmith.use(markdown({
-    typographer: true,
-    html: true
-  }));
-
-  metalsmith.use(excerpts({
-    pruneLength: 160
-  }));
-
-  metalsmith.use(each(function(file, filename) {
-    var safeSlug = file.title ? slug(file.title, {lower: true}) : null;
-    if (safeSlug !== null) {
-      file.slug = safeSlug;
-    }
-  }));
+  plugins.forEach(function(name) {
+    metalsmith.use(require(tasksEntry + name));
+  });
 
   // metalsmith.use(imgManager({
   //   log: 'new'
   // }));
-
-  metalsmith.use(layouts({
-    engine: 'handlebars',
-    directory: 'layouts'
-  }));
-
-  metalsmith.use(htmlMin());
 
   metalsmith.build(function(err) {
     if (err) {
@@ -123,5 +48,5 @@ function build(callback) {
 
 module.exports = {
   once: build,
-  serve: serve
+  serve: require(tasksEntry + 'server')(build)
 };

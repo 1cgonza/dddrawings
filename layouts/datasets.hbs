@@ -13,7 +13,7 @@
       {{#if description}}<p>Summary: {{description}}</p>{{/if}}
       {{#if parsedURL}}<p>Parsed (JSON): <a href="{{parsedURL}}" target="_blank">{{parsedURL}}</a></p>{{/if}}
       {{#if sourceURL}}<p>Source: <a href="{{sourceURL}}" target="_blank">{{sourceURL}}</a></p>{{/if}}
-      {{#if tagLink}}{{ getRelatedLab tagLink }}{{/if}}
+      {{#if tagLink}}{{ getRelatedPosts tagLink 'lab' }}{{/if}}
     </div>
   </section>
   {{/unless}}{{/each}}

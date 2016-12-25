@@ -11,14 +11,11 @@ function safelyClean(cb) {
     '!build/data/**',
     '!build/videos/**',
     '!build/Readme.md',
-
-    '!build/js/**',
-    // 'build/js/**',
-    // '!build/js/ddd.min.js',
-    // '!build/js/ddd.min.js.map'
+    '!build/js/**'
   ]).then(function(paths) {
     console.log(chalk.gray('Deleted files/folders:\n', paths.join('\n')));
     console.log(chalk.cyan('..::| FINISHED cleaning |::..'));
+
     if (cb) {
       cb();
     }

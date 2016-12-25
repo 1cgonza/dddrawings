@@ -1,10 +1,10 @@
-var hbs      = require('handlebars');
-var deploy   = require('./deploy');
-var clean    = require('./clean');
-var build    = require('./build');
-var metadata = require('./config')(process.argv);
+// var hbs      = require('handlebars');
+var deploy   = require('./tasks/deploy');
+var clean    = require('./tasks/clean');
+var build    = require('./tasks/build');
+var metadata = require('./tasks/config')(process.argv);
 // var imgManager = require('./images-manager').process;
-require('./hbs-helpers')(hbs);
+// require('./hbs-helpers')(hbs);
 
 // if (process.argv.indexOf('--img') >= 0) {
 //   imgManager({

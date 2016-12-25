@@ -6,7 +6,6 @@
 
   /*----------  STAGE  ----------*/
   var container = document.getElementById('ddd-container');
-
   var stage = DDD.canvas(container);
   var log   = DDD.canvas(container);
 
@@ -25,7 +24,12 @@
   var tick  = 0;
 
   /*----------  MAP  ----------*/
-  var map = new DDD.Map({zoom: 8, width: stage.w, height: stage.h, center: {lon: -71.999996, lat: 4.000002}});
+  var map = new DDD.Map({
+    zoom: 8,
+    width: stage.w,
+    height: stage.h,
+    center: {lon: -71.999996, lat: 4.000002}
+  });
 
   /*----------  TIME  ----------*/
   var prevTimePosition = 0;
@@ -72,9 +76,9 @@
   }
 
   function requestViolenceData() {
-    violenceReq.json('../../data/monitor/violencia-geo-' + year + '.json')
-    .then(function(data) {
-      d = data;
+    violenceReq.json('../../data/monitor/violencia-' + year + '.json')
+    .then(function(res) {
+      d = res.data;
       dLoaded = true;
       animate();
     })

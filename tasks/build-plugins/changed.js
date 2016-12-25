@@ -1,3 +1,5 @@
 const changed = require('metalsmith-changed');
 
-module.exports = changed();
+module.exports = changed({
+  forcePattern: '**/*.md'
+});

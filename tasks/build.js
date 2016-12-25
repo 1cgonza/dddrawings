@@ -6,8 +6,8 @@ const path       = require('path');
 
 const tasksEntry = './build-plugins/';
 const plugins = [
-  'drafts',
   'changed',
+  'drafts',
   'ignore',
   'collections',
   'sass',

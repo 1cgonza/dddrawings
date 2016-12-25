@@ -20,9 +20,11 @@ const plugins = [
 ];
 
 function build(callback) {
-  var metalsmith = new Metalsmith(path.resolve(__dirname, '../'));
-  metalsmith.clean(false);
-  metalsmith.metadata(metadata);
+  var metalsmith = new Metalsmith(__dirname)
+  .source('../src')
+  .destination('../build')
+  .clean(false)
+  .metadata(metadata);
 
   plugins.forEach(function(name) {
     metalsmith.use(require(tasksEntry + name));

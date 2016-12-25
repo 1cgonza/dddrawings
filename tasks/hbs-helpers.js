@@ -5,11 +5,11 @@ const Handlebars = require('handlebars');
 function helpers() {
   Handlebars.registerPartial({
     head: fs.readFileSync(
-      path.resolve(__dirname, '../layouts/partials/head.hbs')
+      path.resolve(__dirname, './layouts/partials/head.hbs')
     ).toString(),
 
     footer: fs.readFileSync(
-      path.resolve(__dirname, '../layouts/partials/footer.hbs')
+      path.resolve(__dirname, './layouts/partials/footer.hbs')
     ).toString()
   });
 

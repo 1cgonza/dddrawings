@@ -7,10 +7,9 @@ var server = function(buildCallback) {
     server: 'build',
     files: [{
       match: [
-        'src/**/*.md',
-        'src/scss/**/*.scss',
-        'src/**/*.js',
-        'layouts/**/*.hbs',
+        '**/*',
+        '!build/**.*',
+        '!.git/**.*'
       ],
       fn: function(event, file) {
         if (event === 'change') {

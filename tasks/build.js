@@ -1,9 +1,10 @@
-var Metalsmith   = require('metalsmith');
-var chalk        = require('chalk');
-var metadata     = require('./config')(process.argv);
+const Metalsmith = require('metalsmith');
+const chalk      = require('chalk');
+const metadata   = require('./config')(process.argv);
+const path       = require('path');
 // var imgManager   = require('./images-manager').plugin;
 
-const tasksEntry = './tasks/build/';
+const tasksEntry = './build-plugins/';
 const plugins = [
   'drafts',
   'changed',
@@ -19,7 +20,7 @@ const plugins = [
 ];
 
 function build(callback) {
-  var metalsmith = new Metalsmith(__dirname);
+  var metalsmith = new Metalsmith(path.resolve(__dirname, '../'));
   metalsmith.clean(false);
   metalsmith.metadata(metadata);
 

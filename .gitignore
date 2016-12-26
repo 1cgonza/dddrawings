@@ -10,6 +10,9 @@ node_modules
 # Build - This is getting copied to the gh-pages branch, so no need to track it here.
 build
 
-# Assets
-assets
+# Processed images
+src/img/lab/
+src/img/notations/
+
+# External libs
 src/js/vendor

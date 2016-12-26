@@ -2,7 +2,6 @@ const Metalsmith = require('metalsmith');
 const chalk      = require('chalk');
 const metadata   = require('./config')(process.argv);
 const path       = require('path');
-// var imgManager   = require('./images-manager').plugin;
 
 const tasksEntry = './build-plugins/';
 const plugins = [
@@ -16,7 +15,8 @@ const plugins = [
   'excerpts',
   'slugs',
   'layouts',
-  'html'
+  'html',
+  'images'
 ];
 
 function build(callback) {
@@ -29,10 +29,6 @@ function build(callback) {
   plugins.forEach(function(name) {
     metalsmith.use(require(tasksEntry + name));
   });
-
-  // metalsmith.use(imgManager({
-  //   log: 'new'
-  // }));
 
   metalsmith.build(function(err) {
     if (err) {

@@ -1,7 +1,6 @@
-const imgManager   = require('../utils/images-manager').plugin;
-const metadata     = require('../config')(process.argv);
+const ImgManager = require('../Images-manager');
+const manager = new ImgManager();
 
-module.exports = imgManager({
-  log: 'new',
-  env: metadata.env
+module.exports = manager.plugin({
+  log: 'new'
 });

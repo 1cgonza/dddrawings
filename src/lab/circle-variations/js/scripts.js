@@ -17,7 +17,7 @@
   var sprites = {
     pencil: {
       title: 'Pencil',
-      sprite: '../../img/sprites/pencil_f4_w80-h60.png',
+      sprite: '/img/assets/sprites/pencil_f4_w80-h60.png',
       cols: 4,
       rows: 1,
       width: 80,
@@ -28,7 +28,7 @@
     },
     ink: {
       title: 'Ink',
-      sprite: '../../img/sprites/ink_f14_w840_h200_offx26_offy197.png',
+      sprite: '/img/assets/sprites/ink_f14_w840_h200_offx26_offy197.png',
       cols: 14,
       rows: 1,
       width: 840,
@@ -39,7 +39,7 @@
     },
     birds: {
       title: 'Birds',
-      sprite: '../../img/sprites/curiousBird_fh7-fv5_w944-h1111.jpg',
+      sprite: '/img/assets/sprites/curiousBird_fh7-fv5_w944-h1111.jpg',
       cols: 7,
       rows: 5,
       width: 944,
@@ -50,7 +50,7 @@
     },
     numbers: {
       title: 'Numbers',
-      sprite: '../../img/sprites/numbersFrom0to6_9_col10_row_7_w3050_h1638_offx162_offy176.jpg',
+      sprite: '/img/assets/sprites/numbersFrom0to6_9_col10_row_7_w3050_h1638_offx162_offy176.jpg',
       cols: 10,
       rows: 7,
       width: 3050,
@@ -99,7 +99,7 @@
 
   function requestData() {
     req.json({
-      url: '../../data/ingeominas/eq' + options.year + '.json',
+      url: '/data/ingeominas/eq' + options.year + '.json',
       container: container,
       loadngMsg: 'Loading seismic data of year ' + options.year
     })

@@ -19,7 +19,7 @@
   };
   var img = new Image();
   img.onload = initFlock;
-  img.src = '../../img/sprites/birdFly_f5_w226_h50.png';
+  img.src = '/img/assets/sprites/birdFly_f5_w226_h50.png';
 
   function initFlock() {
     options.frameW  = options.width / options.cols | 0;

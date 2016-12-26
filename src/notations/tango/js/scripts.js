@@ -37,8 +37,8 @@
   var loaded = false;
 
   var assets = {
-    small: '/img/notations/tango-small.jpg',
-    large: '/img/notations/tango.jpg'
+    small: '/img/assets/notations/tango-small.jpg',
+    large: '/img/assets/notations/tango.jpg'
   };
   var assetsLoaded = 0;
 
@@ -222,7 +222,7 @@
 
         checkAssetsLoaded();
       };
-      img.src = '/img/notations/tango/tango' + i + '.jpg';
+      img.src = '/img/assets/notations/tango/tango' + i + '.jpg';
       images.frames[i] = img;
       i++;
     }

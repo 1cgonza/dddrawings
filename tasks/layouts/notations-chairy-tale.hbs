@@ -11,7 +11,7 @@
       </header>
 
       {{#if videos}}
-      <video id="video" width="640" height="404" preload {{#if poster}}poster="../../img/posters/{{poster}} {{/if}}">
+      <video id="video" width="640" height="404" preload {{#if poster}}poster="{{setURL '/img/assets/posters/' poster}}{{/if}}">
       {{setVideos videos}}
       You need to update your browser to play this video.
       </video>

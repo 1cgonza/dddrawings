@@ -50,18 +50,18 @@
   // ASSETS
   var assets = {
     eqData: {
-      url: '../../data/ingeominas/eq' + currentYear + '.json',
+      url: '/data/ingeominas/eq' + currentYear + '.json',
       update: function() {
-        this.url = '../../data/ingeominas/eq' + currentYear + '.json';
+        this.url = '/data/ingeominas/eq' + currentYear + '.json';
       },
       loaded: false
     },
     taData: {
-      url: '../../data/cmh/ta.json',
+      url: '/data/cmh/ta.json',
       loaded: false
     },
     birdSprite: {
-      url: '../../img/sprites/bird2.png',
+      url: '/img/assets/sprites/bird2.png',
       loaded: false
     }
   };

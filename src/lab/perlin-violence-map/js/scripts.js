@@ -32,7 +32,7 @@
     init();
     drawBG();
   };
-  img.src = '../../img/backgrounds/white-paper2.jpg';
+  img.src = '/img/assets/backgrounds/white-paper2.jpg';
 
   var cats = {
     'Amenaza': ['#F0F0F0', [240, 240, 240]],
@@ -73,7 +73,6 @@
     'Uso de civiles como escudo': ['#000000', [0, 0, 0]],
     'Violencia sexual': ['#CE18C9', [206, 24, 201]]
   };
-  console.log(cats);
 
   /*==================================
   =            YEARS MENU            =

@@ -99,7 +99,7 @@
     img.src = imgURL;
   }
 
-  takeColor('/img/lab/pollockShimmering.gif');
+  takeColor('/img/assets/pollockShimmering.gif');
 
   var Crack = function() {
     this.x = 0;

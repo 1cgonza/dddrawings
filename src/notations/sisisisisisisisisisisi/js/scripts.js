@@ -26,7 +26,7 @@
       offRight: 24,
       offBottom: 17,
       offLeft: 165,
-      src: '/img/notations/sisisi-notations.jpg',
+      src: '/img/assets/notations/sisisi-notations.jpg',
       cb: assetReady,
       msg: 'Loading Notations'
     },

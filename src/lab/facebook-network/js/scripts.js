@@ -12,7 +12,7 @@
 
   createMenu();
 
-  d3.json('../../data/facebook/friends.json', function(error, data) {
+  d3.json('/data/facebook/friends.json', function(error, data) {
     if (error) {
       console.error('Error loading data');
     } else {
@@ -210,7 +210,7 @@
   FN.prototype.heads = function() {
     this.nodes.append('image')
       .attr('class', 'image')
-      .attr('xlink:href', '../../img/sprites/head.png')
+      .attr('xlink:href', '/img/assets/sprites/head.png')
       .attr('height', function(d) { return d.weight / 2; })
       .attr('width', '100')
       .call(this.force.drag);

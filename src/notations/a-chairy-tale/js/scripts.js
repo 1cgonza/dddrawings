@@ -12,9 +12,9 @@
 
   var assets = {
     video: document.getElementById('video'),
-    data: '../../data/notations/chairy-tale.json',
-    smallImg: '../../img/notations/chairy-tale-small.jpg',
-    largeImg: '../../img/notations/chairy-tale-notations.jpg',
+    data: '/data/notations/chairy-tale.json',
+    smallImg: '/img/assets/notations/chairy-tale-small.jpg',
+    largeImg: '/img/assets/notations/chairy-tale-notations.jpg',
   };
   var assetsLoaded = 0;
   assets.length = Object.keys(assets).length;

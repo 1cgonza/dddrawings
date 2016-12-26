@@ -33,7 +33,7 @@
 
   var imgData = {
     cb: imgReady,
-    url: '/img/sprites/rotating_triangle.png',
+    url: '/img/assets/sprites/rotating_triangle.png',
     frames: [
       {x: 0, y: 0, w: 41, h: 50},
       {x:  41, y: 0, w: 41, h: 50},

@@ -21,7 +21,7 @@
   var bgImg;
 
   DDD.json({
-    url: '../../data/pulse/heart.2.json',
+    url: '/data/pulse/heart.2.json',
     container: container,
     loadingMsg: 'Loading Pulse Data'
   })
@@ -38,7 +38,7 @@
 
     bg.img        = new Image();
     bg.img.onload = loadBackground;
-    bg.img.src    = '../../img/backgrounds/white-paper.jpg';
+    bg.img.src    = '/img/assets/backgrounds/white-paper.jpg';
   })
   .catch(function(err) {
     console.error(err);

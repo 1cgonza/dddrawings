@@ -50,7 +50,7 @@
     {
       key: 'lines',
       options: {
-        src: '../../img/sprites/lines-01-small.png',
+        src: '/img/assets/sprites/lines-01-small.png',
         w: 295,
         h: 150,
         cols: 21,
@@ -62,7 +62,7 @@
     {
       key: 'shadows',
       options: {
-        src: '../../img/sprites/shadows-sprite.png',
+        src: '/img/assets/sprites/shadows-sprite.png',
         w: 318,
         h: 300,
         cols: 3,
@@ -74,7 +74,7 @@
     {
       key: 'levit',
       options: {
-        src: '../../img/sprites/levit.png',
+        src: '/img/assets/sprites/levit.png',
         w: 3279,
         h: 165,
         cols: 30,

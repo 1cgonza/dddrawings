@@ -20,7 +20,7 @@
       offRight: 24,
       offBottom: 17,
       offLeft: 165,
-      src: '/img/notations/bug-goes-to-town.jpg',
+      src: '/img/assets/notations/bug-goes-to-town.jpg',
       cb: imgReady,
       msg: 'Loading Notations'
     },

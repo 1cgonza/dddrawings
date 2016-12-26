@@ -8,7 +8,7 @@
 
   /*----------  SET GRID (Image Sprite) ----------*/
   var grid = {
-    src: '../../img/sprites/curiousBird_fh7-fv5_w944-h1111.jpg',
+    src: '/img/assets/sprites/curiousBird_fh7-fv5_w944-h1111.jpg',
     width: 944,
     height: 1111,
     cols: 7,

@@ -9,7 +9,10 @@ var server = function(buildCallback) {
       match: [
         '**/*',
         '!build/**.*',
-        '!.git/**.*'
+        '!src/img/lab/**.*',
+        '!src/img/notations/**.*',
+        '!.git/**.*',
+        '!**/*.DS_Store'
       ],
       fn: function(event, file) {
         if (event === 'change') {
@@ -35,4 +38,3 @@ var server = function(buildCallback) {
 };
 
 module.exports = server;
-

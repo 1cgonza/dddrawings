@@ -5,7 +5,7 @@
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/1cgonza/ddd"
+    "url": "https://github.com/1cgonza/dddrawings"
   },
   "keywords": [
     "PhD",
@@ -16,9 +16,9 @@
   "author": "Juan Camilo Gonzalez <info@juancgonzalez.com> (http://juancgonzalez.com)",
   "license": "CC-BY-NC-SA-4.0",
   "bugs": {
-    "url": "https://github.com/1cgonza/ddd/issues"
+    "url": "https://github.com/1cgonza/dddrawings/issues"
   },
-  "homepage": "https://github.com/1cgonza/ddd",
+  "homepage": "https://github.com/1cgonza/dddrawings",
   "dependencies": {
     "browser-sync": "^2.12.4",
     "chalk": "^1.1.3",

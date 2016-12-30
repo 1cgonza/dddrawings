@@ -23,6 +23,14 @@ var ImagesManager = function() {
     {name: 'thumb', width: 550, height: 332},
     {name: 'large', width: 1200, height: 630}
   ];
+
+  for (var collection in this.paths) {
+    var folder = this.paths[collection].dest;
+
+    if (!fs.existsSync(folder)) {
+      fs.mkdirSync(folder);
+    }
+  }
 };
 
 ImagesManager.prototype.plugin = function(options) {

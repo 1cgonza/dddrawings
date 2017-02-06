@@ -16,3 +16,6 @@ src/img/notations/
 
 # External libs
 src/js/vendor
+
+# yarn
+.yarnclean

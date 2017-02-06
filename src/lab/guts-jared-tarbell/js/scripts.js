@@ -24,7 +24,7 @@
   var HALF_PI = Math.PI / 2;
   var animReq;
 
-  takeColor('/img/thumbs/nude.gif');
+  takeColor('/img/assets/nude.gif');
 
   function takeColor(imgURL) {
     var img = new Image();

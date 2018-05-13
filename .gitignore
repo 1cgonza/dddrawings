@@ -12,12 +12,14 @@ build/*
 !build/.gitkeep
 !build/CNAME
 
+# Hashed JS files and vendors
+src/js/*
+!src/ddd.min.js
+!src/ddd.min.js.map
+
 # Processed images
 src/img/lab/
 src/img/notations/
-
-# External libs
-src/js/vendor
 
 # yarn
 .yarnclean

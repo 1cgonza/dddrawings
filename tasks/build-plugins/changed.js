@@ -1,4 +1,4 @@
-const changed = require('metalsmith-changed');
+import changed from 'metalsmith-changed';
 
 module.exports = changed({
   forcePattern: '**/*.md'

@@ -1,4 +1,4 @@
-const sass = require('metalsmith-sass');
+import sass from 'metalsmith-sass';
 
 module.exports = sass({
   outputStyle: 'compressed',

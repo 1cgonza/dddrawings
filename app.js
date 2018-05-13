@@ -1,8 +1,8 @@
-var deploy     = require('./tasks/deploy');
-var clean      = require('./tasks/clean');
-var build      = require('./tasks/build');
-var metadata   = require('./tasks/config')(process.argv);
-var ImgManager = require('./tasks/Images-manager');
+import deploy from './tasks/deploy';
+import clean from './tasks/clean';
+import build from './tasks/build';
+import metadata from './tasks/config';
+import ImgManager from './tasks/Images-manager';
 
 function init() {
   if (metadata.env === 'clean') {

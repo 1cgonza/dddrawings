@@ -1,7 +1,7 @@
-var chalk = require('chalk');
-var del   = require('del');
+import chalk from 'chalk';
+import del from 'del';
 
-function safelyClean(cb) {
+export default (cb) => {
   console.log(chalk.cyan('..::| START cleaning |::..'));
 
   del([
@@ -9,10 +9,8 @@ function safelyClean(cb) {
     '!build',
     '!build/CNAME',
     '!build/data/**',
-    '!build/videos/**',
-    '!build/Readme.md',
-    '!build/js/**'
-  ]).then(function(paths) {
+    '!build/videos/**'
+  ]).then(paths => {
     console.log(chalk.gray('Deleted files/folders:\n', paths.join('\n')));
     console.log(chalk.cyan('..::| FINISHED cleaning |::..'));
 
@@ -20,6 +18,4 @@ function safelyClean(cb) {
       cb();
     }
   });
-}
-
-module.exports = safelyClean;
+};

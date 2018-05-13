@@ -1,8 +1,8 @@
-const chalk    = require('chalk');
-const metadata = require('../config.js')(process.argv);
+import chalk from 'chalk';
+import metadata from './tasks/config';
 
-var done = function(callback) {
-  return function(err) {
+module.exports = (callback) => {
+  return (err) => {
     if (err) {
       throw err;
     }
@@ -16,5 +16,3 @@ var done = function(callback) {
     }
   };
 };
-
-module.exports = done;

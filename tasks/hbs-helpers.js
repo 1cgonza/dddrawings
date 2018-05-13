@@ -1,8 +1,8 @@
-const fs         = require('fs');
-const path       = require('path');
-const Handlebars = require('handlebars');
+import fs from 'fs';
+import path from 'path';
+import Handlebars from 'handlebars';
 
-function helpers() {
+export default () => {
   Handlebars.registerPartial({
     head: fs.readFileSync(
       path.resolve(__dirname, './layouts/partials/head.hbs')
@@ -25,9 +25,8 @@ function helpers() {
     setVideos:        require('./hbs-helpers/videos'),
     setScripts:       require('./hbs-helpers/script-tags'),
     setURL:           require('./hbs-helpers/set-url'),
+    setJS:            require('./hbs-helpers/set-js'),
     getRelatedPosts:  require('./hbs-helpers/related'),
     analytics:        require('./hbs-helpers/analytics')
   });
-}
-
-module.exports = helpers;
+};

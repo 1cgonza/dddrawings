@@ -1,9 +1,12 @@
-const chalk       = require('chalk');
-const browserSync = require('browser-sync').create();
-const gzip        = require('connect-gzip-static')('./build');
+import chalk from 'chalk';
+import browserSync from 'browser-sync';
+import connectGzip from 'connect-gzip-static';
 
-var server = function(buildCallback) {
-  var config = {
+const server = browserSync.create();
+const gzip = connectGzip('./build');
+
+module.exports = (buildCallback) => {
+  const config = {
     server: 'build',
     files: [{
       match: [
@@ -14,19 +17,20 @@ var server = function(buildCallback) {
         '!.git/**.*',
         '!**/*.DS_Store'
       ],
-      fn: function(event, file) {
+      fn: (event, file) => {
         if (event === 'change') {
-          buildCallback(this.reload);
+          buildCallback(server.reload);
           console.log(chalk.cyan('Updated file: ') + chalk.yellow(file));
         }
       }
     }],
     // logLevel: 'debug',
-    notify: false
+    notify: false,
+    open: false
   };
 
-  return function() {
-    browserSync.init(config, function(err, bs) {
+  return () => {
+    server.init(config, (err, bs) => {
       buildCallback();
 
       // uncomment to test gzip delivery on localhost. Just like this it breaks the autoreload
@@ -36,5 +40,3 @@ var server = function(buildCallback) {
     });
   };
 };
-
-module.exports = server;

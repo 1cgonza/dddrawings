@@ -1,3 +1,3 @@
-const drafts = require('metalsmith-drafts');
+import drafts from 'metalsmith-drafts';
 
 module.exports = drafts();

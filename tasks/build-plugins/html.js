@@ -1,3 +1,3 @@
-const htmlMin = require('metalsmith-html-minifier');
+import htmlMin from 'metalsmith-html-minifier';
 
 module.exports = htmlMin();

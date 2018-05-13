@@ -1,4 +1,4 @@
-var environments = {
+let environments = {
   dev: {
     baseUrl: '/',
     videosPath: '/videos/',
@@ -19,7 +19,7 @@ var environments = {
   }
 };
 
-var defaults = {
+let defaults = {
   siteTitle: 'Data Driven Drawings',
   siteSubtitle: 'An Approach to Autobiographical Animation',
   author: 'Juan Camilo González',
@@ -38,16 +38,16 @@ var defaults = {
 };
 
 function attachOptionsToDefaults(options) {
-  for (var option in options) {
+  for (let option in options) {
     defaults[option] = options[option];
   }
   return defaults;
 }
 
-var defineEnvironment = function(args) {
-  var env = attachOptionsToDefaults(environments.dev);
+function defineEnvironment() {
+  let env = attachOptionsToDefaults(environments.dev);
 
-  args.forEach(function(val) {
+  process.argv.forEach(val => {
     if (val === '--prod') {
       env = attachOptionsToDefaults(environments.prod);
     } else if (val === '--deploy') {
@@ -60,4 +60,4 @@ var defineEnvironment = function(args) {
   return env;
 };
 
-module.exports = defineEnvironment;
+export default defineEnvironment();

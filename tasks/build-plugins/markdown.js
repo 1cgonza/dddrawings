@@ -1,4 +1,4 @@
-const markdown = require('metalsmith-markdown');
+import markdown from 'metalsmith-markdown';
 
 module.exports = markdown({
   typographer: true,

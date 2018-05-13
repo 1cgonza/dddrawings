@@ -1,4 +1,4 @@
-const collections  = require('metalsmith-collections');
+import collections from 'metalsmith-collections';
 
 module.exports = collections({
   lab: {

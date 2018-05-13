@@ -1,7 +1,7 @@
-const Metalsmith = require('metalsmith');
-const chalk      = require('chalk');
-const metadata   = require('./config')(process.argv);
-const path       = require('path');
+import Metalsmith from 'metalsmith';
+import chalk from 'chalk';
+import metadata from './config';
+import path from 'path';
 
 const tasksEntry = './build-plugins/';
 const plugins = [
@@ -21,16 +21,16 @@ const plugins = [
 
 function build(callback) {
   var metalsmith = new Metalsmith(__dirname)
-  .source('../src')
-  .destination('../build')
-  .clean(false)
-  .metadata(metadata);
+    .source('../src')
+    .destination('../build')
+    .clean(false)
+    .metadata(metadata);
 
-  plugins.forEach(function(name) {
+  plugins.forEach(name => {
     metalsmith.use(require(tasksEntry + name));
   });
 
-  metalsmith.build(function(err) {
+  metalsmith.build(err => {
     if (err) {
       throw err;
     }

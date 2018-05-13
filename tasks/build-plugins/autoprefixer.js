@@ -1,3 +1,3 @@
-const autoprefixer = require('metalsmith-autoprefixer');
+import autoprefixer from 'metalsmith-autoprefixer';
 
 module.exports = autoprefixer();

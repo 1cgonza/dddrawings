@@ -1,8 +1,8 @@
-const SafeString = require('handlebars').SafeString;
-const metadata   = require('../config')(process.argv);
+import { SafeString } from 'handlebars';
+import metadata from '../config';
 
-module.exports = function(title) {
-  var pageTitle = metadata.siteTitle;
+module.exports = (title) => {
+  let pageTitle = metadata.siteTitle;
 
   if (title && title.length > 0 && title !== 'Home') {
     pageTitle = title + ' :: ' + metadata.siteTitle;

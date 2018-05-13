@@ -1,9 +1,9 @@
-const SafeString = require('handlebars').SafeString;
-const metadata   = require('../config')(process.argv);
-const path       = require('path');
-const setURL     = require('./set-url');
+import { SafeString } from 'handlebars';
+import metadata from '../config';
+import path from 'path';
+import setURL from './set-url';
 
-module.exports = function(collection, name, type) {
+module.exports = (collection, name, type) => {
   if (!name) {
     collection = '';
     name = metadata.defaultImgPath;
@@ -18,7 +18,7 @@ module.exports = function(collection, name, type) {
   name = typeof name === 'string' ? name : '';
   type = typeof type === 'string' ? type : '';
 
-  var imgName = type === 'full' ? name + '.jpg' : name + '-' + type + '.jpg';
+  const imgName = type === 'full' ? name + '.jpg' : name + '-' + type + '.jpg';
 
   return new SafeString(setURL(collection, imgName, false));
 };

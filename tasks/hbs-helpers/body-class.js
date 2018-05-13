@@ -1,8 +1,8 @@
-const SafeString = require('handlebars').SafeString;
+import {SafeString} from 'handlebars';
 
-module.exports = function(slug, collection, archive) {
-  var bodyClass = 'page';
-  var name = 'ddd';
+module.exports = (slug, collection, archive) => {
+  let bodyClass = 'page';
+  let name = 'ddd';
 
   if (Array.isArray(collection) && collection.length > 0 && !archive) {
     bodyClass += '-' + collection;

@@ -1,10 +1,10 @@
-const SafeString    = require('handlebars').SafeString;
-const setURL        = require('./set-url');
-const setScriptTags = require('./script-tags');
+import { SafeString } from 'handlebars';
+import setURL from './set-url';
+import setScriptTags from './script-tags';
 
-module.exports = function(scripts) {
-  var link = setURL('js', false, true);
-  var tags = setScriptTags(scripts, link);
+module.exports = (scripts) => {
+  let link = setURL('js', false, true);
+  let tags = setScriptTags(scripts, link);
 
   return new SafeString(tags);
 };

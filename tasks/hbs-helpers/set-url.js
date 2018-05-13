@@ -1,8 +1,8 @@
-const metadata = require('../config')(process.argv);
-const path     = require('path');
-const url      = require('url');
+import metadata from '../config';
+import path from 'path';
+import url from 'url';
 
-module.exports = function(pre, slug, withTail) {
+module.exports = (pre, slug, withTail) => {
   pre      = Array.isArray(pre) ? pre[0] : pre;
   pre      = typeof pre === 'string' ? pre : '';
   slug     = typeof slug === 'string' &&  pre !== slug ? slug : '';

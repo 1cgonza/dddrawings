@@ -1,16 +1,16 @@
-const SafeString = require('handlebars').SafeString;
-const slugify    = require('slug');
-const metadata   = require('../config')(process.argv);
-const setURL     = require('./set-url');
+import {SafeString} from 'handlebars';
+import slugify from 'slug';
+import metadata from '../config';
+import setURL from './set-url';
 
-module.exports = function(slug, collection) {
-  var pages = ['Home', 'Lab', 'Notations', 'Datasets'];
-  var list = '';
+module.exports = (slug, collection) => {
+  const pages = ['Home', 'Lab', 'Notations', 'Datasets'];
+  let list = '';
 
-  pages.forEach(function(name) {
-    var safeSlug = slugify(name, {lower: true});
-    var pageURL = '';
-    var eleClass = '';
+  pages.forEach(name => {
+    let safeSlug = slugify(name, {lower: true});
+    let pageURL = '';
+    let eleClass = '';
 
     if (name === 'Home') {
       pageURL = metadata.baseUrl;

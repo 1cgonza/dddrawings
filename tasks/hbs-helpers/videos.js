@@ -1,11 +1,11 @@
-const SafeString = require('handlebars').SafeString;
-const metadata   = require('../config')(process.argv);
+import {SafeString} from 'handlebars';
+import metadata from '../config';
 
-module.exports = function(videos) {
-  var ret = '';
-  var link = metadata.videosPath;
-  videos.forEach(function(video, i) {
-    for (var type in video) {
+module.exports = (videos) => {
+  let ret = '';
+  const link = metadata.videosPath;
+  videos.forEach((video, i) => {
+    for (let type in video) {
       ret += '<source src="' + link + video[type] + '" type="video/' + type + '">';
     }
   });

@@ -1,7 +1,7 @@
-const SafeString   = require('handlebars').SafeString;
-const circularJSON = require('circular-json');
+import { SafeString } from 'handlebars';
+import circularJSON from 'circular-json';
 
-module.exports = function(context) {
+module.exports = (context) => {
   return new SafeString(
     '<pre class="debug"><code class="json">' +
       circularJSON.stringify(context, null, 2)  +

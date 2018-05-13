@@ -1,13 +1,13 @@
-const SafeString = require('handlebars').SafeString;
-const setURL = require('./set-url');
+import { SafeString } from 'handlebars';
+import setURL from './set-url';
 
-module.exports = function(tag, collection, metalsmith) {
-  var labPosts = metalsmith.data.root[collection];
-  var ret = '';
+module.exports = (tag, collection, metalsmith) => {
+  let labPosts = metalsmith.data.root[collection];
+  let ret = '';
 
-  labPosts.forEach(function(post) {
+  labPosts.forEach(post => {
     if (post.tags && post.tags.indexOf(tag) > -1) {
-      var link = setURL(collection, post.slug, true);
+      let link = setURL(collection, post.slug, true);
       ret += '<li><a href="' + link + '">' + post.title + '</a></li>';
     }
   });

@@ -1,9 +1,9 @@
-module.exports = function(scripts, link) {
-  var ret = '';
-  var tag = '';
+module.exports = (scripts, link) => {
+  let ret = '';
+  let tag = '';
 
   if (Array.isArray(scripts)) {
-    scripts.forEach(function(script) {
+    scripts.forEach(script => {
       tag = '<script src="' + link + script + '.js"></script>';
       ret += tag;
     });

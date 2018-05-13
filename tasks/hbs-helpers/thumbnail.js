@@ -1,9 +1,9 @@
-const SafeString = require('handlebars').SafeString;
-const metadata   = require('../config')(process.argv);
-const setURL     = require('./set-url');
+import { SafeString } from 'handlebars';
+import metadata from '../config';
+import setURL from './set-url';
 
-module.exports = function(thumb) {
-  var pageThumb = thumb ? thumb : metadata.defaultThumb;
+module.exports = (thumb) => {
+  const pageThumb = thumb ? thumb : metadata.defaultThumb;
 
   return new SafeString(pageThumb);
 };

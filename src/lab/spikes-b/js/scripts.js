@@ -46,40 +46,6 @@
     ]
   };
 
-  // var tintasv1 = {
-  //   url: '/img/assets/sprites/PruebaPunticos_9x1-252x20-1.png',
-  //   width: 252,
-  //   height: 20,
-  //   frames: [
-  //     {x: 0, y: 0, w: 28, h: 20},
-  //     {x: 28, y: 0, w: 28, h: 20},
-  //     {x: 56, y: 0, w: 28, h: 20},
-  //     {x: 84, y: 0, w: 28, h: 20},
-  //     {x: 112, y: 0, w: 28, h: 20},
-  //     {x: 140, y: 0, w: 28, h: 20},
-  //     {x: 168, y: 0, w: 28, h: 20},
-  //     {x: 196, y: 0, w: 28, h: 20},
-  //     {x: 224, y: 0, w: 28, h: 20}
-  //   ]
-  // };
-
-  // var tintasv1 = {
-  //   url: '/img/assets/sprites/alargados_9x1-285x100-1.png',
-  //   width: 285,
-  //   height: 100,
-  //   frames: [
-  //     {x: 0, y: 0, w: 31, h: 100},
-  //     {x: 31, y: 0, w: 31, h: 100},
-  //     {x: 62, y: 0, w: 31, h: 100},
-  //     {x: 93, y: 0, w: 31, h: 100},
-  //     {x: 124, y: 0, w: 31, h: 100},
-  //     {x: 155, y: 0, w: 31, h: 100},
-  //     {x: 186, y: 0, w: 31, h: 100},
-  //     {x: 217, y: 0, w: 31, h: 100},
-  //     {x: 248, y: 0, w: 31, h: 100}
-  //   ]
-  // };
-
   var tintasv1 = {
     url: '/img/assets/sprites/Prueba2_10x1-1020x162-2.png',
     width: 1020,
@@ -99,23 +65,6 @@
   };
 
   var animReq;
-
-  // var tintasv1 = {
-  //   url: '/img/assets/sprites/tintasv1_9x1-1182x100--2.png',
-  //   width: 1182,
-  //   height: 100,
-  //   frames: [
-  //     {x: 0, y: 0, w: 131, h: 100},
-  //     {x: 131, y: 0, w: 131, h: 100},
-  //     {x: 262, y: 0, w: 131, h: 100},
-  //     {x: 393, y: 0, w: 131, h: 100},
-  //     {x: 524, y: 0, w: 131, h: 100},
-  //     {x: 655, y: 0, w: 131, h: 100},
-  //     {x: 786, y: 0, w: 131, h: 100},
-  //     {x: 917, y: 0, w: 131, h: 100},
-  //     {x: 1048, y: 0, w: 131, h: 100}
-  //   ]
-  // };
 
   var framesLen = tintasv1.frames.length;
 
@@ -162,7 +111,7 @@
   img.onload = function() {
     img2.onload = function() {
       fondo.onload = init;
-      fondo.src = '/img/assets/backgrounds/white-paper3.jpg';
+      fondo.src = '/img/assets/backgrounds/white-paper2.jpg';
     };
     img2.src = Muertos.url;
   };

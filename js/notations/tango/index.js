@@ -1,4 +1,4 @@
-import { Notations, notationsVideo } from '../utils/Notations';
+import { Notations, notationsVideo } from '../../utils/Notations';
 
 /*----------  Elements  ----------*/
 var bottom    = document.getElementById('bottom');

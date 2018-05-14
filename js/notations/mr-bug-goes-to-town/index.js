@@ -1,4 +1,4 @@
-import {Notations, notationsVideo} from '../utils/Notations';
+import { Notations, notationsVideo } from '../../utils/Notations';
 
 let video;
 let animReq;

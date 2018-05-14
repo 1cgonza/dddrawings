@@ -1,4 +1,4 @@
-import { Notations, notationsVideo } from '../utils/Notations';
+import { Notations, notationsVideo } from '../../utils/Notations';
 
 var animReq;
 var assetsLoaded = 0;

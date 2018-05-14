@@ -2,15 +2,28 @@ const resolve = require('path').resolve;
 const webpack = require('webpack');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const fs = require('fs');
+
+const entries = (function(base) {
+  let ret = {
+    site: './js/site.js'
+  };
+
+  function appendEntries(folder) {
+    let folders = fs.readdirSync(base + folder);
+    folders.forEach(function(name) {
+      ret[name] = base + folder + '/' + name + '/index.js';
+    });
+  }
+
+  appendEntries('/lab');
+  appendEntries('/notations');
+
+  return ret;
+})('./js');
 
 module.exports = {
-  entry: {
-    site: './js/site.js',
-    'mr-bug-goes-to-town': './js/notations/mr-bug.js',
-    'a-chairy-tale': './js/notations/chairy-tale.js',
-    'tango': './js/notations/tango.js',
-    'sisisisisisisisisisisi': './js/notations/sisisi.js'
-  },
+  entry: entries,
   output: {
     path: resolve(__dirname, 'src', 'js'),
     filename: '[name].[chunkhash:4].js'

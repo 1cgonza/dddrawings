@@ -17,7 +17,10 @@
   var mode = 1;
   var TWO_PI = Math.PI * 2;
   var map = new DDD.Map({
-    center: {lon: -74.297313, lat: 4.570917} // Center of Colombia
+    center: {
+      lon: -74.297313,
+      lat: 4.570917
+    } // Center of Colombia
   });
   var year   = 2016;
   var req    = new DDD.DataRequest();
@@ -247,7 +250,7 @@
     this.timer = 0;
     this.color = color;
   };
-var flag = 0;
+
   function setPixelColor(i, rgb, a) {
     var a1 = 1 - a;
     var r2 = pixels[i];
@@ -259,11 +262,6 @@ var flag = 0;
     pixels[i + 1] = rgb[1] * a + g2 * a1;
     pixels[i + 2] = rgb[2] * a + b2 * a1;
     pixels[i + 3] = a;
-
-    if (flag < 100) {
-      console.log(pixels[i], pixels[i + 1], pixels[i + 2], pixels[i + 3]);
-      flag++;
-    }
   }
 
   Point.prototype.update = function() {
@@ -278,21 +276,6 @@ var flag = 0;
       this.finished = true;
     }
 
-    // var _i = ((yt | 0) * stage.w + (xt | 0)) * 4;
-
-    // setPixelColor(_i, this.color[1], 255);
-    // pixels[_i] = this.color[1][0];
-    // pixels[++_i] = this.color[1][1];
-    // pixels[++_i] = this.color[1][2];
-    // pixels[++_i] = 180;
-// console.log(this.color[1]);
-    // stage.ctx.fillStyle = 'rgba(' + this.color[1][0] + ',' + this.color[1][1] + ',' + this.color[1][2] + ', 0.05)';
-    // stage.ctx.fillStyle = this.color[0];
-    // stage.ctx.fillRect(((xt | 0) - 0.5), ((yt | 0)), 1, 1);
-// if (flag < 100) {
-//   console.log(stage.w);
-//   flag++;
-// }
     stage.ctx.beginPath();
     stage.ctx.moveTo(xt, yt);
     stage.ctx.lineTo(this.x, this.y);

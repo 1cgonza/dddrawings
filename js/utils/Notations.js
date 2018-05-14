@@ -39,7 +39,9 @@ export class Notations {
       };
     }
 
-    this.stage = DDD.canvas(container, { w: container.offsetWidth });
+    this.stage = DDD.canvas(container, {
+      w: container.offsetWidth
+    });
     this.canvas = this.stage.canvas;
     this.ctx = this.stage.ctx;
   }

@@ -22,6 +22,7 @@ export default () => {
     featuredImg:      require('./hbs-helpers/featured-image'),
     getThumb:         require('./hbs-helpers/thumbnail'),
     setLibraries:     require('./hbs-helpers/external-libraries'),
+    setExtScripts:    require('./hbs-helpers/external-scripts'),
     setVideos:        require('./hbs-helpers/videos'),
     setScripts:       require('./hbs-helpers/script-tags'),
     setURL:           require('./hbs-helpers/set-url'),

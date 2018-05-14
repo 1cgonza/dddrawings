@@ -12,5 +12,12 @@
 {{/if}}
 
 <script src ="{{setURL 'js' 'ddd.min.js' false}}"></script>
-<script src ="./js/scripts.js"></script>
+{{#if skipJS}}
+  <script src="{{ setJS slug }}"></script>
+{{else}}
+  <script src="./js/scripts.js"></script>
+{{/if}}
+
+{{#if extScripts}} {{setExtScripts extScripts}} {{/if}}
+
 {{> footer}}

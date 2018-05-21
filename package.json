@@ -9,11 +9,12 @@
   },
   "scripts": {
     "dev": "babel-node app.js",
-    "pack": "webpack --watch --mode production --progress --colors",
-    "start": "concurrently --kill-others \"webpack --watch --mode production --progress --colors\" \"babel-node app.js\"",
+    "pack": "webpack --watch --mode development --progress --colors",
+    "start": "concurrently --kill-others \"yarn run pack\" \"yarn run dev\"",
     "clean": "babel-node app --clean",
-    "build": "babel-node app --prod",
-    "deploy": "babel-node app --deploy"
+    "pack:prod": "webpack --mode production --progress --colors",
+    "build": "yarn pack:prod && babel-node app --prod",
+    "deploy": "yarn pack:prod && babel-node app --deploy"
   },
   "keywords": [
     "PhD",
@@ -34,7 +35,7 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-env": "^1.7.0",
     "browser-sync": "^2.18.12",
-    "chalk": "^1.1.3",
+    "chalk": "^2.4.1",
     "circular-json": "^0.3.0",
     "clean-webpack-plugin": "^0.1.19",
     "concurrently": "^3.5.1",

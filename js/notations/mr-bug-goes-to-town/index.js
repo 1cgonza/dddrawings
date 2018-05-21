@@ -2,6 +2,7 @@ import { Notations, notationsVideo } from '../../utils/Notations';
 
 let video;
 let animReq;
+let loaded = false;
 
 const container = document.getElementById('ddd-container');
 let stage = document.createElement('div');
@@ -32,6 +33,7 @@ let notations = new Notations({
 notations.canvas.style.opacity = 0;
 
 function imgReady() {
+  loaded = true;
   updateSize();
   notationsRepaint();
   notations.canvas.style.opacity = 1;
@@ -66,6 +68,9 @@ function playerLoop() {
 }
 
 function notationsUpdate() {
+  if (!loaded) {
+    return;
+  }
   notations.ctx.clearRect(0, 0, notations.canvas.width, notations.canvas.height);
 
   var x = (video.currentTime * notations.step) + notations.offX;

@@ -8,12 +8,14 @@ export default class Map {
     this.imgLoaded = false;
     this.layer = document.createElement('div');
     this.layer.id = 'googleMap';
-    this.layer.style.position = 'absolute';
-    this.layer.style.left = 0;
-    this.layer.style.top = 0;
-    this.layer.style.width = '100%';
-    this.layer.style.height = '100%';
-    this.layer.style.transition = 'none';
+    Object.assign(this.layer.style, {
+      position: 'absolute',
+      left: 0,
+      top: 0,
+      width: '100%',
+      height: '100%',
+      transition: 'none'
+    });
     this.container.appendChild(this.layer);
   }
 

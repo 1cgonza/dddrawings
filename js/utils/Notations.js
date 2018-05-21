@@ -2,18 +2,17 @@ export class Notations {
   constructor(data) {
     var container = data.container || document.body;
 
-    if (data.url) {
+    if (data.hasOwnProperty('url')) {
       DDD.json({
         url: data.url,
         container: container
-      })
-        .then(data.cb)
+      }).then(data.cb)
         .catch(err => {
           console.error(err);
         });
     }
 
-    if (data.img) {
+    if (data.hasOwnProperty('img')) {
       this.imgCallback = data.img.cb;
       DDD.image({
         url: data.img.src,
@@ -74,8 +73,8 @@ export const notationsVideo = (video, cb) => {
     var errMsg = document.createElement('div');
     errMsg.innerHTML = video.innerHTML;
     video.parentNode.replaceChild(errMsg, video);
-    return false;
     console.log(err);
+    return false;
   };
 
   return video;

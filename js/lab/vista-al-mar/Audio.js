@@ -1,14 +1,18 @@
-export default class Audio {
+import { Audio } from 'dddrawings';
+export default class Sound {
   constructor() {
     this.playing = true;
     this.a = {};
     this.btn = document.createElement('div');
 
-    this.audio = new DDD.Audio({
-      mar: 'http://juancgonzalez.com/dddrawings/audio/mar.mp3'
-    }, function(audios) {
-      this.loaded(audios);
-    }.bind(this));
+    this.audio = new Audio(
+      {
+        mar: 'http://juancgonzalez.com/dddrawings/audio/mar.mp3'
+      },
+      function(audios) {
+        this.loaded(audios);
+      }.bind(this)
+    );
 
     Object.assign(this.btn.style, {
       position: 'absolute',

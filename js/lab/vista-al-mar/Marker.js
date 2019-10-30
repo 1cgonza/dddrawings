@@ -1,5 +1,5 @@
-var Marker = function() {
-  // this.layer = new DDD.canvas()
-};
-
-export default Marker;
+export default class Marker {
+  constructor() {
+    // this.layer = new canvas()
+  }
+}

@@ -1,30 +1,31 @@
+import { canvas, DataRequest, Map } from 'dddrawings';
 import UI from './UI';
 import Sprite from './Sprite';
 import Levit from './Levit';
 import { imgs } from './imgs';
 
-const violenceReq = new DDD.DataRequest();
+const violenceReq = new DataRequest();
 
 /*----------  STAGE  ----------*/
 const container = document.getElementById('ddd-container');
 let loading = document.createElement('div');
 
-let bg = DDD.canvas(null);
-let log = DDD.canvas(container);
-let papa = DDD.canvas(container);
-let papaNext = DDD.canvas(container);
-let papaLast = DDD.canvas(container);
+let bg = canvas(null);
+let log = canvas(container);
+let papa = canvas(container);
+let papaNext = canvas(container);
+let papaLast = canvas(container);
 let papaW;
 let papaH;
 
-let stage = DDD.canvas(container);
+let stage = canvas(container);
 
 papa.canvas.id = 'papa';
 
 export let assets = {};
 
 loading.className = 'loading';
-bg.center.y = stage.center.y = bg.h / 1.5 | 0;
+bg.center.y = stage.center.y = (bg.h / 1.5) | 0;
 container.appendChild(loading);
 
 /*----------  DATA  ----------*/
@@ -42,7 +43,7 @@ let hold = 4;
 let tick = 0;
 
 /*----------  MAP  ----------*/
-let map = new DDD.Map({
+let map = new Map({
   zoom: 8,
   width: stage.w,
   height: stage.h,
@@ -87,12 +88,13 @@ function reloadStage(newYear) {
 }
 
 function requestViolenceData() {
-  violenceReq.json({
-    url: '../../data/monitor/violencia-' + year + '.json',
-    container: container,
-    loadingMsg: 'Loading Violence Data',
-    loadingEle: loading
-  })
+  violenceReq
+    .json({
+      url: '../../data/monitor/violencia-' + year + '.json',
+      container: container,
+      loadingMsg: 'Loading Violence Data',
+      loadingEle: loading
+    })
     .then(function(res) {
       d = res.data;
       dLoaded = true;
@@ -107,7 +109,9 @@ function init() {
 
   for (let i = 0; i < imgs.length; i++) {
     let sprite = new Sprite(imgs[i].options);
-    sprite.img.onload = () => { imgsLoaded++; };
+    sprite.img.onload = () => {
+      imgsLoaded++;
+    };
     sprite.img.src = sprite.src;
     assets[imgs[i].key] = sprite;
     papaW = papa.h - 50;
@@ -165,11 +169,23 @@ function fade() {
   op -= 0.005;
   papaLast.ctx.clearRect(0, 0, papaLast.w, papaLast.h);
   papaLast.ctx.globalAlpha = op;
-  papaLast.ctx.drawImage(curr, (papa.w / 2) - (papaW / 2) - 200, (papa.h / 2) - (papaH / 2), papaW, papaH);
+  papaLast.ctx.drawImage(
+    curr,
+    papa.w / 2 - papaW / 2 - 200,
+    papa.h / 2 - papaH / 2,
+    papaW,
+    papaH
+  );
 
   papaNext.ctx.clearRect(0, 0, papaNext.w, papaNext.h);
   papaNext.ctx.globalAlpha = 1 - op;
-  papaNext.ctx.drawImage(next, (papa.w / 2) - (papaW / 2) - 200, (papa.h / 2) - (papaH / 2), papaW, papaH);
+  papaNext.ctx.drawImage(
+    next,
+    papa.w / 2 - papaW / 2 - 200,
+    papa.h / 2 - papaH / 2,
+    papaW,
+    papaH
+  );
 
   papa.ctx.clearRect(0, 0, papa.w, papa.h);
   papa.ctx.drawImage(papaLast.canvas, 0, 0);
@@ -185,7 +201,11 @@ function fade() {
 function draw(i) {
   let e = d[i];
 
-  if (e.hasOwnProperty('vTotal') && e.hasOwnProperty('cat') && e.cat.indexOf('Homicidio') >= 0) {
+  if (
+    e.hasOwnProperty('vTotal') &&
+    e.hasOwnProperty('cat') &&
+    e.cat.indexOf('Homicidio') >= 0
+  ) {
     let total = d[i].vTotal;
 
     if ('lon' in e && 'lat' in e) {

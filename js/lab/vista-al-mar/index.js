@@ -1,3 +1,4 @@
+import { json } from 'dddrawings';
 import Notations from './pulseNotations';
 import Mask from './Mask';
 import Map from './Map';
@@ -28,22 +29,24 @@ let minBeat = 462;
 let beatRange = maxBeat - minBeat;
 let beatStep = 1 / beatRange;
 
-let pulse = DDD.json('/data/pulse/heart.2.json').then(ret => {
-  for (let i = 0; i < ret.beats.length; i++) {
-    let d = ret.beats[i];
-    if (d.charAt(0) === 'S') {
-      pulseData.push(+d.substr(1));
+let pulse = json('/data/pulse/heart.2.json')
+  .then(ret => {
+    for (let i = 0; i < ret.beats.length; i++) {
+      let d = ret.beats[i];
+      if (d.charAt(0) === 'S') {
+        pulseData.push(+d.substr(1));
+      }
     }
-  }
-  pulseDataLoaded = true;
-  dataLenght = pulseData.length;
-  notations.bindData(pulseData);
-  notations.init();
-  heart();
-  memory.invokeStatic();
-}).catch(err => {
-  console.error(err);
-});
+    pulseDataLoaded = true;
+    dataLenght = pulseData.length;
+    notations.bindData(pulseData);
+    notations.init();
+    heart();
+    memory.invokeStatic();
+  })
+  .catch(err => {
+    console.error(err);
+  });
 
 function heart() {
   if (dataI < dataLenght) {
@@ -59,11 +62,11 @@ function heart() {
   animReq = requestAnimationFrame(heart);
 }
 
-notations.stage.canvas.onclick = (event) => {
+notations.stage.canvas.onclick = event => {
   dataI = notations.getNewI(event.clientX);
   return false;
 };
 
-window.onresize = (event) => {
+window.onresize = event => {
   mask.resize();
 };

@@ -1,4 +1,5 @@
-import {point2Coords} from './helpers';
+import { canvas } from 'dddrawings';
+import { point2Coords } from './helpers';
 
 export default class Map {
   constructor(container) {
@@ -36,11 +37,11 @@ export default class Map {
   }
 
   onImageLoaded() {
-    this.mapOver = DDD.canvas(this.container, {
+    this.mapOver = canvas(this.container, {
       w: this.gallo.naturalWidth,
       h: this.gallo.naturalHeight,
-      left: (window.innerWidth / 2) - (this.gallo.naturalWidth / 2) - 40 + 'px',
-      top: (window.innerHeight / 2) - (this.gallo.naturalHeight / 2) + 24 + 'px',
+      left: window.innerWidth / 2 - this.gallo.naturalWidth / 2 - 40 + 'px',
+      top: window.innerHeight / 2 - this.gallo.naturalHeight / 2 + 24 + 'px',
       css: {
         opacity: 0,
         transition: '5s opacity ease-in-out',
@@ -62,15 +63,19 @@ export default class Map {
   }
 
   waitMapToLoad(cb) {
-    google.maps.event.addListenerOnce(this.map, 'idle', this.checkAssetsLoaded.bind(this));
+    google.maps.event.addListenerOnce(
+      this.map,
+      'idle',
+      this.checkAssetsLoaded.bind(this)
+    );
   }
 
   render() {
     this.mapOver.canvas.style.opacity = 1;
-    this.mapOver.canvas.onclick = (event) => {
-      var point = {x: event.clientX, y: event.clientY};
-      var coords = point2Coords(point, this.map);
-      var panorama = this.map.getStreetView();
+    this.mapOver.canvas.onclick = event => {
+      const point = { x: event.clientX, y: event.clientY };
+      const coords = point2Coords(point, this.map);
+      const panorama = this.map.getStreetView();
       panorama.setPosition({
         lat: coords.lat,
         lng: coords.lng

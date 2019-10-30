@@ -1,10 +1,10 @@
-import { SafeString } from 'handlebars';
-import circularJSON from 'circular-json';
+import { SafeString } from 'handlebars'
+import { stringify } from 'flatted/cjs'
 
-module.exports = (context) => {
+module.exports = context => {
   return new SafeString(
     '<pre class="debug"><code class="json">' +
-      circularJSON.stringify(context, null, 2)  +
-    '</code></pre>'
-  );
-};
+      stringify(context, null, 2) +
+      '</code></pre>'
+  )
+}

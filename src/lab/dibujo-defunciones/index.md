@@ -1,7 +1,6 @@
 ---
 layout: lab-single.hbs
 title: Dibujo Defunciones
-skipJS: true
 date: 2017-11-11 11:11:10
 description: 
 imgName: dibujo-defunciones

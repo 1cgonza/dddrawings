@@ -1,7 +1,6 @@
 ---
 layout: lab-single.hbs
 title: Vista al mar
-skipJS: true
 date: 2017-11-11 11:11:11
 description: 
 imgName: vista-al-mar

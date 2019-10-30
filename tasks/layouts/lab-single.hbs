@@ -4,19 +4,14 @@
 </main>
 
 {{#if libraries}}
-  {{setLibraries libraries}}
+{{setLibraries libraries}}
 {{/if}}
 
 {{#if scripts}}
-  {{setScripts scripts}}
+{{setScripts scripts}}
 {{/if}}
 
-<script src ="{{setURL 'js' 'ddd.min.js' false}}"></script>
-{{#if skipJS}}
-  <script src="{{ setJS slug }}"></script>
-{{else}}
-  <script src="./js/scripts.js"></script>
-{{/if}}
+<script src="{{ setJS slug }}"></script>
 
 {{#if extScripts}} {{setExtScripts extScripts}} {{/if}}
 

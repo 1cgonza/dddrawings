@@ -3,11 +3,14 @@ html {
   box-sizing: border-box;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: inherit;
 }
 
-html, body {
+html,
+body {
   height: 100%;
 }
 
@@ -26,7 +29,8 @@ a {
   text-decoration: none;
   border-bottom: 1px;
 
-  &:active, &:hover {
+  &:active,
+  &:hover {
     outline: 0;
     border-bottom: 1px dotted;
   }
@@ -68,7 +72,8 @@ ul {
       color: white;
       border: 1px solid black;
 
-      &:active, &:hover, {
+      &:active,
+      &:hover {
         background-color: white;
         color: black;
       }
@@ -84,7 +89,8 @@ ul {
         border-right: 3px solid black;
         cursor: pointer;
 
-        &:active, &:hover {
+        &:active,
+        &:hover {
           background-color: #DDD;
         }
       }
@@ -110,7 +116,8 @@ ul {
       top: 10px;
       margin-bottom: 15px;
 
-      &:before, &:after {
+      &:before,
+      &:after {
         position: absolute;
         content: '';
       }
@@ -124,7 +131,9 @@ ul {
       }
     }
 
-    span, span:before, span:after {
+    span,
+    span:before,
+    span:after {
       width: 26px;
       height: 1px;
       background-color: white;
@@ -168,13 +177,12 @@ ul {
 /*=====  End of NAV  ======*/
 
 #ddd-container {
-
   * {
     transition: 1s opacity ease-in-out;
   }
 
   /* MENU */
-  #years{
+  #years {
     margin: 0;
     padding: 0;
     list-style: none;
@@ -198,7 +206,8 @@ ul {
     color: #9c9c9c;
   }
 
-  li, span {
+  li,
+  span {
     &.current {
       color: white;
       background-color: black;
@@ -246,7 +255,13 @@ ul {
 .archive {
   padding-top: 41px;
 
-  b, strong, h1, h2, h3, h4, h5 {
+  b,
+  strong,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
     font-weight: 700;
   }
 
@@ -270,7 +285,8 @@ ul {
     width: 100%;
     padding: 1em;
 
-    .info, .item-img {
+    .info,
+    .item-img {
       display: block;
     }
 
@@ -376,8 +392,10 @@ ul {
       }
     }
   }
+
   .related {
     padding: 0;
+
     li::before {
       content: '';
       width: 5px;

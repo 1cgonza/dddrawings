@@ -1,6 +1,5 @@
-import markdown from 'metalsmith-markdown';
+import markdown from 'metalsmith-markdown'
 
 module.exports = markdown({
-  typographer: true,
-  html: true
-});
+  gfm: true
+})

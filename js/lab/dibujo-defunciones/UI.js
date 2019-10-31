@@ -7,13 +7,7 @@ export default class UI {
     this.current;
     this.reloadStage = reloadStage;
     this.violenceReq = violenceReq;
-    this.menu = yearsMenu(
-      2008,
-      2016,
-      year,
-      this.onClick.bind(this),
-      this.menuReady.bind(this)
-    );
+    this.menu = yearsMenu(2008, 2016, year, this.onClick.bind(this), this.menuReady.bind(this));
   }
 
   menuReady(menu, currentFirst) {

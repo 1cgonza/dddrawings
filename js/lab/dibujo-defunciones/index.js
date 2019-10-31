@@ -169,23 +169,11 @@ function fade() {
   op -= 0.005;
   papaLast.ctx.clearRect(0, 0, papaLast.w, papaLast.h);
   papaLast.ctx.globalAlpha = op;
-  papaLast.ctx.drawImage(
-    curr,
-    papa.w / 2 - papaW / 2 - 200,
-    papa.h / 2 - papaH / 2,
-    papaW,
-    papaH
-  );
+  papaLast.ctx.drawImage(curr, papa.w / 2 - papaW / 2 - 200, papa.h / 2 - papaH / 2, papaW, papaH);
 
   papaNext.ctx.clearRect(0, 0, papaNext.w, papaNext.h);
   papaNext.ctx.globalAlpha = 1 - op;
-  papaNext.ctx.drawImage(
-    next,
-    papa.w / 2 - papaW / 2 - 200,
-    papa.h / 2 - papaH / 2,
-    papaW,
-    papaH
-  );
+  papaNext.ctx.drawImage(next, papa.w / 2 - papaW / 2 - 200, papa.h / 2 - papaH / 2, papaW, papaH);
 
   papa.ctx.clearRect(0, 0, papa.w, papa.h);
   papa.ctx.drawImage(papaLast.canvas, 0, 0);
@@ -201,11 +189,7 @@ function fade() {
 function draw(i) {
   let e = d[i];
 
-  if (
-    e.hasOwnProperty('vTotal') &&
-    e.hasOwnProperty('cat') &&
-    e.cat.indexOf('Homicidio') >= 0
-  ) {
+  if (e.hasOwnProperty('vTotal') && e.hasOwnProperty('cat') && e.cat.indexOf('Homicidio') >= 0) {
     let total = d[i].vTotal;
 
     if ('lon' in e && 'lat' in e) {

@@ -1,11 +1,4 @@
-import {
-  DataRequest,
-  canvas,
-  yearsMenu,
-  Map,
-  resetCurrent,
-  random
-} from 'dddrawings';
+import { DataRequest, canvas, yearsMenu, Map, resetCurrent, random } from 'dddrawings';
 import Sprite from './Sprite';
 import Levit from './Levit';
 import imgs from './imagesData';
@@ -218,11 +211,7 @@ function debug() {
 
 function draw(i) {
   const e = d[i];
-  if (
-    e.hasOwnProperty('vTotal') &&
-    e.hasOwnProperty('cat') &&
-    e.cat.indexOf('Homicidio') >= 0
-  ) {
+  if (e.hasOwnProperty('vTotal') && e.hasOwnProperty('cat') && e.cat.indexOf('Homicidio') >= 0) {
     const total = d[i].vTotal;
     const date = d[i].fecha.unix;
     const elapsed = ((date - dIni) / 31536000) * stage.w;
@@ -240,13 +229,7 @@ function draw(i) {
       let fy;
 
       for (let t = 0; t < total; t++) {
-        const seq = new Levit(
-          coords,
-          t,
-          stage.ctx,
-          stage.center.x,
-          stage.center.y
-        );
+        const seq = new Levit(coords, t, stage.ctx, stage.center.x, stage.center.y);
         bodies.push(seq);
       }
 

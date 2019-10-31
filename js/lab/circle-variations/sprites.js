@@ -34,8 +34,7 @@ export default {
   },
   numbers: {
     title: 'Numbers',
-    sprite:
-      '/img/assets/sprites/numbersFrom0to6_9_col10_row_7_w3050_h1638_offx162_offy176.jpg',
+    sprite: '/img/assets/sprites/numbersFrom0to6_9_col10_row_7_w3050_h1638_offx162_offy176.jpg',
     cols: 10,
     rows: 7,
     width: 3050,
@@ -44,4 +43,4 @@ export default {
     offY: 176,
     opacity: 0.1
   }
-}
+};

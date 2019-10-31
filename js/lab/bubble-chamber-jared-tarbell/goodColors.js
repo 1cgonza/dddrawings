@@ -1,4 +1,4 @@
-import { hexToRgb } from 'dddrawings'
+import { hexToRgb } from 'dddrawings';
 
 // some nice color palettes
 // rusted desert metal. winter, new mexico
@@ -26,11 +26,11 @@ let goodcolor = [
   '#879a8c',
   '#9186ad',
   '#776a8e'
-]
+];
 
 goodcolor = goodcolor.map(color => {
-  const rgb = hexToRgb(color)
-  return [rgb.r, rgb.g, rgb.b]
-})
+  const rgb = hexToRgb(color);
+  return [rgb.r, rgb.g, rgb.b];
+});
 
-export default goodcolor
+export default goodcolor;

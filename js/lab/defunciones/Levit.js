@@ -12,6 +12,7 @@ export default class Levit {
     this.centerX = centerX;
     this.centerY = centerY;
   }
+
   draw() {
     if (this.count < levit.cols * 2) {
       const ctx = this.ctx;
@@ -46,6 +47,7 @@ export default class Levit {
       this.del();
     }
   }
+
   del() {
     this.finished = true;
   }

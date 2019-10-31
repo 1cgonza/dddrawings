@@ -24,13 +24,17 @@ export default class Levit {
 
       ctx.save();
       ctx.translate(stage.center.x, stage.center.y);
-      ctx.rotate(this.r * Math.PI / 20);
+      ctx.rotate((this.r * Math.PI) / 20);
       ctx.drawImage(
         assets.levit.img,
-        this.frameX * assets.levit.fw, 0,
-        assets.levit.fw, assets.levit.fh,
-        this.x - assets.levit.offX, this.y - assets.levit.offY - this.pushY,
-        assets.levit.fw, assets.levit.fh
+        this.frameX * assets.levit.fw,
+        0,
+        assets.levit.fw,
+        assets.levit.fh,
+        this.x - assets.levit.offX,
+        this.y - assets.levit.offY - this.pushY,
+        assets.levit.fw,
+        assets.levit.fh
       );
       ctx.restore();
 

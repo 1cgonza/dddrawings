@@ -8,7 +8,7 @@ export default class Sprite {
     this.rows = op.rows;
     this.offX = op.offX;
     this.offY = op.offY;
-    this.fw = this.w / this.cols | 0;
-    this.fh = this.h / this.rows | 0;
+    this.fw = (this.w / this.cols) | 0;
+    this.fh = (this.h / this.rows) | 0;
   }
-};
+}

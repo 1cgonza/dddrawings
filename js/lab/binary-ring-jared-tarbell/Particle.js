@@ -19,7 +19,7 @@ export default class Particle {
 
   update(blackout) {
     if (this.age > 200) {
-      var t = random(0, TWO_PI, true)
+      const t = random(0, TWO_PI, true)
       this.x = 30 * Math.cos(t)
       this.y = 30 * Math.sin(t)
       this.vx = 0

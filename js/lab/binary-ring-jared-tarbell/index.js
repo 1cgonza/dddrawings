@@ -13,20 +13,20 @@ let blackout = false // blackout is production control of white or black filamen
 let kaons = [] // kaons is array of path tracing particles
 let count = 0
 
-function init() {
-  ctx.fillRect(0, 0, stage.w, stage.h)
-  const emitX = 30 * Math.sin(TWO_PI / num) + centerX
-  const emitY = 30 * Math.cos(TWO_PI / num) + centerY
+ctx.fillRect(0, 0, stage.w, stage.h)
+const emitX = 30 * Math.sin(TWO_PI / num) + centerX
+const emitY = 30 * Math.cos(TWO_PI / num) + centerY
 
-  // begin with particle sling-shot around ring origin
-  for (let i = 0; i < num; i++) {
-    let r = (PI * i) / num
-    kaons.push(new Particle(emitX, emitY, r, blackout))
-  }
-
-  draw()
-  stage.canvas.onclick = switchBlackout
+// begin with particle sling-shot around ring origin
+for (let i = 0; i < num; i++) {
+  let r = (PI * i) / num
+  kaons.push(new Particle(emitX, emitY, r, blackout))
 }
+
+draw()
+
+stage.canvas.onclick = switchBlackout
+
 
 function draw() {
   if (count === 2) {
@@ -67,5 +67,3 @@ function draw() {
 function switchBlackout() {
   blackout = !blackout
 }
-
-init()

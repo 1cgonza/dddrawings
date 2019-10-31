@@ -16,7 +16,7 @@ let drawing
 let currentYearBtn
 let currentStrokeBtn
 
-var options = {
+let options = {
   radius: 150,
   rangeStart: 0,
   rangeEnd: 8,
@@ -37,21 +37,6 @@ function updateOptions(data) {
   options.step = options.rangeEnd / data.cols
 }
 
-function init() {
-  stage.canvas.width = window.innerWidth
-  stage.canvas.height = window.innerHeight
-
-  // Start with some default options
-  stage.ctx.globalCompositeOperation = 'multiply'
-  options.year = options.yearStart
-  updateOptions(sprites[defaultSprite])
-
-  setupInterface()
-  drawing = new Drawing()
-  animate()
-  requestData()
-}
-
 function requestData() {
   req
     .json({
@@ -59,7 +44,7 @@ function requestData() {
       container: container,
       loadngMsg: 'Loading seismic data of year ' + options.year
     })
-    .then(function(data) {
+    .then(data => {
       eqData = data
 
       if (!imgLoaded) {
@@ -68,13 +53,11 @@ function requestData() {
         drawing.draw()
       }
     })
-    .catch(function(err) {
-      console.error(err)
-    })
+    .catch(err => console.error(err))
 }
 
 function loadSprite() {
-  imgObj.onload = function() {
+  imgObj.onload = () => {
     imgLoaded = true
     drawing.draw()
   }
@@ -260,129 +243,136 @@ function createSliders() {
   }
 }
 
-/*-----  End of SLIDERS  ------*/
+class Drawing {
+  constructor(ctx, options) {
+    this.ctx = ctx
+    this.stopAnimation = false
+    this.yearEnd = options.year + 1
+    this.yearLength =
+      (Date.parse(this.yearEnd) - Date.parse(options.year)) * 0.001
+    this.secondsW = 360 / this.yearLength
+  }
 
-/*===============================
-  =            CLASSES            =
-  ===============================*/
-function Drawing() {
-  this.stopAnimation = false
-  this.yearEnd = options.year + 1
-  this.yearLength =
-    (Date.parse(this.yearEnd) - Date.parse(options.year)) * 0.001
-  this.secondsW = 360 / this.yearLength
-}
+  draw() {
+    this.ctx.globalAlpha = options.opacity
+    this.frameW = (options.spriteW / options.spriteCols) | 0
+    this.frameH = (options.spriteH / options.spriteRows) | 0
 
-Drawing.prototype.draw = function() {
-  stage.ctx.globalAlpha = options.opacity
-  this.frameW = (options.spriteW / options.spriteCols) | 0
-  this.frameH = (options.spriteH / options.spriteRows) | 0
-  if (!animating) {
-    for (let i = 0; i < eqData.length; i++) {
-      // Check the range of the slider and render only within those values
-      if (
-        eqData[i].ml >= options.rangeStart &&
-        eqData[i].ml <= options.rangeEnd
-      ) {
-        this.defineRenderMode(eqData[i].date.unix, eqData[i].ml)
+    if (!animating) {
+      for (let i = 0; i < eqData.length; i++) {
+        // Check the range of the slider and render only within those values
+        if (
+          eqData[i].ml >= options.rangeStart &&
+          eqData[i].ml <= options.rangeEnd
+        ) {
+          this.defineRenderMode(eqData[i].date.unix, eqData[i].ml)
+        }
       }
     }
   }
-}
 
-Drawing.prototype.defineRenderMode = function(unix, ml) {
-  const dReset = unix - Date.parse(options.year) / 1000
-  const rot = dReset * this.secondsW
-  stage.ctx.save()
-  stage.ctx.translate(stage.center.x, stage.center.y)
-  stage.ctx.rotate((rot * Math.PI) / 180)
+  defineRenderMode(unix, ml) {
+    const ctx = this.ctx
+    const dReset = unix - Date.parse(options.year) / 1000
+    const rot = dReset * this.secondsW
+    ctx.save()
+    ctx.translate(stage.center.x, stage.center.y)
+    ctx.rotate((rot * Math.PI) / 180)
 
-  if (options.spriteRows === 1) {
-    this.oneRowSpriteStroke(ml)
-  } else {
-    this.multiRowSpriteStroke(ml)
+    if (options.spriteRows === 1) {
+      this.oneRowSpriteStroke(ml)
+    } else {
+      this.multiRowSpriteStroke(ml)
+    }
+
+    stage.ctx.restore()
   }
 
-  stage.ctx.restore()
-}
+  redraw(loadNewData) {
+    eqIndex = 0
+    animating = currentStrokeBtn.classList.contains('play') ? true : false
 
-Drawing.prototype.redraw = function(loadNewData) {
-  eqIndex = 0
-  animating = currentStrokeBtn.classList.contains('play') ? true : false
-
-  this.clearCanvas()
-
-  if (loadNewData) {
-    eqData.pop()
-    requestData()
-  } else {
-    this.draw()
-  }
-}
-
-Drawing.prototype.updatePosition = function() {
-  // only clear the canvas if it is not animating
-  if (!animating) {
     this.clearCanvas()
-    this.draw()
-  }
-}
 
-Drawing.prototype.clearCanvas = function() {
-  stage.ctx.save()
-  stage.ctx.globalCompositeOperation = 'destination-out'
-  stage.ctx.fillStyle = '#FFF'
-  stage.ctx.globalAlpha = 1
-  stage.ctx.fillRect(0, 0, stage.w, stage.h)
-  stage.ctx.restore()
-}
-
-Drawing.prototype.oneRowSpriteStroke = function(magnitude) {
-  for (let i = 0; i < options.spriteCols; i++) {
-    if (magnitude > i * options.step && magnitude <= (i + 1) * options.step) {
-      this.render(i, 0)
+    if (loadNewData) {
+      eqData.pop()
+      requestData()
+    } else {
+      this.draw()
     }
   }
-}
 
-Drawing.prototype.multiRowSpriteStroke = function(magnitude) {
-  let spriteColumn = 0
-  let spriteRow = 0
-  let mlValues = []
-  /**
-   * Check if number is float or integer.
-   * % 1 = 0 means it is an int.
-   * When a magnitude is an integer I know that it is always the first column in the sprite, so it can be assigned to index 0.
-   **/
-  if (magnitude % 1 === 0) {
-    spriteRow = magnitude
-    spriteColumn = 0
-  } else {
-    mlValues = magnitude.toString().split('.')
-    spriteRow = mlValues[0]
-    spriteColumn = mlValues[1]
+  updatePosition() {
+    // only clear the canvas if it is not animating
+    if (!animating) {
+      this.clearCanvas()
+      this.draw()
+    }
   }
 
-  this.render(spriteColumn, spriteRow)
+  clearCanvas() {
+    const ctx = this.ctx;
+    ctx.save()
+    ctx.globalCompositeOperation = 'destination-out'
+    ctx.fillStyle = '#FFF'
+    ctx.globalAlpha = 1
+    ctx.fillRect(0, 0, stage.w, stage.h)
+    ctx.restore()
+  }
+
+  oneRowSpriteStroke(magnitude) {
+    for (let i = 0; i < options.spriteCols; i++) {
+      if (magnitude > i * options.step && magnitude <= (i + 1) * options.step) {
+        this.render(i, 0)
+      }
+    }
+  }
+
+  multiRowSpriteStroke(magnitude) {
+    let spriteColumn = 0
+    let spriteRow = 0
+    let mlValues = []
+    /**
+     * Check if number is float or integer.
+     * % 1 = 0 means it is an int.
+     * When a magnitude is an integer I know that it is always the first column in the sprite, so it can be assigned to index 0.
+     **/
+    if (magnitude % 1 === 0) {
+      spriteRow = magnitude
+      spriteColumn = 0
+    } else {
+      mlValues = magnitude.toString().split('.')
+      spriteRow = mlValues[0]
+      spriteColumn = mlValues[1]
+    }
+
+    this.render(spriteColumn, spriteRow)
+  }
+
+  render(col, row) {
+    this.ctx.drawImage(
+      imgObj,
+      col * this.frameW,
+      row * this.frameH,
+      this.frameW,
+      this.frameH,
+      -options.frameOffsetX,
+      -(options.radius + options.frameOffsetY),
+      this.frameW,
+      this.frameH
+    )
+  }
 }
 
-Drawing.prototype.render = function(col, row) {
-  stage.ctx.drawImage(
-    imgObj,
-    col * this.frameW,
-    row * this.frameH,
-    this.frameW,
-    this.frameH,
-    -options.frameOffsetX,
-    -(options.radius + options.frameOffsetY),
-    this.frameW,
-    this.frameH
-  )
-}
-/*=====  End of CLASSES  ======*/
+stage.canvas.width = window.innerWidth
+stage.canvas.height = window.innerHeight
 
-/*========================================
-  =            START EVERYTHING            =
-  ========================================*/
-init()
-/*-----  End of START EVERYTHING  ------*/
+// Start with some default options
+stage.ctx.globalCompositeOperation = 'multiply'
+options.year = options.yearStart
+updateOptions(sprites[defaultSprite])
+
+setupInterface()
+drawing = new Drawing(stage.ctx, options)
+animate()
+requestData()

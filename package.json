@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/1cgonza/dddrawings",
   "dependencies": {
+    "dddrawings": "^0.0.1",
     "nouislider": "^14.0.3"
   },
   "devDependencies": {

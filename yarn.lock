@@ -2397,6 +2397,11 @@ dateformat@^2.0.0:
   resolved "https://registry.yarnpkg.com/dateformat/-/dateformat-2.2.0.tgz#4065e2013cf9fb916ddfd82efb506ad4c6769062"
   integrity sha1-QGXiATz5+5Ft39gu+1Bq1MZ2kGI=
 
+dddrawings@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/dddrawings/-/dddrawings-0.0.1.tgz#0a8598fe359c92e8c6ca437c778ce15f8ea1f88b"
+  integrity sha512-c43J86YTs57+y66d4U2LfSXts/gxDrWMk0Ag8XLwsLdUxBprvTqZjz/ub9tlnlKaNvCGyd1bGPKwPJUCwVBrXw==
+
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.8, debug@~2:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"

@@ -1,20 +1,21 @@
+import { canvas, json, image, base64, getPercent } from 'dddrawings';
+
 export class Notations {
   constructor(data) {
-    var container = data.container || document.body;
+    const container = data.container || document.body;
 
     if (data.hasOwnProperty('url')) {
-      DDD.json({
+      json({
         url: data.url,
         container: container
-      }).then(data.cb)
-        .catch(err => {
-          console.error(err);
-        });
+      })
+        .then(data.cb)
+        .catch(err => console.error(err));
     }
 
     if (data.hasOwnProperty('img')) {
       this.imgCallback = data.img.cb;
-      DDD.image({
+      image({
         url: data.img.src,
         container: container,
         loadingMsg: data.img.msg
@@ -29,16 +30,16 @@ export class Notations {
       var areaHeight = this.imgH - data.img.offTop - data.img.offBottom;
 
       this.percent = {
-        h: DDD.getPercent(areaHeight, this.imgH),
-        w: DDD.getPercent(areaWidth, this.imgW),
-        top: DDD.getPercent(data.img.offTop, this.imgH),
-        bottom: DDD.getPercent(data.img.offBottom, this.imgH),
-        left: DDD.getPercent(data.img.offLeft, this.imgW),
-        right: DDD.getPercent(data.img.offRight, this.imgW)
+        h: getPercent(areaHeight, this.imgH),
+        w: getPercent(areaWidth, this.imgW),
+        top: getPercent(data.img.offTop, this.imgH),
+        bottom: getPercent(data.img.offBottom, this.imgH),
+        left: getPercent(data.img.offLeft, this.imgW),
+        right: getPercent(data.img.offRight, this.imgW)
       };
     }
 
-    this.stage = DDD.canvas(container, {
+    this.stage = canvas(container, {
       w: container.offsetWidth
     });
     this.canvas = this.stage.canvas;
@@ -48,13 +49,13 @@ export class Notations {
   prepareImageData(res) {
     this.img = new Image();
     this.img.onload = this.imgCallback;
-    this.img.src = 'data:image/jpeg;base64,' + DDD.base64(res);
+    this.img.src = 'data:image/jpeg;base64,' + base64(res);
   }
 }
 
 export const notationsVideo = (video, cb) => {
   // Happens once and triggers callback when video information (eg: duration) is accessible
-  video.onloadedmetadata = function() {
+  video.onloadedmetadata = () => {
     cb();
     return false;
   };
@@ -69,7 +70,7 @@ export const notationsVideo = (video, cb) => {
   //   return false;
   // };
 
-  video.onerror = function(event) {
+  video.onerror = () => {
     var errMsg = document.createElement('div');
     errMsg.innerHTML = video.innerHTML;
     video.parentNode.replaceChild(errMsg, video);

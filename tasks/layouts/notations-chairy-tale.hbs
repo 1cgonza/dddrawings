@@ -11,15 +11,18 @@
       </header>
 
       {{#if videos}}
-      <video id="video" width="640" height="404" preload {{#if poster}}poster="{{setURL '/img/assets/posters/' poster}}{{/if}}">
-      {{setVideos videos}}
-      You need to update your browser to play this video.
+      <video id="video" width="640" height="404" preload
+        {{#if poster}}poster="{{setURL '/img/assets/posters/' poster}}{{/if}}">
+        {{setVideos videos}}
+        You need to update your browser to play this video.
       </video>
       {{/if}}
 
       <div id="description">
-        <p>See: <a id="notes" href="#" title="About">McLaren's notes</a> for information about the context in which McLaren created these notations.</p>
-        <p class="disclaimer">This application is created for educational and research purposes only. The Copyright of the source material (images and video) belong to The National Film Board of Canada.</p>
+        <p>See: <a id="notes" href="#" title="About">McLaren's notes</a> for information about the context in which
+          McLaren created these notations.</p>
+        <p class="disclaimer">This application is created for educational and research purposes only. The Copyright of
+          the source material (images and video) belong to The National Film Board of Canada.</p>
       </div>
     </div>
 
@@ -36,13 +39,12 @@
 </main>
 
 {{#if libraries}}
-  {{setLibraries libraries}}
+{{setLibraries libraries}}
 {{/if}}
 
 {{#if scripts}}
-  {{setScripts scripts}}
+{{setScripts scripts}}
 {{/if}}
 
-<script src ="{{setURL 'js' 'ddd.min.js' false}}"></script>
 <script src="{{ setJS slug }}"></script>
 {{> footer}}

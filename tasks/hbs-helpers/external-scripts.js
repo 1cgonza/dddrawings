@@ -1,6 +1,6 @@
 import { SafeString } from 'handlebars';
 
-module.exports = (scripts) => {
+module.exports = scripts => {
   let tags = '';
 
   if (Array.isArray(scripts)) {

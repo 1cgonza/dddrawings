@@ -50,7 +50,8 @@
   }
 
   /***** HOVER *****/
-  .circle:hover, .circle:active {
+  .circle:hover,
+  .circle:active {
     fill: #122f3f;
     cursor: pointer;
   }

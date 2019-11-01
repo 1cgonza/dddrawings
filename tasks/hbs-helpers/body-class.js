@@ -1,4 +1,4 @@
-import {SafeString} from 'handlebars';
+import { SafeString } from 'handlebars';
 
 module.exports = (slug, collection, archive) => {
   let bodyClass = 'page';

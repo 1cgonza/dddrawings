@@ -1,26 +1,25 @@
-const resolve = require('path').resolve
-const webpack = require('webpack')
-const ManifestPlugin = require('webpack-manifest-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const fs = require('fs')
+const resolve = require('path').resolve;
+const ManifestPlugin = require('webpack-manifest-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const fs = require('fs');
 
 const entries = (function(base) {
   let ret = {
     site: './js/site.js'
-  }
+  };
 
   function appendEntries(folder) {
-    let folders = fs.readdirSync(base + folder)
+    let folders = fs.readdirSync(base + folder);
     folders.forEach(function(name) {
-      ret[name] = base + folder + '/' + name + '/index.js'
-    })
+      ret[name] = base + folder + '/' + name + '/index.js';
+    });
   }
 
-  appendEntries('/lab')
-  appendEntries('/notations')
+  appendEntries('/lab');
+  appendEntries('/notations');
 
-  return ret
-})('./js')
+  return ret;
+})('./js');
 
 module.exports = {
   entry: entries,
@@ -40,4 +39,4 @@ module.exports = {
       }
     ]
   }
-}
+};

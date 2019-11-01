@@ -2,7 +2,7 @@ import { SafeString } from 'handlebars';
 import metadata from '../config';
 import setScriptTags from './script-tags';
 
-module.exports = (libs) => {
+module.exports = libs => {
   let libraries = metadata.extLibraries;
   let tags = '';
 

@@ -58,6 +58,6 @@ function defineEnvironment() {
   });
 
   return env;
-};
+}
 
 export default defineEnvironment();

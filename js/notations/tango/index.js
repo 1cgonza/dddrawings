@@ -1,11 +1,11 @@
 import { Notations, notationsVideo } from '../../utils/Notations';
 
 /*----------  Elements  ----------*/
-var bottom    = document.getElementById('bottom');
-var left      = document.getElementById('left');
-var labelBox  = document.getElementById('label-box');
-var polish    = document.getElementById('pol');
-var eng       = document.getElementById('eng');
+var bottom = document.getElementById('bottom');
+var left = document.getElementById('left');
+var labelBox = document.getElementById('label-box');
+var polish = document.getElementById('pol');
+var eng = document.getElementById('eng');
 
 var video = notationsVideo(document.getElementById('video'), videoReady);
 
@@ -18,7 +18,7 @@ var loading = document.createElement('div');
 loading.className = 'loading';
 loading.style.opacity = 0;
 
-var progress  = document.createElement('progress');
+var progress = document.createElement('progress');
 progress.className = 'progress';
 progress.style.zIndex = 0;
 progress.max = 100;
@@ -43,10 +43,10 @@ var assetsLoaded = 0;
 
 var sectionsLen = 0;
 var bleedBottom = 30;
-var dragging    = false;
-var prevX       = 0;
-var tX          = 0;
-var nX          = 0;
+var dragging = false;
+var prevX = 0;
+var tX = 0;
+var nX = 0;
 
 var images = {
   total: 16,
@@ -59,11 +59,11 @@ var images = {
 
 var resize = {
   reset: function() {
-    this.bottomW          = window.innerWidth;
-    this.topH             = document.getElementById('header').offsetHeight;
-    this.timelinePercent  = DDD.getPercent(this.bottomW, images.totalW);
-    this.bottomH          = DDD.sizeFromPercentage(this.timelinePercent, images.height) + bleedBottom | 0;
-    this.leftH            = window.innerHeight - this.topH - this.bottomH;
+    this.bottomW = window.innerWidth;
+    this.topH = document.getElementById('header').offsetHeight;
+    this.timelinePercent = DDD.getPercent(this.bottomW, images.totalW);
+    this.bottomH = (DDD.sizeFromPercentage(this.timelinePercent, images.height) + bleedBottom) | 0;
+    this.leftH = window.innerHeight - this.topH - this.bottomH;
     this.notationsPercent = DDD.getPercent(this.leftH, images.height);
   },
 
@@ -72,12 +72,12 @@ var resize = {
       this.reset();
     }
     this.timelineH = DDD.sizeFromPercentage(this.timelinePercent, images.height) | 0;
-    timeline.canvas.width  = timelineBg.canvas.width = this.bottomW;
+    timeline.canvas.width = timelineBg.canvas.width = this.bottomW;
     timeline.canvas.height = timelineBg.canvas.height = this.bottomH;
-    bottom.style.height    = this.bottomH + 'px';
+    bottom.style.height = this.bottomH + 'px';
 
     if (this.bottomH > this.timelineH) {
-      timeline.offY = (this.bottomH / 2) - (this.timelineH / 2);
+      timeline.offY = this.bottomH / 2 - this.timelineH / 2;
     } else {
       timeline.offY = 0;
     }
@@ -92,13 +92,13 @@ var resize = {
     if (!noReset) {
       this.reset();
     }
-    this.leftW        = left.offsetWidth;
-    left.style.top    = this.topH + 'px';
+    this.leftW = left.offsetWidth;
+    left.style.top = this.topH + 'px';
     left.style.height = this.leftH + 'px';
 
-    notations.resizeW       = DDD.sizeFromPercentage(this.notationsPercent, images.totalW);
+    notations.resizeW = DDD.sizeFromPercentage(this.notationsPercent, images.totalW);
     notations.canvas.height = this.leftH;
-    notations.canvas.width  = this.leftW;
+    notations.canvas.width = this.leftW;
 
     notations.offX = DDD.sizeFromPercentage(this.notationsPercent, data.initX) | 0;
     notations.ctx.strokeStyle = 'red';
@@ -115,7 +115,7 @@ var resize = {
     var videoH = window.innerHeight - this.bottomH;
     var x = data.endX - data.initX;
     video.style.maxHeight = videoH + 'px';
-    video.style.marginTop = (videoH / 2) - (video.offsetHeight / 2) + 'px';
+    video.style.marginTop = videoH / 2 - video.offsetHeight / 2 + 'px';
 
     this.videoTimelineW = video.duration / DDD.sizeFromPercentage(this.timelinePercent, x);
     this.videoNotationsW = video.duration / DDD.sizeFromPercentage(this.notationsPercent, x);
@@ -144,7 +144,7 @@ var resize = {
       var h = data.labels[j].h;
 
       data.labels[j].nX = DDD.sizeFromPercentage(this.notationsPercent, x) | 0;
-      data.labels[j].nY = this.topH + DDD.sizeFromPercentage(this.notationsPercent, y) | 0;
+      data.labels[j].nY = (this.topH + DDD.sizeFromPercentage(this.notationsPercent, y)) | 0;
       data.labels[j].nW = DDD.sizeFromPercentage(this.notationsPercent, w) | 0;
       data.labels[j].nH = DDD.sizeFromPercentage(this.notationsPercent, h) | 0;
     }
@@ -170,7 +170,7 @@ var resize = {
 };
 
 function init() {
-  var videoC   = document.getElementById('video-container');
+  var videoC = document.getElementById('video-container');
   var loading2 = document.createElement('div');
 
   loading2.className = 'loading';
@@ -182,24 +182,24 @@ function init() {
     loadingEle: loading2,
     loadingMsg: 'Loading metadata'
   })
-  .then(function(d) {
-    videoC.removeChild(loading2);
-    data = d;
-    sectionsLen = d.sections.length;
-    assetsLoaded++;
+    .then(function(d) {
+      videoC.removeChild(loading2);
+      data = d;
+      sectionsLen = d.sections.length;
+      assetsLoaded++;
 
-    timeline = new Notations({container: bottom});
-    notations = new Notations({container: left});
-    timelineBg = DDD.canvas(bottom, {h: timeline.canvas.height, zi: 1});
-    resize.all();
+      timeline = new Notations({ container: bottom });
+      notations = new Notations({ container: left });
+      timelineBg = DDD.canvas(bottom, { h: timeline.canvas.height, zi: 1 });
+      resize.all();
 
-    timelineBg.ctx.fillRect(0, 0, resize.bottomW, resize.bottomH);
-    loading.style.opacity = 1;
-    loadImages();
-  })
-  .catch(function(err) {
-    console.error(err);
-  });
+      timelineBg.ctx.fillRect(0, 0, resize.bottomW, resize.bottomH);
+      loading.style.opacity = 1;
+      loadImages();
+    })
+    .catch(function(err) {
+      console.error(err);
+    });
 }
 
 function loadImages() {
@@ -213,7 +213,7 @@ function loadImages() {
       var w = images.timelineW;
       images.loaded++;
 
-      var value = images.loaded / images.total * 100;
+      var value = (images.loaded / images.total) * 100;
       progress.value = value;
       msg.innerText = Math.floor(value) + '%' + '\n' + loadingMsg;
 
@@ -277,7 +277,7 @@ function start() {
 
         if (x >= x1 && x < x2 && y >= y1 && y < y2) {
           labelBox.className = data.labels[i].class;
-          labelBox.style.top = (y1 - resize.topH - 16) + 'px';
+          labelBox.style.top = y1 - resize.topH - 16 + 'px';
           polish.innerText = data.labels[i].label;
           eng.innerText = data.labels[i].eng;
           onLabel = true;
@@ -370,11 +370,11 @@ function updateNotations() {
   }
 
   var sectionLength = next.start - current.start;
-  var timeOffset    = currentTime - current.start;
-  var stepN         = timeOffset * (current.nW / sectionLength);
-  var stepT         = timeOffset * (current.tW / sectionLength);
-  tX                = stepT + (current.tX);
-  nX                = stepN + (current.nX - notations.offX);
+  var timeOffset = currentTime - current.start;
+  var stepN = timeOffset * (current.nW / sectionLength);
+  var stepT = timeOffset * (current.tW / sectionLength);
+  tX = stepT + current.tX;
+  nX = stepN + (current.nX - notations.offX);
 
   timeline.ctx.clearRect(0, 0, resize.bottomW, resize.bottomH);
   timeline.ctx.beginPath();
@@ -412,13 +412,7 @@ function repaintNotations(x) {
 }
 
 function paintNotationsFrame(img, x, w) {
-  notations.ctx.drawImage(
-    img,
-    0, 0,
-    images.width, images.height,
-    x, 0,
-    w, resize.leftH
-  );
+  notations.ctx.drawImage(img, 0, 0, images.width, images.height, x, 0, w, resize.leftH);
 }
 
 function repaintTimeline() {
@@ -433,13 +427,7 @@ function repaintTimeline() {
 }
 
 function paintTimelineFrame(img, x, y, w) {
-  timelineBg.ctx.drawImage(
-    img,
-    0, 0,
-    images.width, images.height,
-    x | 0, y | 0,
-    w, resize.timelineH
-  );
+  timelineBg.ctx.drawImage(img, 0, 0, images.width, images.height, x | 0, y | 0, w, resize.timelineH);
 }
 
 window.onresize = resize.updateRepaint.bind(resize);

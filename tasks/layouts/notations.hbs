@@ -5,16 +5,16 @@
     <div class="page-description">{{{contents}}}</div>
   </header>
   <section class="archive-items">
-  <h2>Interactive</h2>
+    <h2>Interactive</h2>
     {{#each collections.notations}}{{#if interactive}}
     <div class="item {{slug}}">
       <div class="info">
         <h3 class="item-title"><a href="{{setURL 'notations' slug true}}">{{title}}</a></h3>
         <div class="item-description">
           {{#if description}}
-            {{{description}}}
+          {{{description}}}
           {{else}}
-            {{#if excerpt}} {{{excerpt}}} {{/if}}
+          {{#if excerpt}} {{{excerpt}}} {{/if}}
           {{/if}}
         </div>
       </div>
@@ -32,7 +32,7 @@
   </section>
 
   <section class="archive-items">
-  <h2>Gallery</h2>
+    <h2>Gallery</h2>
     {{#each collections.notations}}{{#unless archive}}{{#unless interactive}}
     <div class="item {{slug}}">
       <div class="info">
@@ -57,7 +57,7 @@
     </div>
     {{/unless}}{{/unless}}{{/each}}
 
-{{!--     <div class="item ">
+    {{!--     <div class="item ">
       <div class="info">
         <h3 class="item-title"><a href="">New Book</a></h3>
         <div class="item-description">By Zbigniew Rybczyński</div>

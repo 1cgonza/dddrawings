@@ -21,7 +21,9 @@
     border-bottom: 1px dashed;
   }
 
-  #left-col, #middle-col, #right-col {
+  #left-col,
+  #middle-col,
+  #right-col {
     display: inline-block;
     position: relative;
     vertical-align: top;
@@ -85,7 +87,8 @@
       padding-top: 1em;
       margin: 0;
 
-      &::before, &::after {
+      &::before,
+      &::after {
         font-size: 10em;
         color: #9B9B9B;
       }
@@ -121,7 +124,9 @@
 =            TANGO            =
 =============================*/
 .single-notations.tango {
-  header, video {
+
+  header,
+  video {
     vertical-align: top;
   }
 
@@ -201,11 +206,14 @@
 =            A CHAIRY TALE            =
 =====================================*/
 .single-notations.a-chairy-tale {
-  #left-col, .content {
+
+  #left-col,
+  .content {
     font-family: $volkron;
   }
 
-  #middle-col, #right-col {
+  #middle-col,
+  #right-col {
     display: inline-block;
   }
 
@@ -235,6 +243,7 @@
     opacity: 0;
   }
 }
+
 /*-----  End of A CHAIRY TALE  ------*/
 
 /*===========================================
@@ -286,13 +295,16 @@
     top: 250px;
   }
 }
+
 /*-----  End of MR BUG GOES TO TOWN  ------*/
 
 /*==============================================
 =            SiSiSiSiSiSiSiSiSiSiSi            =
 ==============================================*/
 .single-notations.sisisisisisisisisisisi {
-  #left-col, .content {
+
+  #left-col,
+  .content {
     font-family: $volkron;
   }
 
@@ -314,5 +326,5 @@
     display: inline-block;
   }
 }
-/*=====  End of SiSiSiSiSiSiSiSiSiSiSi  ======*/
 
+/*=====  End of SiSiSiSiSiSiSiSiSiSiSi  ======*/

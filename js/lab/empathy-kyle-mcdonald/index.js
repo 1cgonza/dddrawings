@@ -51,10 +51,7 @@ class Cell {
 
     stage.ctx.beginPath();
     stage.ctx.moveTo(this.x, this.y);
-    stage.ctx.lineTo(
-      this.x + d * Math.cos(this.c),
-      this.y + d * Math.sin(this.c)
-    );
+    stage.ctx.lineTo(this.x + d * Math.cos(this.c), this.y + d * Math.sin(this.c));
     stage.ctx.stroke();
   }
 
@@ -70,8 +67,7 @@ class Cell {
 function init() {
   for (let i = 0; i < n; i++) {
     const a = i + random(0, PI / 9, true);
-    const r =
-      (i / n) * centerY * (((n - i) / n) * 3.3) + random(-3, 3, true) + 3;
+    const r = (i / n) * centerY * (((n - i) / n) * 3.3) + random(-3, 3, true) + 3;
     all.push(new Cell(r * Math.cos(a) + centerX, r * Math.sin(a) + centerY));
   }
   // console.log(cells);

@@ -1,9 +1,9 @@
-import Metalsmith from 'metalsmith'
-import chalk from 'chalk'
-import metadata from './config'
-import server from './build-plugins/server'
+import Metalsmith from 'metalsmith';
+import chalk from 'chalk';
+import metadata from './config';
+import server from './build-plugins/server';
 
-const tasksEntry = './build-plugins/'
+const tasksEntry = './build-plugins/';
 const plugins = [
   'changed',
   'drafts',
@@ -17,34 +17,34 @@ const plugins = [
   'layouts',
   'html',
   'images'
-]
+];
 
 export function build(callback) {
   var metalsmith = new Metalsmith(__dirname)
     .source('../src')
     .destination('../build')
     .clean(false)
-    .metadata(metadata)
+    .metadata(metadata);
 
   plugins.forEach(name => {
-    metalsmith.use(require(tasksEntry + name))
-  })
+    metalsmith.use(require(tasksEntry + name));
+  });
 
   metalsmith.build(err => {
     if (err) {
-      throw err
+      throw err;
     }
 
     if (callback) {
-      callback()
+      callback();
     }
 
     if (metadata.env === 'prod') {
-      console.log(chalk.yellow('..::| Production build is done |::..'))
+      console.log(chalk.yellow('..::| Production build is done |::..'));
     }
-  })
+  });
 }
 
 export function serve() {
-  server(build)
+  server(build);
 }

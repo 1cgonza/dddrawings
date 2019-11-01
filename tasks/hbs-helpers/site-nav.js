@@ -1,4 +1,4 @@
-import {SafeString} from 'handlebars';
+import { SafeString } from 'handlebars';
 import slugify from 'slug';
 import metadata from '../config';
 import setURL from './set-url';
@@ -8,7 +8,7 @@ module.exports = (slug, collection) => {
   let list = '';
 
   pages.forEach(name => {
-    let safeSlug = slugify(name, {lower: true});
+    let safeSlug = slugify(name, { lower: true });
     let pageURL = '';
     let eleClass = '';
 

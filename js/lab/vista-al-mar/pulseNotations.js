@@ -5,10 +5,12 @@ export default class Notations {
     this.stage = dddrawings.canvas(container, { h: 60 });
     this.stage.canvas.style.zIndex = 9999;
   }
+
   bindData(data) {
     this.data = data;
     this.stepX = this.stage.w / data.length;
   }
+
   init() {
     const ctx = this.stage.ctx;
     let animReq;
@@ -33,6 +35,7 @@ export default class Notations {
     //   this.update(i);
     // }
   }
+
   update(i) {
     const ctx = this.stage.ctx;
     const beat = this.data[i];
@@ -42,6 +45,7 @@ export default class Notations {
     ctx.lineTo(x, -500 + beat);
     ctx.stroke();
   }
+
   getNewI(x) {
     return (x / this.stepX) | 0;
   }

@@ -9,7 +9,7 @@ module.exports = (collection, name, type) => {
     name = metadata.defaultImgPath;
   }
   if (!type) {
-    console.error('Error generating image URL: Third parameter needs to be the size eg: \'large\', \'thumb\'...');
+    console.error("Error generating image URL: Third parameter needs to be the size eg: 'large', 'thumb'...");
     type = '';
   }
 

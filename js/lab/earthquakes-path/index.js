@@ -126,19 +126,13 @@ function animate() {
   }
 
   if (eqData.length > 0 && playerI < eqData.length) {
-    const coords = map.convertCoordinates(
-      eqData[playerI].lon,
-      eqData[playerI].lat
-    );
+    const coords = map.convertCoordinates(eqData[playerI].lon, eqData[playerI].lat);
 
     stage.ctx.save();
     stage.ctx.translate(stage.center.x, stage.center.y);
     if (optionMode === 1) {
       if (playerI > 0) {
-        const coords2 = map.convertCoordinates(
-          eqData[playerI - 1].lon,
-          eqData[playerI - 1].lat
-        );
+        const coords2 = map.convertCoordinates(eqData[playerI - 1].lon, eqData[playerI - 1].lat);
         stage.ctx.beginPath();
         stage.ctx.moveTo(coords.x, coords.y);
         stage.ctx.lineTo(coords2.x, coords2.y);

@@ -1,3 +1,4 @@
+import { sizeFromPercentage, getPercent } from 'dddrawings';
 import { Notations, notationsVideo } from '../../utils/Notations';
 
 let video;
@@ -28,7 +29,7 @@ let notations = new Notations({
   fps: 24,
   url: '/data/notations/bug-goes-to-town.json',
   cb: notationsReady,
-  container: stage,
+  container: stage
 });
 notations.canvas.style.opacity = 0;
 
@@ -49,14 +50,14 @@ function videoReady() {
 
   video.controls = true;
 
-  video.onplay = function() {
+  video.onplay = () => {
     animReq = requestAnimationFrame(playerLoop);
     return false;
   };
 
   video.onseeking = notationsUpdate;
 
-  video.onpause = function() {
+  video.onpause = () => {
     window.cancelAnimationFrame(animReq);
     return false;
   };
@@ -71,36 +72,44 @@ function notationsUpdate() {
   if (!loaded) {
     return;
   }
-  notations.ctx.clearRect(0, 0, notations.canvas.width, notations.canvas.height);
+  const ctx = notations.ctx;
+  const x = video.currentTime * notations.step + notations.offX;
 
-  var x = (video.currentTime * notations.step) + notations.offX;
+  ctx.clearRect(0, 0, notations.canvas.width, notations.canvas.height);
 
   notationsRepaint();
-  notations.ctx.beginPath();
-  notations.ctx.moveTo(x, 0);
-  notations.ctx.lineTo(x, notations.imgH);
-  notations.ctx.strokeStyle = '#fe0404';
-  notations.ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(x, 0);
+  ctx.lineTo(x, notations.imgH);
+  ctx.strokeStyle = '#fe0404';
+  ctx.stroke();
 }
 
 function notationsRepaint() {
   notations.ctx.drawImage(
     notations.img,
-    0, 0,
-    notations.imgW, notations.imgH,
-    0, (notations.canvas.height / 2) - (notations.resizeH / 2),
-    notations.canvas.width, notations.resizeH
+    0,
+    0,
+    notations.imgW,
+    notations.imgH,
+    0,
+    notations.canvas.height / 2 - notations.resizeH / 2,
+    notations.canvas.width,
+    notations.resizeH
   );
 }
 
 function updateSize() {
-  var w = stage.offsetWidth;
-  var area = DDD.sizeFromPercentage(notations.percent.w, w);
+  const w = stage.offsetWidth;
+  const area = sizeFromPercentage(notations.percent.w, w);
   notations.canvas.width = w;
   notations.canvas.height = window.innerHeight;
-  notations.resizeH = DDD.sizeFromPercentage(DDD.getPercent(w, notations.imgW), notations.imgH);
+  notations.resizeH = sizeFromPercentage(
+    getPercent(w, notations.imgW),
+    notations.imgH
+  );
   notations.step = area / video.duration;
-  notations.offX = DDD.sizeFromPercentage(notations.percent.left, w);
+  notations.offX = sizeFromPercentage(notations.percent.left, w);
   notationsUpdate();
 
   return false;

@@ -14,8 +14,6 @@ build/*
 
 # Hashed JS files and vendors
 src/js/*
-!src/ddd.min.js
-!src/ddd.min.js.map
 
 # Processed images
 src/img/lab/

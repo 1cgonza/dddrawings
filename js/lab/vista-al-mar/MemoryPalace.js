@@ -3,12 +3,7 @@ export default class MemoryPalace {
   constructor(container) {
     let basePath = '/img/assets/vistaMemory/';
     this.memories = [];
-    this.mnemonics = [
-      `${basePath}golpe1.png`,
-      `${basePath}mono.jpg`,
-      `${basePath}caida1.jpg`,
-      `${basePath}golpe2.jpg`
-    ];
+    this.mnemonics = [`${basePath}golpe1.png`, `${basePath}mono.jpg`, `${basePath}caida1.jpg`, `${basePath}golpe2.jpg`];
     this.stage = canvas(container);
     this.stage.canvas.id = 'memory';
     this.stage.canvas.style.zIndex = 0;

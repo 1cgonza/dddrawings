@@ -14,32 +14,29 @@ import {
 } from 'dddrawings';
 
 /*----------  GLOBALS  ----------*/
-var animReq;
-var currentYear;
-var year = 2003;
-var seismicData = [];
-var seismicDataI = 0;
-var taData = [];
-var taDataI = 0;
-var taTime;
-var taDataLoaded = false;
-var tick = 0;
-var _neighborhoodRadius = 200;
-var _maxSpeed = random(6, 10, true);
-var oReq = new DataRequest();
-var stageW = window.innerWidth;
-var stageH = window.innerHeight;
-var currentX = 0;
-var currentY = 0;
-var currentZ = 200;
-var centerX = (stageW / 2) | 0;
-var centerY = (stageH / 2) | 0;
-var target = new Vector();
-var end;
+let animReq;
+let currentYear;
+let year = 2003;
+let seismicData = [];
+let seismicDataI = 0;
+let taData = [];
+let taDataI = 0;
+let taTime;
+let taDataLoaded = false;
+let _neighborhoodRadius = 200;
+let _maxSpeed = random(6, 10, true);
+let stageW = window.innerWidth;
+let stageH = window.innerHeight;
+let centerX = (stageW / 2) | 0;
+let centerY = (stageH / 2) | 0;
+let end;
 
-var assetsLoaded = 0;
+const oReq = new DataRequest();
+const target = new Vector();
 
-var imgData = {
+let assetsLoaded = 0;
+
+const imgData = {
   cb: imgReady,
   url: '/img/assets/sprites/rotating_triangle.png',
   frames: [
@@ -64,21 +61,21 @@ var imgData = {
     { x: 739, y: 0, w: 41, h: 50 }
   ]
 };
-var framesXLength = imgData.frames.length;
+const framesXLength = imgData.frames.length;
 
-var numParticles = 2000;
+const numParticles = 2000;
 
 /*----------  SET STAGE  ----------*/
-var container = document.getElementById('ddd-container');
-var webgl = new Webgl(container);
-var stage = new Stage(imgData, webgl, numParticles);
+const container = document.getElementById('ddd-container');
+const webgl = new Webgl(container);
+const stage = new Stage(imgData, webgl, numParticles);
 
-var map = new Map({
+const map = new Map({
   center: { lon: -71.999996, lat: 4.000002 } // Center of Colombia
 });
 
 function imgReady() {
-  yearsMenu(1993, 2015, year, yearClickEvent, function(menu, currEle) {
+  yearsMenu(1993, 2015, year, yearClickEvent, (menu, currEle) => {
     container.appendChild(menu);
     currentYear = currEle;
     loadData();
@@ -100,14 +97,12 @@ function loadData() {
       container: container,
       loadingMsg: 'Loading Seismic Data'
     })
-    .then(function(d) {
+    .then(d => {
       seismicData = d;
       seismicDataI = 0;
       assetLoaded();
     })
-    .catch(function(err) {
-      console.error(err);
-    });
+    .catch(err => console.error(err));
 
   if (!taDataLoaded) {
     json({
@@ -115,15 +110,13 @@ function loadData() {
       container: container,
       loadingMsg: 'Loading Violence Data'
     })
-      .then(function(d) {
+      .then(d => {
         taData = d;
         taDataLoaded = true;
         getFirstAttackOfYear();
         assetLoaded();
       })
-      .catch(function(err) {
-        console.error(err);
-      });
+      .catch(err => console.error(err));
   }
 }
 
@@ -143,38 +136,30 @@ function yearClickEvent(event) {
 }
 
 function getFirstAttackOfYear() {
-  var yearStart = Date.parse(year) / 1000;
-  var dLength = taData.length;
-  var i;
+  const yearStart = Date.parse(year) / 1000;
 
-  for (i = 0; i < dLength; i++) {
-    if (taData[i].date.unix >= yearStart) {
-      taDataI = i;
-      taTime = taData[i].date.unix;
-      break;
-    }
-  }
+  taDataI = taData.findIndex(event => event.date.unix >= yearStart);
+  taTime = taData[taDataI].date.unix;
 }
 
 function init() {
-  var i = numParticles - 1;
-
-  for (i; i >= 0; i--) {
+  for (let i = 0; i < numParticles; i++) {
     stage.particle(new Bird(stageW, stageH));
   }
+
   animReq = requestAnimationFrame(animate);
 }
 
 function attackHold(coords, end) {
-  var cl = stage.children.length;
-  var vector = new Vector(coords.x + centerX, coords.y + centerY);
+  const cl = stage.children.length;
+  const vector = new Vector(coords.x + centerX, coords.y + centerY);
 
   function hold(timestamp) {
     if (timestamp < end) {
-      var i = cl - 1;
+      let i = cl - 1;
 
       for (i; i >= 0; i--) {
-        var bird = stage.children[i];
+        const bird = stage.children[i];
         vector.setZ(bird.position.z);
         bird.repulse(vector, stageW);
       }
@@ -187,18 +172,15 @@ function attackHold(coords, end) {
 
 function animate(timestamp) {
   if (seismicDataI < seismicData.length) {
-    var d = seismicData[seismicDataI];
-    var currTime = d.date.unix;
+    const d = seismicData[seismicDataI];
+    const currTime = d.date.unix;
 
     if (taTime && currTime >= taTime) {
       console.log('attack');
-      var impact = taData[taDataI].fatal ? taData[taDataI].fatal * 100 : 0;
+      let impact = taData[taDataI].fatal ? taData[taDataI].fatal * 100 : 0;
       impact += taData[taDataI].injured ? taData[taDataI].injured * 30 : 0;
 
-      var attackCoords = map.convertCoordinates(
-        taData[taDataI].place.lon,
-        taData[taDataI].place.lat
-      );
+      const attackCoords = map.convertCoordinates(taData[taDataI].place.lon, taData[taDataI].place.lat);
       attackHold(attackCoords, timestamp + impact);
 
       if (taDataI < taData.length - 1) {
@@ -210,14 +192,13 @@ function animate(timestamp) {
     }
 
     if (d.ml > 3 || seismicDataI === 0) {
-      var coords = map.convertCoordinates(d.lon, d.lat);
+      const coords = map.convertCoordinates(d.lon, d.lat);
       target.set(coords.x + centerX, coords.y + centerY, d.km || 200);
     }
 
     updateBirds();
 
     webgl.render(stage);
-    tick++;
     seismicDataI++;
     animReq = requestAnimationFrame(animate);
   } else {
@@ -228,7 +209,7 @@ function animate(timestamp) {
 }
 
 function updateBirds() {
-  var i = stage.children.length - 1;
+  let i = stage.children.length - 1;
 
   for (i; i >= 0; i--) {
     stage.children[i].update();
@@ -276,23 +257,24 @@ class Bird {
 
   flock() {
     this.acceleration.add(this.reach(0.005));
-    this.acceleration.add(
-      this.separation(stage.children, _neighborhoodRadius, numParticles)
-    );
+    this.acceleration.add(this.separation(stage.children));
   }
 
   move() {
     this.velocity.add(this.acceleration);
-    var l = this.velocity.length();
+    const l = this.velocity.length();
+
     if (l > _maxSpeed) {
       this.velocity.divideScalar(l / _maxSpeed);
     }
+
     this.position.add(this.velocity);
     this.acceleration.set(0, 0, 0);
   }
 
   repulse(v, stageW) {
-    var distance = this.position.distanceTo(v);
+    const distance = this.position.distanceTo(v);
+
     if (distance < stageW) {
       this.steer.subVectors(this.position, v);
       this.steer.multiplyScalar(0.5 / distance);
@@ -314,8 +296,8 @@ class Bird {
       if (Math.random() > 0.5) {
         continue;
       }
-      var bird = flock[i];
-      var distance = bird.position.distanceTo(this.position);
+      const bird = flock[i];
+      const distance = bird.position.distanceTo(this.position);
       if (distance > 0 && distance <= _neighborhoodRadius) {
         this.separate.subVectors(this.position, bird.position);
         this.separate.normalize();
@@ -331,12 +313,8 @@ class Bird {
     this.rz = (Math.asin(this.velocity.z / this.velocity.length()) * 180) / PI;
     this.x = this.position.x;
     this.y = this.position.y;
-    this.rotation =
-      this.ry > 0 ? HALF_PI - this.ry : HALF_PI - this.ry + TWO_PI;
-    this.frame =
-      this.rz > 0
-        ? (this.rz / framesXLength) | 0
-        : ((this.rz + 360) / framesXLength) | 0;
+    this.rotation = this.ry > 0 ? HALF_PI - this.ry : HALF_PI - this.ry + TWO_PI;
+    this.frame = this.rz > 0 ? (this.rz / framesXLength) | 0 : ((this.rz + 360) / framesXLength) | 0;
     this.alpha = this.position.z / 300;
     if (this.alpha < 0) {
       this.alpha = 0;

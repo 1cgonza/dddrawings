@@ -1,9 +1,10 @@
 import { random, HALF_PI } from 'dddrawings';
 
 export default class SandPainter {
-  constructor(m, colors) {
+  constructor(m, colors, stage) {
     this.MODE = m;
     this.colors = colors;
+    this.stage = stage;
     this.c = this.colors.someColor();
     this.g = random(0, HALF_PI, true);
   }
@@ -41,8 +42,8 @@ export default class SandPainter {
       const lex = Math.sin(tex);
       const _x = (ox + (x - ox) * lex) | 0;
       const _y = (oy + (y - oy) * lex) | 0;
-      const _i = (_y * stageW + _x) * 4;
-      setPixelColor(_i, this.c, a);
+      const _i = (_y * this.stage.w + _x) * 4;
+      this.colors.setPixelColor(_i, this.c, a);
     }
   }
   renderInside(x, y, ox, oy) {
@@ -58,12 +59,12 @@ export default class SandPainter {
       const lex = 0.5 * Math.sin(tex);
       const _x1 = (ox + (x - ox) * (0.5 + lex)) | 0;
       const _y1 = (oy + (y - oy) * (0.5 + lex)) | 0;
-      const _i1 = (_y1 * stageW + _x1) * 4;
+      const _i1 = (_y1 * this.stage.w + _x1) * 4;
       const _x2 = (ox + (x - ox) * (0.5 - lex)) | 0;
       const _y2 = (oy + (y - oy) * (0.5 - lex)) | 0;
-      const _i2 = (_y2 * stageW + _x2) * 4;
-      setPixelColor(_i1, this.c, a);
-      setPixelColor(_i2, this.c, a);
+      const _i2 = (_y2 * this.stage.w + _x2) * 4;
+      this.colors.setPixelColor(_i1, this.c, a);
+      this.colors.setPixelColor(_i2, this.c, a);
     }
   }
 
@@ -80,12 +81,12 @@ export default class SandPainter {
       const lex = 0.5 * Math.sin(tex);
       const _x1 = (ox + (x - ox) * lex) | 0;
       const _y1 = (oy + (y - oy) * lex) | 0;
-      const _i1 = (_y1 * stageW + _x1) * 4;
+      const _i1 = (_y1 * this.stage.w + _x1) * 4;
       const _x2 = (x + (ox - x) * lex) | 0;
       const _y2 = (y + (oy - y) * lex) | 0;
-      const _i2 = (_y2 * stageW + _x2) * 4;
-      setPixelColor(_i1, this.c, a);
-      setPixelColor(_i2, this.c, a);
+      const _i2 = (_y2 * this.stage.w + _x2) * 4;
+      this.colors.setPixelColor(_i1, this.c, a);
+      this.colors.setPixelColor(_i2, this.c, a);
     }
   }
 }

@@ -2,25 +2,26 @@ import { random, TWO_PI, HALF_PI } from 'dddrawings';
 import SandPainter from './SandPainter';
 
 export default class CPath {
-  constructor(id, colors, centerX, centerY, h) {
+  constructor(id, colors, stage) {
     this.id = id;
     this.colors = colors;
-    this.centerX = centerX;
-    this.centerY = centerY;
-    this.height = h;
+    this.centerX = stage.center.x;
+    this.centerY = stage.center.y;
+    this.height = stage.h;
+    this.width = stage.w;
     this.av = 0;
     this.numSands = 3;
     this.c = this.colors.someColor();
-    this.sandGut = new SandPainter(3, this.colors);
+    this.sandGut = new SandPainter(3, this.colors, stage);
     this.sandGut.c = [0, 0, 0];
     this.sandsCenter = [];
     this.sandsLeft = [];
     this.sandsRight = [];
 
     for (let s = 0; s < this.numSands; s++) {
-      this.sandsCenter[s] = new SandPainter(0, this.colors);
-      this.sandsLeft[s] = new SandPainter(1, this.colors);
-      this.sandsRight[s] = new SandPainter(1, this.colors);
+      this.sandsCenter[s] = new SandPainter(0, this.colors, stage);
+      this.sandsLeft[s] = new SandPainter(1, this.colors, stage);
+      this.sandsRight[s] = new SandPainter(1, this.colors, stage);
       this.sandsLeft[s].c = [0, 0, 0];
       this.sandsRight[s].c = [0, 0, 0];
       this.sandsCenter[s].c = this.colors.someColor();
@@ -71,8 +72,8 @@ export default class CPath {
         const dd = random(-0.9, 0.9, true);
         const _x = (ax + dd * cx) | 0;
         const _y = (ay + dd * cy) | 0;
-        const _i = (_y * stageW + _x) * 4;
-        setPixelColor(_i, [255, 255, 255], 1);
+        const _i = (_y * this.stageW + _x) * 4;
+        this.colors.setPixelColor(_i, [255, 255, 255], 1);
       }
       const newX = ax + cx * 0.6;
       const newY = ay + cy * 0.6;
@@ -98,7 +99,9 @@ export default class CPath {
     this.x += this.v * Math.cos(this.a);
     this.y += this.v * Math.sin(this.a);
     // rotational meander
-    this.av = 0.1 * Math.sin(this.time * this.tdv) + 0.1 * Math.sin((this.time * this.tdv) / this.tdvm);
+    this.av =
+      0.1 * Math.sin(this.time * this.tdv) +
+      0.1 * Math.sin((this.time * this.tdv) / this.tdvm);
     while (Math.abs(this.av) > HALF_PI / this.grth) {
       this.av *= 0.73;
     }

@@ -45,4 +45,23 @@ export default class ColorManager {
   someColor() {
     return this.goodColors[random(0, this.goodColors.length)];
   }
+
+  initPixels(stage) {
+    stage.ctx.fillStyle = '#FFF';
+    stage.ctx.fillRect(0, 0, stage.w, stage.h);
+    this.imgData = stage.ctx.getImageData(0, 0, stage.w, stage.h);
+    this.pixels = this.imgData.data;
+  }
+
+  setPixelColor(i, rgb, a) {
+    const a1 = 1 - a;
+    const r2 = this.pixels[i];
+    const g2 = this.pixels[i + 1];
+    const b2 = this.pixels[i + 2];
+
+    // Blend painter color with existing pixel based on alpha.
+    this.pixels[i] = rgb[0] * a + r2 * a1;
+    this.pixels[i + 1] = rgb[1] * a + g2 * a1;
+    this.pixels[i + 2] = rgb[2] * a + b2 * a1;
+  }
 }

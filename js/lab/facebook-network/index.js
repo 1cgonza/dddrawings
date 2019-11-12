@@ -21,7 +21,6 @@ d3.json('/data/facebook/friends.json')
     data.links.forEach(d => {
       data.nodes[d.source].weight++;
     });
-    console.log(data);
     network = new FN(data);
     network.init(current);
   })
@@ -41,7 +40,7 @@ function createMenu() {
 
     if (ele === 'randomize') {
       li.className = 'randomizer';
-      li.onclick = function() {
+      li.onclick = () => {
         network.reset(current);
         return false;
       };
@@ -61,7 +60,7 @@ function createMenu() {
 }
 
 function optionsClickEvent(li, type) {
-  li.onclick = function(event) {
+  li.onclick = event => {
     var menu = document.querySelector('.network-options');
     var currentOption = menu.querySelector('.current');
 
@@ -99,7 +98,6 @@ class FN {
       .force('center', d3.forceCenter(w / 2, h / 2));
 
     this.simulation.nodes(this.data.nodes);
-    console.log(this.data.nodes);
     this.simulation.force('link').links(this.data.links);
 
     this.nodes = this.svg
@@ -163,7 +161,7 @@ class FN {
       .attr('dx', '-1em')
       .attr('dy', '-1em')
       .attr('fill', '#358a97')
-      .text(function(d) {
+      .text(d => {
         return d.name;
       });
   }
@@ -185,7 +183,7 @@ class FN {
       .attr('stroke-width', '1.5') // (Optional) Width of the stroke in pixels.
       .attr('r', d => {
         // (Required) The radius of the circle in pixels.
-        return d.weight / 5;
+        return d.weight / 3;
       })
       .call(d3.drag()); // (Optional) If you add this line, each node can be dragged with the mouse.
   }

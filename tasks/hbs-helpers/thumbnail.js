@@ -1,7 +1,7 @@
 import { SafeString } from 'handlebars';
 import metadata from '../config';
 
-module.exports = thumb => {
+export default thumb => {
   const pageThumb = thumb ? thumb : metadata.defaultThumb;
 
   return new SafeString(pageThumb);

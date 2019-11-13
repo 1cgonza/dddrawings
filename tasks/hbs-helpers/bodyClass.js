@@ -1,6 +1,6 @@
 import { SafeString } from 'handlebars';
 
-module.exports = (slug, collection, archive) => {
+export default (slug, collection, archive) => {
   let bodyClass = 'page';
   let name = 'ddd';
 

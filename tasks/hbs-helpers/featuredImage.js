@@ -1,9 +1,9 @@
 import { SafeString } from 'handlebars';
 import metadata from '../config';
 import path from 'path';
-import setURL from './set-url';
+import setURL from './setUrl';
 
-module.exports = (collection, name, type) => {
+export default (collection, name, type) => {
   if (!name) {
     collection = '';
     name = metadata.defaultImgPath;

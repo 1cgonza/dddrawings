@@ -1,12 +1,12 @@
 import metadata from '../config';
-import path from 'path';
-import url from 'url';
+import { join } from 'path';
+import { resolve } from 'url';
 
-module.exports = (pre, slug, withTail) => {
+export default (pre, slug, withTail) => {
   pre = Array.isArray(pre) ? pre[0] : pre;
   pre = typeof pre === 'string' ? pre : '';
   slug = typeof slug === 'string' && pre !== slug ? slug : '';
   withTail = typeof withTail === 'boolean' && withTail ? '/' : '';
 
-  return url.resolve(metadata.baseUrl, path.join(pre, slug, withTail));
+  return resolve(metadata.baseUrl, join(pre, slug, withTail));
 };

@@ -1,7 +1,7 @@
 import metadata from '../config';
 import stripTags from 'striptags';
 
-module.exports = (description, excerpt) => {
+export default (description, excerpt) => {
   let pageDescription = description ? description : metadata.siteDescription;
 
   if (!description && excerpt.length > 0) {

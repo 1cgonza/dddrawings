@@ -1,7 +1,7 @@
 import { SafeString } from 'handlebars';
 import metadata from '../config';
 
-module.exports = function() {
+export default () => {
   let script = '';
 
   if (metadata.env !== 'dev') {

@@ -4,10 +4,6 @@ title: Spikes
 date: 2014-06-16 00:09:00
 description: Notations of seismic activity and terrorist attacks in Colombia with data from 'Ingeominas' and 'Centro de Memoria Histórica'. SVG visualization using D3.js.
 imgName: spikes
-libraries:
-  - jquery
-  - jqueryUi
-  - d3
 tags:
   - d3
   - svg

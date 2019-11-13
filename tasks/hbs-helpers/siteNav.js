@@ -1,9 +1,9 @@
 import { SafeString } from 'handlebars';
 import slugify from 'slug';
 import metadata from '../config';
-import setURL from './set-url';
+import setURL from './setUrl';
 
-module.exports = (slug, collection) => {
+export default (slug, collection) => {
   const pages = ['Home', 'Lab', 'Notations', 'Datasets'];
   let list = '';
 

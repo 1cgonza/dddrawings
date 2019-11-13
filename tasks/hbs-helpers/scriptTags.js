@@ -1,4 +1,4 @@
-module.exports = (scripts, link) => {
+export default (scripts, link) => {
   let ret = '';
   let tag = '';
 

@@ -49,7 +49,7 @@
     "gulp": "^4.0.2",
     "gulp-gh-pages": "^0.5.4",
     "gulpsmith": "^0.6.0",
-    "handlebars": "^4.5.1",
+    "handlebars": "^4.5.2",
     "jstransformer-handlebars": "^1.1.0",
     "metalsmith": "^2.3.0",
     "metalsmith-autoprefixer": "^1.1.2",

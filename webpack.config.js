@@ -1,4 +1,4 @@
-const resolve = require('path').resolve;
+const { resolve } = require('path');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const fs = require('fs');
@@ -22,9 +22,12 @@ const entries = (base => {
 })('./js');
 
 module.exports = (env, options) => {
-  console.log(options.mode);
   return {
     devtool: options.mode === 'development' ? 'eval-source-map' : false,
+    devServer: {
+      port: 9000,
+      writeToDisk: true
+    },
     entry: entries,
     output: {
       path: resolve(__dirname, 'src', 'js'),

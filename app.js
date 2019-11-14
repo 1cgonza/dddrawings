@@ -2,7 +2,7 @@ import deploy from './tasks/deploy';
 import clean from './tasks/clean';
 import { build, serve } from './tasks/build';
 import metadata from './tasks/config';
-import ImgManager from './tasks/Images-manager';
+import ImgManager from './tasks/ImagesManager';
 
 function init() {
   if (metadata.env === 'clean') {

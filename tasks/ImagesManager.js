@@ -23,30 +23,34 @@ export default class ImagesManager {
       { name: 'thumb', width: 550, height: 332 },
       { name: 'large', width: 1200, height: 630 }
     ];
-    for (var collection in this.paths) {
-      var folder = this.paths[collection].dest;
+    for (let collection in this.paths) {
+      const folder = this.paths[collection].dest;
       if (!fs.existsSync(folder)) {
         fs.mkdirSync(folder);
       }
     }
   }
+
   plugin(options) {
     let self = this;
-    return function(files, metalsmith, done) {
+    return (files, metalsmith, done) => {
       self.process(options, done);
     };
   }
+
   process(options, callback) {
     this.callback = callback;
     this.log = options.log || false;
     this.queue = [];
     options = options || {};
-    for (var i in this.paths) {
-      var src = this.paths[i].src;
-      var dest = this.paths[i].dest;
+
+    for (let i in this.paths) {
+      const src = this.paths[i].src;
+      const dest = this.paths[i].dest;
+
       if (options.force) {
         var files = fs.readdirSync(dest);
-        files.forEach(function(file) {
+        files.forEach(file => {
           fs.unlinkSync(resolve(dest, file));
         });
       }
@@ -55,6 +59,7 @@ export default class ImagesManager {
     this.total = this.queue.length * this.sizes.length;
     this.createFiles();
   }
+
   check() {
     this.count++;
     if (this.count === this.total) {
@@ -62,55 +67,65 @@ export default class ImagesManager {
       this.callback();
     }
   }
+
   createFiles() {
-    var queue = this.queue;
+    const queue = this.queue;
+
     if (!queue.length) {
       // Leave if there is nothing to process.
       this.callback();
     } else {
       if (this.log === 'verbose') {
-        console.log(chalk.blue('...:::Processing ' + chalk.red(queue.length) + ' new images:::...'));
+        console.log(chalk.blue(`...:::Processing ${chalk.red(queue.length)} new images:::...`));
       }
-      for (var i = 0; i < queue.length; i++) {
-        var imgPath = queue[i].path;
-        let imgFolder = queue[i].dest;
+
+      queue.forEach(ele => {
+        var imgPath = ele.path;
+        let imgFolder = ele.dest;
         let imgBuffer = fs.readFileSync(imgPath);
         let imgInfo = parse(imgPath);
-        let self = this;
+        let _self = this;
+
         if (this.log === 'new' || this.log === 'verbose') {
           console.log(chalk.blue('Saving file:', chalk.yellow(imgPath)));
         }
-        for (var j = 0; j < this.sizes.length; j++) {
-          var size = this.sizes[j];
+
+        this.sizes.forEach(size => {
           let name = size.name == 'full' ? '' : '-' + size.name;
+
           sharp(imgBuffer)
             .resize(size.width, size.height)
             .toFile(resolve(imgFolder, imgInfo.name + name + imgInfo.ext))
-            .then(function(info) {
-              self.check();
+            .then(info => {
+              _self.check();
             })
-            .catch(function(err) {
+            .catch(err => {
               console.log(err);
-              self.check();
+              _self.check();
             });
-        }
-      }
+        });
+      });
     }
   }
+
   _run(dir, imgFolder) {
-    var list = fs.readdirSync(dir);
-    var existingImages = fs.readdirSync(imgFolder);
-    for (var i = 0; i < list.length; i++) {
-      var name = list[i];
-      var url = resolve(dir, name);
-      var stat = fs.statSync(url);
+    const list = fs.readdirSync(dir);
+    const existingImages = fs.readdirSync(imgFolder);
+
+    list.forEach(name => {
+      const url = resolve(dir, name);
+      const stat = fs.statSync(url);
+
       if (stat.isDirectory()) {
         if (name === 'img') {
-          var imgsList = fs.readdirSync(url);
-          for (var j = 0; j < imgsList.length; j++) {
-            var file = imgsList[j];
+          const imgsList = fs.readdirSync(url);
+
+          for (let i = 0; i < imgsList.length; i++) {
+            const file = imgsList[i];
+
             if (file.indexOf('.jpg') > 0 || file.indexOf('.jpeg') > 0 || file.indexOf('.png') > 0) {
-              let imgPath = resolve(url, file);
+              const imgPath = resolve(url, file);
+
               if (existingImages.length > 0 && existingImages.indexOf(file) >= 0) {
                 if (this.log === 'verbose') {
                   console.log(chalk.red('Skipping File:', file));
@@ -127,6 +142,6 @@ export default class ImagesManager {
           this._run(url, imgFolder);
         }
       }
-    }
+    });
   }
 }

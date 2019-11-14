@@ -19,8 +19,8 @@ import videos from './hbs-helpers/videos';
 
 export default () => {
   Handlebars.registerPartial({
-    head: fs.readFileSync(resolve(__dirname, './layouts/partials/head.hbs')).toString(),
-    footer: fs.readFileSync(resolve(__dirname, './layouts/partials/footer.hbs')).toString()
+    head: fs.readFileSync(`${__dirname}/layouts/partials/head.hbs`).toString(),
+    footer: fs.readFileSync(`${__dirname}/layouts/partials/footer.hbs`).toString()
   });
 
   Handlebars.registerHelper({

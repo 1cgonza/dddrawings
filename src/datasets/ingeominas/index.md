@@ -8,4 +8,3 @@ date: 2015-10-01 13:14:25
 description:
 ---
 # Violenca Armada de Monitor (Armed Violence from "Monitor")
-

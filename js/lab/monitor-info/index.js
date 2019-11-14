@@ -115,15 +115,16 @@ function drawChart(eve) {
   const timeEnd = Date.parse(`${year + 1}/01/01 00:00:00`) / 1000;
   const step = stage.w / (timeEnd - timeStart);
   const y = eve.target.offsetTop + 40;
+  const ctx = stage.ctx;
 
   d.forEach(event => {
     const timeEvent = event.hasOwnProperty('fecha') ? event.fecha.unix : null;
     const victims = event.hasOwnProperty('vTotal') ? event.vTotal : 0;
     const timeX = timeEvent - timeStart;
 
-    stage.ctx.beginPath();
-    stage.ctx.moveTo(timeX * step, y);
-    stage.ctx.lineTo(timeX * step, y - victims);
-    stage.ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(timeX * step, y);
+    ctx.lineTo(timeX * step, y - victims);
+    ctx.stroke();
   });
 }

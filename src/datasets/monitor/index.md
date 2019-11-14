@@ -12,4 +12,3 @@ categories:
   -
 ---
 # Violenca Armada de Monitor (Armed Violence from "Monitor")
-

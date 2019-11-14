@@ -35,6 +35,7 @@ export default class SandPainter {
     const grains = 42;
     // lay down grains of sand (transparent pixels)
     const w = this.g / (grains - 1);
+
     for (let i = 0; i < grains; i++) {
       const a = 0.15 - i / (grains * 10 + 10);
       // paint one side
@@ -46,6 +47,7 @@ export default class SandPainter {
       this.colors.setPixelColor(_i, this.c, a);
     }
   }
+
   renderInside(x, y, ox, oy) {
     // calculate grains by distance
     const grains = 11;

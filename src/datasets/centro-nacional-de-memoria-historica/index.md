@@ -8,4 +8,3 @@ date: 2015-09-08 14:20:45
 description:
 ---
 # Centro Nacional de Memoria Histórica (Historical Memory National Center)
-

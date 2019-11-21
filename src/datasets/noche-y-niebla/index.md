@@ -2,7 +2,7 @@
 layout: default.hbs
 title: Noche y Niebla
 tagLink: dataset-nyn
-sourceURL: http://www.nocheyniebla.org/node/14
+sourceURL: http://www.nocheyniebla.org/
 parsedURL: https://github.com/1cgonza/ddd/tree/gh-pages/data/nyn
 date: 2015-09-08 14:20:45
 description:

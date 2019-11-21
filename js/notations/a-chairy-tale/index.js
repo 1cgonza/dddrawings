@@ -1,116 +1,46 @@
+import { canvas, json } from 'dddrawings';
 import { notationsVideo } from '../../utils/Notations';
+import notes from '../../utils/notes';
+import Resize from './Resize';
+import assets from './assets';
+import options from './options';
 
+const middle = document.getElementById('middle-col');
+const right = document.getElementById('right-col');
+const loadingR = right.querySelector('.loading');
+const loadingM = middle.querySelector('.loading');
+let notationsData = [];
 let animReq;
-let stageReady = false;
-let notes = document.getElementById('box');
-var decription = document.getElementById('description');
-var left = document.getElementById('left-col');
-var middle = document.getElementById('middle-col');
-var right = document.getElementById('right-col');
-var loadingR = right.querySelector('.loading');
-var loadingM = middle.querySelector('.loading');
-
-var assets = {
-  video: document.getElementById('video'),
-  data: '/data/notations/chairy-tale.json',
-  smallImg: '/img/assets/notations/chairy-tale-small.jpg',
-  largeImg: '/img/assets/notations/chairy-tale-notations.jpg'
-};
-var assetsLoaded = 0;
-assets.length = Object.keys(assets).length;
-
-var options = {
-  pageWidth: 1360,
-  pageHeight: 2070,
-  pageMarginTop: 112,
-  pageMarginBottom: 40,
-  secondsPerPage: 160,
-  fps: 24,
-  percent: {}
-};
-var innerPageHeight = options.pageHeight - options.pageMarginTop - options.pageMarginBottom;
-options.percent.h = DDD.getPercent(innerPageHeight, options.pageHeight);
-options.percent.top = DDD.getPercent(options.pageMarginTop, options.pageHeight);
-options.percent.bottom = DDD.getPercent(options.pageMarginBottom, options.pageHeight);
 
 // Set globally the video player and two canvases that will communicate with each other.
-var video = notationsVideo(assets.video, videoReady);
+const timeline = canvas(middle, { css: { position: 'relative', opacity: 0 } });
+const notations = canvas(right, { css: { position: 'relative', opacity: 0 } });
+const resize = new Resize(middle, right);
 
-var notationsData = [];
-
-var timeline = DDD.canvas(middle, { css: { position: 'relative', opacity: 0 } });
 middle.style.width = '10%';
-
-var notations = DDD.canvas(right, { css: { position: 'relative', opacity: 0 } });
 right.style.width = '50%';
 notations.imgW = 1000;
 notations.imgH = 6088;
-
-var resize = {
-  stage: function() {
-    this.height = window.innerHeight;
-  },
-  timeline: function() {
-    var h = this.height;
-    var ih = 1218;
-    timeline.canvas.width = middle.offsetWidth;
-    timeline.canvas.height = h;
-    timeline.imgResizeW = timeline.canvas.width * (h / ih);
-    timeline.pageH = h / 4;
-    timeline.offTop = DDD.sizeFromPercentage(options.percent.top, timeline.pageH);
-    timeline.offBottom = DDD.sizeFromPercentage(options.percent.bottom, timeline.pageH);
-    timeline.step = DDD.sizeFromPercentage(options.percent.h, timeline.pageH) / options.secondsPerPage;
-    middle.style.height = h + 'px';
-
-    if (timeline.canvas.width > timeline.imgResizeW) {
-      timeline.imgX = (timeline.canvas.width - timeline.imgResizeW) / 2;
-    } else {
-      timeline.imgX = 0;
-    }
-  },
-  notations: function() {
-    var w = right.offsetWidth;
-    var h = window.innerHeight;
-    var h2 = DDD.sizeFromPercentage(DDD.getPercent(w, notations.imgW), notations.imgH) / 4;
-    notations.canvas.width = w;
-    notations.canvas.height = h;
-    notations.headerY = h / 2;
-    notations.offTop = DDD.sizeFromPercentage(options.percent.top, h2);
-    notations.offBottom = DDD.sizeFromPercentage(options.percent.bottom, h2);
-    notations.step = DDD.sizeFromPercentage(options.percent.h, h2) / options.secondsPerPage;
-  },
-  video: function() {
-    var leftW = left.offsetWidth;
-    var resizePercent = (leftW / video.width) * 100;
-    video.width = leftW;
-    video.height = DDD.sizeFromPercentage(resizePercent, video.height);
-  },
-  all: function() {
-    this.timeline();
-    this.notations();
-    this.video();
-    updateNotations();
-  }
-};
-
-resize.stage();
 loadingR.style.opacity = 1;
 loadingM.style.opacity = 1;
 
-function videoReady() {
-  resize.video();
+notes();
+resize.stage();
+
+notationsVideo(assets.video).then(() => {
+  resize.video(assets.video);
   // Load JSON data about notations
-  DDD.json({
+  json({
     url: assets.data,
-    container: decription
+    container: document.getElementById('description')
   })
-    .then(function(data) {
+    .then(data => {
       notationsData = data.sections;
 
       /*----------  NOTATIONS IMG  ----------*/
       notations.img = new Image();
-      notations.img.onload = function() {
-        resize.notations();
+      notations.img.onload = () => {
+        resize.notations(notations);
         notations.imgY = notations.offTop - notations.headerY;
         loadingR.style.opacity = 0;
         notations.canvas.style.opacity = 1;
@@ -121,8 +51,8 @@ function videoReady() {
 
       /*----------  TIMELINE IMG  ----------*/
       timeline.img = new Image();
-      timeline.img.onload = function() {
-        resize.timeline();
+      timeline.img.onload = () => {
+        resize.timeline(timeline);
         timeline.headerY = timeline.offTop;
         loadingM.style.opacity = 0;
         timeline.canvas.style.opacity = 1;
@@ -133,34 +63,21 @@ function videoReady() {
 
       checkAssetsLoaded();
     })
-    .catch(function(err) {
-      console.error(err);
-    });
+    .catch(err => console.error(err));
 
-  video.onplay = function() {
-    animReq = requestAnimationFrame(playerLoop);
-    return false;
-  };
-
-  video.onpause = function() {
-    window.cancelAnimationFrame(animReq);
-    return false;
-  };
-
-  video.onseeking = function() {
-    updateNotations();
-    return false;
-  };
+  assets.video.onplay = () => (animReq = requestAnimationFrame(playerLoop));
+  assets.video.onpause = () => window.cancelAnimationFrame(animReq);
+  assets.video.onseeking = () => updateNotations();
 
   checkAssetsLoaded();
-}
+});
 
 function checkAssetsLoaded() {
-  assetsLoaded++;
+  assets.loaded++;
 
-  if (assetsLoaded === assets.length) {
-    video.controls = true;
-    stageReady = true;
+  if (assets.loaded === assets.length) {
+    assets.video.controls = true;
+    resize.ready = true;
   }
 }
 
@@ -170,27 +87,21 @@ function playerLoop() {
 }
 
 function updateNotations() {
-  var time = video.currentTime;
+  const time = assets.video.currentTime;
 
   if (time <= 38) {
-    var adjustCurrentTime = time * (30 / 38);
+    const adjustCurrentTime = time * (30 / 38);
 
     timeline.headerY = adjustCurrentTime * timeline.step + timeline.offTop;
     notations.imgY = adjustCurrentTime * notations.step + notations.offTop - notations.headerY;
   } else {
-    var i;
-    var current;
-    var currentTime = (time - 38) * (550 / 548.96);
-
-    for (i = 1; i < notationsData.length; i++) {
-      var head = notationsData[i - 1].notedEndFrame / options.fps;
-      var tail = notationsData[i].notedEndFrame / options.fps;
-
-      if (currentTime >= head && currentTime <= tail) {
-        current = notationsData[i].page;
-        break;
-      }
-    }
+    const currentTime = (time - 38) * (550 / 548.96);
+    const current = notationsData.find((d, i) => {
+      if (i === 0) return;
+      const head = notationsData[i - 1].notedEndFrame / options.fps;
+      const tail = d.notedEndFrame / options.fps;
+      return currentTime >= head && currentTime <= tail;
+    }).page;
 
     // Move timeline header
     timeline.headerY = currentTime * timeline.step + timeline.offTop * current + 30 * timeline.step;
@@ -244,21 +155,10 @@ function drawNotations() {
   notations.ctx.stroke();
 }
 
-window.onresize = function() {
-  if (stageReady) {
-    resize.all();
+window.onresize = () => {
+  if (resize.ready) {
+    resize.all(timeline, notations, assets.video).then(() => {
+      updateNotations();
+    });
   }
-  return false;
-};
-
-document.getElementById('notes').onclick = function(event) {
-  event.preventDefault();
-  notes.style.display = 'block';
-  return false;
-};
-
-document.getElementById('close-box').onclick = function(event) {
-  event.preventDefault();
-  notes.style.display = 'none';
-  return false;
 };

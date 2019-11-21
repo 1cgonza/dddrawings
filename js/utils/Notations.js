@@ -19,7 +19,7 @@ export class Notations {
         url: data.img.src,
         container: container,
         loadingMsg: data.img.msg
-      }).then(this.prepareImageData.bind(this));
+      }).then(this.prepareImageData);
 
       // Image Dimensions
       this.imgW = data.img.width;
@@ -39,44 +39,39 @@ export class Notations {
       };
     }
 
-    this.stage = canvas(container, {
-      w: container.offsetWidth
-    });
+    this.stage = canvas(container, { w: container.offsetWidth });
     this.canvas = this.stage.canvas;
     this.ctx = this.stage.ctx;
   }
 
-  prepareImageData(res) {
+  prepareImageData = res => {
     this.img = new Image();
     this.img.onload = this.imgCallback;
     this.img.src = 'data:image/jpeg;base64,' + base64(res);
-  }
+  };
 }
 
-export const notationsVideo = (video, cb) => {
-  // Happens once and triggers callback when video information (eg: duration) is accessible
-  video.onloadedmetadata = () => {
-    cb();
-    return false;
-  };
+export const notationsVideo = video => {
+  return new Promise((res, rej) => {
+    // Happens once and triggers callback when video information (eg: duration) is accessible
+    video.onloadedmetadata = () => res();
 
-  // TODO: implement some progress report or abort if taking too long
-  // var startLoading = Date.now();
-  // video.onprogress = function() {
-  //   var now = Date.now();
-  //   if (now - startLoading >= 10000 && video.readyState < 4) {
-  //     ...abort?
-  //   }
-  //   return false;
-  // };
+    // TODO: implement some progress report or abort if taking too long
+    // var startLoading = Date.now();
+    // video.onprogress = function() {
+    //   var now = Date.now();
+    //   if (now - startLoading >= 10000 && video.readyState < 4) {
+    //     ...abort?
+    //   }
+    //   return false;
+    // };
 
-  video.onerror = () => {
-    var errMsg = document.createElement('div');
-    errMsg.innerHTML = video.innerHTML;
-    video.parentNode.replaceChild(errMsg, video);
-    console.log(err);
-    return false;
-  };
-
-  return video;
+    video.onerror = err => {
+      var errMsg = document.createElement('div');
+      errMsg.innerHTML = video.innerHTML;
+      video.parentNode.replaceChild(errMsg, video);
+      console.log(err);
+      rej(err);
+    };
+  });
 };

@@ -1,19 +1,20 @@
 import { sizeFromPercentage, getPercent } from 'dddrawings';
 import { Notations, notationsVideo } from '../../utils/Notations';
 
-let video;
+const container = document.getElementById('ddd-container');
+const video = document.getElementById('video');
+const stage = document.createElement('div');
+
 let animReq;
 let loaded = false;
 
-const container = document.getElementById('ddd-container');
-let stage = document.createElement('div');
 stage.id = 'right-col';
 stage.style.width = '60%';
 stage.style.height = window.innerHeight + 'px';
 
 container.appendChild(stage);
 
-let notations = new Notations({
+const notations = new Notations({
   img: {
     width: 1874,
     height: 1023,
@@ -41,7 +42,7 @@ function imgReady() {
 }
 
 function notationsReady() {
-  video = notationsVideo(document.getElementById('video'), videoReady);
+  notationsVideo(video).then(videoReady);
 }
 
 function videoReady() {
@@ -49,18 +50,9 @@ function videoReady() {
   notationsUpdate();
 
   video.controls = true;
-
-  video.onplay = () => {
-    animReq = requestAnimationFrame(playerLoop);
-    return false;
-  };
-
+  video.onplay = () => (animReq = requestAnimationFrame(playerLoop));
   video.onseeking = notationsUpdate;
-
-  video.onpause = () => {
-    window.cancelAnimationFrame(animReq);
-    return false;
-  };
+  video.onpause = () => window.cancelAnimationFrame(animReq);
 }
 
 function playerLoop() {
@@ -69,14 +61,11 @@ function playerLoop() {
 }
 
 function notationsUpdate() {
-  if (!loaded) {
-    return;
-  }
+  if (!loaded) return;
   const ctx = notations.ctx;
   const x = video.currentTime * notations.step + notations.offX;
 
   ctx.clearRect(0, 0, notations.canvas.width, notations.canvas.height);
-
   notationsRepaint();
   ctx.beginPath();
   ctx.moveTo(x, 0);
@@ -104,15 +93,10 @@ function updateSize() {
   const area = sizeFromPercentage(notations.percent.w, w);
   notations.canvas.width = w;
   notations.canvas.height = window.innerHeight;
-  notations.resizeH = sizeFromPercentage(
-    getPercent(w, notations.imgW),
-    notations.imgH
-  );
+  notations.resizeH = sizeFromPercentage(getPercent(w, notations.imgW), notations.imgH);
   notations.step = area / video.duration;
   notations.offX = sizeFromPercentage(notations.percent.left, w);
   notationsUpdate();
-
-  return false;
 }
 
 window.onresize = updateSize;

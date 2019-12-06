@@ -11,6 +11,7 @@ const entries = (base => {
   function appendEntries(folder) {
     let folders = fs.readdirSync(base + folder);
     folders.forEach(name => {
+      if (name === '.DS_Store') return;
       ret[name] = base + folder + '/' + name + '/index.js';
     });
   }

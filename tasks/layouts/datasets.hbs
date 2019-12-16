@@ -11,8 +11,9 @@
 
     <div class="item-description">
       {{#if description}}<p>Summary: {{description}}</p>{{/if}}
-      {{#if parsedURL}}<p>Parsed (JSON): <a href="{{parsedURL}}" target="_blank">{{parsedURL}}</a></p>{{/if}}
-      {{#if sourceURL}}<p>Source: <a href="{{sourceURL}}" target="_blank">{{sourceURL}}</a></p>{{/if}}
+      {{#if parsedURL}}<p>Parsed (JSON): <a href="{{parsedURL}}" target="_blank" rel="noopener">{{parsedURL}}</a></p>
+      {{/if}}
+      {{#if sourceURL}}<p>Source: <a href="{{sourceURL}}" target="_blank" rel="noopener">{{sourceURL}}</a></p>{{/if}}
       {{#if tagLink}}{{ getRelatedPosts tagLink 'lab' }}{{/if}}
     </div>
   </section>

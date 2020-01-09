@@ -65,7 +65,7 @@
     "metalsmith-metadata": "^0.0.4",
     "metalsmith-sass": "^1.6.0",
     "sharp": "^0.23.3",
-    "slug": "^1.1.0",
+    "slug": "^2.1.0",
     "striptags": "^3.1.1",
     "wait-on": "^3.3.0",
     "webpack": "^4.41.2",

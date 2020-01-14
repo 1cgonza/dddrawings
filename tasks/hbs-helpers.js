@@ -1,5 +1,4 @@
-import fs from 'fs';
-import { resolve } from 'path';
+import { readFileSync } from 'fs';
 import Handlebars from 'handlebars';
 
 import analytics from './hbs-helpers/analytics';
@@ -19,8 +18,8 @@ import videos from './hbs-helpers/videos';
 
 export default () => {
   Handlebars.registerPartial({
-    head: fs.readFileSync(`${__dirname}/layouts/partials/head.hbs`).toString(),
-    footer: fs.readFileSync(`${__dirname}/layouts/partials/footer.hbs`).toString()
+    head: readFileSync(`${__dirname}/layouts/partials/head.hbs`).toString(),
+    footer: readFileSync(`${__dirname}/layouts/partials/footer.hbs`).toString()
   });
 
   Handlebars.registerHelper({

@@ -1,7 +1,7 @@
 import { SafeString } from 'handlebars';
 import metadata from '../config';
 
-export default videos => {
+module.exports = function(videos) {
   let ret = '';
   const link = metadata.videosPath;
   videos.forEach((video, i) => {

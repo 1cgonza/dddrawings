@@ -1,9 +1,9 @@
 import Metalsmith from 'metalsmith';
 import chalk from 'chalk';
 import metadata from './config';
-import server from './build-plugins/server';
+import server from './buildPlugins/server';
 
-const tasksEntry = './build-plugins/';
+const tasksEntry = './buildPlugins/';
 const plugins = [
   'changed',
   'drafts',
@@ -14,13 +14,15 @@ const plugins = [
   'markdown',
   'excerpts',
   'slugs',
+  'layoutHelpers',
+  'layoutPartials',
   'layouts',
   'html',
   'images'
 ];
 
 export function build(callback) {
-  var metalsmith = new Metalsmith(__dirname)
+  const metalsmith = new Metalsmith(__dirname)
     .source('../src')
     .destination('../build')
     .clean(false)

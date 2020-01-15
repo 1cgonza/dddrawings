@@ -1,7 +1,7 @@
 import { SafeString } from 'handlebars';
 import metadata from '../config';
 
-export default title => {
+module.exports = function(title) {
   let pageTitle = metadata.siteTitle;
 
   if (title && title.length > 0 && title !== 'Home') {

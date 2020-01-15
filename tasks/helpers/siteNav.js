@@ -3,7 +3,7 @@ import slugify from 'slug';
 import metadata from '../config';
 import setURL from './setUrl';
 
-export default (slug, collection) => {
+module.exports = function(slug, collection) {
   const pages = ['Home', 'Lab', 'Notations', 'Datasets'];
   let list = '';
 

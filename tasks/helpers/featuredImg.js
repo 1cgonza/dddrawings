@@ -3,7 +3,7 @@ import metadata from '../config';
 import path from 'path';
 import setURL from './setUrl';
 
-export default (collection, name, type) => {
+module.exports = function(collection, name, type) {
   if (!name) {
     collection = '';
     name = metadata.defaultImgPath;

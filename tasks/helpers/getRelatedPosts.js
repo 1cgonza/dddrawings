@@ -1,7 +1,7 @@
 import { SafeString } from 'handlebars';
 import setURL from './setUrl';
 
-export default (tag, collection, metalsmith) => {
+module.exports = function(tag, collection, metalsmith) {
   let labPosts = metalsmith.data.root[collection];
   let ret = '';
 

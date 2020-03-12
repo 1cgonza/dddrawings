@@ -3,8 +3,10 @@
 ## TODO
 
 - change default image
-- check clean webpack plugin not cleaning up build/js
+- ~~check clean webpack plugin not cleaning up build/js~~
 - better template for datasets pages (images with link to projects...)
+- add more drawings to vista al mar
+- fix sound autoplay issue on browsers vista al mar
 
 ## Terminar
 

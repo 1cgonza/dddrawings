@@ -21,3 +21,6 @@ src/img/notations/
 
 # yarn
 .yarnclean
+
+# logs
+*.log

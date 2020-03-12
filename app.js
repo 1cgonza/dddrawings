@@ -1,5 +1,5 @@
 import deploy from './tasks/deploy';
-import clean from './tasks/clean';
+import { clean, softClean } from './tasks/clean';
 import { build, serve } from './tasks/build';
 import metadata from './tasks/config';
 import ImgManager from './tasks/ImagesManager';
@@ -10,11 +10,11 @@ function init() {
   } else if (metadata.env === 'deploy') {
     clean(buildAndDeploy);
   } else if (metadata.env === 'prod') {
-    build();
+    softClean(build);
   } else {
     // The default mode will be development
     // This will launch browserSync to work locally
-    serve();
+    softClean(serve);
   }
 }
 

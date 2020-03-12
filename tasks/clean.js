@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import del from 'del';
 
-export default cb => {
+export function clean(cb) {
   console.log(chalk.cyan('..::| START cleaning |::..'));
 
   del(['build/**', '!build', '!build/CNAME', '!build/data/**', '!build/videos/**']).then(paths => {
@@ -12,4 +12,12 @@ export default cb => {
       cb();
     }
   });
-};
+}
+
+export function softClean(cb) {
+  del(['build/js']).then(paths => {
+    if (cb) {
+      cb();
+    }
+  });
+}

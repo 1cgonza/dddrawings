@@ -30,7 +30,7 @@
   "homepage": "https://github.com/1cgonza/dddrawings",
   "dependencies": {
     "d3": "^5.14.2",
-    "dddrawings": "^0.0.1",
+    "dddrawings": "^1.0.1",
     "nouislider": "^14.0.3"
   },
   "devDependencies": {

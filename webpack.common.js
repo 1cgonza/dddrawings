@@ -36,6 +36,10 @@ module.exports = {
         use: {
           loader: 'babel-loader'
         }
+      },
+      {
+        test: /\.(glsl|vs|fs)$/,
+        loader: 'shader-loader'
       }
     ]
   },

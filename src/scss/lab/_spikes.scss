@@ -1,7 +1,8 @@
 .spikes #ddd-container {
   /* BACKGROUND CODE: http://codepen.io/1cgonza/details/BDjin/ */
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPgo8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgyPSIxIiB5Mj0iMSI+CjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNjY2M5YzYiPjwvc3RvcD4KPHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiNmMWVhZTQiPjwvc3RvcD4KPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjY2NjOWM2Ij48L3N0b3A+CjwvbGluZWFyR3JhZGllbnQ+CjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZykiPjwvcmVjdD4KPC9zdmc+");
-
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPgo8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgyPSIxIiB5Mj0iMSI+CjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNjY2M5YzYiPjwvc3RvcD4KPHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiNmMWVhZTQiPjwvc3RvcD4KPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjY2NjOWM2Ij48L3N0b3A+CjwvbGluZWFyR3JhZGllbnQ+CjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZykiPjwvcmVjdD4KPC9zdmc+');
+  width: 100vw;
+  height: 100vh;
 
   .eqta {
     display: block;
@@ -64,57 +65,37 @@
   /*===============================
   =            SLIDERS            =
   ===============================*/
-  .ui-slider {
+  .noUi-target {
     top: 40%;
-    font-size: 0.9em;
-  }
-
-  .ui-slider,
-  .ui-slider-range {
+    font-size: 0.8em;
+    background: transparent;
     cursor: pointer;
     position: absolute;
   }
 
-  .slider-values {
+  .sliderValues {
     cursor: default;
   }
 
-  .ui-slider-handle {
-    border-radius: 10px;
-    position: absolute;
-    margin-left: -9px;
-    z-index: 2;
-    height: 16px;
-    width: 16px;
-    background-color: #d4d4d4;
-    border: 0 solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.4), inset 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.6), 0 4px 2px rgba(0, 0, 0, 0.2), 0 9px 4px rgba(0, 0, 0, 0.1), inset 0 2px 1px #fff;
-    outline: 0;
-  }
-
-  .ui-widget-header {
-    background-color: #979491;
-  }
-
-  .ui-slider-horizontal,
-  .ui-slider-vertical {
+  .noUi-horizontal,
+  .noUi-vertical {
     background-color: #ccc9c6;
   }
 
   /*==========  HORIZONTAL  ==========*/
-  .ui-slider-horizontal {
+  .noUi-horizontal {
     height: 8px;
     right: 50px;
 
-    .ui-widget-header {
+    .noUi-origin {
       height: 8px;
     }
 
-    .ui-slider-handle {
+    .noUi-handle {
       top: -5px;
     }
 
-    .slider-values {
+    .sliderValues {
       position: absolute;
       top: -30px;
       width: 100%;
@@ -123,53 +104,58 @@
   }
 
   /*==========  VERTICAL  ==========*/
-  .ui-slider-vertical {
+  .noUi-vertical {
     width: 8px;
 
-    .ui-widget-header {
+    .noUi-origin {
       width: 8px;
       bottom: 0;
     }
 
-    .ui-slider-handle {
+    .noUi-handle {
       right: -4px;
     }
 
-    .slider-values {
+    .noUi-base,
+    .noUi-connects {
+      height: 100px;
+    }
+
+    .sliderValues {
       position: absolute;
       width: 100px;
       right: -46px;
-      margin-top: 110px;
+      margin-top: 115px;
       text-align: center;
     }
   }
 
   /*==========  MAGNITUDE  ==========*/
-  #slider-magnitude {
+  #sliderMagnitude {
     width: 100px;
     margin-top: -60px;
   }
 
   /*==========  RADIUS  ==========*/
-  #slider-radius {
+  #sliderRadius {
     width: 200px;
   }
 
   /*==========  OPACITY  ==========*/
-  #slider-opacity {
+  #sliderOpacity {
     width: 100px;
     margin-top: 60px;
   }
 
   /*==========  POW OF  ==========*/
-  #slider-powof {
+  #sliderPowOf {
     height: 100px;
     right: 150px;
     margin-top: 100px;
   }
 
   /*==========  DIVIDED BY  ==========*/
-  #slider-dividedby {
+  #sliderDividedBy {
     height: 100px;
     right: 80px;
     margin-top: 100px;

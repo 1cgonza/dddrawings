@@ -2,21 +2,21 @@ let environments = {
   dev: {
     baseUrl: '/',
     videosPath: '/videos/',
-    env: 'dev'
+    env: 'dev',
   },
   prod: {
-    baseUrl: 'http://www.dddrawings.com/',
-    videosPath: 'http://juancgonzalez.com/lab/videos/',
-    env: 'prod'
+    baseUrl: 'https://dddrawings.com/',
+    videosPath: 'https://juancgonzalez.com/lab/videos/',
+    env: 'prod',
   },
   deploy: {
-    baseUrl: 'http://www.dddrawings.com/',
-    videosPath: 'http://juancgonzalez.com/lab/videos/',
-    env: 'deploy'
+    baseUrl: 'https://dddrawings.com/',
+    videosPath: 'https://juancgonzalez.com/lab/videos/',
+    env: 'deploy',
   },
   clean: {
-    env: 'clean'
-  }
+    env: 'clean',
+  },
 };
 
 let defaults = {
@@ -33,8 +33,8 @@ let defaults = {
     jquery: 'jquery-2.1.4.min',
     jqueryUi: 'jquery-ui-1.11.4.min',
     d3: 'd3-3.5.6.min',
-    momentTimezone: 'moment'
-  }
+    momentTimezone: 'moment',
+  },
 };
 
 function attachOptionsToDefaults(options) {
@@ -47,7 +47,7 @@ function attachOptionsToDefaults(options) {
 function defineEnvironment() {
   let env = attachOptionsToDefaults(environments.dev);
 
-  process.argv.forEach(val => {
+  process.argv.forEach((val) => {
     if (val === '--prod') {
       env = attachOptionsToDefaults(environments.prod);
     } else if (val === '--deploy') {

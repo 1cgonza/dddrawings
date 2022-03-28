@@ -32,6 +32,34 @@
   </section>
 
   <section class="archive-items">
+    <h2>Notaciones Invertidas</h2>
+
+    {{#each collections.notations}}{{#if inverted}}
+    <div class="item {{slug}}">
+      <div class="info">
+        <h3 class="item-title"><a href="{{setURL 'notations' slug true}}">{{title}}</a></h3>
+        <div class="item-description">
+          {{#if description}}
+          {{{description}}}
+          {{else}}
+          {{#if excerpt}} {{{excerpt}}} {{/if}}
+          {{/if}}
+        </div>
+      </div>
+      <div class="item-img">
+        <a href="{{setURL 'notations' slug true}}">
+          {{#if imgName}}
+          <img src="{{featuredImg collection imgName 'thumb'}}" alt="{{title}}">
+          {{else}}
+          <div class="no-image"></div>
+          {{/if}}
+        </a>
+      </div>
+    </div>
+    {{/if}}{{/each}}
+  </section>
+
+  <section class="archive-items">
     <h2>Gallery</h2>
     {{#each collections.notations}}{{#unless archive}}{{#unless interactive}}
     <div class="item {{slug}}">
@@ -44,15 +72,15 @@
       </div>
       <div class="item-img">
         {{!-- <a href="{{setURL 'notations' slug true}}"> --}}
-        {{#if imgName}}
-        <a href="{{featuredImg collection imgName 'full'}}">
           {{#if imgName}}
-          <img src="{{featuredImg collection imgName 'thumb'}}" alt="{{title}}">
-          {{else}}
-          <div class="no-image"></div>
+          <a href="{{featuredImg collection imgName 'full'}}">
+            {{#if imgName}}
+            <img src="{{featuredImg collection imgName 'thumb'}}" alt="{{title}}">
+            {{else}}
+            <div class="no-image"></div>
+            {{/if}}
+          </a>
           {{/if}}
-        </a>
-        {{/if}}
       </div>
     </div>
     {{/unless}}{{/unless}}{{/each}}

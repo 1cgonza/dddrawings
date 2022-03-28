@@ -7,9 +7,9 @@ export default class Sound {
 
     this.audio = new Audio(
       {
-        mar: 'http://juancgonzalez.com/dddrawings/audio/mar.mp3'
+        mar: 'https://juancgonzalez.com/dddrawings/audio/mar.mp3',
       },
-      function(audios) {
+      function (audios) {
         this.loaded(audios);
       }.bind(this)
     );
@@ -25,7 +25,7 @@ export default class Sound {
       width: '28px',
       height: '25px',
       backgroundRepeat: 'no-repeat',
-      backgroundSize: 'cover'
+      backgroundSize: 'cover',
     });
     document.body.appendChild(this.btn);
     this.btn.onclick = this.toggle.bind(this);

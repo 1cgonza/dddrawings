@@ -7,10 +7,10 @@ export class Notations {
     if (data.hasOwnProperty('url')) {
       json({
         url: data.url,
-        container: container
+        container: container,
       })
         .then(data.cb)
-        .catch(err => console.error(err));
+        .catch((err) => console.error(err));
     }
 
     if (data.hasOwnProperty('img')) {
@@ -18,7 +18,7 @@ export class Notations {
       image({
         url: data.img.src,
         container: container,
-        loadingMsg: data.img.msg
+        loadingMsg: data.img.msg,
       }).then(this.prepareImageData);
 
       // Image Dimensions
@@ -35,7 +35,7 @@ export class Notations {
         top: getPercent(data.img.offTop, this.imgH),
         bottom: getPercent(data.img.offBottom, this.imgH),
         left: getPercent(data.img.offLeft, this.imgW),
-        right: getPercent(data.img.offRight, this.imgW)
+        right: getPercent(data.img.offRight, this.imgW),
       };
     }
 
@@ -44,17 +44,19 @@ export class Notations {
     this.ctx = this.stage.ctx;
   }
 
-  prepareImageData = res => {
+  prepareImageData = (res) => {
     this.img = new Image();
     this.img.onload = this.imgCallback;
     this.img.src = 'data:image/jpeg;base64,' + base64(res);
   };
 }
 
-export const notationsVideo = video => {
+export const notationsVideo = (video) => {
   return new Promise((res, rej) => {
     // Happens once and triggers callback when video information (eg: duration) is accessible
-    video.onloadedmetadata = () => res();
+    video.onloadedmetadata = () => {
+      res();
+    };
 
     // TODO: implement some progress report or abort if taking too long
     // var startLoading = Date.now();
@@ -66,7 +68,7 @@ export const notationsVideo = video => {
     //   return false;
     // };
 
-    video.onerror = err => {
+    video.onerror = (err) => {
       var errMsg = document.createElement('div');
       errMsg.innerHTML = video.innerHTML;
       video.parentNode.replaceChild(errMsg, video);

@@ -71,7 +71,7 @@
     "metalsmith-metadata": "^0.0.4",
     "metalsmith-sass": "^1.6.0",
     "node-sass": "^7.0.1",
-    "sharp": "^0.25.2",
+    "sharp": "^0.30.5",
     "slug": "^2.1.1",
     "striptags": "^3.2.0",
     "wait-on": "^4.0.1",

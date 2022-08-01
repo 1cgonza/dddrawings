@@ -11,6 +11,7 @@ node_modules
 build/*
 !build/.gitkeep
 !build/CNAME
+!build/data
 
 # Processed images
 src/img/lab/

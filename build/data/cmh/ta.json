@@ -1,0 +1,1273 @@
+{
+  "1989": [
+    {
+      "date": {
+        "unix": 620611200,
+        "human": "1989-9-1"
+      },
+      "fatal": null,
+      "injured": null,
+      "by": "Guerrilla-EPL",
+      "dep": "Tolima",
+      "mun": "Ibgaué",
+      "place": "Cabecera Municipal",
+      "source": "Boletín Justicia y Paz Vol. 1 No 3 Pp. 78"
+    },
+    {
+      "date": {
+        "unix": 629787600,
+        "human": "1989-12-16"
+      },
+      "fatal": 1,
+      "injured": 1,
+      "by": "Guerrilla-ELN",
+      "dep": "Cesar",
+      "mun": "Aguachica",
+      "place": "Cabecera Municipal",
+      "source": "Boletin Justicia y Paz Vol. 2 No 4 "
+    }
+  ],
+  "1992": [
+    {
+      "date": {
+        "unix": 701654400,
+        "human": "1992-3-27"
+      },
+      "fatal": 1,
+      "injured": null,
+      "by": "Guerrilla-ELN",
+      "dep": "Distrito Capital",
+      "mun": "Bogotá D.C.",
+      "place": "Cabecera Municipal-Edificio Dinners Club",
+      "source": "Boletín Justicia y Paz Vol. 5 No 1 Pp. 95"
+    },
+    {
+      "date": {
+        "unix": 708134400,
+        "human": "1992-6-10"
+      },
+      "fatal": null,
+      "injured": null,
+      "by": "Guerrilla No Identificada",
+      "dep": "Atlántico",
+      "mun": "Barranquilla",
+      "place": "Consulado de España",
+      "source": "Boletín Justicia y Paz Vol. 5 No 2 Pp. 113"
+    },
+    {
+      "date": {
+        "unix": 716688000,
+        "human": "1992-9-17"
+      },
+      "fatal": null,
+      "injured": null,
+      "by": "Guerrilla-ELN",
+      "dep": "Norte de Santander",
+      "mun": "Cúcuta",
+      "place": "Terminal de Transporte",
+      "source": "Boletín Justicia y Paz Vol. 5 No 3 Pp. 103"
+    },
+    {
+      "date": {
+        "unix": 722149200,
+        "human": "1992-11-19"
+      },
+      "fatal": null,
+      "injured": null,
+      "by": "Guerrilla-CGSB",
+      "dep": "Antioquia",
+      "mun": "San Roque",
+      "place": "Cabecera Municipal-Plaza Principal",
+      "source": "Boletín Justicia y Paz Vol. 5 No 4 Pp. 75"
+    },
+    {
+      "date": {
+        "unix": 722581200,
+        "human": "1992-11-24"
+      },
+      "fatal": null,
+      "injured": null,
+      "by": "Guerrilla-CGSB",
+      "dep": "Distrito Capital",
+      "mun": "Bogotá D.C.",
+      "place": "Cabecera Municipal",
+      "source": "Boletín Justicia y Paz Vol. 5 No 4 Pp. 77"
+    },
+    {
+      "date": {
+        "unix": 724050000,
+        "human": "1992-12-11"
+      },
+      "fatal": null,
+      "injured": 9,
+      "by": "Guerrilla-ELN",
+      "dep": "Distrito Capital",
+      "mun": "Bogotá D.C.",
+      "place": "Cabecera Municipal",
+      "source": null
+    }
+  ],
+  "1993": [
+    {
+      "date": {
+        "unix": 740102400,
+        "human": "1993-6-15"
+      },
+      "fatal": null,
+      "injured": 2,
+      "by": "Guerrilla-ELN",
+      "dep": "Arauca",
+      "mun": "Fortul",
+      "place": "Cabecera Municipal-Parque Principal",
+      "source": "Boletín Justicia y Paz Vol. 6 No 2 Pp. 107-108"
+    },
+    {
+      "date": {
+        "unix": 745372800,
+        "human": "1993-8-15"
+      },
+      "fatal": null,
+      "injured": null,
+      "by": "Guerrilla No Identificada",
+      "dep": "Antioquia",
+      "mun": "San Vicente  ",
+      "place": "Cabecera Municipal-Parque Principal",
+      "source": "Boletín Justicia y Paz Vol. 6 No 3 Pp. 67"
+    }
+  ],
+  "1996": [
+    {
+      "date": {
+        "unix": 830736000,
+        "human": "1996-4-29"
+      },
+      "fatal": null,
+      "injured": null,
+      "by": "Guerrilla-FARC",
+      "dep": "Santander",
+      "mun": "Floridablanca",
+      "place": "Cabecera Municipal - Barrio Zapamanga",
+      "source": "Boletin Informativo Justicia y Paz, Volumen 9 #2. Pp. 35"
+    },
+    {
+      "date": {
+        "unix": 843350400,
+        "human": "1996-9-22"
+      },
+      "fatal": null,
+      "injured": null,
+      "by": "Guerrilla-ELN",
+      "dep": "Santander",
+      "mun": "Barrancabermeja",
+      "place": "Cabecera Municipal",
+      "source": "Noche y Niebla # 1. Pp. 82"
+    }
+  ],
+  "1997": [
+    {
+      "date": {
+        "unix": 854496000,
+        "human": "1997-1-29"
+      },
+      "fatal": 5,
+      "injured": 56,
+      "by": "Guerrilla-ELN",
+      "dep": "Antioquia",
+      "mun": "Medellin",
+      "place": "Cabecera Municipal",
+      "source": "Noche y Niebla # 3 Pp. 91"
+    },
+    {
+      "date": {
+        "unix": 857001600,
+        "human": "1997-2-27"
+      },
+      "fatal": 10,
+      "injured": 53,
+      "by": "Guerrilla-FARC",
+      "dep": "Antioquia",
+      "mun": "Apartado",
+      "place": "Cabecera Municipal-Hotel Pescador",
+      "source": "Noche y Niebla # 3 Pp. 101"
+    },
+    {
+      "date": {
+        "unix": 858556800,
+        "human": "1997-3-17"
+      },
+      "fatal": 1,
+      "injured": 3,
+      "by": "Guerrilla-ELN",
+      "dep": "Norte de Santander",
+      "mun": "Cúcuta",
+      "place": "Cabecera Municipal",
+      "source": "Noche y Niebla # 3. Pp. 122"
+    },
+    {
+      "date": {
+        "unix": 877669200,
+        "human": "1997-10-24"
+      },
+      "fatal": null,
+      "injured": null,
+      "by": "Grupo Armado No Identificado",
+      "dep": "Santander",
+      "mun": "Barrancabermeja",
+      "place": "Cabecera Municipal",
+      "source": "Noche y Niebla # 6 Pp. 144"
+    }
+  ],
+  "1998": [
+    {
+      "date": {
+        "unix": 913438800,
+        "human": "1998-12-12"
+      },
+      "fatal": null,
+      "injured": null,
+      "by": "Guerrilla-EPL",
+      "dep": "Santander",
+      "mun": "Bucaramanga",
+      "place": "Barrio Los Tejaditos ",
+      "source": "Noche y Niebla #10. Pp. 88"
+    }
+  ],
+  "1999": [
+    {
+      "date": {
+        "unix": 919555200,
+        "human": "1999-2-21"
+      },
+      "fatal": null,
+      "injured": 9,
+      "by": "Grupo Armado No Identificado",
+      "dep": "Distrito Capital",
+      "mun": "Santa Fe de Bogotá",
+      "place": "Barrio Palermo",
+      "source": "Noche y Niebla #11. Pp. 80"
+    },
+    {
+      "date": {
+        "unix": 924220800,
+        "human": "1999-4-16"
+      },
+      "fatal": null,
+      "injured": 4,
+      "by": "Guerrilla-FARC",
+      "dep": "Distrito Capital",
+      "mun": "Santa Fe de Bogotá",
+      "place": "Barrio Gaitán ",
+      "source": "Noche y Niebla #12. Pp. 53 - 54"
+    },
+    {
+      "date": {
+        "unix": 933292800,
+        "human": "1999-7-30"
+      },
+      "fatal": 6,
+      "injured": null,
+      "by": "Guerrilla-FARC",
+      "dep": "Antioquia",
+      "mun": "Medellin",
+      "place": "Cabecera Municipal",
+      "source": "Noche y Niebla # 13 Defensoría del Pueblo. Masacres ocurridas en 1999. Luz para la Vida Pp. 46-47"
+    },
+    {
+      "date": {
+        "unix": 935020800,
+        "human": "1999-8-19"
+      },
+      "fatal": null,
+      "injured": null,
+      "by": "Guerrilla-FARC",
+      "dep": "Antioquia ",
+      "mun": "Segovia",
+      "place": null,
+      "source": "Noche y Niebla #13. Pp. 92"
+    },
+    {
+      "date": {
+        "unix": 944438400,
+        "human": "1999-12-6"
+      },
+      "fatal": null,
+      "injured": null,
+      "by": "Guerrilla-ELN",
+      "dep": "Antioquia ",
+      "mun": "Medellín",
+      "place": "Barrio El Poblado",
+      "source": "Noche y Niebla #14. Pp. 134"
+    },
+    {
+      "date": {
+        "unix": 945406800,
+        "human": "1999-12-17"
+      },
+      "fatal": 6,
+      "injured": 30,
+      "by": "Guerrilla-FARC",
+      "dep": "Putumayo",
+      "mun": "Valle del Guamuez (La Hormiga)",
+      "place": "Cabecera Municipal",
+      "source": "Noche y Niebla # 14 Pp. 145 Defensoría del Pueblo. Masacres ocurridas en Colombia 1999 Luz para la Vida Pp. 130"
+    }
+  ],
+  "2000": [
+    {
+      "date": {
+        "unix": 954028800,
+        "human": "2000-3-26"
+      },
+      "fatal": 1,
+      "injured": 27,
+      "by": "Grupo Armado No Identificado",
+      "dep": "Cundinamarca",
+      "mun": "Girardot",
+      "place": "Cabecera Municipal",
+      "source": "Noche y Niebla # 15 Pp. 180"
+    },
+    {
+      "date": {
+        "unix": 954374400,
+        "human": "2000-3-30"
+      },
+      "fatal": 3,
+      "injured": 19,
+      "by": "Guerrilla-FARC",
+      "dep": "Cundinamarca",
+      "mun": "Cachipay",
+      "place": "Cabecera Municipal",
+      "source": "Noche y Niebla # 15 (Marzo) pág 185"
+    },
+    {
+      "date": {
+        "unix": 967507200,
+        "human": "2000-8-29"
+      },
+      "fatal": null,
+      "injured": 4,
+      "by": "Guerrilla- Jaime Bateman Cayón",
+      "dep": "Valle del Cauca",
+      "mun": "Palmira",
+      "place": "Cabecera Municipal",
+      "source": "Noche y Niebla # 17 Pp. 167-168"
+    },
+    {
+      "date": {
+        "unix": 970444800,
+        "human": "2000-10-2"
+      },
+      "fatal": 2,
+      "injured": 9,
+      "by": "Grupo Armado No Identificado",
+      "dep": "Santander",
+      "mun": "Barrancabermeja",
+      "place": "Cabecera Municipal",
+      "source": "Noche y Niebla # 18 Pp. 64"
+    },
+    {
+      "date": {
+        "unix": 974523600,
+        "human": "2000-11-18"
+      },
+      "fatal": 1,
+      "injured": 18,
+      "by": "Grupo Armado No Identificado",
+      "dep": "Putumayo",
+      "mun": "Puerto Asis",
+      "place": "Cabecera Municipal",
+      "source": "Noche y Niebla # 18 Pp. 149"
+    }
+  ],
+  "2001": [
+    {
+      "date": {
+        "unix": 981244800,
+        "human": "2001-2-4"
+      },
+      "fatal": 1,
+      "injured": 2,
+      "by": "Desconocidos",
+      "dep": "Arauca",
+      "mun": "Saravena",
+      "place": "Cabecera Municipal",
+      "source": "Noche y Niebla # 19 Pp. 90"
+    },
+    {
+      "date": {
+        "unix": 997315200,
+        "human": "2001-8-9"
+      },
+      "fatal": 3,
+      "injured": 36,
+      "by": "Guerrilla-ELN",
+      "dep": "Antioquia",
+      "mun": "San Francisco",
+      "place": "Cabecera Municipal",
+      "source": "Noche y Niebla # 21. Pp. 105"
+    },
+    {
+      "date": {
+        "unix": 998524800,
+        "human": "2001-8-23"
+      },
+      "fatal": 1,
+      "injured": 26,
+      "by": "Guerrilla-ELN",
+      "dep": "Antioquia",
+      "mun": "Marinilla",
+      "place": "Cabecera Municipal  - Zona Centrica",
+      "source": " Noche y Niebla # 21 Pp. 117"
+    },
+    {
+      "date": {
+        "unix": 1003640400,
+        "human": "2001-10-21"
+      },
+      "fatal": 6,
+      "injured": 1,
+      "by": "Guerrilla-ELN",
+      "dep": "Antioquia",
+      "mun": "Penol",
+      "place": "Cabecera Municipal",
+      "source": "Noche y Niebla # 22 Pp. 27"
+    },
+    {
+      "date": {
+        "unix": 1008565200,
+        "human": "2001-12-17"
+      },
+      "fatal": null,
+      "injured": 17,
+      "by": "Guerrilla-FARC",
+      "dep": "Meta",
+      "mun": "San Martin",
+      "place": "Cabecera Municipal",
+      "source": " Noche y Niebla # 22 Pp. 95"
+    }
+  ],
+  "2002": [
+    {
+      "date": {
+        "unix": 1011916800,
+        "human": "2002-1-25"
+      },
+      "fatal": 6,
+      "injured": null,
+      "by": "Guerrilla-FARC",
+      "dep": "Distrito Capital",
+      "mun": "Bogotá D.C.",
+      "place": "Cabecera Municipal-Barrio Fátima",
+      "source": "Noche y Niebla # 23 Pp. 35-36"
+    },
+    {
+      "date": {
+        "unix": 1013817600,
+        "human": "2002-2-16"
+      },
+      "fatal": 1,
+      "injured": 4,
+      "by": "Guerrilla-FARC",
+      "dep": "Meta",
+      "mun": "Villavicencio",
+      "place": "Cabecera Municipal-Biblioteca Cofrem",
+      "source": "Banco de Datos de Derechos Humanos y Violencia Política"
+    },
+    {
+      "date": {
+        "unix": 1015804800,
+        "human": "2002-3-11"
+      },
+      "fatal": 6,
+      "injured": 8,
+      "by": "Guerrilla-FARC",
+      "dep": "Meta",
+      "mun": "Puerto Lleras",
+      "place": "Cabecera Municipal",
+      "source": "Noche y Niebla # 23 Pp. 100-101"
+    },
+    {
+      "date": {
+        "unix": 1015891200,
+        "human": "2002-3-12"
+      },
+      "fatal": 1,
+      "injured": 1,
+      "by": "Guerrilla-FARC",
+      "dep": "Meta",
+      "mun": "Puerto Lleras",
+      "place": "Cabecera Municipal",
+      "source": "Banco de Datos de Derechos Humanos y Violencia Política"
+    },
+    {
+      "date": {
+        "unix": 1017273600,
+        "human": "2002-3-28"
+      },
+      "fatal": 4,
+      "injured": null,
+      "by": "Grupo Armado No Identificado",
+      "dep": "Guaviare",
+      "mun": "Calamar",
+      "place": "Cabecera Municipal",
+      "source": "Noche y Niebla # 23 Pp. 123"
+    },
+    {
+      "date": {
+        "unix": 1017446400,
+        "human": "2002-3-30"
+      },
+      "fatal": 6,
+      "injured": 33,
+      "by": "Guerrilla-FARC",
+      "dep": "Vichada",
+      "mun": "Puerto Carreño",
+      "place": "Cabecera Municipal",
+      "source": "Banco de Datos de Derechos Humanos y Violencia Política"
+    },
+    {
+      "date": {
+        "unix": 1017878400,
+        "human": "2002-4-4"
+      },
+      "fatal": null,
+      "injured": null,
+      "by": "Guerrilla-FARC",
+      "dep": "Caquetá",
+      "mun": "Puerto Rico",
+      "place": null,
+      "source": " Noche y Niebla # 24 Pp. 6"
+    },
+    {
+      "date": {
+        "unix": 1017964800,
+        "human": "2002-4-5"
+      },
+      "fatal": null,
+      "injured": null,
+      "by": "Guerrilla-FARC",
+      "dep": "Meta",
+      "mun": "Fuente de Oro",
+      "place": "Cabecera Municipal",
+      "source": " Noche y Niebla # 24 Pp. 8"
+    },
+    {
+      "date": {
+        "unix": 1018137600,
+        "human": "2002-4-7"
+      },
+      "fatal": 10,
+      "injured": 70,
+      "by": "Guerrilla-FARC",
+      "dep": "Meta",
+      "mun": "Villavicencio",
+      "place": "Cabecera Municipal-Barrio La Grama",
+      "source": "Noche y Niebla # 24 Pp. 11"
+    },
+    {
+      "date": {
+        "unix": 1018742400,
+        "human": "2002-4-14"
+      },
+      "fatal": 4,
+      "injured": 13,
+      "by": "Guerrilla-FARC",
+      "dep": "Atlántico",
+      "mun": "Barranquilla",
+      "place": "Cabecera Municipal",
+      "source": "Noche y Niebla # 24 Pp. 20-21"
+    },
+    {
+      "date": {
+        "unix": 1018828800,
+        "human": "2002-4-15"
+      },
+      "fatal": 3,
+      "injured": 2,
+      "by": "Grupos Paramilitares",
+      "dep": "Valle del Cauca",
+      "mun": "Jamundí",
+      "place": "Vereda Cascarillal",
+      "source": null
+    },
+    {
+      "date": {
+        "unix": 1021852800,
+        "human": "2002-5-20"
+      },
+      "fatal": 1,
+      "injured": 3,
+      "by": "Guerrilla-FARC",
+      "dep": "Antioquia",
+      "mun": "La Pintada",
+      "place": "Sitio Puente La Pintada",
+      "source": "Banco de Datos de Derechos Humanos y Violencia Política"
+    },
+    {
+      "date": {
+        "unix": 1022976000,
+        "human": "2002-6-2"
+      },
+      "fatal": 9,
+      "injured": 24,
+      "by": "Guerrilla-FARC",
+      "dep": "Antioquia",
+      "mun": "Chigorodo",
+      "place": "Cabecera Municipal",
+      "source": "Noche y Niebla # 24 Pp. 93-94"
+    },
+    {
+      "date": {
+        "unix": 1023753600,
+        "human": "2002-6-11"
+      },
+      "fatal": null,
+      "injured": 2,
+      "by": "Guerrilla-FARC",
+      "dep": "Cauca",
+      "mun": "Corinto",
+      "place": "Cabecera Municipal",
+      "source": " Noche y Niebla # 24 Pp. 106"
+    },
+    {
+      "date": {
+        "unix": 1027123200,
+        "human": "2002-7-20"
+      },
+      "fatal": null,
+      "injured": 7,
+      "by": "Guerrilla-FARC",
+      "dep": "Antioquia",
+      "mun": "Guadalupe",
+      "place": "Cabecera Municipal",
+      "source": " Noche y Niebla # 25 Pp. 26"
+    },
+    {
+      "date": {
+        "unix": 1027468800,
+        "human": "2002-7-24"
+      },
+      "fatal": null,
+      "injured": 5,
+      "by": "Guerrilla-FARC",
+      "dep": "Cundinamarca",
+      "mun": "San Juan de Rioseco",
+      "place": "Cabecera Municipal",
+      "source": "Banco de Datos de Derechos Humanos y Violencia Política"
+    },
+    {
+      "date": {
+        "unix": 1035781200,
+        "human": "2002-10-28"
+      },
+      "fatal": 2,
+      "injured": 7,
+      "by": "Guerrilla-FARC",
+      "dep": "Arauca",
+      "mun": "Arauca",
+      "place": "Cabecera Municipal",
+      "source": "Banco de Datos de Derechos Humanos y Violencia Política"
+    },
+    {
+      "date": {
+        "unix": 1037163600,
+        "human": "2002-11-13"
+      },
+      "fatal": null,
+      "injured": null,
+      "by": "Guerrilla-FARC",
+      "dep": "Norte de Santander",
+      "mun": "Cúcuta",
+      "place": "Cabecera Municipal - Barrio Lleras",
+      "source": " Noche y Niebla # 26 Pp. 64"
+    },
+    {
+      "date": {
+        "unix": 1038459600,
+        "human": "2002-11-28"
+      },
+      "fatal": null,
+      "injured": null,
+      "by": "Guerrilla-FARC",
+      "dep": "Meta",
+      "mun": "Puerto Rico",
+      "place": "Cabecera Municipal",
+      "source": " Noche y Niebla # 26 Pp. 86"
+    },
+    {
+      "date": {
+        "unix": 1040014800,
+        "human": "2002-12-16"
+      },
+      "fatal": null,
+      "injured": null,
+      "by": "Guerrilla-FARC",
+      "dep": "Cesar",
+      "mun": "Valledupar",
+      "place": "Cabecera Municipal",
+      "source": " Noche y Niebla # 26 Pp. 104"
+    },
+    {
+      "date": {
+        "unix": 1040014800,
+        "human": "2002-12-16"
+      },
+      "fatal": 1,
+      "injured": 21,
+      "by": "Guerrilla-FARC",
+      "dep": "Huila",
+      "mun": "Neiva",
+      "place": "Cabecera Municipal",
+      "source": "Banco de Datos de Derechos Humanos y Violencia Política"
+    }
+  ],
+  "2003": [
+    {
+      "date": {
+        "unix": 1042070400,
+        "human": "2003-1-9"
+      },
+      "fatal": 4,
+      "injured": 9,
+      "by": "Grupo Armado No Identificado",
+      "dep": "Arauca",
+      "mun": "Fortul",
+      "place": "Sitio La Y",
+      "source": "Noche y Niebla # 27 Pp. 34"
+    },
+    {
+      "date": {
+        "unix": 1044576000,
+        "human": "2003-2-7"
+      },
+      "fatal": 36,
+      "injured": 200,
+      "by": "Guerrilla-FARC",
+      "dep": "Distrito Capital",
+      "mun": "Bogotá D.C.",
+      "place": "Club El Nogal",
+      "source": null
+    },
+    {
+      "date": {
+        "unix": 1053993600,
+        "human": "2003-5-27"
+      },
+      "fatal": 1,
+      "injured": 2,
+      "by": "Guerrilla-FARC",
+      "dep": "Caquetá",
+      "mun": "San Vicente del Caguán",
+      "place": "Cabecera Municipal",
+      "source": "Banco de Datos de Derechos Humanos y Violencia Política"
+    },
+    {
+      "date": {
+        "unix": 1054512000,
+        "human": "2003-6-2"
+      },
+      "fatal": 4,
+      "injured": 11,
+      "by": "Guerrilla No Identificada",
+      "dep": "Antioquia",
+      "mun": "Granada",
+      "place": "Cabecera Municipal",
+      "source": "Noche y Niebla # 27 Pp. 253"
+    },
+    {
+      "date": {
+        "unix": 1057104000,
+        "human": "2003-7-2"
+      },
+      "fatal": 1,
+      "injured": 9,
+      "by": "Guerrilla-FARC",
+      "dep": "Huila",
+      "mun": "Isnos",
+      "place": "Cabecera Municipal",
+      "source": "Banco de Datos de Derechos Humanos y Violencia Política"
+    },
+    {
+      "date": {
+        "unix": 1057622400,
+        "human": "2003-7-8"
+      },
+      "fatal": 1,
+      "injured": 6,
+      "by": "Guerrilla-FARC",
+      "dep": "Caquetá",
+      "mun": "El Paujil",
+      "place": "Cabecera Municipal-Parque Los Libertadores",
+      "source": "Banco de Datos de Derechos Humanos y Violencia Política"
+    },
+    {
+      "date": {
+        "unix": 1058400000,
+        "human": "2003-7-17"
+      },
+      "fatal": null,
+      "injured": null,
+      "by": "Guerrilla No Identificada",
+      "dep": "Arauca",
+      "mun": "Arauca",
+      "place": "Cabecera Municipal",
+      "source": " Noche y Niebla # 28 Pp. 51"
+    },
+    {
+      "date": {
+        "unix": 1060300800,
+        "human": "2003-8-8"
+      },
+      "fatal": 5,
+      "injured": 5,
+      "by": "Guerrilla No Identificada",
+      "dep": "Arauca",
+      "mun": "Saravena",
+      "place": "Cabecera Municipal",
+      "source": "Noche y Niebla # 28 Pp. 86"
+    },
+    {
+      "date": {
+        "unix": 1060387200,
+        "human": "2003-8-9"
+      },
+      "fatal": 1,
+      "injured": 1,
+      "by": "Grupo Armado No Identificado",
+      "dep": "Cundinamarca",
+      "mun": "Chipaque",
+      "place": "Vía al Llano",
+      "source": "Banco de Datos de Derechos Humanos y Violencia Política"
+    },
+    {
+      "date": {
+        "unix": 1060473600,
+        "human": "2003-8-10"
+      },
+      "fatal": 1,
+      "injured": 15,
+      "by": "Grupo Armado No Identificado",
+      "dep": "Meta",
+      "mun": "San Martin",
+      "place": "Cabecera Municipal",
+      "source": "Banco de Datos de Derechos Humanos y Violencia Política"
+    },
+    {
+      "date": {
+        "unix": 1063065600,
+        "human": "2003-9-9"
+      },
+      "fatal": 1,
+      "injured": 11,
+      "by": "Grupo Armado No Identificado",
+      "dep": "Boyacá",
+      "mun": "Chita",
+      "place": "Cabecera Municipal",
+      "source": "Banco de Datos de Derechos Humanos y Violencia Política"
+    },
+    {
+      "date": {
+        "unix": 1064707200,
+        "human": "2003-9-28"
+      },
+      "fatal": 15,
+      "injured": 48,
+      "by": "Guerrilla-FARC",
+      "dep": "Caquetá",
+      "mun": "Florencia",
+      "place": "Cabecera Municipal",
+      "source": "Noche y Niebla # 28 Pp. 157"
+    },
+    {
+      "date": {
+        "unix": 1065571200,
+        "human": "2003-10-8"
+      },
+      "fatal": 6,
+      "injured": 19,
+      "by": "Grupo Armado No Identificado",
+      "dep": "Distrito Capital",
+      "mun": "Bogotá D.C.",
+      "place": "Cabecera Municipal",
+      "source": "Noche y Niebla # 28 Pp. 178"
+    },
+    {
+      "date": {
+        "unix": 1067058000,
+        "human": "2003-10-25"
+      },
+      "fatal": 7,
+      "injured": 12,
+      "by": "Guerrilla-FARC",
+      "dep": "Antioquia",
+      "mun": "Yarumal",
+      "place": "Cabecera Municipal",
+      "source": "Noche y Niebla # 28 Pp. 198 "
+    },
+    {
+      "date": {
+        "unix": 1067644800,
+        "human": "2003-11-1"
+      },
+      "fatal": 3,
+      "injured": 15,
+      "by": "Guerrilla-FARC",
+      "dep": "Caquetá",
+      "mun": "Florencia",
+      "place": "Cabecera Municipal-Barrio Las Brisas",
+      "source": "Banco de Datos de Derechos Humanos y Violencia Política"
+    },
+    {
+      "date": {
+        "unix": 1071550800,
+        "human": "2003-12-16"
+      },
+      "fatal": 1,
+      "injured": 73,
+      "by": "Grupo Armado No Identificado",
+      "dep": "Atlántico",
+      "mun": "Barranquilla",
+      "place": "Cabecera Municipal",
+      "source": "Banco de Datos de Derechos Humanos y Violencia Política"
+    }
+  ],
+  "2004": [
+    {
+      "date": {
+        "unix": 1083628800,
+        "human": "2004-5-4"
+      },
+      "fatal": 2,
+      "injured": 37,
+      "by": "Guerrilla-FARC",
+      "dep": "Arauca",
+      "mun": "Tame",
+      "place": "Cabecera Municipal - Barrio Sucre",
+      "source": "Noche y Niebla # 29 Pp. 188"
+    },
+    {
+      "date": {
+        "unix": 1084579200,
+        "human": "2004-5-15"
+      },
+      "fatal": 1,
+      "injured": 14,
+      "by": "Grupo Armado No Identificado",
+      "dep": "Antioquia",
+      "mun": "San Rafael",
+      "place": "Cabecera Municipal",
+      "source": "Noche y Niebla # 29 Pp. 203"
+    },
+    {
+      "date": {
+        "unix": 1085184000,
+        "human": "2004-5-22"
+      },
+      "fatal": 2,
+      "injured": 12,
+      "by": "Grupo Armado No Identificado",
+      "dep": "Antioquia",
+      "mun": "San Carlos",
+      "place": "Cabecera Municipal",
+      "source": "Noche y Niebla # 29 Pp. 213 "
+    }
+  ],
+  "2005": [
+    {
+      "date": {
+        "unix": 1116374400,
+        "human": "2005-5-18"
+      },
+      "fatal": null,
+      "injured": null,
+      "by": "Guerrilla-FARC",
+      "dep": "Tolima",
+      "mun": "Ibagué",
+      "place": "Cabecera Municipal",
+      "source": "Noche y Niebla # 31 Pp. 208"
+    },
+    {
+      "date": {
+        "unix": 1116720000,
+        "human": "2005-5-22"
+      },
+      "fatal": null,
+      "injured": null,
+      "by": "Guerrilla-FARC",
+      "dep": "Bolívar ",
+      "mun": "El Carmen de Bolívar",
+      "place": "Barrios Buenos Aires y Montecarmelo",
+      "source": "Noche y Niebla # 31 Pp. 213"
+    },
+    {
+      "date": {
+        "unix": 1123286400,
+        "human": "2005-8-6"
+      },
+      "fatal": 1,
+      "injured": 29,
+      "by": "Guerrilla-FARC",
+      "dep": "Arauca",
+      "mun": "Arauca",
+      "place": "Cabecera Municipal-Parque Principal",
+      "source": "Banco de Datos de Derechos Humanos y Violencia Política"
+    },
+    {
+      "date": {
+        "unix": 1132894800,
+        "human": "2005-11-25"
+      },
+      "fatal": 1,
+      "injured": 21,
+      "by": "Grupos Paramilitares",
+      "dep": "Caquetá",
+      "mun": "Florencia",
+      "place": "Cabecera Municipal-Hospital La Inmaculada Concepción",
+      "source": "Banco de Datos de Derechos Humanos y Violencia Política"
+    }
+  ],
+  "2007": [
+    {
+      "date": {
+        "unix": 1192165200,
+        "human": "2007-10-12"
+      },
+      "fatal": null,
+      "injured": 12,
+      "by": "Guerrilla-FARC",
+      "dep": "Huila",
+      "mun": "Neiva",
+      "place": "Cabecera Municipal",
+      "source": "Banco de Datos de Derechos Humanos y Violencia Política"
+    }
+  ],
+  "2008": [
+    {
+      "date": {
+        "unix": 1230699600,
+        "human": "2008-12-31"
+      },
+      "fatal": 5,
+      "injured": 85,
+      "by": "Grupo Armado No Identificado",
+      "dep": "Cesar",
+      "mun": "Valledupar",
+      "place": "Cabecera Municipal-Caseta Patio Fresco",
+      "source": "Noche y Niebla # 38 Pág. 210"
+    }
+  ],
+  "2010": [
+    {
+      "date": {
+        "unix": 1281571200,
+        "human": "2010-8-12"
+      },
+      "fatal": null,
+      "injured": 43,
+      "by": "Guerrilla-FARC",
+      "dep": "Distrito Capital",
+      "mun": "Bogotá D.C.",
+      "place": "Cabecera Municipal-Caracol Radio",
+      "source": "El Tiempo, 13 de agosto de 2010"
+    },
+    {
+      "date": {
+        "unix": 1290142800,
+        "human": "2010-11-19"
+      },
+      "fatal": 3,
+      "injured": 11,
+      "by": "Guerrilla-FARC",
+      "dep": "Tolima",
+      "mun": "Roncesvalles",
+      "place": "Cabecera Municipal-Hotel Central",
+      "source": "Banco de Datos de Derechos Humanos y Violencia Política"
+    }
+  ],
+  "2011": [
+    {
+      "date": {
+        "unix": 1303776000,
+        "human": "2011-4-26"
+      },
+      "fatal": 2,
+      "injured": null,
+      "by": "Guerrilla-FARC",
+      "dep": "Cauca",
+      "mun": "Jambaló",
+      "place": "Cabecera Municipal",
+      "source": null
+    },
+    {
+      "date": {
+        "unix": 1310169600,
+        "human": "2011-7-9"
+      },
+      "fatal": 2,
+      "injured": 78,
+      "by": "Guerrilla-FARC",
+      "dep": "Cauca",
+      "mun": "Toribio",
+      "place": "Cabecera Municipal",
+      "source": null
+    },
+    {
+      "date": {
+        "unix": 1317513600,
+        "human": "2011-10-2"
+      },
+      "fatal": null,
+      "injured": null,
+      "by": "Guerrilla-FARC",
+      "dep": "Valle del Cauca",
+      "mun": "Florida",
+      "place": "Cabecera Municipal",
+      "source": null
+    }
+  ],
+  "2012": [
+    {
+      "date": {
+        "unix": 1326412800,
+        "human": "2012-1-13"
+      },
+      "fatal": 3,
+      "injured": 2,
+      "by": "Guerrilla-FARC",
+      "dep": "Norte de Santander",
+      "mun": "Tibú",
+      "place": "IP Petrolea",
+      "source": null
+    },
+    {
+      "date": {
+        "unix": 1326412800,
+        "human": "2012-1-13"
+      },
+      "fatal": 0,
+      "injured": 2,
+      "by": "Guerrilla-FARC",
+      "dep": "Nariño",
+      "mun": "Tumaco",
+      "place": "Cabecera Municipal-Barrio Viento Libre",
+      "source": null
+    },
+    {
+      "date": {
+        "unix": 1328054400,
+        "human": "2012-2-1"
+      },
+      "fatal": null,
+      "injured": null,
+      "by": "Guerrilla-FARC",
+      "dep": "Nariño",
+      "mun": "Tumaco",
+      "place": "Cabecera Municipal",
+      "source": null
+    },
+    {
+      "date": {
+        "unix": 1328140800,
+        "human": "2012-2-2"
+      },
+      "fatal": 6,
+      "injured": null,
+      "by": "Guerrilla-FARC",
+      "dep": "Cauca",
+      "mun": "Villarrica",
+      "place": "Cabecera Municipal",
+      "source": "Vanguardia Liberal Febrero 3 de 2012 P. 6a El Colombiano Febrero 3 de 2012 P.10a El País Febrero 3 de 2012 P. a8 LA PATRIA  FEBRERO 03 DE 2012 EL TIEMPO FEBRERO 03 DE 2012\nP. 2 EL MERIDIANO  FEBRERO 03 DE 2012 P. 3B"
+    },
+    {
+      "date": {
+        "unix": 1328832000,
+        "human": "2012-2-10"
+      },
+      "fatal": 0,
+      "injured": 5,
+      "by": "Guerrilla-FARC",
+      "dep": "Cauca",
+      "mun": "Corinto",
+      "place": "Cabecera Municipal",
+      "source": null
+    },
+    {
+      "date": {
+        "unix": 1330300800,
+        "human": "2012-2-27"
+      },
+      "fatal": 0,
+      "injured": 6,
+      "by": "Guerrilla-FARC",
+      "dep": "Norte de Santander",
+      "mun": "El Tarra",
+      "place": "Cabecera Municipal",
+      "source": "Banco de Datos de Derechos Humanos y Violencia Política"
+    },
+    {
+      "date": {
+        "unix": 1332460800,
+        "human": "2012-3-23"
+      },
+      "fatal": null,
+      "injured": null,
+      "by": "Guerrilla-FARC",
+      "dep": "Cauca",
+      "mun": "Jambaló",
+      "place": "Cabecera Municipal",
+      "source": null
+    },
+    {
+      "date": {
+        "unix": 1338854400,
+        "human": "2012-6-5"
+      },
+      "fatal": 0,
+      "injured": 13,
+      "by": "Guerrilla-FARC",
+      "dep": "Nariño",
+      "mun": "El Charco",
+      "place": "Cabecera Municipal",
+      "source": null
+    },
+    {
+      "date": {
+        "unix": 1340064000,
+        "human": "2012-6-19"
+      },
+      "fatal": null,
+      "injured": null,
+      "by": "Guerrilla-FARC",
+      "dep": "Huila",
+      "mun": "Algeciras",
+      "place": "Cabecera Municipal-Parque Central",
+      "source": "Banco de Datos de Derechos Humanos y Violencia Política"
+    },
+    {
+      "date": {
+        "unix": 1345939200,
+        "human": "2012-8-26"
+      },
+      "fatal": 6,
+      "injured": null,
+      "by": "Guerrilla-FARC",
+      "dep": "Meta",
+      "mun": "Vistahermosa",
+      "place": "Vereda Campoalegre",
+      "source": "EL HERALDO AGOSTO 27 DE 2012\nP. 6B EL MERIDIANO  AGOSTO 28 DE 2012\nP. 3B LA PATRIA  AGOSTO 27 DE 2012\nP. 2A Vanguardia Liberal Agosto 27 de 2012 P.5a El Colombiano Agosto 27 de 2012 P. 7  EL TIEMPO AGOSTO 27 DE 2012 P. 4"
+    },
+    {
+      "date": {
+        "unix": 1351987200,
+        "human": "2012-11-4"
+      },
+      "fatal": null,
+      "injured": null,
+      "by": "Guerrilla-FARC",
+      "dep": "Cauca",
+      "mun": "Balboa",
+      "place": "Cabecera Municipal",
+      "source": "Noche y Niebla # 46 Pp. 208"
+    }
+  ]
+}

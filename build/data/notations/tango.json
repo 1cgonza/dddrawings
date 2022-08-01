@@ -1,0 +1,392 @@
+{
+  "title": "Tango (1980)",
+  "description": "Breakdown for the film Tango by Zbigniew Rybczyński",
+  "projectTitle": "Interactive Notations",
+  "projectURL": "http://dddrawings/notations/",
+  "projectAuthor": "Juan Camilo González",
+  "authorURL": "http://juancgonzalez.com",
+  "duration": 492.541678,
+  "_comment": "Based on an image of 15458 x 800",
+  "imgW": 15458,
+  "imgH": 800,
+  "initX": 553,
+  "endX": 15381,
+  "labels": [
+    {
+      "label": "Napisy Początkowe",
+      "eng": "Initial Credits",
+      "x": 553, "y": 68, "w": 530, "h": 732,
+      "class": "white"
+    },
+    {
+      "character": 1,
+      "label": "Chłopiec z piłka",
+      "eng": "Boy with ball",
+      "x": 1083, "y": 68, "w": 13227, "h": 41,
+      "class": "black"
+    },
+    {
+      "character": 2,
+      "label": "Karmiąca matka",
+      "eng": "Nursing mother",
+      "x": 1808, "y": 109, "w": 11588, "h": 30,
+      "class": "red"
+    },
+    {
+      "character": 3,
+      "label": "Niemowlę",
+      "eng": "Baby",
+      "x": 1808, "y": 139, "w": 11462, "h": 30,
+      "class": "red"
+    },
+    {
+      "character": 4,
+      "label": "Złodziej",
+      "eng": "Thief",
+      "x": 2460, "y": 172, "w": 11030, "h": 31,
+      "class": "black"
+    },
+    {
+      "character": 5,
+      "label": "Pan z paczka",
+      "eng": "Man with parcel",
+      "x": 2946, "y": 203, "w": 10480, "h": 28,
+      "class": "red"
+    },
+    {
+      "character": 6,
+      "label": "Dziewczyna robi lekcji",
+      "eng": "Girl doing homework",
+      "x": 3627, "y": 231, "w": 9925, "h": 30,
+      "class": "black"
+    },
+    {
+      "character": 7,
+      "label": "Kobieta niesie zupe",
+      "eng": "Woman brings soup",
+      "x": 4131, "y": 261, "w": 9201, "h": 40,
+      "class": "red"
+    },
+    {
+      "character": 8,
+      "label": "Męzczyzna je zupe",
+      "eng": "Man eating soup",
+      "x": 4315, "y": 301, "w": 9206, "h": 34,
+      "class": "black"
+    },
+    {
+      "character": 9,
+      "label": "Młodzieniec gimnastykuje się",
+      "eng": "Young man doing gymnastic exercise",
+      "x": 5015, "y": 335, "w": 8287, "h": 35,
+      "class": "red"
+    },
+    {
+      "character": 10,
+      "label": "Pani z zakupami",
+      "eng": "Lady with shopping bags",
+      "x": 5568, "y": 370, "w": 7734, "h": 30,
+      "class": "black"
+    },
+    {
+      "character": 11,
+      "label": "Upadek, pan zmienia żarówkę",
+      "eng": "Fall, man changing light bulb",
+      "x": 6056, "y": 400, "w": 7182, "h": 34,
+      "class": "red"
+    },
+    {
+      "character": 12,
+      "label": "Pani czyści rybę",
+      "eng": "Woman cleaning fish",
+      "x": 6495, "y": 434, "w": 7185, "h": 32,
+      "class": "black"
+    },
+    {
+      "character": 13,
+      "label": "Dziewczyna robi toalete",
+      "eng": "Young woman grooming herself",
+      "x": 7070, "y": 466, "w": 6643, "h": 34,
+      "class": "red"
+    },
+    {
+      "character": 14,
+      "label": "Pan wynosi śmiecie",
+      "eng": "Man taking out rubbish",
+      "x": 7721, "y": 500, "w": 5517, "h": 31,
+      "class": "black"
+    },
+    {
+      "character": 15,
+      "label": "Mundurowy",
+      "eng": "Man in uniform",
+      "x": 8268, "y": 531, "w": 5528, "h": 28,
+      "class": "red"
+    },
+    {
+      "character": 17,
+      "label": "Podpity męzczyzna",
+      "eng": "Drunk man",
+      "_note": "This is swapped in order with the next",
+      "x": 9064, "y": 587, "w": 4424, "h": 28,
+      "class": "red"
+    },
+    {
+      "character": 16,
+      "label": "Pani sprząta",
+      "eng": "Lady cleaning",
+      "x": 9340, "y": 559, "w": 4435, "h": 28,
+      "class": "black"
+    },
+    {
+      "character": 18,
+      "label": "Pan (goście)",
+      "eng": "Man (guests)",
+      "x": 9742, "y": 615, "w": 4419, "h": 38,
+      "class": "black"
+    },
+    {
+      "character": 19,
+      "label": "Pani (goście)",
+      "eng": "Woman (guests)",
+      "x": 9742, "y": 653, "w": 4419, "h": 31,
+      "class": "black"
+    },
+    {
+      "character": 20,
+      "label": "Chłopak (Całująca się para)",
+      "eng": "Boy (Kissing couple)",
+      "x": 10285, "y": 684, "w": 3331, "h": 37,
+      "class": "red"
+    },
+    {
+      "character": 21,
+      "label": "Dziewczyna (Całująca się para)",
+      "eng": "Girl (Kissing couple)",
+      "x": 10285, "y": 721, "w": 3236, "h": 32,
+      "class": "red"
+    },
+    {
+      "character": 22,
+      "label": "Matka przewijająca niemowlę",
+      "eng": "Mother swaddling baby",
+      "x": 11220, "y": 753, "w": 2206, "h": 47,
+      "class": "black"
+    },
+    {
+      "label": "Piłka leży sama",
+      "eng": "Ball lies alone",
+      "x": 14310, "y": 68, "w": 370, "h": 75,
+      "class": "red"
+    },
+    {
+      "label": "Napisy końcowe",
+      "eng": "End credits",
+      "x": 14962, "y": 68, "w": 419, "h": 732,
+      "class": "white"
+    }
+  ],
+  "sections": [
+    {
+      "description": "Credits",
+      "start": 0,
+      "x": 553
+    },
+    {
+      "description": "Kid",
+      "start": 13.5553,
+      "x": 1083
+    },
+    {
+      "description": "Kid 2",
+      "start": 25.5673,
+      "x": 1436
+    },
+    {
+      "description": "Kid 3",
+      "start": 37.5793,
+      "x": 1808
+    },
+    {
+      "description": "Kid 4",
+      "start": 49.5913,
+      "x": 2177
+    },
+    {
+      "description": "Kid 5",
+      "start": 61.5198,
+      "x": 2538
+    },
+    {
+      "description": "Kid 6",
+      "start": 73.6570,
+      "x": 2915
+    },
+    {
+      "description": "Kid 7",
+      "start": 85.6690,
+      "x": 3280
+    },
+    {
+      "description": "Kid 8",
+      "start": 97.6810,
+      "x": 3658
+    },
+    {
+      "description": "Kid 9",
+      "start": 109.6930,
+      "x": 4006
+    },
+    {
+      "description": "Kid 10",
+      "start": 121.7050,
+      "x": 4364
+    },
+    {
+      "description": "Kid 11",
+      "start": 133.7170,
+      "x": 4740
+    },
+    {
+      "description": "Kid 12",
+      "start": 145.7290,
+      "x": 5111
+    },
+    {
+      "description": "Kid 13",
+      "start": 157.740984,
+      "x": 5475
+    },
+    {
+      "description": "Kid 14",
+      "start": 169.66959,
+      "x": 5837
+    },
+    {
+      "description": "Kid 15",
+      "start": 181.764973,
+      "x": 6217
+    },
+    {
+      "description": "Kid 16",
+      "start": 193.735284,
+      "x": 6585
+    },
+    {
+      "description": "Kid 17",
+      "start": 205.622094,
+      "x": 6945
+    },
+    {
+      "description": "Kid 18",
+      "start": 217.675886,
+      "x": 7321
+    },
+    {
+      "description": "Kid 19",
+      "start": 229.729595,
+      "x": 7686
+    },
+    {
+      "description": "Kid 20",
+      "start": 241.741588,
+      "x": 8058
+    },
+    {
+      "description": "Kid 21",
+      "start": 253.753593,
+      "x": 8423
+    },
+    {
+      "description": "Kid 22",
+      "start": 265.765574,
+      "x": 8784
+    },
+    {
+      "description": "Kid 23",
+      "start": 277.77759,
+      "x": 9157
+    },
+    {
+      "description": "Kid 24",
+      "start": 289.706096,
+      "x": 9522
+    },
+    {
+      "description": "Kid 25",
+      "start": 301.469985,
+      "x": 9896
+    },
+    {
+      "description": "Kid 26",
+      "start": 313.772953,
+      "x": 10253
+    },
+    {
+      "description": "Kid 27",
+      "start": 325.70039,
+      "x": 10620
+    },
+    {
+      "description": "Kid 28",
+      "start": 337.269981,
+      "x": 10996
+    },
+    {
+      "description": "Kid 29",
+      "start": 349.679974,
+      "x": 11356
+    },
+    {
+      "description": "Kid 30",
+      "start": 361.736383,
+      "x": 11731
+    },
+    {
+      "description": "Kid 31",
+      "start": 373.199981,
+      "x": 12099
+    },
+    {
+      "description": "Kid 32",
+      "start": 385.699991,
+      "x": 12478
+    },
+    {
+      "description": "Kid 33",
+      "start": 397.814086,
+      "x": 12844
+    },
+    {
+      "description": "Kid 34",
+      "start": 409.599996,
+      "x": 13206,
+      "_note": "the seconds count in the top row has a mistake. If I continue accounting for 1 second every 5 square/ half grid, then the value is over 414 seconds and not 450 as noted (zbig crosses the value 450 but never corrects the count from here after)"
+    },
+    {
+      "description": "Kid 35",
+      "start": 421.899991,
+      "x": 13585
+    },
+    {
+      "description": "Kid 36",
+      "start": 433.766693,
+      "x": 13941
+    },
+    {
+      "description": "Kid 37. This time, the kid does not come in for the ball.",
+      "start": 445.862092,
+      "x": 14310
+    },
+    {
+      "description": "Woman takes the ball.",
+      "start": 456.873088,
+      "x": 14680
+    },
+    {
+      "description": "End credits",
+      "start": 471.470989,
+      "x": 14962
+    }
+  ]
+}

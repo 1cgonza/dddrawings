@@ -1,0 +1,355 @@
+{
+  "title": "SiSiSiSiSiSiSiSiSiSiSi (2011)",
+  "description": "Breakdown for the film SiSiSiSiSiSiSiSiSiSiSi",
+  "projectTitle": "Interactive Notations",
+  "projectURL": "http://dddrawings/notations/",
+  "projectAuthor": "Juan Camilo González",
+  "authorURL": "http://juancgonzalez.com",
+  "sections": [
+    {
+      "description": "White screen",
+      "start": 0,
+      "r": 318,
+      "hPercent": 16.94915254237288,
+      "r2": 359,
+      "h2Percent": 6.053268765133172
+    },
+    {
+      "description": "First Si's of title rotate",
+      "start": 11.291667,
+      "r": 320,
+      "hPercent": 16.343825665859566,
+      "r2": 380,
+      "h2Percent": 6.658595641646489
+    },
+    {
+      "description": "First man appears from right",
+      "start": 13.541667,
+      "r": 325,
+      "hPercent": 15.738498789346247,
+      "r2": 385,
+      "h2Percent": 7.263922518159806
+    },
+    {
+      "description": "First multiplication, man detaches and walks away, cycle of man walking and reaching the edge in the right. (Slow setting of the technique and mood)",
+      "start": 31.791667,
+      "r": 330,
+      "hPercent": 15.49636803874092,
+      "r2": 385,
+      "h2Percent": 7.263922518159806
+    },
+    {
+      "description": "First bow",
+      "start": 43.708333,
+      "r": 368,
+      "hPercent": 12.106537530266344,
+      "r2": 352,
+      "h2Percent": 12.106537530266344
+    },
+    {
+      "description": "Man crosses quadrant",
+      "start": 53.291667,
+      "rb": 375,
+      "r": 375,
+      "hPercent": 12.106537530266344,
+      "r2": 360,
+      "h2Percent": 13.317191283292978
+    },
+    {
+      "description": "Second: title continues to multiply Si",
+      "start": 60.208333,
+      "r": 381,
+      "hPercent": 12.106537530266344,
+      "r2": 360,
+      "h2Percent": 13.317191283292978
+    },
+    {
+      "description": "Second man appears from bottom",
+      "start": 62.458333,
+      "r": 385,
+      "hPercent": 12.106537530266344,
+      "r2": 360,
+      "h2Percent": 13.317191283292978
+    },
+    {
+      "description": "Second man detaches and performs big polite gesture",
+      "start": 67.083333,
+      "r": 392,
+      "hPercent": 12.106537530266344,
+      "r2": 360,
+      "h2Percent": 13.317191283292978
+    },
+    {
+      "description": "Second man bows",
+      "start": 80.833333,
+      "r": 403,
+      "hPercent": 12.106537530266344,
+      "r2": 415,
+      "h2Percent": 13.317191283292978
+    },
+    {
+      "description": "First man crosses again to second's man quadrant",
+      "start": 93.166667,
+      "r": 422,
+      "hPercent": 6.658595641646489,
+      "r2": 400,
+      "h2Percent": 9.685230024213075
+    },
+    {
+      "description": "Third: title continues to multiply Si",
+      "start": 96.291667,
+      "r": 465,
+      "hPercent": 5.447941888619854,
+      "r2": 360,
+      "h2Percent": 9.685230024213075
+    },
+    {
+      "description": "Door appear from left, third man opens it and bows",
+      "start": 98.625,
+      "r": 485,
+      "hPercent": 6.053268765133172,
+      "r2": 337,
+      "h2Percent": 9.685230024213075
+    },
+    {
+      "description": "Boxes come out of door",
+      "start": 104.041667,
+      "r": 500,
+      "hPercent": 14.527845036319611,
+      "r2": 260,
+      "h2Percent": 4.842615012106537
+    },
+    {
+      "description": "Box turns into baby and this morphs into adult right away",
+      "start": 113.916667,
+      "r": 498,
+      "hPercent": 16.94915254237288,
+      "r2": 255,
+      "h2Percent": 6.053268765133172
+    },
+    {
+      "description": "Cut to angry man (first)",
+      "start": 121,
+      "r": 496,
+      "hPercent": 17.675544794188863,
+      "r2": 272,
+      "h2Percent": 7.263922518159806
+    },
+    {
+      "description": "Full sequence of box to baby to man who lands and bows",
+      "start": 123.125,
+      "r": 498,
+      "hPercent": 18.886198547215496,
+      "r2": 280,
+      "h2Percent": 7.263922518159806
+    },
+    {
+      "description": "Cut to angry man (second)",
+      "start": 142.708333,
+      "r": 500,
+      "hPercent": 18.886198547215496,
+      "r2": 290,
+      "h2Percent": 9.685230024213075
+    },
+    {
+      "description": "Boxes loop, partial macro view",
+      "start": 145.958333,
+      "r": 505,
+      "hPercent": 18.886198547215496,
+      "r2": 290,
+      "h2Percent": 12.106537530266344
+    },
+    {
+      "description": "Box with door ejects man, he recomposes and bows",
+      "start": 153.5,
+      "r": 510,
+      "hPercent": 14.527845036319611,
+      "r2": 320,
+      "h2Percent": 18.159806295399516
+    },
+    {
+      "description": "Cut to angry man (third)",
+      "start": 158.958333,
+      "r": 515,
+      "hPercent": 12.106537530266344,
+      "r2": 320,
+      "h2Percent": 21.791767554479417
+    },
+    {
+      "description": "Boxes avoid angry man and zoom out for an slightly larger macro view",
+      "start": 163,
+      "r": 522,
+      "hPercent": 9.685230024213075,
+      "r2": 338,
+      "h2Percent": 25.423728813559322
+    },
+    {
+      "description": "Third: title continues to multiply Si",
+      "start": 187.791667,
+      "r": 558,
+      "hPercent": 6.658595641646489,
+      "r2": 315,
+      "h2Percent": 33.89830508474576
+    },
+    {
+      "description": "Fourth man appears from top and bows",
+      "start": 190.166667,
+      "r": 575,
+      "hPercent": 6.658595641646489,
+      "r2": 315,
+      "h2Percent": 36.31961259079903
+    },
+    {
+      "description": "Man (4.1) detaches from feet. In a grand rotation moves away and bows",
+      "start": 192.916667,
+      "r": 610,
+      "hPercent": 10.290556900726394,
+      "r2": 280,
+      "h2Percent": 42.3728813559322
+    },
+    {
+      "description": "Cut to boxes moving in (first)",
+      "start": 199.166667,
+      "r": 625,
+      "hPercent": 12.711864406779661,
+      "r2": 280,
+      "h2Percent": 42.3728813559322
+    },
+    {
+      "description": "Man (4.2) detaches from feet of man 4.1, falls back but graciously lands like an acrobat finishing a routine",
+      "start": 203.166667,
+      "r": 633,
+      "hPercent": 17.5544794188862,
+      "r2": 280,
+      "h2Percent": 42.3728813559322
+    },
+    {
+      "description": "Man (4.3) detaches, moves slightly forward and bows",
+      "start": 209.583333,
+      "r": 639,
+      "hPercent": 19.975786924939467,
+      "r2": 300,
+      "h2Percent": 48.426150121065376
+    },
+    {
+      "description": "Cut to boxes moving in (second)",
+      "start": 215.083333,
+      "r": 642,
+      "hPercent": 21.1864406779661,
+      "r2": 300,
+      "h2Percent": 48.426150121065376
+    },
+    {
+      "description": "Zoom out, floating box grows, stops and becomes cage",
+      "start": 218.625,
+      "r": 643,
+      "hPercent": 23.002421307506054,
+      "r2": 300,
+      "h2Percent": 48.426150121065376
+    },
+    {
+      "description": "Cut to boxes moving in (third)",
+      "start": 227.375,
+      "r": 645,
+      "hPercent": 24.818401937046005,
+      "r2": 305,
+      "h2Percent": 48.426150121065376
+    },
+    {
+      "description": "Man (4.4) detaches from man 4.2, rotates several times with his palms together. Lands inside the cage kneeling down in a  praying like position",
+      "start": 229.375,
+      "r": 646,
+      "hPercent": 26.634382566585955,
+      "r2": 305,
+      "h2Percent": 48.426150121065376
+    },
+    {
+      "description": "Man 4.5 detaches, stands on man's 4.4 back in a standing praying position",
+      "start": 236.333333,
+      "r": 647,
+      "hPercent": 27.845036319612593,
+      "r2": 323,
+      "h2Percent": 36.31961259079903
+    },
+    {
+      "description": "Zoom out to see the cage has grown over the other man",
+      "start": 240.166667,
+      "r": 652,
+      "hPercent": 31.476997578692494,
+      "r2": 325,
+      "h2Percent": 24.213075060532688
+    },
+    {
+      "description": "Zoom out further, cage crosses entire space",
+      "start": 244.791667,
+      "r": 660,
+      "hPercent": 31.476997578692494,
+      "r2": 330,
+      "h2Percent": 24.213075060532688
+    },
+    {
+      "description": "Third: title continues to multiply a few more Si's until mandala is complete",
+      "start": 249.291667,
+      "r": 667,
+      "hPercent": 31.476997578692494,
+      "r2": 340,
+      "h2Percent": 24.213075060532688
+    },
+    {
+      "description": "Mandala shakes and camera moves fast over the cage",
+      "start": 252.75,
+      "r": 700,
+      "hPercent": 31.476997578692494,
+      "r2": 360,
+      "h2Percent": 24.213075060532688
+    },
+    {
+      "description": "Slow zoom out to reveal all 4 quadrants",
+      "start": 255.166667,
+      "r": 730,
+      "hPercent": 31.476997578692494,
+      "r2": 360,
+      "h2Percent": 24.213075060532688
+    },
+    {
+      "description": "One blink, images fades out slightly",
+      "start": 288.958333,
+      "r": 785,
+      "hPercent": 26.634382566585955,
+      "r2": 373,
+      "h2Percent": 24.213075060532688
+    },
+    {
+      "description": "Final blink and out",
+      "start": 293.708333,
+      "r": 805,
+      "hPercent": 21.1864406779661,
+      "r2": 377,
+      "h2Percent": 24.213075060532688
+    },
+    {
+      "description": "Black / Silence",
+      "start": 293.958333,
+      "r": 828,
+      "hPercent": 26.634382566585955,
+      "r2": 320,
+      "h2Percent": 13.317191283292978
+    },
+    {
+      "description": "Credits",
+      "start": 300.458333,
+      "r": 833,
+      "hPercent": 35.1089588377724,
+      "r2": 280,
+      "h2Percent": 12.106537530266344
+    },
+    {
+      "description": "END",
+      "start": 343.307029,
+      "r": 825,
+      "hPercent": 50.847457627118644,
+      "r2": 250,
+      "h2Percent": 12.106537530266344
+    }
+  ]
+}

@@ -1,17 +1,8 @@
-import { SafeString } from 'handlebars';
-import setURL from './setUrl';
-import fs from 'fs';
+import hb from 'handlebars';
+import setURL from './setURL.js';
 
-const manifestPath = 'src/js/manifest.json';
-
-module.exports = function(key) {
-  if (fs.existsSync(manifestPath)) {
-    key = key.indexOf('.js') < 0 ? `${key}.js` : key;
-    const manifest = JSON.parse(fs.readFileSync(manifestPath));
-    const link = setURL(`js/${manifest[key]}`, false, false);
-
-    return new SafeString(link);
-  }
-
-  return '';
+export default (key) => {
+  key = key.indexOf('.js') < 0 ? `${key}.js` : key;
+  const link = setURL(key, false, false);
+  return new hb.SafeString(link);
 };

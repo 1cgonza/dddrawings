@@ -12,9 +12,6 @@ build/*
 !build/.gitkeep
 !build/CNAME
 
-# Hashed JS files and vendors
-src/js/*
-
 # Processed images
 src/img/lab/
 src/img/notations/

@@ -1,14 +1,14 @@
-import { SafeString } from 'handlebars';
+import hb from 'handlebars';
 import slugify from 'slug';
-import metadata from '../config';
-import setURL from './setUrl';
+import metadata from '../config.js';
+import setURL from './setURL.js';
 
-module.exports = function(slug, collection) {
+export default (slug, collection) => {
   const pages = ['Home', 'Lab', 'Notations', 'Datasets'];
   let list = '';
 
-  pages.forEach(name => {
-    let safeSlug = slugify(name, { lower: true });
+  pages.forEach((name) => {
+    const safeSlug = slugify(name, { lower: true });
     let pageURL = '';
     let eleClass = '';
 
@@ -27,5 +27,5 @@ module.exports = function(slug, collection) {
     list += '<li><a ' + eleClass + 'href="' + pageURL + '" title="' + name + '">' + name + '</a></li>';
   });
 
-  return new SafeString(list);
+  return new hb.SafeString(list);
 };

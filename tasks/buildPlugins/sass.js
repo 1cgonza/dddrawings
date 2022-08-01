@@ -1,6 +1,5 @@
-import sass from 'metalsmith-sass';
+import sass from '@metalsmith/sass';
 
-module.exports = sass({
-  outputStyle: 'compressed',
-  outputDir: 'css/'
+export default sass({
+  style: 'compressed',
 });

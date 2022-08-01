@@ -1,3 +1,3 @@
 import htmlMin from 'metalsmith-html-minifier';
 
-module.exports = htmlMin();
+export default htmlMin();

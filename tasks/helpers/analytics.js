@@ -1,7 +1,7 @@
-import { SafeString } from 'handlebars';
-import metadata from '../config';
+import hb from 'handlebars';
+import metadata from '../config.js';
 
-module.exports = function() {
+export default () => {
   let script = '';
 
   if (metadata.env !== 'dev') {
@@ -11,5 +11,5 @@ module.exports = function() {
       'gtag("js", new Date());gtag("config", "UA-18482571-2");</script>';
   }
 
-  return new SafeString(script);
+  return new hb.SafeString(script);
 };

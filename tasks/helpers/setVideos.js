@@ -1,7 +1,7 @@
-import { SafeString } from 'handlebars';
-import metadata from '../config';
+import hb from 'handlebars';
+import metadata from '../config.js';
 
-module.exports = function(videos) {
+export default (videos) => {
   let ret = '';
   const link = metadata.videosPath;
   videos.forEach((video, i) => {
@@ -10,5 +10,5 @@ module.exports = function(videos) {
     }
   });
 
-  return new SafeString(ret);
+  return new hb.SafeString(ret);
 };

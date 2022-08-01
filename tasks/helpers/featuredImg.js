@@ -1,13 +1,14 @@
-import { SafeString } from 'handlebars';
-import metadata from '../config';
+import hb from 'handlebars';
+import metadata from '../config.js';
 import path from 'path';
-import setURL from './setUrl';
+import setURL from './setURL.js';
 
-module.exports = function(collection, name, type) {
+export default (collection, name, type) => {
   if (!name) {
     collection = '';
     name = metadata.defaultImgPath;
   }
+
   if (!type) {
     console.error("Error generating image URL: Third parameter needs to be the size eg: 'large', 'thumb'...");
     type = '';
@@ -20,5 +21,5 @@ module.exports = function(collection, name, type) {
 
   const imgName = type === 'full' ? name + '.jpg' : name + '-' + type + '.jpg';
 
-  return new SafeString(setURL(collection, imgName, false));
+  return new hb.SafeString(setURL(collection, imgName, false));
 };

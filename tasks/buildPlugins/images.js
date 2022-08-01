@@ -1,6 +1,6 @@
-import ImgManager from '../ImagesManager';
+import ImgManager from '../ImagesManager.js';
 const manager = new ImgManager();
 
-module.exports = manager.plugin({
-  log: 'new'
+export default manager.plugin({
+  log: 'new',
 });

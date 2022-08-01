@@ -1,5 +1,3 @@
 import changed from 'metalsmith-changed';
 
-module.exports = changed({
-  forcePattern: '**/*.md'
-});
+export default changed({ forcePattern: '**/*.md' });

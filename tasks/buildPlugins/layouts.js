@@ -1,6 +1,6 @@
-import layouts from 'metalsmith-layouts';
+import layouts from '@metalsmith/layouts';
 
-module.exports = layouts({
+export default layouts({
   engine: 'handlebars',
-  directory: 'layouts'
+  directory: 'layouts',
 });

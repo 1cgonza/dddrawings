@@ -1,6 +1,6 @@
-var gulp = require('gulp');
-var gulpsmith = require('gulpsmith');
-var ghPages = require('gulp-gh-pages');
+import gulp from 'gulp';
+import gulpsmith from 'gulpsmith';
+import ghPages from 'gulp-gh-pages';
 
 export default () => {
   gulp

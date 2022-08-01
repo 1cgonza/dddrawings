@@ -1,2 +1,3 @@
-var debug = require('metalsmith-debug');
-module.exports = debug();
+import debug from 'metalsmith-debug';
+
+export default debug();

@@ -1,8 +1,8 @@
-import { SafeString } from 'handlebars';
-import metadata from '../config';
+import hb from 'handlebars';
+import metadata from '../config.js';
 
-module.exports = function(thumb) {
+export default (thumb) => {
   const pageThumb = thumb ? thumb : metadata.defaultThumb;
 
-  return new SafeString(pageThumb);
+  return new hb.SafeString(pageThumb);
 };

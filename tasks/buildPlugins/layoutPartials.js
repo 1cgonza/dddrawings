@@ -1,5 +1,5 @@
 import discoverPartials from 'metalsmith-discover-partials';
 
-module.exports = discoverPartials({
-  directory: './layouts/partials'
+export default discoverPartials({
+  directory: './layouts/partials',
 });

@@ -1,8 +1,8 @@
-import deploy from './tasks/deploy';
-import { clean, softClean } from './tasks/clean';
-import { build, serve } from './tasks/build';
-import metadata from './tasks/config';
-import ImgManager from './tasks/ImagesManager';
+import deploy from './tasks/deploy.js';
+import { clean, softClean } from './tasks/clean.js';
+import { build, serve } from './tasks/build.js';
+import metadata from './tasks/config.js';
+import ImgManager from './tasks/ImagesManager.js';
 
 function init() {
   if (metadata.env === 'clean') {
@@ -25,7 +25,7 @@ function buildAndDeploy() {
 if (process.argv.indexOf('--img') >= 0) {
   const options = {
     force: true,
-    log: 'verbose'
+    log: 'verbose',
   };
   const manager = new ImgManager();
 

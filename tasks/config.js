@@ -1,4 +1,4 @@
-let environments = {
+const environments = {
   dev: {
     baseUrl: '/',
     videosPath: '/videos/',
@@ -19,7 +19,7 @@ let environments = {
   },
 };
 
-let defaults = {
+const defaults = {
   siteTitle: 'Data Driven Drawings',
   siteSubtitle: 'An Approach to Autobiographical Animation',
   author: 'Juan Camilo González',
@@ -27,7 +27,6 @@ let defaults = {
   siteDescription: 'PhD dissertation.',
   twitter: '@1cgonza',
   github: '1cgonza',
-  googlePlus: 'https://plus.google.com/+JuanCamiloGonz%C3%A1lezJ/posts',
   defaultImgPath: '/lab/perlin-violence-map',
   extLibraries: {
     jquery: 'jquery-2.1.4.min',

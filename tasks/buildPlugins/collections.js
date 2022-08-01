@@ -1,19 +1,19 @@
-import collections from 'metalsmith-collections';
+import collections from '@metalsmith/collections';
 
-module.exports = collections({
+export default collections({
   lab: {
     pattern: 'lab/**/*.md',
     sortBy: 'date',
-    reverse: true
+    reverse: true,
   },
   notations: {
     pattern: 'notations/**/*.md',
-    sortBy: 'year'
+    sortBy: 'year',
   },
   datasets: {
-    pattern: 'datasets/**/*.md'
+    pattern: 'datasets/**/*.md',
   },
   dissertation: {
-    pattern: 'dissertation/**/*.md'
-  }
+    pattern: 'dissertation/**/*.md',
+  },
 });

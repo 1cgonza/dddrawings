@@ -1,5 +1,5 @@
-import markdown from 'metalsmith-markdown';
+import markdown from '@metalsmith/markdown';
 
-module.exports = markdown({
-  gfm: true
+export default markdown({
+  gfm: true,
 });

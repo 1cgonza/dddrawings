@@ -1,12 +1,12 @@
-import { SafeString } from 'handlebars';
-import metadata from '../config';
+import hb from 'handlebars';
+import metadata from '../config.js';
 
-module.exports = function(title) {
+export default (title) => {
   let pageTitle = metadata.siteTitle;
 
   if (title && title.length > 0 && title !== 'Home') {
     pageTitle = title + ' :: ' + metadata.siteTitle;
   }
 
-  return new SafeString(pageTitle);
+  return new hb.SafeString(pageTitle);
 };

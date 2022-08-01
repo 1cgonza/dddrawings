@@ -1,6 +1,6 @@
-import { SafeString } from 'handlebars';
+import hb from 'handlebars';
 
-module.exports = function(slug, collection, archive) {
+export default (slug, collection, archive) => {
   let bodyClass = 'page';
   let name = 'ddd';
 
@@ -11,5 +11,5 @@ module.exports = function(slug, collection, archive) {
     name = '-' + slug;
   }
 
-  return new SafeString(bodyClass + name);
+  return new hb.SafeString(bodyClass + name);
 };

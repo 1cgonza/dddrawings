@@ -1,3 +1,3 @@
-import drafts from 'metalsmith-drafts';
+import drafts from '@metalsmith/drafts';
 
-module.exports = drafts();
+export default drafts();

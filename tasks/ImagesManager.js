@@ -2,6 +2,8 @@ import fs from 'fs';
 import { resolve, parse } from 'path';
 import chalk from 'chalk';
 import sharp from 'sharp';
+import { fileURLToPath } from 'url';
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 export default class ImagesManager {
   constructor() {
@@ -11,17 +13,17 @@ export default class ImagesManager {
     this.paths = {
       notations: {
         src: resolve(__dirname, '../src/notations'),
-        dest: resolve(__dirname, '../src/img/notations')
+        dest: resolve(__dirname, '../src/img/notations'),
       },
       lab: {
         src: resolve(__dirname, '../src/lab'),
-        dest: resolve(__dirname, '../src/img/lab')
-      }
+        dest: resolve(__dirname, '../src/img/lab'),
+      },
     };
     this.sizes = [
       { name: 'full' },
       { name: 'thumb', width: 550, height: 332 },
-      { name: 'large', width: 1200, height: 630 }
+      { name: 'large', width: 1200, height: 630 },
     ];
     for (let collection in this.paths) {
       const folder = this.paths[collection].dest;
@@ -50,7 +52,7 @@ export default class ImagesManager {
 
       if (options.force) {
         var files = fs.readdirSync(dest);
-        files.forEach(file => {
+        files.forEach((file) => {
           fs.unlinkSync(resolve(dest, file));
         });
       }
@@ -79,7 +81,7 @@ export default class ImagesManager {
         console.log(chalk.blue(`...:::Processing ${chalk.red(queue.length)} new images:::...`));
       }
 
-      queue.forEach(ele => {
+      queue.forEach((ele) => {
         var imgPath = ele.path;
         let imgFolder = ele.dest;
         let imgBuffer = fs.readFileSync(imgPath);
@@ -90,16 +92,16 @@ export default class ImagesManager {
           console.log(chalk.blue('Saving file:', chalk.yellow(imgPath)));
         }
 
-        this.sizes.forEach(size => {
+        this.sizes.forEach((size) => {
           let name = size.name == 'full' ? '' : '-' + size.name;
 
           sharp(imgBuffer)
             .resize(size.width, size.height)
             .toFile(resolve(imgFolder, imgInfo.name + name + imgInfo.ext))
-            .then(info => {
+            .then((info) => {
               _self.check();
             })
-            .catch(err => {
+            .catch((err) => {
               console.log(err);
               _self.check();
             });
@@ -112,7 +114,7 @@ export default class ImagesManager {
     const list = fs.readdirSync(dir);
     const existingImages = fs.readdirSync(imgFolder);
 
-    list.forEach(name => {
+    list.forEach((name) => {
       const url = resolve(dir, name);
       const stat = fs.statSync(url);
 
@@ -134,7 +136,7 @@ export default class ImagesManager {
               }
               this.queue.push({
                 path: imgPath,
-                dest: imgFolder
+                dest: imgFolder,
               });
             }
           }

@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import browserSync from 'browser-sync';
 import connectGzip from 'connect-gzip-static';
 
-export default buildCallback => {
+export default (buildCallback) => {
   const server = browserSync.create();
   const gzip = connectGzip('./build');
   const config = {
@@ -18,13 +18,13 @@ export default buildCallback => {
           }
         },
         options: {
-          ignored: ['build/**.*', 'src/img/lab/**.*', 'src/img/notations/**.*']
-        }
-      }
+          ignored: ['build/**.*', 'src/img/lab/**.*', 'src/img/notations/**.*'],
+        },
+      },
     ],
     // logLevel: 'debug',
     notify: false,
-    open: false
+    open: false,
   };
 
   server.init(config, (err, bs) => {

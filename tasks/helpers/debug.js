@@ -1,6 +1,6 @@
-import { SafeString } from 'handlebars';
-import { stringify } from 'flatted/cjs';
+import hb from 'handlebars';
+import { stringify } from '@ungap/structured-clone/json';
 
-module.exports = function(context) {
-  return new SafeString('<pre class="debug"><code class="json">' + stringify(context, null, 2) + '</code></pre>');
+export default (context) => {
+  return new hb.SafeString('<pre class="debug"><code class="json">' + stringify(context, null, 2) + '</code></pre>');
 };

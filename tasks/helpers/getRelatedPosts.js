@@ -1,11 +1,11 @@
-import { SafeString } from 'handlebars';
-import setURL from './setUrl';
+import hb from 'handlebars';
+import setURL from './setURL.js';
 
-module.exports = function(tag, collection, metalsmith) {
+export default (tag, collection, metalsmith) => {
   let labPosts = metalsmith.data.root[collection];
   let ret = '';
 
-  labPosts.forEach(post => {
+  labPosts.forEach((post) => {
     if (post.tags && post.tags.indexOf(tag) > -1) {
       let link = setURL(collection, post.slug, true);
       ret += '<li><a href="' + link + '">' + post.title + '</a></li>';
@@ -16,5 +16,5 @@ module.exports = function(tag, collection, metalsmith) {
     ret = '<p>Related:</p><ul class="related related-to-' + tag + '">' + ret + '</ul>';
   }
 
-  return new SafeString(ret);
+  return new hb.SafeString(ret);
 };

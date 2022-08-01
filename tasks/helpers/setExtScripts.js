@@ -1,13 +1,13 @@
-import { SafeString } from 'handlebars';
+import hb from 'handlebars';
 
-module.exports = function(scripts) {
+export default (scripts) => {
   let tags = '';
 
   if (Array.isArray(scripts)) {
-    scripts.forEach(url => {
+    scripts.forEach((url) => {
       tags += '<script async defer src="' + url + '"></script>';
     });
   }
 
-  return new SafeString(tags);
+  return new hb.SafeString(tags);
 };

@@ -24,37 +24,40 @@ import jsBundle from './buildPlugins/jsBundle.js';
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 export const build = (callback) => {
-  const metalsmith = new Metalsmith(__dirname).source('../src').destination('../build').clean(false).metadata(metadata);
-  metalsmith.use(changed);
-  metalsmith.use(drafts);
-  metalsmith.use(ignore);
-  metalsmith.use(jsBundle);
-  metalsmith.use(collections);
-  metalsmith.use(sass);
-  metalsmith.use(autoprefixer);
-  metalsmith.use(markdown);
-  metalsmith.use(excerpts);
-  metalsmith.use(slugs);
-  metalsmith.use(layoutHelpers);
-  metalsmith.use(layoutPartials);
-  metalsmith.use(layouts);
-  metalsmith.use(html);
-  metalsmith.use(images);
-  metalsmith.use(changed);
+  new Metalsmith(__dirname)
+    .source('../src')
+    .destination('../build')
+    .clean(false)
+    .metadata(metadata)
+    .use(changed)
+    .use(drafts)
+    .use(ignore)
+    .use(jsBundle)
+    .use(collections)
+    .use(sass)
+    .use(autoprefixer)
+    .use(markdown)
+    .use(excerpts)
+    .use(slugs)
+    .use(layoutHelpers)
+    .use(layoutPartials) /* f */
+    .use(layouts)
+    .use(html)
+    .use(images)
+    .use(changed)
+    .build((err) => {
+      if (err) {
+        throw err;
+      }
 
-  metalsmith.build((err) => {
-    if (err) {
-      throw err;
-    }
+      if (callback) {
+        callback();
+      }
 
-    if (callback) {
-      callback();
-    }
-
-    if (metadata.env === 'prod') {
-      console.log(chalk.yellow('..::| Production build is done |::..'));
-    }
-  });
+      if (metadata.env === 'prod') {
+        console.log(chalk.yellow('..::| Production build is done |::..'));
+      }
+    });
 };
 
 export const serve = () => {

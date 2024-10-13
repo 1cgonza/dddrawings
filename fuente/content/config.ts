@@ -46,8 +46,28 @@ const lab = defineCollection({
   }),
 });
 
+const notations = defineCollection({
+  type: 'content',
+  schema: z.object({
+    draft: z.boolean().optional(),
+    title: z.string(),
+    interactive: z.boolean().optional(),
+    director: z.string(),
+    year: z.number(),
+    date: z.date(),
+    description: z.string(),
+    descriptionLong: z.string().optional(),
+    imgName: z.string().optional(),
+    poster: z.string().optional(),
+    videos: z
+      .object({ mp4: z.string().optional(), webm: z.string().optional(), ogg: z.string().optional() })
+      .optional(),
+  }),
+});
+
 export const collections = {
   datasets,
   lab,
+  notations,
   paginas,
 };

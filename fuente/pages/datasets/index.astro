@@ -1,0 +1,100 @@
+---
+import Plantilla from '@/plantillas/Plantilla.astro';
+import { getCollection, getEntry } from 'astro:content';
+
+const pagina = await getEntry('paginas', 'datasets');
+const entradas = await getCollection('datasets', ({ data }) => (import.meta.env.PROD ? !data.draft : true)).then(
+  (archivos) =>
+    archivos.sort((a, b) => {
+      return b.data.date.getTime() - a.data.date.getTime();
+    })
+);
+const { Content } = await pagina.render();
+const entradasLab = await getCollection('lab', ({ data }) => (import.meta.env.PROD ? !data.draft : true))
+  .then((archivos) =>
+    archivos.sort((a, b) => {
+      return b.data.date.getTime() - a.data.date.getTime();
+    })
+  )
+  .then((entradas) =>
+    entradas.map((entrada) => {
+      return {
+        slug: entrada.slug,
+        title: entrada.data.title,
+        tags: entrada.data.tags,
+        year: entrada.data.date.getFullYear(),
+      };
+    })
+  );
+
+entradas.forEach((entrada) => {
+  const entradasLabRelacionadas = entradasLab.filter((lab) => lab.tags.includes(entrada.data.tagLink));
+  if (entradasLabRelacionadas) {
+    entrada.data.related = entradasLabRelacionadas;
+  }
+});
+---
+
+<Plantilla>
+  <main role="main" class="with-nav archive datasets-archive">
+    <header class="page-header">
+      <h1 class="page-title">{pagina?.data.title}</h1>
+      <div class="page-description"><Content /></div>
+    </header>
+
+    {
+      entradas &&
+        entradas.map((entrada) => {
+          return (
+            <section class={`item${entrada.data.draft ? ' draft' : ''}`}>
+              <h3 class="item-title">
+                <a href={`/dataset/${entrada.slug}`}>{entrada.data.title}</a>
+              </h3>
+
+              <div class="item-description">
+                {entrada.data.description && <p>Summary: {entrada.data.description}</p>}
+                {entrada.data.parsedURL && (
+                  <p>
+                    Parsed (JSON):{' '}
+                    <a href={entrada.data.parsedURL} target="_blank" rel="noopener">
+                      {entrada.data.parsedURL}
+                    </a>
+                  </p>
+                )}
+                {entrada.data.sourceURL && (
+                  <p>
+                    Source:{' '}
+                    <a href={entrada.data.sourceURL} target="_blank" rel="noopener">
+                      {entrada.data.sourceURL}
+                    </a>
+                  </p>
+                )}
+
+                {!!(entrada.data.related && entrada.data.related.length) && (
+                  <Fragment>
+                    <p>Related:</p>
+
+                    <ul class={`related related-to-${entrada.slug}`}>
+                      {entrada.data.related.map((obj) => (
+                        <li>
+                          <a href={`/lab/${obj.slug}`}>
+                            {obj.title} ({obj.year})
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </Fragment>
+                )}
+              </div>
+            </section>
+          );
+        })
+    }
+  </main>
+</Plantilla>
+
+<style>
+  .item {
+    display: inline-block;
+  }
+</style>

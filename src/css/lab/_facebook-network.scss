@@ -12,9 +12,8 @@
     padding: 0.5em;
 
     li {
-
       &.current {
-        color: #A3A79F;
+        color: #a3a79f;
 
         &::before {
           content: 'x';
@@ -35,7 +34,7 @@
         margin-top: 0.5em;
 
         &:hover {
-          background-color: #FFD412;
+          background-color: #ffd412;
         }
       }
     }

@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   var Muertos = {
@@ -6,27 +6,27 @@
     width: 1873,
     height: 400,
     frames: [
-      {x: 0, y: 0, w: 187, h: 200},
-      {x: 187, y: 0, w: 187, h: 200},
-      {x: 374, y: 0, w: 187, h: 200},
-      {x: 561, y: 0, w: 187, h: 200},
-      {x: 748, y: 0, w: 187, h: 200},
-      {x: 935, y: 0, w: 187, h: 200},
-      {x: 1122, y: 0, w: 187, h: 200},
-      {x: 1309, y: 0, w: 187, h: 200},
-      {x: 1496, y: 0, w: 187, h: 200},
-      {x: 1683, y: 0, w: 187, h: 200},
-      {x: 0, y: 200, w: 187, h: 200},
-      {x: 187, y: 200, w: 187, h: 200},
-      {x: 374, y: 200, w: 187, h: 200},
-      {x: 561, y: 200, w: 187, h: 200},
-      {x: 748, y: 200, w: 187, h: 200},
-      {x: 935, y: 200, w: 187, h: 200},
-      {x: 1122, y: 200, w: 187, h: 200},
-      {x: 1309, y: 200, w: 187, h: 200},
-      {x: 1496, y: 200, w: 187, h: 200},
-      {x: 1683, y: 200, w: 187, h: 200}
-    ]
+      { x: 0, y: 0, w: 187, h: 200 },
+      { x: 187, y: 0, w: 187, h: 200 },
+      { x: 374, y: 0, w: 187, h: 200 },
+      { x: 561, y: 0, w: 187, h: 200 },
+      { x: 748, y: 0, w: 187, h: 200 },
+      { x: 935, y: 0, w: 187, h: 200 },
+      { x: 1122, y: 0, w: 187, h: 200 },
+      { x: 1309, y: 0, w: 187, h: 200 },
+      { x: 1496, y: 0, w: 187, h: 200 },
+      { x: 1683, y: 0, w: 187, h: 200 },
+      { x: 0, y: 200, w: 187, h: 200 },
+      { x: 187, y: 200, w: 187, h: 200 },
+      { x: 374, y: 200, w: 187, h: 200 },
+      { x: 561, y: 200, w: 187, h: 200 },
+      { x: 748, y: 200, w: 187, h: 200 },
+      { x: 935, y: 200, w: 187, h: 200 },
+      { x: 1122, y: 200, w: 187, h: 200 },
+      { x: 1309, y: 200, w: 187, h: 200 },
+      { x: 1496, y: 200, w: 187, h: 200 },
+      { x: 1683, y: 200, w: 187, h: 200 },
+    ],
   };
 
   var tintasv1 = {
@@ -34,16 +34,16 @@
     width: 206,
     height: 100,
     frames: [
-      {x: 0, y: 0, w: 22, h: 100},
-      {x: 22, y: 0, w: 22, h: 100},
-      {x: 44, y: 0, w: 22, h: 100},
-      {x: 66, y: 0, w: 22, h: 100},
-      {x: 88, y: 0, w: 22, h: 100},
-      {x: 110, y: 0, w: 22, h: 100},
-      {x: 132, y: 0, w: 22, h: 100},
-      {x: 154, y: 0, w: 22, h: 100},
-      {x: 176, y: 0, w: 22, h: 100}
-    ]
+      { x: 0, y: 0, w: 22, h: 100 },
+      { x: 22, y: 0, w: 22, h: 100 },
+      { x: 44, y: 0, w: 22, h: 100 },
+      { x: 66, y: 0, w: 22, h: 100 },
+      { x: 88, y: 0, w: 22, h: 100 },
+      { x: 110, y: 0, w: 22, h: 100 },
+      { x: 132, y: 0, w: 22, h: 100 },
+      { x: 154, y: 0, w: 22, h: 100 },
+      { x: 176, y: 0, w: 22, h: 100 },
+    ],
   };
 
   var tintasv1 = {
@@ -51,17 +51,17 @@
     width: 1020,
     height: 162,
     frames: [
-      {x: 0, y: 0, w: 102, h: 162},
-      {x: 102, y: 0, w: 102, h: 162},
-      {x: 204, y: 0, w: 102, h: 162},
-      {x: 306, y: 0, w: 102, h: 162},
-      {x: 408, y: 0, w: 102, h: 162},
-      {x: 510, y: 0, w: 102, h: 162},
-      {x: 612, y: 0, w: 102, h: 162},
-      {x: 714, y: 0, w: 102, h: 162},
-      {x: 816, y: 0, w: 102, h: 162},
-      {x: 918, y: 0, w: 102, h: 162}
-    ]
+      { x: 0, y: 0, w: 102, h: 162 },
+      { x: 102, y: 0, w: 102, h: 162 },
+      { x: 204, y: 0, w: 102, h: 162 },
+      { x: 306, y: 0, w: 102, h: 162 },
+      { x: 408, y: 0, w: 102, h: 162 },
+      { x: 510, y: 0, w: 102, h: 162 },
+      { x: 612, y: 0, w: 102, h: 162 },
+      { x: 714, y: 0, w: 102, h: 162 },
+      { x: 816, y: 0, w: 102, h: 162 },
+      { x: 918, y: 0, w: 102, h: 162 },
+    ],
   };
 
   var animReq;
@@ -70,10 +70,10 @@
 
   /*----------  SET STAGE  ----------*/
   var container = document.getElementById('ddd-container');
-  var stage     = DDD.canvas(container);
-  var ctx    = stage.ctx;
-  var req     = new DDD.DataRequest();
-  var year    = 1993;
+  var stage = DDD.canvas(container);
+  var ctx = stage.ctx;
+  var req = new DDD.DataRequest();
+  var year = 1993;
 
   /*----------  GLOBALS  ----------*/
   var current;
@@ -104,12 +104,12 @@
   function resize() {
     stageW = stage.canvas = window.innerWidth;
     stageH = stage.canvas = window.innerHeight;
-    centerX = stageW / 2 | 0;
-    centerY = stageH / 2 | 0;
+    centerX = (stageW / 2) | 0;
+    centerY = (stageH / 2) | 0;
   }
 
-  img.onload = function() {
-    img2.onload = function() {
+  img.onload = function () {
+    img2.onload = function () {
       fondo.onload = init;
       fondo.src = '/img/assets/backgrounds/white-paper2.jpg';
     };
@@ -138,42 +138,43 @@
     ctx.clearRect(0, 0, stageW, stageH);
     resize();
 
-    req.json({
-      url: '../../data/ingeominas/eq' + year + '.json',
-      container: container,
-      loadingMsg: 'Loading Seismic Data'
-    })
-    .then(function(d) {
-      seismicData = d;
-      seismicDataI = 0;
-      seismicDataLoaded = true;
+    req
+      .json({
+        url: '../../data/ingeominas/eq' + year + '.json',
+        container: container,
+        loadingMsg: 'Loading Seismic Data',
+      })
+      .then(function (d) {
+        seismicData = d;
+        seismicDataI = 0;
+        seismicDataLoaded = true;
 
-      if (taDataLoaded) {
-        render();
-      }
-    })
-    .catch(function(err) {
-      console.error(err);
-    });
+        if (taDataLoaded) {
+          render();
+        }
+      })
+      .catch(function (err) {
+        console.error(err);
+      });
 
     if (!taDataLoaded) {
       DDD.json({
         url: '../../data/cmh/AtentadosTerroristas1988-2012.json',
         container: container,
-        loadingMsg: 'Loading Violence Data'
+        loadingMsg: 'Loading Violence Data',
       })
-      .then(function(d) {
-        taData = d;
-        taDataLoaded = true;
-        getFirstAttackOfYear();
+        .then(function (d) {
+          taData = d;
+          taDataLoaded = true;
+          getFirstAttackOfYear();
 
-        if (seismicDataLoaded) {
-          render();
-        }
-      })
-      .catch(function(err) {
-        console.error(err);
-      });
+          if (seismicDataLoaded) {
+            render();
+          }
+        })
+        .catch(function (err) {
+          console.error(err);
+        });
     } else {
       taDataI = 0;
       getFirstAttackOfYear();
@@ -204,13 +205,13 @@
     }
     for (var i = 0; i < n; i++) {
       for (var j = 0; j < framesLen; j++) {
-        var step = (i) * (y1 * framesLen);
+        var step = i * (y1 * framesLen);
         var frame = tintasv1.frames[DDD.random(0, framesLen)];
         // ctx.rect(-x1, stepY - (j * y1) - step, newW, newH);
         if (n < 5) {
-          ctx.drawImage(img, frame.x, 0, frame.w, frame.h, -x1, stepY - (j * y1) + step, newW, newH);
+          ctx.drawImage(img, frame.x, 0, frame.w, frame.h, -x1, stepY - j * y1 + step, newW, newH);
         } else {
-          ctx.drawImage(img, frame.x, 0, frame.w, frame.h, -x1, stepY + (j * y1) - step, newW, newH);
+          ctx.drawImage(img, frame.x, 0, frame.w, frame.h, -x1, stepY + j * y1 - step, newW, newH);
         }
       }
     }
@@ -226,7 +227,7 @@
     ctx.globalAlpha = 0.8;
 
     function move(i) {
-      var event =  seismicData[i];
+      var event = seismicData[i];
       var currTime = event.date.unix;
       var r = i * stepR;
 
@@ -245,12 +246,32 @@
 
         for (var f = 0; f < fatal; f++) {
           var frameF = Muertos.frames[DDD.random(0, 9)];
-          ctx.drawImage(img2, frameF.x, 0, frameF.w, frameF.h, -frameCenterX, -rad - frameCenterY - (f * (frameF.h / 10)), frameF.w, frameF.h);
+          ctx.drawImage(
+            img2,
+            frameF.x,
+            0,
+            frameF.w,
+            frameF.h,
+            -frameCenterX,
+            -rad - frameCenterY - f * (frameF.h / 10),
+            frameF.w,
+            frameF.h
+          );
         }
 
         for (var ii = 0; ii < injured; ii++) {
           var frameII = Muertos.frames[DDD.random(10, 20)];
-          ctx.drawImage(img2, frameII.x, frameII.y, frameII.w, frameII.h, -frameCenterX, -rad - frameCenterY - (ii * (frameII.h / 300)), frameII.w, frameII.h);
+          ctx.drawImage(
+            img2,
+            frameII.x,
+            frameII.y,
+            frameII.w,
+            frameII.h,
+            -frameCenterX,
+            -rad - frameCenterY - ii * (frameII.h / 300),
+            frameII.w,
+            frameII.h
+          );
         }
 
         if (taDataI < taData.length - 1) {
@@ -267,7 +288,7 @@
 
         function aggregate() {
           var int = Math.floor(ml);
-          var float = +((ml % 1).toFixed(1).slice(-1));
+          var float = +(ml % 1).toFixed(1).slice(-1);
 
           if (int < 1) {
             drawFloats(1, float);
@@ -314,5 +335,4 @@
     // animate();
     renderAll();
   }
-
 })();

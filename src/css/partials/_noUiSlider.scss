@@ -1,4 +1,5 @@
 @use 'sass:math';
+@use 'sass:color';
 
 $noUI-css-prefix: noUi;
 
@@ -125,8 +126,13 @@ html:not([dir='rtl']) .#{$noUI-css-prefix}-horizontal .#{$noUI-css-prefix}-handl
   width: 16px;
   background-color: #d4d4d4;
   border: 0 solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.4), inset 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.6),
-    0 4px 2px rgba(0, 0, 0, 0.2), 0 9px 4px rgba(0, 0, 0, 0.1), inset 0 2px 1px #fff;
+  box-shadow:
+    0 0 2px rgba(0, 0, 0, 0.4),
+    inset 0 0 1px rgba(0, 0, 0, 0.3),
+    0 1px 2px rgba(0, 0, 0, 0.6),
+    0 4px 2px rgba(0, 0, 0, 0.2),
+    0 9px 4px rgba(0, 0, 0, 0.1),
+    inset 0 2px 1px #fff;
   outline: 0;
 }
 
@@ -136,15 +142,20 @@ $thumb-color: #d4d4d4 !default;
 $thumb-radius: 8px !default;
 $thumb-height: 16px !default;
 $thumb-width: 16px !default;
-$thumb-shadow: 0 0 2px rgba(0, 0, 0, 0.4), inset 0 0 1px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.6),
-  0 4px 2px rgba(0, 0, 0, 0.2), 0 9px 4px rgba(0, 0, 0, 0.1), inset 0 2px 1px #fff;
+$thumb-shadow:
+  0 0 2px rgba(0, 0, 0, 0.4),
+  inset 0 0 1px rgba(0, 0, 0, 0.3),
+  0 1px 2px rgba(0, 0, 0, 0.6),
+  0 4px 2px rgba(0, 0, 0, 0.2),
+  0 9px 4px rgba(0, 0, 0, 0.1),
+  inset 0 2px 1px #fff;
 
 $track-width: 100% !default;
 $track-height: 6px !default;
 $track-border-width: 2px !default;
 $contrast: 5% !default;
 
-$ie-bottom-track-color: darken($track-color, $contrast) !default;
+$ie-bottom-track-color: color.adjust($track-color, $lightness: -$contrast) !default;
 
 @mixin shadow($shadow) {
   box-shadow: $shadow;

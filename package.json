@@ -1,6 +1,7 @@
 {
   "name": "ddd",
-  "version": "1.0.0",
+  "packageManager": "yarn@4.5.0",
+  "version": "1.1.0",
   "description": "Data Driven Drawings",
   "main": "app.js",
   "type": "module",
@@ -13,7 +14,9 @@
     "images": "node app --img",
     "clean": "node app --clean",
     "build": "node app --prod",
-    "deploy": "node app --deploy"
+    "deploy": "node app --deploy",
+    "lint": "prettier --check .",
+    "lint:fix": "prettier --write --list-different ."
   },
   "keywords": [
     "PhD",
@@ -21,7 +24,7 @@
     "Data",
     "Drawings"
   ],
-  "author": "Juan Camilo Gonzalez <info@juancgonzalez.com> (http://juancgonzalez.com)",
+  "author": "Juan Camilo Gonzalez <info@juancgonzalez.com> (https://juancgonzalez.com)",
   "license": "CC-BY-NC-SA-4.0",
   "bugs": {
     "url": "https://github.com/1cgonza/dddrawings/issues"
@@ -38,8 +41,8 @@
     "@metalsmith/js-bundle": "^0.1.1",
     "@metalsmith/layouts": "^2.7.0",
     "@metalsmith/markdown": "^1.10.0",
-    "@metalsmith/sass": "^1.9.0",
-    "@ungap/structured-clone": "^1.0.1",
+    "@metalsmith/sass": "^1.10.0",
+    "@ungap/structured-clone": "^1.2.0",
     "browser-sync": "^2.27.10",
     "chalk": "^5.3.0",
     "connect-gzip-static": "^2.1.1",
@@ -47,9 +50,9 @@
     "gulp": "^4.0.2",
     "gulp-gh-pages": "^0.5.4",
     "gulpsmith": "^0.6.0",
-    "handlebars": "^4.7.7",
-    "jstransformer-handlebars": "^1.1.0",
-    "metalsmith": "^2.6.2",
+    "handlebars": "^4.7.8",
+    "jstransformer-handlebars": "^1.2.0",
+    "metalsmith": "^2.6.3",
     "metalsmith-autoprefixer": "^1.1.2",
     "metalsmith-better-excerpts": "^0.2.1",
     "metalsmith-changed": "^3.1.1",
@@ -57,7 +60,7 @@
     "metalsmith-each": "^0.1.1",
     "metalsmith-html-minifier": "^4.0.1",
     "metalsmith-ignore": "^1.0.0",
-    "prettier": "^2.7.1",
+    "prettier": "^3.3.3",
     "sharp": "^0.32.6",
     "slug": "^2.1.1",
     "striptags": "^3.2.0"

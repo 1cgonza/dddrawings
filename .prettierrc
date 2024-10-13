@@ -3,5 +3,13 @@
   "printWidth": 120,
   "tabWidth": 2,
   "endOfLine": "auto",
-  "trailingComma": "es5"
+  "trailingComma": "es5",
+  "overrides": [
+    {
+      "files": "**/*.hbs",
+      "options": {
+        "parser": "angular"
+      }
+    }
+  ]
 }

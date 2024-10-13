@@ -15,10 +15,20 @@ const datasets = defineCollection({
     draft: z.boolean().optional(),
     title: z.string(),
     tagLink: z.string(),
-    sourceURL: z.string().url(),
+    sourceURL: z.string().url().optional(),
     parsedURL: z.string().url(),
     date: z.date(),
     description: z.string(),
+    related: z
+      .array(
+        z.object({
+          title: z.string(),
+          slug: z.string(),
+          tags: z.array(z.string()),
+          year: z.number(),
+        })
+      )
+      .optional(),
   }),
 });
 
@@ -32,6 +42,7 @@ const lab = defineCollection({
     descriptionLong: z.string().optional(),
     imgName: z.string().optional(),
     tags: z.array(z.string()),
+    categories: z.array(z.string()).optional(),
   }),
 });
 

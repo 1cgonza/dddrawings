@@ -1,8 +1,8 @@
 const mainNav = document.getElementById('main-nav');
 const menuIcon = document.getElementById('menu-icon');
 
-document.onclick = ev => {
-  if (menuIcon === event.target || menuIcon.contains(event.target)) {
+document.onclick = (ev) => {
+  if (menuIcon === ev.target || menuIcon.contains(ev.target)) {
     mainNav.classList.toggle('open');
     menuIcon.classList.toggle('open');
   } else {

@@ -1,0 +1,33 @@
+/*----------  PARTIALS  ----------*/
+@import './normalizar';
+@import './tipografias';
+@import './efectos';
+@import './constantes';
+@import './noUiSlider';
+
+/*----------  BREAKPOINTS  ----------*/
+@import './quiebres/base';
+
+@media only screen and (min-width: 486px) {
+  @import './quiebres/486up';
+}
+
+@media only screen and (min-width: 768px) {
+  @import './quiebres/768up';
+}
+
+@media only screen and (min-width: 1030px) {
+  @import './quiebres/1030up';
+}
+
+@media only screen and (min-width: 1240px) {
+  @import './quiebres/1240up';
+}
+
+/*----------  LAB  ----------*/
+@import 'lab/spikes';
+@import 'lab/circle_variations';
+@import 'lab/facebook-network';
+
+/*----------  NOTATIONS  ----------*/
+@import 'notations/main';

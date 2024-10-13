@@ -1,0 +1,106 @@
+---
+import { getCollection } from 'astro:content';
+
+interface Props {
+  titulo?: string;
+  descripcion?: string;
+  imagen?: { ruta: string; alt: string };
+}
+
+const { titulo, descripcion, imagen } = Astro.props;
+const paginas = await getCollection('paginas');
+const nombreProyecto = 'Data Driven Drawings';
+const descripcionGeneral =
+  'A site showcasing the practical work of the PhD dissertation "Data Driven Drawings" by Juan Camilo González.';
+const { pathname } = Astro.url;
+const tituloSEO = titulo ? `${titulo} :: ${nombreProyecto}` : nombreProyecto;
+const descripcionSEO = descripcion || descripcionGeneral;
+const urlBase = new URL(import.meta.env.BASE_URL, Astro.site);
+const urlPagina = new URL(pathname, Astro.site);
+const rutaImg = imagen ? new URL(imagen.ruta, urlBase) : new URL('imagen_OG.webp', urlBase);
+const altImg = imagen ? imagen.alt : nombreProyecto;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={descripcionSEO} />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.ico`} sizes="32x32" />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}apple-touch-icon.png`} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={urlPagina} />
+
+    <title>{tituloSEO}</title>
+    <meta name="description" content={descripcionSEO} />
+    <!-- OpenGraph -->
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:site_name" content={nombreProyecto} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={urlPagina} />
+    <meta property="og:title" content={tituloSEO} />
+    <meta property="og:description" content={descripcionSEO} />
+    <meta property="og:image" content={rutaImg} />
+    <meta property="og:image:alt" content={altImg} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@labenflujo" />
+    <meta name="twitter:creator" content="@labenflujo" />
+    <meta name="twitter:url" content={urlPagina} />
+    <meta name="twitter:title" content={tituloSEO} />
+    <meta name="twitter:description" content={descripcionSEO} />
+    <meta name="twitter:image" content={rutaImg} />
+    <meta name="twitter:image:alt" content={altImg} />
+  </head>
+
+  <body>
+    <nav id="site-nav" role="navigation">
+      <div id="menu-icon">Menu<span></span></div>
+      <ul id="main-nav">
+        <li><a class="home" href="/" title="Home">Home</a></li>
+        {
+          paginas &&
+            paginas.map((pagina) => (
+              <li>
+                <a class={pagina.slug} href={`/${pagina.slug}`}>
+                  {pagina.data.title}
+                </a>
+              </li>
+            ))
+        }
+      </ul>
+    </nav>
+    <slot />
+  </body>
+</html>
+
+<script>
+  const container = document.querySelector<HTMLElement>('#site-nav');
+  const mainNav = document.querySelector<HTMLUListElement>('#main-nav');
+  const menuIcon = document.querySelector<HTMLDivElement>('#menu-icon');
+
+  if (container && mainNav && menuIcon) {
+    document.onclick = (ev) => {
+      const elemento = ev.target as HTMLElement;
+      if (menuIcon === elemento || menuIcon.contains(elemento)) {
+        mainNav.classList.toggle('open');
+        menuIcon.classList.toggle('open');
+      } else {
+        mainNav.classList.remove('open');
+        menuIcon.classList.remove('open');
+      }
+    };
+
+    if (document.querySelector<HTMLElement>('.with-nav')) {
+      container.classList.add('open');
+    }
+  }
+</script>
+
+<style lang="scss" is:global>
+  @import '@/scss/estilos.scss';
+</style>

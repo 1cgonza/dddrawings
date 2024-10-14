@@ -2,7 +2,7 @@ name: 🦍 Despliegue
 
 on:
   push:
-    branches: ["main"]
+    branches: ['main']
 
   workflow_dispatch:
 
@@ -12,11 +12,11 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: 'pages'
   cancel-in-progress: false
 
 env:
-  BUILD_PATH: "."
+  BUILD_PATH: '.'
 
 jobs:
   build:

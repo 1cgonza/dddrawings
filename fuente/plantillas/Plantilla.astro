@@ -17,7 +17,7 @@ const tituloSEO = titulo ? `${titulo} :: ${nombreProyecto}` : nombreProyecto;
 const descripcionSEO = descripcion || descripcionGeneral;
 const urlBase = new URL(import.meta.env.BASE_URL, Astro.site);
 const urlPagina = new URL(pathname, Astro.site);
-const rutaImg = imagen ? new URL(imagen.ruta, urlBase) : new URL('imagen_OG.webp', urlBase);
+const rutaImg = imagen ? new URL(imagen.ruta, urlBase) : new URL('perlin-violence-map.jpg', urlBase);
 const altImg = imagen ? imagen.alt : nombreProyecto;
 ---
 
@@ -27,9 +27,9 @@ const altImg = imagen ? imagen.alt : nombreProyecto;
     <meta charset="UTF-8" />
     <meta name="description" content={descripcionSEO} />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.ico`} sizes="32x32" />
-    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
-    <link rel="icon" href={`${import.meta.env.BASE_URL}apple-touch-icon.png`} />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.ico`} sizes="16x16" />
+    <!-- <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}apple-touch-icon.png`} /> -->
     <meta name="generator" content={Astro.generator} />
     <link rel="canonical" href={urlPagina} />
 
@@ -55,6 +55,18 @@ const altImg = imagen ? imagen.alt : nombreProyecto;
     <meta name="twitter:description" content={descripcionSEO} />
     <meta name="twitter:image" content={rutaImg} />
     <meta name="twitter:image:alt" content={altImg} />
+
+    {
+      import.meta.env.PROD && (
+      <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-MJ5Z46EHVT"></script>
+      <script is:inline>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MJ5Z46EHVT');
+      </script>
+      )
+    }
   </head>
 
   <body>

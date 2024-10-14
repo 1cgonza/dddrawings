@@ -2,7 +2,7 @@ import { canvas, json } from 'dddrawings';
 import Resize from './Resize.js';
 import { Notations, notationsVideo } from '../../utils/Notations.js';
 import Images from './Images.js';
-import debug from './debugger.js';
+// import debug from './debugger.js';
 
 /*----------  Elements  ----------*/
 const bottom = document.getElementById('bottom');

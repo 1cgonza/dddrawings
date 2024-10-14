@@ -1,5 +1,5 @@
 export default class Levit {
-  constructor(coords, num, ctx, centerX, centerY) {
+  constructor(sprite, coords, num, ctx, centerX, centerY) {
     this.x = coords.x;
     this.y = coords.y;
     this.frameX = 0;
@@ -11,9 +11,12 @@ export default class Levit {
     this.ctx = ctx;
     this.centerX = centerX;
     this.centerY = centerY;
+    this.sprite = sprite;
   }
 
   draw() {
+    const levit = this.sprite;
+
     if (this.count < levit.cols * 2) {
       const ctx = this.ctx;
       if (!this.forward) {

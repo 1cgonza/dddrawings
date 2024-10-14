@@ -20,6 +20,7 @@ container.appendChild(loading);
 /*----------  DATA  ----------*/
 let year = 2009;
 let bodies = [];
+const sprites = {};
 let d = [];
 let geoD = [];
 let dLoaded = false;
@@ -72,7 +73,7 @@ imgs.forEach((d) => {
   const sprite = new Sprite(d.options);
   sprite.img.onload = imgLoaded;
   sprite.img.src = sprite.src;
-  window[d.key] = sprite;
+  sprites[d.key] = sprite;
 });
 
 checkAssetsLoaded();
@@ -148,6 +149,8 @@ function imgLoaded() {
 }
 
 function drawMap() {
+  const { lines } = sprites;
+
   for (let i = 0; i < geoD.length; i++) {
     const poly = geoD[i];
 
@@ -203,14 +206,15 @@ function animate() {
   }
 }
 
-function debug() {
-  for (let i = 0; i < d.length; i++) {
-    draw(i);
-  }
-}
+// function debug() {
+//   for (let i = 0; i < d.length; i++) {
+//     draw(i);
+//   }
+// }
 
 function draw(i) {
   const e = d[i];
+  const { shadows } = sprites;
   if (e.hasOwnProperty('vTotal') && e.hasOwnProperty('cat') && e.cat.indexOf('Homicidio') >= 0) {
     const total = d[i].vTotal;
     const date = d[i].fecha.unix;
@@ -229,7 +233,7 @@ function draw(i) {
       let fy;
 
       for (let t = 0; t < total; t++) {
-        const seq = new Levit(coords, t, stage.ctx, stage.center.x, stage.center.y);
+        const seq = new Levit(sprites.levit, coords, t, stage.ctx, stage.center.x, stage.center.y);
         bodies.push(seq);
       }
 

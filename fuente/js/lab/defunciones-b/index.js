@@ -100,11 +100,11 @@ function animate() {
   }
 }
 
-function debug() {
-  for (var i = 0; i < d.length; i++) {
-    draw(i);
-  }
-}
+// function debug() {
+//   for (var i = 0; i < d.length; i++) {
+//     draw(i);
+//   }
+// }
 
 function draw(i) {
   var e = d[i];

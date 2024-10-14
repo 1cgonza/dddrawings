@@ -3406,6 +3406,7 @@ __metadata:
     nouislider: "npm:^15.8.1"
     prettier: "npm:^3.3.3"
     prettier-plugin-astro: "npm:^0.14.1"
+    rollup-plugin-glsl-loader: "npm:^1.0.13"
     sass: "npm:^1.79.5"
     slug: "npm:^9.1.0"
     typescript: "npm:^5.6.3"
@@ -3531,9 +3532,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.28":
-  version: 1.5.36
-  resolution: "electron-to-chromium@npm:1.5.36"
-  checksum: 10c0/cd8d0de7801107f2b2744b5b18641c969a49b0503996cc1a586bb79d893020d0c4e916ac1935603eea65104b4fc1096bc339e0151531dca9e0f0ce0c1882e2d8
+  version: 1.5.37
+  resolution: "electron-to-chromium@npm:1.5.37"
+  checksum: 10c0/c71746968afd150aaf073478975f40712b18d4d6f6717d520bf1839b1f28464397d9a50ff81a1bb5109d6be75b4506c6a425baa9225a3475afe1d02f4ba1ffe1
   languageName: node
   linkType: hard
 
@@ -3991,9 +3992,9 @@ __metadata:
   linkType: hard
 
 "get-east-asian-width@npm:^1.0.0":
-  version: 1.2.0
-  resolution: "get-east-asian-width@npm:1.2.0"
-  checksum: 10c0/914b1e217cf38436c24b4c60b4c45289e39a45bf9e65ef9fd343c2815a1a02b8a0215aeec8bf9c07c516089004b6e3826332481f40a09529fcadbf6e579f286b
+  version: 1.3.0
+  resolution: "get-east-asian-width@npm:1.3.0"
+  checksum: 10c0/1a049ba697e0f9a4d5514c4623781c5246982bdb61082da6b5ae6c33d838e52ce6726407df285cdbb27ec1908b333cf2820989bd3e986e37bb20979437fdf34b
   languageName: node
   linkType: hard
 
@@ -4184,8 +4185,8 @@ __metadata:
   linkType: hard
 
 "hast-util-to-jsx-runtime@npm:^2.0.0":
-  version: 2.3.1
-  resolution: "hast-util-to-jsx-runtime@npm:2.3.1"
+  version: 2.3.2
+  resolution: "hast-util-to-jsx-runtime@npm:2.3.2"
   dependencies:
     "@types/estree": "npm:^1.0.0"
     "@types/hast": "npm:^3.0.0"
@@ -4202,7 +4203,7 @@ __metadata:
     style-to-object: "npm:^1.0.0"
     unist-util-position: "npm:^5.0.0"
     vfile-message: "npm:^4.0.0"
-  checksum: 10c0/280e2069a4bff57a1cf93d8337117613db0c47dbbbdfea8dcdae811018538c8eb0b7b25edfe37d1f0fb92a081750961a53e3119439e910565b95071daada1a34
+  checksum: 10c0/97761b2a48b8bc37da3d66cb4872312ae06c6e8f9be59e33b04b21fa5af371a39cb23b3ca165dd8e898ba1caf9b76399da35c957e68bad02a587a3a324216d56
   languageName: node
   linkType: hard
 
@@ -6379,6 +6380,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"rollup-plugin-glsl-loader@npm:^1.0.13":
+  version: 1.0.13
+  resolution: "rollup-plugin-glsl-loader@npm:1.0.13"
+  checksum: 10c0/cea56060639e0319b261fadaa3399e800d1726549a662d8252b5c75c539f25104c457377b6505329964c06741793289141d2469e7957ff58a0c1353b775c1809
+  languageName: node
+  linkType: hard
+
 "rollup@npm:^4.20.0":
   version: 4.24.0
   resolution: "rollup@npm:4.24.0"
@@ -7200,8 +7208,8 @@ __metadata:
   linkType: hard
 
 "vite@npm:^5.4.8":
-  version: 5.4.8
-  resolution: "vite@npm:5.4.8"
+  version: 5.4.9
+  resolution: "vite@npm:5.4.9"
   dependencies:
     esbuild: "npm:^0.21.3"
     fsevents: "npm:~2.3.3"
@@ -7238,19 +7246,19 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 10c0/af70af6d6316a3af71f44ebe3ab343bd66450d4157af73af3b32239e1b6ec43ff6f651d7cc4193b21ed3bff2e9356a3de9e96aee53857f39922e4a2d9fad75a1
+  checksum: 10c0/e9c59f2c639047e37c79bbbb151c7a55a3dc27932957cf4cf0447ee0bdcc1ddfd9b1fb3ba0465371c01ba3616d62561327855794c2d652213c3a10a32e6d369d
   languageName: node
   linkType: hard
 
 "vitefu@npm:^1.0.2":
-  version: 1.0.2
-  resolution: "vitefu@npm:1.0.2"
+  version: 1.0.3
+  resolution: "vitefu@npm:1.0.3"
   peerDependencies:
-    vite: ^3.0.0 || ^4.0.0 || ^5.0.0
+    vite: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0-beta.0
   peerDependenciesMeta:
     vite:
       optional: true
-  checksum: 10c0/8e9f0ed5aff93df7ee7f035a43e2b7d6faeaea201252a52d04181c193b06b53f66e0f26bf20c0e590ee23fe66b329b188c483bdf18b2c45994897394c22a1e6f
+  checksum: 10c0/0b41021767885d538d04bb0cdabd140a5397a780997533a3cc1a1ea3c0ffae0cac4bde3e67632440587cd0505c0b6e825dfd8ab7da6249a68076072bea6eada1
   languageName: node
   linkType: hard
 
@@ -7650,11 +7658,11 @@ __metadata:
   linkType: hard
 
 "yaml@npm:^2.5.0":
-  version: 2.5.1
-  resolution: "yaml@npm:2.5.1"
+  version: 2.6.0
+  resolution: "yaml@npm:2.6.0"
   bin:
     yaml: bin.mjs
-  checksum: 10c0/40fba5682898dbeeb3319e358a968fe886509fab6f58725732a15f8dda3abac509f91e76817c708c9959a15f786f38ff863c1b88062d7c1162c5334a7d09cb4a
+  checksum: 10c0/9e74cdb91cc35512a1c41f5ce509b0e93cc1d00eff0901e4ba831ee75a71ddf0845702adcd6f4ee6c811319eb9b59653248462ab94fa021ab855543a75396ceb
   languageName: node
   linkType: hard
 

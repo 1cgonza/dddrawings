@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
+import glslLoader from 'rollup-plugin-glsl-loader';
 
 export default defineConfig({
   publicDir: './estaticos',
@@ -14,7 +15,7 @@ export default defineConfig({
   vite: {
     build: {
       rollupOptions: {
-        external: ['dddrawings'],
+        plugins: [glslLoader()],
       },
     },
     optimizeDeps: {

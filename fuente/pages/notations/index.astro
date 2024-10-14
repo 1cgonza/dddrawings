@@ -1,10 +1,9 @@
 ---
 import Plantilla from '@/plantillas/Plantilla.astro';
-import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import { getEntry } from 'astro:content';
 import type { ImageMetadata } from 'astro';
-import * as predeterminada from '../../imgs/white-paper.jpg';
+import Entrada from '@/componentes/Entrada.astro';
 
 const pagina = await getEntry('paginas', 'notations');
 const entradas = await getCollection('notations', ({ data }) => (import.meta.env.PROD ? !data.draft : true)).then(
@@ -15,7 +14,9 @@ const entradas = await getCollection('notations', ({ data }) => (import.meta.env
 );
 const { Content } = await pagina.render();
 const imagenes = import.meta.glob<{ default: ImageMetadata }>('../../imgs/notations/*.{jpeg,jpg,png,gif}');
-const formatoFecha: Intl.DateTimeFormatOptions = { dateStyle: 'full', timeZone: 'America/Bogota' };
+const interactivas = entradas.filter((entrada) => entrada.data.interactive);
+const invertidas = entradas.filter((entrada) => entrada.data.inverted);
+const estaticas = entradas.filter((entrada) => !entrada.data.inverted && !entrada.data.interactive);
 ---
 
 <Plantilla>
@@ -26,36 +27,34 @@ const formatoFecha: Intl.DateTimeFormatOptions = { dateStyle: 'full', timeZone: 
     </header>
 
     <section class="archive-items">
+      <h2>Interactive</h2>
+
       {
-        entradas &&
-          entradas.map((entrada) => {
-            const descripcion = entrada.data.descriptionLong ? entrada.data.descriptionLong : entrada.data.description;
-            const rutaImg = entrada.data.imgName
-              ? imagenes[`../../imgs/notations/${entrada.data.imgName}`]()
-              : predeterminada.default;
+        interactivas &&
+          interactivas.map((entrada) => {
+            return <Entrada coleccion="notations" entrada={entrada} imagenes={imagenes} />;
+          })
+      }
+    </section>
 
-            return (
-              <div class={`item${entrada.data.draft ? ' draft' : ''}`}>
-                <div class="info">
-                  <h3 class="item-title">
-                    <a href={`/lab/${entrada.slug}`}>{entrada.data.title}</a>
-                  </h3>
-                  <p class="item-date">{new Intl.DateTimeFormat('en-US', formatoFecha).format(entrada.data.date)}</p>
-                  {descripcion && <div class="item-description" set:html={descripcion} />}
-                </div>
+    <section class="archive-items">
+      <h2>Notaciones Invertidas</h2>
 
-                <div class="item-img">
-                  <a href={`/lab/${entrada.slug}`}>
-                    <Image
-                      src={rutaImg}
-                      widths={[240, 540, 720]}
-                      sizes={`(max-width: 360px) 240px, (max-width: 720px) 540px, (max-width: 1600px) 720px`}
-                      alt={entrada.data.title}
-                    />
-                  </a>
-                </div>
-              </div>
-            );
+      {
+        invertidas &&
+          invertidas.map((entrada) => {
+            return <Entrada coleccion="notations" entrada={entrada} imagenes={imagenes} />;
+          })
+      }
+    </section>
+
+    <section class="archive-items">
+      <h2>Gallery</h2>
+
+      {
+        estaticas &&
+          estaticas.map((entrada) => {
+            return <Entrada coleccion="notations" entrada={entrada} imagenes={imagenes} />;
           })
       }
     </section>

@@ -1,0 +1,48 @@
+---
+import * as predeterminada from '@/imgs/white-paper.jpg';
+import { Image } from 'astro:assets';
+
+interface Props {
+  coleccion: string;
+  entrada: {
+    slug: string;
+    data: {
+      title: string;
+      description: string;
+      descriptionLong?: string;
+      imgName?: string;
+      draft?: boolean;
+      date: Date;
+    };
+  };
+  imagenes: Record<string, () => Promise<{ default: ImageMetadata }>>;
+}
+
+const { coleccion, entrada, imagenes } = Astro.props;
+const formatoFecha: Intl.DateTimeFormatOptions = { dateStyle: 'full', timeZone: 'America/Bogota' };
+const descripcion = entrada.data.descriptionLong ? entrada.data.descriptionLong : entrada.data.description;
+const rutaImg = entrada.data.imgName
+  ? imagenes[`../../imgs/${coleccion}/${entrada.data.imgName}`]()
+  : predeterminada.default;
+---
+
+<div class={`item${entrada.data.draft ? ' draft' : ''}`}>
+  <div class="info">
+    <h3 class="item-title">
+      <a href={`/${coleccion}/${entrada.slug}`}>{entrada.data.title}</a>
+    </h3>
+    <p class="item-date">{new Intl.DateTimeFormat('en-US', formatoFecha).format(entrada.data.date)}</p>
+    {descripcion && <div class="item-description" set:html={descripcion} />}
+  </div>
+
+  <div class="item-img">
+    <a href={`/${coleccion}/${entrada.slug}`}>
+      <Image
+        src={rutaImg}
+        widths={[240, 540, 720]}
+        sizes={`(max-width: 360px) 240px, (max-width: 720px) 540px, (max-width: 1600px) 720px`}
+        alt={entrada.data.title}
+      />
+    </a>
+  </div>
+</div>

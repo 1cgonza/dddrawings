@@ -1,10 +1,9 @@
 ---
 import Plantilla from '@/plantillas/Plantilla.astro';
-import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import { getEntry } from 'astro:content';
 import type { ImageMetadata } from 'astro';
-import * as predeterminada from '../../imgs/white-paper.jpg';
+import Entrada from '@/componentes/Entrada.astro';
 
 const pagina = await getEntry('paginas', 'lab');
 const entradas = await getCollection('lab', ({ data }) => (import.meta.env.PROD ? !data.draft : true)).then(
@@ -15,7 +14,6 @@ const entradas = await getCollection('lab', ({ data }) => (import.meta.env.PROD 
 );
 const { Content } = await pagina.render();
 const imagenes = import.meta.glob<{ default: ImageMetadata }>('../../imgs/lab/*.{jpeg,jpg,png,gif}');
-const formatoFecha: Intl.DateTimeFormatOptions = { dateStyle: 'full', timeZone: 'America/Bogota' };
 ---
 
 <Plantilla>
@@ -26,38 +24,7 @@ const formatoFecha: Intl.DateTimeFormatOptions = { dateStyle: 'full', timeZone: 
     </header>
 
     <section class="archive-items">
-      {
-        entradas &&
-          entradas.map((entrada) => {
-            const descripcion = entrada.data.descriptionLong ? entrada.data.descriptionLong : entrada.data.description;
-            const rutaImg = entrada.data.imgName
-              ? imagenes[`../../imgs/lab/${entrada.data.imgName}`]()
-              : predeterminada.default;
-
-            return (
-              <div class={`item${entrada.data.draft ? ' draft' : ''}`}>
-                <div class="info">
-                  <h3 class="item-title">
-                    <a href={`/lab/${entrada.slug}`}>{entrada.data.title}</a>
-                  </h3>
-                  <p class="item-date">{new Intl.DateTimeFormat('en-US', formatoFecha).format(entrada.data.date)}</p>
-                  {descripcion && <div class="item-description" set:html={descripcion} />}
-                </div>
-
-                <div class="item-img">
-                  <a href={`/lab/${entrada.slug}`}>
-                    <Image
-                      src={rutaImg}
-                      widths={[240, 540, 720]}
-                      sizes={`(max-width: 360px) 240px, (max-width: 720px) 540px, (max-width: 1600px) 720px`}
-                      alt={entrada.data.title}
-                    />
-                  </a>
-                </div>
-              </div>
-            );
-          })
-      }
+      {entradas && entradas.map((entrada) => <Entrada coleccion="lab" entrada={entrada} imagenes={imagenes} />)}
     </section>
   </main>
 </Plantilla>

@@ -20,8 +20,8 @@ export default class Map {
     this.container.appendChild(this.layer);
   }
 
-  init() {
-    this.map = new google.maps.Map(this.layer, {
+  init(GoogleMap) {
+    this.map = new GoogleMap(this.layer, {
       center: {
         lat: 10.398683,
         lng: -75.475911,

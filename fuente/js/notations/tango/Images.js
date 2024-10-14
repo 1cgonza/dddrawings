@@ -28,7 +28,7 @@ export default class Images {
   }
 
   load(offY) {
-    return new Promise((res, rej) => {
+    return new Promise((res) => {
       for (let i = 0; i < this.total; i++) {
         let img = new Image();
         img.dataset.key = i;

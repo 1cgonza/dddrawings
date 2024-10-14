@@ -2,8 +2,8 @@ import { json } from 'dddrawings';
 import Notations from './pulseNotations.js';
 import Mask from './Mask.js';
 import Map from './Map.js';
-import Audio from './Audio.js';
-import Menu from './Menu.js';
+// import Audio from './Audio.js';
+// import Menu from './Menu.js';
 import MemoryPalace from './MemoryPalace.js';
 
 /*----------  SET STAGE  ----------*/
@@ -11,12 +11,15 @@ const container = document.getElementById('ddd-container');
 const notations = new Notations(container);
 const mask = new Mask(container);
 const map = new Map(container);
-const audio = new Audio();
+// const audio = new Audio();
 const memory = new MemoryPalace(container);
 
-window.init = function () {
-  map.init();
-};
+async function init() {
+  const { Map: GoogleMap } = await google.maps.importLibrary('maps');
+  map.init(GoogleMap);
+}
+
+init();
 
 /*----------  GLOBALS  ----------*/
 let animReq;
@@ -29,7 +32,7 @@ let minBeat = 462;
 let beatRange = maxBeat - minBeat;
 let beatStep = 1 / beatRange;
 
-let pulse = json('/data/pulse/heart.2.json')
+json('/data/pulse/heart.2.json')
   .then((ret) => {
     for (let i = 0; i < ret.beats.length; i++) {
       let d = ret.beats[i];
@@ -67,6 +70,6 @@ notations.stage.canvas.onclick = (event) => {
   return false;
 };
 
-window.onresize = (event) => {
+window.onresize = () => {
   mask.resize();
 };

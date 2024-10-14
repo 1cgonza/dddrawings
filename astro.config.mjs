@@ -12,6 +12,11 @@ export default defineConfig({
     assets: 'estaticos',
   },
   vite: {
+    build: {
+      rollupOptions: {
+        external: ['dddrawings'],
+      },
+    },
     optimizeDeps: {
       esbuildOptions: {
         loader: {

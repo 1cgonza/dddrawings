@@ -1,0 +1,59 @@
+---
+import { rutaVideos } from '@/utilidades/constantes';
+import Plantilla from './Plantilla.astro';
+
+interface Props {
+  title?: string;
+  slug?: string;
+  director?: string;
+  year?: number;
+  videos: { webm?: string; mp4?: string; ogg?: string };
+  poster?: string;
+}
+
+const { title, slug, director, year, videos, poster } = Astro.props;
+---
+
+<Plantilla titulo={title}>
+  <main class={`with-nav single-notations ${slug}`}>
+    <section id="box" class="content">
+      <span id="close-box" class="close button">X</span>
+      <slot />
+    </section>
+
+    <section id="ddd-container" class="view-notations-cols">
+      <div id="left-col">
+        <header>
+          <h1 class="film-title">{title} ({year})</h1>
+          <h3 class="film-director">by {director}</h3>
+        </header>
+
+        {
+          videos && (
+            <div id="video-container">
+              <video id="video" width="640" height="404" preload="true" poster={poster ? `/img/posters/${poster}` : ''}>
+                {videos.webm && <source src={`${rutaVideos}/${videos.webm}`} type="video/webm" />}
+                {videos.mp4 && <source src={`${rutaVideos}/${videos.mp4}`} type="video/mp4" />}
+                {videos.ogg && <source src={`${rutaVideos}/${videos.ogg}`} type="video/ogg" />}
+                You need to update your browser to play this video.
+              </video>
+            </div>
+          )
+        }
+
+        <div id="description">
+          <slot name="descripcion" />
+        </div>
+      </div>
+
+      <div id="middle-col">
+        <p class="loading">Loading Timeline...</p>
+      </div>
+
+      <div id="right-col">
+        <p class="loading">Loading Notations...</p>
+        <canvas id="notations" height="0"></canvas>
+      </div>
+    </section>
+  </main>
+</Plantilla>

@@ -4,14 +4,9 @@
 # Node modules
 node_modules
 
-# Deploy temp folder
-.publish
+publico/
+.astro/
 
-# Build - This is getting copied to the gh-pages branch, so no need to track it here.
-build/*
-!build/.gitkeep
-!build/CNAME
-!build/data
 
 # Processed images
 src/img/lab/

@@ -1,0 +1,65 @@
+---
+import Plantilla from '@/plantillas/Plantilla.astro';
+import { rutaVideos } from '@/utilidades/constantes';
+import { getEntry } from 'astro:content';
+
+const pagina = await getEntry('notations', 'tango');
+const { Content } = await pagina.render();
+---
+
+<Plantilla>
+  <main class={`with-nav single-notations ${pagina.slug}`}>
+    <section id="box" class="content">
+      <a id="close-box" href="#" class="close">X</a>
+      <Content />
+    </section>
+
+    <section id="ddd-container">
+      <div id="top-row">
+        <header id="header">
+          <h1>
+            <span class="film-title">{pagina.data.title} ({pagina.data.year})</span>
+            <span class="film-director">by {pagina.data.director}</span>
+          </h1>
+        </header>
+      </div>
+
+      <div id="left" style="position: fixed; width: 60%">
+        <div id="label-box">
+          <p id="pol"></p>
+          <p id="eng"></p>
+        </div>
+      </div>
+
+      {
+        pagina.data.videos && (
+          <div id="video-container">
+            <video
+              id="video"
+              width="640"
+              height="404"
+              preload="true"
+              poster={pagina.data.poster ? `/img/posters/${pagina.data.poster}` : ''}
+            >
+              {pagina.data.videos.webm && <source src={`${rutaVideos}/${pagina.data.videos.webm}`} type="video/webm" />}
+              {pagina.data.videos.mp4 && <source src={`${rutaVideos}/${pagina.data.videos.mp4}`} type="video/mp4" />}
+              {pagina.data.videos.ogg && <source src={`${rutaVideos}/${pagina.data.videos.ogg}`} type="video/ogg" />}
+              You need to update your browser to play this video.
+            </video>
+          </div>
+        )
+      }
+
+      <div id="bottom" style="position: fixed; width: 100%; bottom: 0"></div>
+    </section>
+  </main>
+</Plantilla>
+
+<script src="../../js/notations/tango/index.js"></script>
+
+<style lang="scss">
+  h1 {
+    font-size: 1em;
+    margin: 0;
+  }
+</style>

@@ -1,0 +1,22 @@
+---
+import Plantilla from '@/plantillas/Plantilla.astro';
+import { getCollection } from 'astro:content';
+
+const paginas = await getCollection('paginas');
+---
+
+<Plantilla>
+  <main role="main" class="with-nav home">
+    {
+      paginas &&
+        paginas.map((pagina) => (
+          <section>
+            <h3>
+              <a href={`/${pagina.slug}`}>{pagina.data.title}</a>
+            </h3>
+            <p class="section-description">{pagina.data.description}</p>
+          </section>
+        ))
+    }
+  </main>
+</Plantilla>

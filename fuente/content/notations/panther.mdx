@@ -1,0 +1,43 @@
+---
+title: Panther
+year: 1998
+date: 2014-11-11 11:11:11
+director: Vuk Jevremovic
+description: by Vuk Jevremovic
+imgName: pantera.jpg
+image: /img/notations/pantera-large.jpg
+thumb: /img/notations/pantera-thumb.jpg
+---
+
+import Plantilla from '@/plantillas/Plantilla.astro';
+import { Image } from 'astro:assets';
+import estructura from '@/imgs/notations/pantera.jpg';
+import estructura2 from '@/imgs/notations/panthera1.jpg';
+import story from '@/imgs/notations/pantheras.jpg';
+import sonido from '@/imgs/notations/pantera-sonido.jpg';
+
+<Plantilla title={frontmatter.title} slug='a-chairy-tale' director={frontmatter.director} year={frontmatter.year} videos={frontmatter.videos} poster={frontmatter.poster}>
+<main class="with-nav single-notations regular-view">
+<header>
+  <h1 class="film-title">{frontmatter.title} ({frontmatter.year})</h1>
+  <h3 class="film-director">by {frontmatter.director}</h3>
+</header>
+
+<Image src={estructura} alt="Visual notations for Panther" />
+<Image src={estructura2} alt="Visual notations for Panther" />
+<Image src={sonido} alt="Visual score for the soundtrack" />
+<Image src={story} alt="Storyboard for Panther" />
+
+You can see the trailer here:
+
+<iframe
+  src="https://www.youtube.com/embed/dSUq1-m9IOI?si=Uazw3TWp9aCG1VAC"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  referrerpolicy="strict-origin-when-cross-origin"
+  allowfullscreen
+></iframe>
+
+</main>
+</Plantilla>

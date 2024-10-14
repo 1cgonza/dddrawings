@@ -1,0 +1,35 @@
+name: 🐾 Estilo Código
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🐯 Obtener código del repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🐜 Activar Corepack
+        run: corepack enable
+
+      - name: 🐝 Usar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'yarn'
+
+      - name: 🦒 Instalar dependencias
+        run: |
+          yarn install --immutable
+
+      - name: 👀 Buscar errores
+        run: yarn lint

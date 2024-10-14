@@ -1,0 +1,28 @@
+---
+title: Mr. Bug Goes to Town
+interactive: true
+director: Fleischer Studio
+year: 1941
+date: 2015-08-06 15:12:33
+description: One of the earliest examples of notations for an animated film. Created by the Fleischer studio for their feature length film Mr. Bug Goes to Town (1941).
+disclaimer: This application is created for educational and research purposes only. The Copyright of the source material (images and video) remain with the original owners.
+imgName: fleischer-bugGoesToTown.jpg
+poster: bug-goes-to-town-poster.jpg
+videos:
+  mp4: bug-goes-to-town.mp4
+  webm: bug-goes-to-town.webm
+  ogg: bug-goes-to-town.ogv
+---
+
+import NotationsCols from '@/plantillas/NotationsCols.astro';
+import Componente from '@/js/notations/mr-bug-goes-to-town/index.astro';
+
+<NotationsCols title={frontmatter.title} slug='mr-bug-goes-to-town' director={frontmatter.director} year={frontmatter.year} videos={frontmatter.videos} poster={frontmatter.poster}>
+
+<span slot="descripcion">
+  <span class="disclaimer">{frontmatter.disclaimer}</span>
+</span>
+
+</NotationsCols>
+
+<Componente />

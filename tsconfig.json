@@ -1,0 +1,10 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./fuente/*"]
+    }
+  },
+  "exclude": ["./publico/**/*", "./fuente/js/lab/vista-al-mar/index.astro"]
+}

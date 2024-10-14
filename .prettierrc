@@ -4,11 +4,12 @@
   "tabWidth": 2,
   "endOfLine": "auto",
   "trailingComma": "es5",
+  "plugins": ["prettier-plugin-astro"],
   "overrides": [
     {
-      "files": "**/*.hbs",
+      "files": "*.astro",
       "options": {
-        "parser": "angular"
+        "parser": "astro"
       }
     }
   ]

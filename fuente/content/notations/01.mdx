@@ -1,0 +1,28 @@
+---
+title: '0.1'
+year: 2011
+date: 2014-11-11 11:11:11
+director: Diana Reichenbach
+description: By Diana Reichenbach
+imgName: No.366-166.jpg
+---
+
+import Plantilla from '@/plantillas/Plantilla.astro';
+import { Image } from 'astro:assets';
+import estructura from '@/imgs/notations/No.366-166.jpg';
+
+<Plantilla title={frontmatter.title} slug='a-chairy-tale' director={frontmatter.director} year={frontmatter.year} videos={frontmatter.videos} poster={frontmatter.poster}>
+<main class="with-nav single-notations regular-view">
+<header>
+  <h1 class="film-title">{frontmatter.title} ({frontmatter.year})</h1>
+  <h3 class="film-director">by {frontmatter.director}</h3>
+</header>
+
+<Image src={estructura} alt="Visual notations for film 0.1" />
+
+You can see the film here:
+
+<iframe src="https://player.vimeo.com/video/23491575?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write" title="|| 0.1 ||- ENTIRE.FILM"></iframe>
+<script src="https://player.vimeo.com/api/player.js"></script>
+</main>
+</Plantilla>

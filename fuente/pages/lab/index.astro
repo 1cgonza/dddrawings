@@ -1,0 +1,30 @@
+---
+import Plantilla from '@/plantillas/Plantilla.astro';
+import { getCollection } from 'astro:content';
+import { getEntry } from 'astro:content';
+import type { ImageMetadata } from 'astro';
+import Entrada from '@/componentes/Entrada.astro';
+
+const pagina = await getEntry('paginas', 'lab');
+const entradas = await getCollection('lab', ({ data }) => (import.meta.env.PROD ? !data.draft : true)).then(
+  (archivos) =>
+    archivos.sort((a, b) => {
+      return b.data.date.getTime() - a.data.date.getTime();
+    })
+);
+const { Content } = await pagina.render();
+const imagenes = import.meta.glob<{ default: ImageMetadata }>('../../imgs/lab/*.{jpeg,jpg,png,gif}');
+---
+
+<Plantilla>
+  <main role="main" class="with-nav archive lab-archive">
+    <header class="page-header">
+      <h1 class="page-title">{pagina?.data.title}</h1>
+      <div class="page-description"><Content /></div>
+    </header>
+
+    <section class="archive-items">
+      {entradas && entradas.map((entrada) => <Entrada coleccion="lab" entrada={entrada} imagenes={imagenes} />)}
+    </section>
+  </main>
+</Plantilla>

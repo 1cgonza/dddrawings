@@ -1,0 +1,16 @@
+---
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const entradas = await getCollection('notations');
+  return entradas.map((entrada) => ({
+    params: { slug: entrada.slug },
+    props: { entrada },
+  }));
+}
+
+const { entrada } = Astro.props;
+const { Content } = await entrada.render();
+---
+
+<Content />

@@ -2,7 +2,7 @@
 title: SiSiSiSiSiSiSiSiSiSiSi
 interactive: true
 director: Juan Camilo González
-description: ''
+description: For this film I used a circular structure that was mapped into an abstract notation. Even though the animation was made straight ahead, with no literary script or story-board, I used this map to know exactly where I was at all times.
 year: 2011
 date: 2015-10-05 18:05:58
 imgName: sisisi.jpg
@@ -13,28 +13,49 @@ videos:
   ogg: SiSiSiSiSiSiSiSiSiSiSi.ogv
 ---
 
+import NotationsCols from '@/plantillas/NotationsCols.astro';
+import { Image } from 'astro:assets';
+import estructura from '@/imgs/notations/sisisi-estructura.jpg';
+import first from '@/imgs/notations/sisisi-first-map.jpg';
+import second from '@/imgs/notations/sisisi-second-map.jpg';
+import zoom from '@/imgs/notations/sisisi-final-zoom.jpg';
+import final from '@/imgs/notations/sisisi-final-map.jpg';
+import Componente from '@/js/notations/sisisisisisisisisisisi/index.astro';
+
+<NotationsCols title={frontmatter.title} slug='sisisisisisisisisisisi' director={frontmatter.director} year={frontmatter.year} videos={frontmatter.videos} poster={frontmatter.poster}>
 ## Notations for SiSiSiSiSiSiSiSiSiSiSi
 
 For this film I used a circular structure that was mapped into an abstract notation. Even though the animation was made straight ahead, with no literary script or story-board, I used this map to know exactly where I was at all times. This approach allowed me to improvise freely within the constrains established by the structure conceived in the map.
 
 During pre-production I made several versions of the map, my goal at that point was to visualize how the events in the film will develop over time. The first sketch that helped me break down the sections of the film was this small set of images:
 
-![Structure](/img/notations/sisisi-estructura.jpg)
+<Image src={estructura} alt="Visual structure of the film" />
 
 In terms of classical narrative, I was thinking of three acts. "Formalismo 1" represented the establishing of the world, a world in order, symmetrical, rigid. Transitioning into "Ritmo", that world spirals out of it's rectangular symmetry, becomes a less rigid space but maintains order. Lastly, "Formalismo 2" stems from the structure in "Ritmo", but complicates the logic of it, a non symmetrical world but with hints to the established order in the previous acts.
 
 I then created this next map in which I try to represent these three acts as they would develop in time, how they connect with each other, possible hints of duration and rhythm.
 
-![First Map](/img/notations/sisisi-first-map.jpg)
+<Image src={first} alt="First Map" />
 
 The next is another iteration of the same idea. The goal was to map the 3 acts, but in a more linear representation. Knowing that I was making a film, I wanted to see the 3 acts as a timeline. Something that resembles closer the structure of time in a film.
 
-![Second Map](/img/notations/sisisi-second-map.jpg)
+<Image src={second} alt="Second Map" />
 
 At this point I started making animation tests and other experiments which made me realize that the film I was planning on these maps was too big, perhaps too long. I decided to focus on the first act and do the film just that first section.
 
-![Zoom in to first section](/img/notations/sisisi-final-zoom.jpg)
+<Image src={zoom} alt="Zoom in to first section" />
 
 I made another map which then became the final one I used for the film.
 
-![Final Map](/img/notations/sisisi-final-map.jpg)
+<Image src={final} alt="Final Map" />
+
+<span slot="descripcion">
+  <span>{frontmatter.description}</span>
+  <span id="notes" class="button">
+    Read more
+  </span>
+</span>
+
+</NotationsCols>
+
+<Componente />

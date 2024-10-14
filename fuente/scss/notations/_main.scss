@@ -30,6 +30,10 @@
 
   #ddd-container {
     min-height: 100vh;
+
+    &.view-notations-cols {
+      display: flex;
+    }
   }
 
   #left-col {
@@ -215,7 +219,10 @@
 .single-notations.a-chairy-tale {
   #left-col,
   .content {
-    font-family: $volkron;
+    font-family: $vollkorn;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
   }
 
   #middle-col,
@@ -309,7 +316,10 @@
 .single-notations.sisisisisisisisisisisi {
   #left-col,
   .content {
-    font-family: $volkron;
+    font-family: $vollkorn;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
   }
 
   #left-col {

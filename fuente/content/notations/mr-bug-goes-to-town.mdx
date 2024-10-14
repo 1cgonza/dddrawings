@@ -13,3 +13,16 @@ videos:
   webm: bug-goes-to-town.webm
   ogg: bug-goes-to-town.ogv
 ---
+
+import NotationsCols from '@/plantillas/NotationsCols.astro';
+import Componente from '@/js/notations/mr-bug-goes-to-town/index.astro';
+
+<NotationsCols title={frontmatter.title} slug='mr-bug-goes-to-town' director={frontmatter.director} year={frontmatter.year} videos={frontmatter.videos} poster={frontmatter.poster}>
+
+<span slot="descripcion">
+  <span class="disclaimer">{frontmatter.disclaimer}</span>
+</span>
+
+</NotationsCols>
+
+<Componente />

@@ -1,0 +1,43 @@
+---
+import Plantilla from '@/plantillas/Plantilla.astro';
+---
+
+<Plantilla>
+  <main role="main" class="with-nav error-404">
+    <h2>404</h2>
+    <div class="message">
+      <p>..xXxXx| This page does not exist |xXxXx..</p>
+      <p><a href="/">&larr; Try again from the homepage &larr;</a></p>
+    </div>
+  </main>
+</Plantilla>
+
+<style lang="scss">
+  .error-404 {
+    font-weight: 400;
+    text-align: center;
+    background-color: yellow;
+    height: 100%;
+    position: relative;
+
+    h2 {
+      margin: 0;
+      font-weight: 400;
+      font-size: 40vw;
+      color: #fff57b;
+      top: 50vh;
+      margin-top: -20vw;
+      position: absolute;
+      width: 100%;
+    }
+
+    .message {
+      position: absolute;
+      font-size: 2vw;
+      top: 50vh;
+      margin-top: -3vw;
+      width: 100%;
+      background-color: rgba(255, 255, 86, 0.5);
+    }
+  }
+</style>

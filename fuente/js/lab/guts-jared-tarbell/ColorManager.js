@@ -6,7 +6,7 @@ export default class ColorManager {
   }
 
   takeColor(imgURL) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const img = new Image();
 
       img.onload = () => {

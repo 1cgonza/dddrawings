@@ -45,7 +45,7 @@ let prevTimePosition = 0;
 
 // Set dates range as ISO 8601 YYYY-MM-DDThh:mm:ss
 let dIni = Date.parse(year + '/01/01 00:00:00') / 1000;
-let dEnd = Date.parse(year + 1 + '/01/01 00:00:00') / 1000;
+// let dEnd = Date.parse(year + 1 + '/01/01 00:00:00') / 1000;
 
 /*----------  SPRITES  ----------*/
 let imgsLoaded = 0;
@@ -108,7 +108,7 @@ function reloadStage() {
   dLoaded = false;
   prevTimePosition = 0;
   dIni = Date.parse(year + '/01/01 00:00:00') / 1000;
-  dEnd = Date.parse(year + 1 + '/01/01 00:00:00') / 1000;
+  // dEnd = Date.parse(year + 1 + '/01/01 00:00:00') / 1000;
 
   stage.ctx.clearRect(0, 0, stage.w, stage.h);
   log.ctx.clearRect(0, 0, log.w, log.h);

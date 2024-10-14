@@ -63,7 +63,7 @@ var tintasv1 = {
   ],
 };
 
-var animReq;
+// var animReq;
 
 var framesLen = tintasv1.frames.length;
 
@@ -81,7 +81,7 @@ var stageH;
 var centerX;
 var centerY;
 var seismicData = [];
-var seismicDataI = 0;
+// var seismicDataI = 0;
 var taData = [];
 var taDataI = 0;
 var taDataLoaded = false;
@@ -92,13 +92,13 @@ var img2 = new Image();
 var fondo = new Image();
 
 var rad = 100;
-var count = 0;
+// var count = 0;
 var ratio = 2;
 var newW = tintasv1.frames[0].w / ratio;
 var newH = tintasv1.frames[0].h / ratio;
 var x1 = newW / 2;
 var y1 = newH / 3;
-var stepY = -rad - newH + y1;
+// var stepY = -rad - newH + y1;
 
 function resize() {
   stageW = stage.canvas = window.innerWidth;
@@ -145,7 +145,7 @@ function loadData() {
     })
     .then(function (d) {
       seismicData = d;
-      seismicDataI = 0;
+      // seismicDataI = 0;
       seismicDataLoaded = true;
 
       if (taDataLoaded) {
@@ -198,27 +198,27 @@ function getFirstAttackOfYear() {
   }
 }
 
-function drawFloats(n, num) {
-  if (n < 4) {
-    stepY = -rad + newH - y1;
-  }
-  for (var i = 0; i < n; i++) {
-    for (var j = 0; j < framesLen; j++) {
-      var step = i * (y1 * framesLen);
-      var frame = tintasv1.frames[random(0, framesLen)];
-      // ctx.rect(-x1, stepY - (j * y1) - step, newW, newH);
-      if (n < 5) {
-        ctx.drawImage(img, frame.x, 0, frame.w, frame.h, -x1, stepY - j * y1 + step, newW, newH);
-      } else {
-        ctx.drawImage(img, frame.x, 0, frame.w, frame.h, -x1, stepY + j * y1 - step, newW, newH);
-      }
-    }
-  }
-}
+// function drawFloats(n) {
+//   if (n < 4) {
+//     stepY = -rad + newH - y1;
+//   }
+//   for (var i = 0; i < n; i++) {
+//     for (var j = 0; j < framesLen; j++) {
+//       var step = i * (y1 * framesLen);
+//       var frame = tintasv1.frames[random(0, framesLen)];
+//       // ctx.rect(-x1, stepY - (j * y1) - step, newW, newH);
+//       if (n < 5) {
+//         ctx.drawImage(img, frame.x, 0, frame.w, frame.h, -x1, stepY - j * y1 + step, newW, newH);
+//       } else {
+//         ctx.drawImage(img, frame.x, 0, frame.w, frame.h, -x1, stepY + j * y1 - step, newW, newH);
+//       }
+//     }
+//   }
+// }
 
 function render() {
   var len = seismicData.length;
-  var step = stageW / len;
+  // var step = stageW / len;
   var stepR = (Math.PI * 2) / len;
 
   ctx.drawImage(fondo, 0, 0, stageW, stageH);
@@ -285,16 +285,16 @@ function render() {
       var ml = event.ml;
       ml = Math.pow(2, ml) / 2;
 
-      function aggregate() {
-        var int = Math.floor(ml);
-        var float = +(ml % 1).toFixed(1).slice(-1);
+      // function aggregate() {
+      //   var int = Math.floor(ml);
+      //   var float = +(ml % 1).toFixed(1).slice(-1);
 
-        if (int < 1) {
-          drawFloats(1, float);
-        } else {
-          drawFloats(int, float);
-        }
-      }
+      //   if (int < 1) {
+      //     drawFloats(1, float);
+      //   } else {
+      //     drawFloats(int, float);
+      //   }
+      // }
 
       function stretch() {
         var frame = tintasv1.frames[random(0, framesLen)];
@@ -321,16 +321,16 @@ function render() {
     }
   }
 
-  function animate() {
-    count++;
+  // function animate() {
+  //   count++;
 
-    if (count < len) {
-      move(count);
-      animReq = requestAnimationFrame(animate);
-    } else {
-      console.log('end');
-    }
-  }
+  //   if (count < len) {
+  //     move(count);
+  //     animReq = requestAnimationFrame(animate);
+  //   } else {
+  //     console.log('end');
+  //   }
+  // }
   // animate();
   renderAll();
 }

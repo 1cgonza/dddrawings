@@ -116,9 +116,9 @@ function arrayChunks() {
  *
  **/
 
-function renderSingleChunk(start) {
-  var slicedData = rawData.slice(chunkW * start, chunkW * (start + 1));
-  var c = getCanvasRow();
+// function renderSingleChunk(start) {
+//   var slicedData = rawData.slice(chunkW * start, chunkW * (start + 1));
+//   var c = getCanvasRow();
 
-  new Drawing(c, slicedData, minMaxValues, newArrayBeats);
-}
+//   new Drawing(c, slicedData, minMaxValues, newArrayBeats);
+// }

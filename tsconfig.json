@@ -5,5 +5,6 @@
     "paths": {
       "@/*": ["./fuente/*"]
     }
-  }
+  },
+  "exclude": ["./publico/**/*", "./fuente/js/lab/vista-al-mar/index.astro"]
 }

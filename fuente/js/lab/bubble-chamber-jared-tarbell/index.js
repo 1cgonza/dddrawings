@@ -175,12 +175,12 @@ function setPixelColor(i, rgb, a) {
 document.body.addEventListener('click', function (e) {
   // fire 11 of each particle type
   for (let k = 0; k < 11; k++) {
-    collideOne(event);
+    collideOne(e);
   }
 });
 
 window.addEventListener('keyup', function (e) {
-  if (event.keyCode === 32) {
+  if (e.key === ' ' || e.code === 'Space') {
     const n = pixels.length;
 
     for (let i = 0; i < n; i++) {

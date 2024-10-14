@@ -5,6 +5,7 @@ const container = document.getElementById('ddd-container');
 const bg = canvas(container);
 const stage = canvas(container);
 const ctx = stage.ctx;
+let debug = false;
 
 bg.ctx.fillStyle = '#F0E397';
 bg.ctx.fillRect(0, 0, bg.w, bg.h);
@@ -151,7 +152,9 @@ function drawCircle(radius, size, value) {
   bg.ctx.setTransform(t.m[0], t.m[1], t.m[2], t.m[3], t.m[4], t.m[5]);
   bg.ctx.fillRect(0, -radius, size, size);
   // debug points
-  // bg.ctx.strokeText(value, 0, -radius);
+  if (debug) {
+    bg.ctx.strokeText(value, 0, -radius);
+  }
 }
 
 function drawMs() {

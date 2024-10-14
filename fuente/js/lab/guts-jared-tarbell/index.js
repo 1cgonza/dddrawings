@@ -13,7 +13,6 @@ const stage = canvas(container);
 /*----------  GLOBAL VARIABLES  ----------*/
 const num = 11;
 let cPaths = [];
-let animReq;
 const colors = new ColorManager();
 
 colors.takeColor('/img/nude.gif').then(() => {
@@ -35,10 +34,11 @@ function draw() {
     }
   }
   stage.ctx.putImageData(colors.imgData, 0, 0);
-  animReq = requestAnimationFrame(draw);
+  requestAnimationFrame(draw);
 }
 
 document.body.addEventListener('click', () => {
-  colors.pixels.forEach((p) => (p = 255));
+  colors.pixels.fill(255, 0, colors.pixels.length);
+
   begin();
 });

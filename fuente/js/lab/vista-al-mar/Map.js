@@ -62,7 +62,7 @@ export default class Map {
     }
   }
 
-  waitMapToLoad(cb) {
+  waitMapToLoad() {
     google.maps.event.addListenerOnce(this.map, 'idle', this.checkAssetsLoaded.bind(this));
   }
 

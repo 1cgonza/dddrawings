@@ -19,7 +19,6 @@ let rStep = 0;
 let xStep = 0;
 let rowsNet = 6;
 let co = 1;
-let animReq;
 
 /*----------  CREATE CANVAS  ----------*/
 const stage = canvas(container);
@@ -109,7 +108,7 @@ function drawTimeline() {
     base.ctx.fillRect(beatsGrid[b].x, beatsGrid[b].y, 3, 3);
   }
 
-  animReq = requestAnimationFrame(animateTimeline);
+  requestAnimationFrame(animateTimeline);
 }
 
 function drawHorizNode(val, i, ctx) {
@@ -143,7 +142,7 @@ function animateTimeline() {
     drawNetwork(di);
 
     di++;
-    animReq = requestAnimationFrame(animateTimeline);
+    requestAnimationFrame(animateTimeline);
   } else {
     co -= 0.01;
     offT.ctx.clearRect(0, 0, stage.w, stage.h);
@@ -158,6 +157,6 @@ function animateTimeline() {
       di = 0;
       co = 1;
     }
-    animReq = requestAnimationFrame(animateTimeline);
+    requestAnimationFrame(animateTimeline);
   }
 }

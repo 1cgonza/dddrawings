@@ -1,5 +1,5 @@
 import { canvas, DataRequest, Map } from 'dddrawings';
-import UI from './UI.js';
+// import UI from './UI.js';
 import Sprite from './Sprite.js';
 import Levit from './Levit.js';
 import { imgs } from './imgs.js';
@@ -11,7 +11,7 @@ const container = document.getElementById('ddd-container');
 let loading = document.createElement('div');
 
 let bg = canvas(null);
-let log = canvas(container);
+// let log = canvas(container);
 let papa = canvas(container);
 let papaNext = canvas(container);
 let papaLast = canvas(container);
@@ -32,9 +32,9 @@ container.appendChild(loading);
 export let year = 2008;
 let bodies = [];
 let d = [];
-let geoD = [];
+// let geoD = [];
 let dLoaded = false;
-let geoLoaded = false;
+// let geoLoaded = false;
 
 /*----------  ANIMATION  ----------*/
 export let animReq;
@@ -54,37 +54,37 @@ let map = new Map({
 });
 
 /*----------  TIME  ----------*/
-let prevTimePosition = 0;
+// let prevTimePosition = 0;
 
 // Set dates range as ISO 8601 YYYY-MM-DDThh:mm:ss
-let dIni = Date.parse(year + '/01/01 00:00:00') / 1000;
-let dEnd = Date.parse(year + 1 + '/01/01 00:00:00') / 1000;
+// let dIni = Date.parse(year + '/01/01 00:00:00') / 1000;
+// let dEnd = Date.parse(year + 1 + '/01/01 00:00:00') / 1000;
 
 /*----------  SPRITES  ----------*/
 let imgsLoaded = 0;
 
 /*----------  MENU  ----------*/
-let ui = new UI(container, reloadStage, violenceReq);
+// let ui = new UI(container, reloadStage, violenceReq);
 
-function reloadStage(newYear) {
-  loading.innerHTML = '';
-  loading.style.opacity = 1;
-  year = newYear;
-  dataI = 0;
-  bodies = [];
-  d = [];
-  dLoaded = false;
-  prevTimePosition = 0;
-  dIni = Date.parse(year + '/01/01 00:00:00') / 1000;
-  dEnd = Date.parse(year + 1 + '/01/01 00:00:00') / 1000;
+// function reloadStage(newYear) {
+//   loading.innerHTML = '';
+//   loading.style.opacity = 1;
+//   year = newYear;
+//   dataI = 0;
+//   bodies = [];
+//   d = [];
+//   dLoaded = false;
+//   // prevTimePosition = 0;
+//   // dIni = Date.parse(year + '/01/01 00:00:00') / 1000;
+//   // dEnd = Date.parse(year + 1 + '/01/01 00:00:00') / 1000;
 
-  stage.ctx.clearRect(0, 0, stage.w, stage.h);
-  log.ctx.clearRect(0, 0, log.w, log.h);
-  bg.ctx.clearRect(0, 0, bg.w, bg.h);
+//   stage.ctx.clearRect(0, 0, stage.w, stage.h);
+//   log.ctx.clearRect(0, 0, log.w, log.h);
+//   bg.ctx.clearRect(0, 0, bg.w, bg.h);
 
-  requestViolenceData();
-  checkAssetsLoaded();
-}
+//   requestViolenceData();
+//   checkAssetsLoaded();
+// }
 
 function requestViolenceData() {
   violenceReq

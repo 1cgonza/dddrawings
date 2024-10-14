@@ -24,7 +24,6 @@ init();
 /*----------  GLOBALS  ----------*/
 let animReq;
 let pulseData = [];
-let pulseDataLoaded = false;
 let dataLenght = 0;
 let dataI = 0;
 let maxBeat = 563;
@@ -40,7 +39,7 @@ json('/data/pulse/heart.2.json')
         pulseData.push(+d.substr(1));
       }
     }
-    pulseDataLoaded = true;
+
     dataLenght = pulseData.length;
     notations.bindData(pulseData);
     notations.init();

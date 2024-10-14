@@ -48,8 +48,8 @@ const altImg = imagen ? imagen.alt : nombreProyecto;
     <meta property="og:image:height" content="630" />
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@labenflujo" />
-    <meta name="twitter:creator" content="@labenflujo" />
+    <meta name="twitter:site" content="@1cgonza" />
+    <meta name="twitter:creator" content="@1cgonza" />
     <meta name="twitter:url" content={urlPagina} />
     <meta name="twitter:title" content={tituloSEO} />
     <meta name="twitter:description" content={descripcionSEO} />
@@ -58,13 +58,14 @@ const altImg = imagen ? imagen.alt : nombreProyecto;
 
     {
       import.meta.env.PROD && (
-      <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-MJ5Z46EHVT"></script>
-      <script is:inline>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-MJ5Z46EHVT');
-      </script>
+        <Fragment>
+          <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-MJ5Z46EHVT" />
+
+          <script is:inline>
+            window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments)}
+            gtag('js', new Date()); gtag('config', 'G-MJ5Z46EHVT');
+          </script>
+        </Fragment>
       )
     }
   </head>
@@ -76,7 +77,7 @@ const altImg = imagen ? imagen.alt : nombreProyecto;
         <li><a class="home" href="/" title="Home">Home</a></li>
         {
           paginas &&
-            paginas.map((pagina) => (
+            paginas.map((pagina: { slug: string; data: { title: string } }) => (
               <li>
                 <a class={pagina.slug} href={`/${pagina.slug}`}>
                   {pagina.data.title}

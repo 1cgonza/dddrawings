@@ -40,7 +40,7 @@ json({
 
 function loadBackground() {
   bg.ctx.drawImage(bg.img, 0, 0, 1764, 1250, 0, 0, bg.w, bg.h);
-  btData.forEach((d, i) => drawLine(i));
+  btData.forEach((_, i) => drawLine(i));
   animate();
 }
 

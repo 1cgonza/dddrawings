@@ -1,6 +1,6 @@
 import { canvas, DataRequest, Map, yearsMenu, resetCurrent } from 'dddrawings';
 var violenceReq = new DataRequest();
-var mapReq = new DataRequest();
+// var mapReq = new DataRequest();
 
 /*----------  STAGE  ----------*/
 var container = document.getElementById('ddd-container');
@@ -11,9 +11,9 @@ var log = canvas(container);
 var year = 2009;
 var rain = [];
 var d = [];
-var geoD = [];
-var dLoaded = false;
-var geoLoaded = false;
+// var geoD = [];
+// var dLoaded = false;
+// var geoLoaded = false;
 
 /*----------  ANIMATION  ----------*/
 var animReq;
@@ -34,7 +34,7 @@ var prevTimePosition = 0;
 
 // Set dates range as ISO 8601 YYYY-MM-DDThh:mm:ss
 var dIni = Date.parse(year + '-01-01T00:00:00') / 1000;
-var dEnd = Date.parse(year + '-12-31T12:59:59') / 1000;
+// var dEnd = Date.parse(year + '-12-31T12:59:59') / 1000;
 
 /*----------  MENU  ----------*/
 var current;
@@ -62,10 +62,10 @@ function reloadStage() {
   dataI = 0;
   rain = [];
   d = [];
-  dLoaded = false;
+  // dLoaded = false;
   prevTimePosition = 0;
   dIni = Date.parse(year + '-01-01T00:00:00') / 1000;
-  dEnd = Date.parse(year + '-12-31T12:59:59') / 1000;
+  // dEnd = Date.parse(year + '-12-31T12:59:59') / 1000;
 
   stage.ctx.clearRect(0, 0, stage.w, stage.h);
   log.ctx.clearRect(0, 0, log.w, log.h);
@@ -78,7 +78,7 @@ function requestViolenceData() {
     .json('../../data/monitor/violencia-' + year + '.json')
     .then(function (res) {
       d = res.data;
-      dLoaded = true;
+      // dLoaded = true;
       animate();
     })
     .catch(function (err) {

@@ -1,9 +1,9 @@
-import { select, event } from 'd3-selection';
+import { select } from 'd3-selection';
 import { drag } from 'd3-drag';
 import { forceLink, forceManyBody, forceCenter, forceSimulation } from 'd3-force';
 import { random } from 'dddrawings';
 
-const d3 = { select, event, drag, forceLink, forceManyBody, forceCenter, forceSimulation };
+const d3 = { select, drag, forceLink, forceManyBody, forceCenter, forceSimulation };
 export default class Network {
   constructor(data, wrapper, menu) {
     this.data = data;
@@ -48,9 +48,9 @@ export default class Network {
     this.init(window.innerWidth, window.innerHeight);
   }
 
-  drag = (node) => {
-    node.x = d3.event.x;
-    node.y = d3.event.y;
+  drag = (event, node) => {
+    node.x = event.x;
+    node.y = event.y;
     this.simulation.alphaTarget(random(0, 1, true));
     this.simulation.restart();
   };

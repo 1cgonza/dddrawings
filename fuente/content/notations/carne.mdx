@@ -6,3 +6,39 @@ director: Carlos Gómez Salamanca
 description: By Carlos Gómez Salamanca
 imgName: carne-estructura.jpg
 ---
+
+import Plantilla from '@/plantillas/Plantilla.astro';
+import { Image } from 'astro:assets';
+import estructura from '@/imgs/notations/carne-estructura.jpg';
+
+<Plantilla title={frontmatter.title} slug='a-chairy-tale' director={frontmatter.director} year={frontmatter.year} videos={frontmatter.videos} poster={frontmatter.poster}>
+<main class="with-nav single-notations regular-view">
+<header>
+  <h1 class="film-title">{frontmatter.title} ({frontmatter.year})</h1>
+  <h3 class="film-director">by {frontmatter.director}</h3>
+</header>
+
+<Image src={estructura} alt="Visual notations for carne" />
+
+You can see the trailer here:
+
+<iframe
+  src="https://player.vimeo.com/video/76011583?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+  frameborder="0"
+  allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+  title="CARNE trailer"
+></iframe>
+
+and a making off:
+
+<iframe
+  src="https://player.vimeo.com/video/100648049?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
+  frameborder="0"
+  allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+  title="CARNE makingOFF"
+></iframe>
+
+<script src="https://player.vimeo.com/api/player.js"></script>
+
+</main>
+</Plantilla>

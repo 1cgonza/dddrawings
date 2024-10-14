@@ -52,6 +52,7 @@ const notations = defineCollection({
     draft: z.boolean().optional(),
     title: z.string(),
     interactive: z.boolean().optional(),
+    inverted: z.boolean().optional(),
     director: z.string(),
     year: z.number(),
     date: z.date(),

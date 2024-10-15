@@ -1,5 +1,4 @@
 const assets = {
-  video: document.getElementById('video'),
   pequeña: {
     url: '/img/notations/cosas-triangulares-small.jpg',
     img: null,

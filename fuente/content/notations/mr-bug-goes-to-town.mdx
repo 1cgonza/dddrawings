@@ -17,7 +17,7 @@ videos:
 import NotationsCols from '@/plantillas/NotationsCols.astro';
 import Componente from '@/js/notations/mr-bug-goes-to-town/index.astro';
 
-<NotationsCols title={frontmatter.title} slug='mr-bug-goes-to-town' director={frontmatter.director} year={frontmatter.year} videos={frontmatter.videos} poster={frontmatter.poster}>
+<NotationsCols title={frontmatter.title} slug='mr-bug-goes-to-town' description={frontmatter.description} imagen={{ruta: frontmatter.imgName, coleccion: 'notations', alt: `Notations for the film ${frontmatter.title}`}} director={frontmatter.director} year={frontmatter.year} videos={frontmatter.videos} poster={frontmatter.poster}>
 
 <span slot="descripcion">
   <span class="disclaimer">{frontmatter.disclaimer}</span>

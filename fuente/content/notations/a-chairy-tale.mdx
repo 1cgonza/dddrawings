@@ -16,7 +16,7 @@ videos:
 import NotationsTwoCols from '@/plantillas/NotationsTwoCols.astro';
 import Componente from '@/js/notations/a-chairy-tale/index.astro';
 
-<NotationsTwoCols title={frontmatter.title} slug='a-chairy-tale' director={frontmatter.director} year={frontmatter.year} videos={frontmatter.videos} poster={frontmatter.poster}>
+<NotationsTwoCols title={frontmatter.title} slug='a-chairy-tale' description={frontmatter.description} imagen={{ruta: frontmatter.imgName, coleccion: 'notations', alt: `Notations for the film ${frontmatter.title}`}} director={frontmatter.director} year={frontmatter.year} videos={frontmatter.videos} poster={frontmatter.poster}>
 > The picture was completely edited before we considered what to do about the sound.
 >
 > At this moment, by great good fortune, the distinguished composer-performer sitarist Ravi Shanker, who was then living in New-York, had come to Montreal for a TV recital. I invited him and his tabla-player, Chatur Lal, to view the silent film. He expressed a keen interest in composing the music.

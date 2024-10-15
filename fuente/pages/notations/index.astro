@@ -1,9 +1,9 @@
 ---
 import Plantilla from '@/plantillas/Plantilla.astro';
-import { getCollection } from 'astro:content';
-import { getEntry } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import type { ImageMetadata } from 'astro';
 import Entrada from '@/componentes/Entrada.astro';
+import type { Imagen } from '@/tipos';
 
 const pagina = await getEntry('paginas', 'notations');
 const entradas = await getCollection('notations', ({ data }) => (import.meta.env.PROD ? !data.draft : true)).then(
@@ -17,9 +17,16 @@ const imagenes = import.meta.glob<{ default: ImageMetadata }>('../../imgs/notati
 const interactivas = entradas.filter((entrada) => entrada.data.interactive);
 const invertidas = entradas.filter((entrada) => entrada.data.inverted);
 const estaticas = entradas.filter((entrada) => !entrada.data.inverted && !entrada.data.interactive);
+const descripcion =
+  'A series of interactive applications that study how artists use graphical notations to structure their animated films. An alternative approach to a film script that leverages on visual structures for the purpose of storytelling.';
+const img: Imagen = {
+  ruta: 'chairy-tale.jpg',
+  alt: 'Notations from the film A Chairy Tale by Norman McLaren',
+  coleccion: 'notations',
+};
 ---
 
-<Plantilla>
+<Plantilla titulo="Notations" descripcion={descripcion} imagen={img}>
   <main role="main" class="with-nav archive notations-archive">
     <header class="page-header">
       <h1 class="page-title">{pagina?.data.title}</h1>

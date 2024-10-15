@@ -1,20 +1,23 @@
 ---
 import { rutaVideos } from '@/utilidades/constantes';
 import Plantilla from './Plantilla.astro';
+import type { Imagen } from '@/tipos';
 
 interface Props {
   title?: string;
   slug?: string;
+  imagen?: Imagen;
+  description?: string;
   director?: string;
   year?: number;
   videos: { webm?: string; mp4?: string; ogg?: string };
   poster?: string;
 }
 
-const { title, slug, director, year, videos, poster } = Astro.props;
+const { title, slug, description, imagen, director, year, videos, poster } = Astro.props;
 ---
 
-<Plantilla titulo={title}>
+<Plantilla titulo={title} descripcion={description} imagen={imagen}>
   <main class={`with-nav single-notations ${slug}`}>
     <section id="box" class="content">
       <span id="close-box" class="close button">X</span>

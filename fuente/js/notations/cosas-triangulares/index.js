@@ -14,7 +14,7 @@ const margen = {
 
 const dims = {};
 
-const video = assets.video;
+const video = document.getElementById('video');
 const izquierda = document.getElementById('left-col');
 const centro = document.getElementById('middle-col');
 const derecha = document.getElementById('right-col');
@@ -48,14 +48,14 @@ function cargarImagenes() {
   return new Promise((finalizar) => {
     function revisar() {
       assets.loaded++;
-      if (assets.loaded === assets.length) {
+      if (assets.loaded === assets.length + 1) {
         finalizar();
       }
     }
 
-    video.onloadedmetadata = () => {
+    video.addEventListener('loadedmetadata', () => {
       revisar();
-    };
+    });
 
     const imgCentro = new Image();
     imgCentro.onload = () => {

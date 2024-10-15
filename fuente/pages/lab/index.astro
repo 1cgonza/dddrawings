@@ -16,7 +16,15 @@ const { Content } = await pagina.render();
 const imagenes = import.meta.glob<{ default: ImageMetadata }>('../../imgs/lab/*.{jpeg,jpg,png,gif}');
 ---
 
-<Plantilla>
+<Plantilla
+  titulo="Lab"
+  descripcion="Gallery of interactive applications and data visualizations for the Data Driven Drawings project."
+  imagen={{
+    ruta: 'defunciones.jpg',
+    coleccion: 'lab',
+    alt: 'Data visualization for murder victims using hand drawn animation.',
+  }}
+>
   <main role="main" class="with-nav archive lab-archive">
     <header class="page-header">
       <h1 class="page-title">{pagina?.data.title}</h1>

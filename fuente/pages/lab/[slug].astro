@@ -1,21 +1,31 @@
 ---
 import Plantilla from '@/plantillas/Plantilla.astro';
+import type { Imagen } from '@/tipos';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
   const entradas = await getCollection('lab');
-  return entradas.map((entrada) => ({
-    params: { slug: entrada.slug },
-    props: { entrada },
+  return entradas.map((pagina) => ({
+    params: { slug: pagina.slug },
+    props: { pagina },
   }));
 }
 
-const { entrada } = Astro.props;
-const { Content } = await entrada.render();
+const { pagina } = Astro.props;
+const { Content } = await pagina.render();
+let imagen: Imagen | undefined;
+
+if (pagina.data.imgName) {
+  imagen = {
+    ruta: pagina.data.imgName,
+    alt: `Preview for the visualization ${pagina.data.title}`,
+    coleccion: 'lab',
+  };
+}
 ---
 
-<Plantilla titulo={entrada.data.title} descripcion={entrada.data.description}>
-  <main role="main" class={`lab-single ${entrada.slug}`}>
+<Plantilla titulo={pagina.data.title} descripcion={pagina.data.description} imagen={imagen}>
+  <main role="main" class={`lab-single ${pagina.slug}`}>
     <section id="ddd-container">
       <Content />
     </section>

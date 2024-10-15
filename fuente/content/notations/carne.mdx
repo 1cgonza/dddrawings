@@ -11,7 +11,7 @@ import Plantilla from '@/plantillas/Plantilla.astro';
 import { Image } from 'astro:assets';
 import estructura from '@/imgs/notations/carne-estructura.jpg';
 
-<Plantilla title={frontmatter.title} slug='a-chairy-tale' director={frontmatter.director} year={frontmatter.year} videos={frontmatter.videos} poster={frontmatter.poster}>
+<Plantilla titulo={frontmatter.title} descripcion={frontmatter.description} imagen={{ruta: frontmatter.imgName, alt: `Notations for the film ${frontmatter.title} by ${frontmatter.director}`, coleccion: 'notations'}}>
 <main class="with-nav single-notations regular-view">
 <header>
   <h1 class="film-title">{frontmatter.title} ({frontmatter.year})</h1>

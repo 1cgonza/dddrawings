@@ -1,13 +1,23 @@
 ---
 import Plantilla from '@/plantillas/Plantilla.astro';
+import type { Imagen } from '@/tipos';
 import { rutaVideos } from '@/utilidades/constantes';
 import { getEntry } from 'astro:content';
 
 const pagina = await getEntry('notations', 'tango');
 const { Content } = await pagina.render();
+let imagen: Imagen | undefined;
+
+if (pagina.data.imgName) {
+  imagen = {
+    ruta: pagina.data.imgName,
+    alt: `Notations for the film ${pagina.data.title}`,
+    coleccion: 'notations',
+  };
+}
 ---
 
-<Plantilla>
+<Plantilla titulo={pagina.data.title} descripcion={pagina.data.description} imagen={imagen}>
   <main class={`with-nav single-notations ${pagina.slug}`}>
     <section id="box" class="content">
       <a id="close-box" href="#" class="close">X</a>

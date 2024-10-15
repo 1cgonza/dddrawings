@@ -10,3 +10,23 @@ poster: cosas-triangulares-poster.jpg
 videos:
   mp4: cosas-triangulares.mp4
 ---
+
+import NotationsTwoCols from '@/plantillas/NotationsTwoCols.astro';
+import Componente from '@/js/notations/cosas-triangulares/index.astro';
+
+<NotationsTwoCols
+  title={frontmatter.title}
+  slug="cosas-triangulares"
+  description={frontmatter.description}
+  imagen={{
+    ruta: frontmatter.imgName,
+    coleccion: 'notations',
+    alt: `Partitura gráfica para el corto ${frontmatter.title} de ${frontmatter.director}`,
+  }}
+  director={frontmatter.director}
+  year={frontmatter.year}
+  videos={frontmatter.videos}
+  poster={frontmatter.poster}
+/>
+
+<Componente />

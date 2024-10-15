@@ -3,7 +3,7 @@ title: Panther
 year: 1998
 date: 2014-11-11 11:11:11
 director: Vuk Jevremovic
-description: by Vuk Jevremovic
+description: A series of graphical notations for the film Panther by Vuk Jevremovic including general structure for the film, sound and some storyboards.
 imgName: pantera.jpg
 image: /img/notations/pantera-large.jpg
 thumb: /img/notations/pantera-thumb.jpg
@@ -16,7 +16,7 @@ import estructura2 from '@/imgs/notations/panthera1.jpg';
 import story from '@/imgs/notations/pantheras.jpg';
 import sonido from '@/imgs/notations/pantera-sonido.jpg';
 
-<Plantilla title={frontmatter.title} slug='a-chairy-tale' director={frontmatter.director} year={frontmatter.year} videos={frontmatter.videos} poster={frontmatter.poster}>
+<Plantilla title={frontmatter.title} descripcion={frontmatter.description} imagen={{ruta: frontmatter.imgName, alt: 'Notations for the film Panther by Vuk Jevremovic', coleccion: 'notations'}}>
 <main class="with-nav single-notations regular-view">
 <header>
   <h1 class="film-title">{frontmatter.title} ({frontmatter.year})</h1>

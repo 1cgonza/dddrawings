@@ -28,9 +28,9 @@ const rutaImg = entrada.data.imgName
 
 <div class={`item${entrada.data.draft ? ' draft' : ''}`}>
   <div class="info">
-    <h3 class="item-title">
+    <h2 class="item-title">
       <a href={`/${coleccion}/${entrada.slug}`}>{entrada.data.title}</a>
-    </h3>
+    </h2>
     <p class="item-date">{new Intl.DateTimeFormat('en-US', formatoFecha).format(entrada.data.date)}</p>
     {descripcion && <div class="item-description" set:html={descripcion} />}
   </div>

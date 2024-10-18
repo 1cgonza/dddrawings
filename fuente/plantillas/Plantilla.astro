@@ -102,16 +102,21 @@ if (imagen) {
     <nav id="site-nav" role="navigation">
       <div id="menu-icon">Menu<span></span></div>
       <ul id="main-nav">
-        <li><a class="home" href="/" title="Home">Home</a></li>
+        <li><a class={`home${pathname === '/' ? ' current' : ''}`} href="/" title="Home">Home</a></li>
         {
           paginas &&
-            paginas.map((pagina: { slug: string; data: { title: string } }) => (
-              <li>
-                <a class={pagina.slug} href={`/${pagina.slug}`}>
-                  {pagina.data.title}
-                </a>
-              </li>
-            ))
+            paginas.map((pagina: { slug: string; data: { title: string } }) => {
+              const ruta = `/${pagina.slug}`;
+              const actual = pathname.includes(ruta);
+              console.log(actual);
+              return (
+                <li>
+                  <a class={`${pagina.slug}${actual ? ' current' : ''}`} href={ruta}>
+                    {pagina.data.title}
+                  </a>
+                </li>
+              );
+            })
         }
       </ul>
     </nav>
